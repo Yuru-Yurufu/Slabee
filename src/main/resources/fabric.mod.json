@@ -1,0 +1,32 @@
+{
+    "schemaVersion": 1,
+    "id": "sloves",
+    "version": "${version}",
+    "name": "SLoves",
+    "description": "this is test mod.",
+    "authors": [],
+    "contact": {},
+    "license": "MIT",
+    "icon": "assets/sloves/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "com.forestotzka.yurufu.sloves.client.SlovesClient"
+        ],
+        "main": [
+            "com.forestotzka.yurufu.sloves.Sloves"
+        ]
+    },
+    "mixins": [
+        "sloves.mixins.json",
+        {
+            "config": "sloves.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+        "minecraft": "${minecraft_version}"
+    }
+}
