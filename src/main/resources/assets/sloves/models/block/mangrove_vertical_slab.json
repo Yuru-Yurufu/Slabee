@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/mangrove_planks",
+        "east": "minecraft:block/mangrove_planks",
+        "west": "minecraft:block/mangrove_planks"
+    }
+}

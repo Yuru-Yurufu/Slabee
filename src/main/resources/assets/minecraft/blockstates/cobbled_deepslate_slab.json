@@ -1,0 +1,628 @@
+{
+    "multipart": [
+        {
+            "when": { "bottom_first": true },
+            "apply": { "model": "minecraft:block/cobbled_deepslate_slab" }
+        },
+        {
+            "when": { "bottom_first": false },
+            "apply": { "model": "minecraft:block/cobbled_deepslate_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__oak_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/oak_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__oak_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/oak_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__spruce_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/spruce_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__spruce_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/spruce_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__birch_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/birch_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__birch_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/birch_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__jungle_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/jungle_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__jungle_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/jungle_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__acacia_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/acacia_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__acacia_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/acacia_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__dark_oak_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/dark_oak_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__dark_oak_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/dark_oak_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__crimson_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/crimson_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__crimson_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/crimson_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__warped_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/warped_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__warped_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/warped_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mangrove_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/mangrove_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mangrove_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/mangrove_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__bamboo_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/bamboo_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__bamboo_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/bamboo_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cherry_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cherry_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cherry_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cherry_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__bamboo_mosaic_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/bamboo_mosaic_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__bamboo_mosaic_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/bamboo_mosaic_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__stone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/stone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__stone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/stone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_stone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/smooth_stone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_stone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/smooth_stone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__stone_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/stone_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__stone_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/stone_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__purpur_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/purpur_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__purpur_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/purpur_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__quartz_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/quartz_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__quartz_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/quartz_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__red_sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/red_sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__red_sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/red_sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cobblestone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cobblestone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cobblestone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cobblestone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__nether_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/nether_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__nether_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/nether_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__petrified_oak_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/petrified_oak_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__petrified_oak_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/petrified_oak_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__prismarine_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/prismarine_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__prismarine_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/prismarine_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__prismarine_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/prismarine_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__prismarine_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/prismarine_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__dark_prismarine_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/dark_prismarine_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__dark_prismarine_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/dark_prismarine_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_granite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_granite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_granite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_granite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_red_sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/smooth_red_sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_red_sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/smooth_red_sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mossy_stone_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/mossy_stone_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mossy_stone_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/mossy_stone_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_diorite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_diorite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_diorite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_diorite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mossy_cobblestone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/mossy_cobblestone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mossy_cobblestone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/mossy_cobblestone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__end_stone_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/end_stone_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__end_stone_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/end_stone_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/smooth_sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/smooth_sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_quartz_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/smooth_quartz_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__smooth_quartz_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/smooth_quartz_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__granite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/granite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__granite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/granite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__andesite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/andesite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__andesite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/andesite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__red_nether_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/red_nether_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__red_nether_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/red_nether_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_andesite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_andesite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_andesite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_andesite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__diorite_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/diorite_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__diorite_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/diorite_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cut_sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cut_sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_red_sandstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cut_red_sandstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_red_sandstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cut_red_sandstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__blackstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/blackstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__blackstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/blackstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_blackstone_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_blackstone_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_blackstone_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_blackstone_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_blackstone_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_blackstone_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_blackstone_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_blackstone_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cobbled_deepslate_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cobbled_deepslate_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cobbled_deepslate_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cobbled_deepslate_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_deepslate_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_deepslate_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_deepslate_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_deepslate_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__deepslate_tile_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/deepslate_tile_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__deepslate_tile_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/deepslate_tile_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__deepslate_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/deepslate_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__deepslate_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/deepslate_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_weathered_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_weathered_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_exposed_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_exposed_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__oxidized_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__oxidized_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__weathered_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__weathered_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__exposed_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__exposed_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_oxidized_cut_copper_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__waxed_oxidized_cut_copper_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mud_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/mud_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__mud_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/mud_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__tuff_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/tuff_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__tuff_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/tuff_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_tuff_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/polished_tuff_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__polished_tuff_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/polished_tuff_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__tuff_brick_slab", "bottom_first": true },
+            "apply": { "model": "minecraft:block/tuff_brick_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "minecraft__tuff_brick_slab", "bottom_first": false },
+            "apply": { "model": "minecraft:block/tuff_brick_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/dirt_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/dirt_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__oak_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/oak_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__oak_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/oak_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__spruce_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/spruce_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__spruce_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/spruce_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__birch_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/birch_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__birch_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/birch_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__jungle_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/jungle_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__jungle_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/jungle_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__acacia_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/acacia_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__acacia_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/acacia_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dark_oak_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/dark_oak_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dark_oak_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/dark_oak_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__mangrove_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/mangrove_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__mangrove_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/mangrove_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__cherry_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/cherry_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__cherry_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/cherry_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_oak_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_oak_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_oak_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_oak_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_spruce_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_spruce_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_spruce_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_spruce_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_birch_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_birch_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_birch_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_birch_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_jungle_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_jungle_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_jungle_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_jungle_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_acacia_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_acacia_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_dark_oak_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_dark_oak_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_dark_oak_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_dark_oak_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_mangrove_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_mangrove_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_mangrove_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_mangrove_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_cherry_wood_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_cherry_wood_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_cherry_wood_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_cherry_wood_slab" }
+        }
+    ]
+}
