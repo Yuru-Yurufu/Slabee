@@ -489,12 +489,92 @@
             "apply": { "model": "minecraft:block/tuff_brick_slab" }
         },
         {
-            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": true },
-            "apply": { "model": "sloves:block/dirt_slab_top" }
+            "when": { "type": "double", "second_slab": "sloves__oak_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/oak_log_slab_top" }
         },
         {
-            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": false },
-            "apply": { "model": "sloves:block/dirt_slab" }
+            "when": { "type": "double", "second_slab": "sloves__oak_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/oak_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__spruce_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/spruce_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__spruce_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/spruce_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__birch_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/birch_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__birch_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/birch_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__jungle_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/jungle_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__jungle_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/jungle_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__acacia_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/acacia_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__acacia_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/acacia_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dark_oak_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/dark_oak_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dark_oak_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/dark_oak_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__mangrove_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/mangrove_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__mangrove_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/mangrove_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__cherry_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/cherry_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__cherry_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/cherry_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__bamboo_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/bamboo_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__bamboo_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/bamboo_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__crimson_stem_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/crimson_stem_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__crimson_stem_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/crimson_stem_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__warped_stem_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/warped_stem_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__warped_stem_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/warped_stem_slab" }
         },
         {
             "when": { "type": "double", "second_slab": "sloves__oak_wood_slab", "bottom_first": true },
@@ -561,6 +641,110 @@
             "apply": { "model": "sloves:block/cherry_wood_slab" }
         },
         {
+            "when": { "type": "double", "second_slab": "sloves__crimson_hyphae_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/crimson_hyphae_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__crimson_hyphae_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/crimson_hyphae_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__warped_hyphae_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/warped_hyphae_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__warped_hyphae_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/warped_hyphae_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_oak_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_oak_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_oak_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_oak_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_spruce_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_spruce_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_spruce_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_spruce_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_birch_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_birch_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_birch_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_birch_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_jungle_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_jungle_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_jungle_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_jungle_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_acacia_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_acacia_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_acacia_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_acacia_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_dark_oak_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_dark_oak_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_dark_oak_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_dark_oak_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_mangrove_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_mangrove_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_mangrove_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_mangrove_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_cherry_log_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_cherry_log_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_cherry_log_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_cherry_log_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_bamboo_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_bamboo_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_bamboo_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_bamboo_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_crimson_stem_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_crimson_stem_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_crimson_stem_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_crimson_stem_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_warped_stem_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_warped_stem_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_warped_stem_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_warped_stem_slab" }
+        },
+        {
             "when": { "type": "double", "second_slab": "sloves__stripped_oak_wood_slab", "bottom_first": true },
             "apply": { "model": "sloves:block/stripped_oak_wood_slab_top" }
         },
@@ -623,6 +807,30 @@
         {
             "when": { "type": "double", "second_slab": "sloves__stripped_cherry_wood_slab", "bottom_first": false },
             "apply": { "model": "sloves:block/stripped_cherry_wood_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_crimson_hyphae_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_crimson_hyphae_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_crimson_hyphae_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_crimson_hyphae_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_warped_hyphae_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/stripped_warped_hyphae_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__stripped_warped_hyphae_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/stripped_warped_hyphae_slab" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": true },
+            "apply": { "model": "sloves:block/dirt_slab_top" }
+        },
+        {
+            "when": { "type": "double", "second_slab": "sloves__dirt_slab", "bottom_first": false },
+            "apply": { "model": "sloves:block/dirt_slab" }
         }
     ]
 }

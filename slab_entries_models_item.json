@@ -1,6 +1,16 @@
 {
     "sloves": [
-        "dirt_slab",
+        "oak_log_slab",
+        "spruce_log_slab",
+        "birch_log_slab",
+        "jungle_log_slab",
+        "acacia_log_slab",
+        "dark_oak_log_slab",
+        "mangrove_log_slab",
+        "cherry_log_slab",
+        "bamboo_slab",
+        "crimson_stem_slab",
+        "warped_stem_slab",
         "oak_wood_slab",
         "spruce_wood_slab",
         "birch_wood_slab",
@@ -9,6 +19,19 @@
         "dark_oak_wood_slab",
         "mangrove_wood_slab",
         "cherry_wood_slab",
+        "crimson_hyphae_slab",
+        "warped_hyphae_slab",
+        "stripped_oak_log_slab",
+        "stripped_spruce_log_slab",
+        "stripped_birch_log_slab",
+        "stripped_jungle_log_slab",
+        "stripped_acacia_log_slab",
+        "stripped_dark_oak_log_slab",
+        "stripped_mangrove_log_slab",
+        "stripped_cherry_log_slab",
+        "stripped_bamboo_slab",
+        "stripped_crimson_stem_slab",
+        "stripped_warped_stem_slab",
         "stripped_oak_wood_slab",
         "stripped_spruce_wood_slab",
         "stripped_birch_wood_slab",
@@ -16,6 +39,10 @@
         "stripped_acacia_wood_slab",
         "stripped_dark_oak_wood_slab",
         "stripped_mangrove_wood_slab",
-        "stripped_cherry_wood_slab"
+        "stripped_cherry_wood_slab",
+        "stripped_crimson_hyphae_slab",
+        "stripped_warped_hyphae_slab",
+
+        "dirt_slab"
     ]
 }
