@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.sloves.mixin;
 
 import com.forestotzka.yurufu.sloves.block.enums.SecondSlab;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
+import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -77,7 +78,7 @@ public abstract class SlabBlockMixin extends BlockMixin {
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
         ItemStack itemStack = context.getStack();
         SlabType slabType = state.get(TYPE);
-        if (slabType == SlabType.DOUBLE) {
+        if (slabType == SlabType.DOUBLE || !itemStack.isIn(ModItemTags.SLABS)) {
             return false;
         } else if (context.canReplaceExisting()) {
             boolean bl = context.getHitPos().y - (double)context.getBlockPos().getY() > 0.5;

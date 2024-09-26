@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.sloves.block;
 
 import com.forestotzka.yurufu.sloves.block.enums.SecondSlab;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
+import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -114,7 +115,7 @@ public class VerticalSlabBlocks extends Block implements Waterloggable {
     @Override
     protected boolean canReplace(BlockState state, ItemPlacementContext context) {
         ItemStack itemStack = context.getStack();
-        if (state.get(IS_DOUBLE)) {
+        if (state.get(IS_DOUBLE) || !itemStack.isIn(ModItemTags.VERTICAL_SLABS)) {
             return false;
         } else if (context.canReplaceExisting()) {
             boolean blEast = context.getHitPos().x - (double)context.getBlockPos().getX() > 0.5;
