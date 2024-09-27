@@ -124,6 +124,8 @@ public class ModBlocks {
             new VerticalSlabBlocks(AbstractBlock.Settings.create().strength(1.0F, 2.0F).requiresTool().sounds(BlockSoundGroup.WOOD)));
     public static final Block STONE_VERTICAL_SLAB = registerBlock("stone_vertical_slab",
             new VerticalSlabBlocks(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
+            new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
@@ -194,6 +196,9 @@ public class ModBlocks {
             entries.addAfter(Blocks.CRIMSON_SLAB, ModBlocks.CRIMSON_VERTICAL_SLAB);
             entries.addAfter(Blocks.WARPED_SLAB, ModBlocks.WARPED_VERTICAL_SLAB);
             entries.addAfter(Blocks.STONE_SLAB, ModBlocks.STONE_VERTICAL_SLAB);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SEARCH).register(entries -> {
+            entries.add(ModBlocks.DOUBLE_SLAB_BLOCK);
         });
     }
 }

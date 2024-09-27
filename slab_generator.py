@@ -20,38 +20,23 @@ with open('slab_entries_models_item.json', 'r') as f:
 assets_path = os.path.join('src', 'main', 'resources', 'assets')
 
 # 各スラブアイテムのテンプレートを生成する関数
-def generate_slab_json(slab_name, mod_name, other_slabs):
-    if "waxed_" in slab_name:
-        slab_name = slab_name.replace("waxed_", "")
-    data = {
-        "multipart": [
-            {
-                "when": { "bottom_first": True },
-                "apply": { "model": f"{mod_name}:block/{slab_name}" }
-            },
-            {
-                "when": { "bottom_first": False },
-                "apply": { "model": f"{mod_name}:block/{slab_name}_top" }
-            }
-        ]
-    }
+def generate_slab_json(entries):
+    multipart = []
 
-    # 他のスラブに対するエントリを追加
-    for namespace, slab in other_slabs:
-        if "waxed_" in slab:
-            slab_ = slab.replace("waxed_", "")
-        else:
-            slab_ = slab
-        data["multipart"].append({
-            "when": { "type": "double", "second_slab": f"{namespace}__{slab}", "bottom_first": True },
-            "apply": { "model": f"{namespace}:block/{slab_}_top" }
-        })
-        data["multipart"].append({
-            "when": { "type": "double", "second_slab": f"{namespace}__{slab}", "bottom_first": False },
-            "apply": { "model": f"{namespace}:block/{slab_}" }
-        })
+    for mod, slabs in entries.items():
+        for slab in slabs:
+            # top_slabに関するエントリ
+            multipart.append({
+                "when": { "top_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab}_top" }
+            })
+            # bottom_slabに関するエントリ
+            multipart.append({
+                "when": { "bottom_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab}" }
+            })
 
-    return data
+    return {"multipart": multipart}
 
 # 各スラブアイテムのテンプレートを生成する関数
 def generate_vertical_slab_json(slab_name, mod_name, other_slabs):
@@ -128,6 +113,23 @@ def generate_blockstates(entries, is_vertical):
                 json_file.write(formatted_json)
 
             print(f"Generated: {file_path}")
+
+def generate_slab_blockstates():
+
+    # フォルダを作る
+    folder_path = os.path.join(assets_path, "sloves", 'blockstates')
+    os.makedirs(folder_path, exist_ok=True)
+
+    # JSONをフォーマット
+    json_data = generate_slab_json(slabs)
+    formatted_json = format_json(json_data)
+
+    # JSONファイルとして出力
+    file_path = os.path.join(folder_path, f"double_slab_block.json")
+    with open(file_path, 'w', encoding='utf-8') as json_file:
+        json_file.write(formatted_json)
+
+    print(f"Generated: {file_path}")
 
 #############
 #   enums   #
@@ -206,8 +208,8 @@ def generate_models_item(entries):
 #   RUN   #
 ###########
 
-generate_blockstates(slabs, False)
-generate_blockstates(vertical_slabs, True)
-generate_enums_second_slab(slabs, False)
-generate_enums_second_slab(vertical_slabs, True)
-generate_models_item(slabs_models_item)
+generate_slab_blockstates()
+#generate_blockstates(vertical_slabs, True)
+#generate_enums_second_slab(slabs, False)
+#generate_enums_second_slab(vertical_slabs, True)
+#generate_models_item(slabs_models_item)
