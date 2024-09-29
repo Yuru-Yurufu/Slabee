@@ -42,22 +42,40 @@ def generate_vertical_slab_json(entries):
 
     for mod, slabs in entries.items():
         for slab in slabs:
-            multipart.append({
-                "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_z' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": (180 if slab == 'smooth_stone_vertical_slab' else 270)}
-            })
-            multipart.append({
-                "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_x' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": 180}
-            })
-            multipart.append({
-                "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_z' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": (0 if slab == 'smooth_stone_vertical_slab' else 90)}
-            })
-            multipart.append({
-                "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_x' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True}
-            })
+            if slab == "smooth_stone_vertical_slab":
+                multipart.append({
+                    "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False, "y": 90 }
+                })
+                multipart.append({
+                    "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False }
+                })
+                multipart.append({
+                    "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False, "y": 90 }
+                })
+                multipart.append({
+                    "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False }
+                })
+            else:
+                multipart.append({
+                    "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 270 }
+                })
+                multipart.append({
+                    "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 180 }
+                })
+                multipart.append({
+                    "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 90}
+                })
+                multipart.append({
+                    "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
+                    "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True}
+                })
 
     return {"multipart": multipart}
 
@@ -105,26 +123,48 @@ def generate_vertical_slab_blockstates():
     # 個別のjsonも作っちゃおう
     for mod, slabs in vertical_slab_entries.items():
         for slab in slabs:
-            data = {
-                "multipart": [
-                    {
-                        "when": { "facing": "south" },
-                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 270 }
-                    },
-                    {
-                        "when": { "facing": "east" },
-                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 180 }
-                    },
-                    {
-                        "when": { "facing": "north" },
-                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 90 }
-                    },
-                    {
-                        "when": { "facing": "west" },
-                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True }
-                    }
-                ]
-            }
+            if slab == "smooth_stone_vertical_slab":
+                data = {
+                    "multipart": [
+                        {
+                            "when": { "facing": "south" },
+                            "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False, "y": 90 }
+                        },
+                        {
+                            "when": { "facing": "east" },
+                            "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False }
+                        },
+                        {
+                            "when": { "facing": "north" },
+                            "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False, "y": 90 }
+                        },
+                        {
+                            "when": { "facing": "west" },
+                            "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False }
+                        }
+                    ]
+                }
+            else:
+                data = {
+                    "multipart": [
+                        {
+                            "when": { "facing": "south" },
+                            "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 270 }
+                        },
+                        {
+                            "when": { "facing": "east" },
+                            "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 180 }
+                        },
+                        {
+                            "when": { "facing": "north" },
+                            "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 90 }
+                        },
+                        {
+                            "when": { "facing": "west" },
+                            "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True }
+                        }
+                    ]
+                }
 
             # フォーマット
             formatted_json = format_json(data)
@@ -250,38 +290,54 @@ def generate_vertical_models_block():
             if block == "petrified_oak":
                 block = "oak_planks"
 
-            json_data = {
-                "parent": f"sloves:block/vertical_slab{'_positive' if block == 'smooth_stone' else ''}",
-                "textures": {
-                    "side": f"minecraft:block/{block}{'_side' if block == 'quartz_block' else ''}{'_slab_side' if block == 'smooth_stone' else ''}",
-                    "east": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}",
-                    "west": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}"
-                }
-            }
-
-            # JSONファイルとして出力
-            file_path = os.path.join(folder_path, f"{slab}{'_x' if block == 'smooth_stone' else ''}.json")
-            with open(file_path, 'w', encoding='utf-8') as json_file:
-                json.dump(json_data, json_file, ensure_ascii=False, indent=4)
-
-            print(f"Generated: {file_path}")
-
-            # smooth_stone_z
             if block == "smooth_stone":
-                json_data = {
-                    "parent": "sloves:block/vertical_slab_negative",
+                json_data_positive = {
+                    "parent": f"sloves:block/vertical_slab_positive",
                     "textures": {
-                        "side": "sloves:block/smooth_stone_vertical_slab_side",
-                        "north": "minecraft:block/smooth_stone",
-                        "south": "minecraft:block/smooth_stone"
+                        "side": f"sloves:block/{block}_vertical_slab_side",
+                        "east": f"minecraft:block/{block}",
+                        "west": f"minecraft:block/{block}"
                     }
                 }
+                json_data_negative = {
+                    "parent": f"sloves:block/vertical_slab_negative",
+                    "textures": {
+                        "side": f"sloves:block/{block}_vertical_slab_side",
+                        "east": f"minecraft:block/{block}",
+                        "west": f"minecraft:block/{block}"
+                    }
+                }
+
                 # JSONファイルとして出力
+                file_path = os.path.join(folder_path, f"{slab}_positive.json")
+                with open(file_path, 'w', encoding='utf-8') as json_file:
+                    json.dump(json_data_positive, json_file, ensure_ascii=False, indent=4)
+
+                print(f"Generated: {file_path}")
+
                 file_path = os.path.join(folder_path, f"{slab}_negative.json")
+                with open(file_path, 'w', encoding='utf-8') as json_file:
+                    json.dump(json_data_negative, json_file, ensure_ascii=False, indent=4)
+
+                print(f"Generated: {file_path}")
+
+            else:
+                json_data = {
+                    "parent": f"sloves:block/vertical_slab",
+                    "textures": {
+                        "side": f"minecraft:block/{block}{'_side' if block == 'quartz_block' else ''}",
+                        "east": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}",
+                        "west": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}"
+                    }
+                }
+
+                # JSONファイルとして出力
+                file_path = os.path.join(folder_path, f"{slab}.json")
                 with open(file_path, 'w', encoding='utf-8') as json_file:
                     json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
                 print(f"Generated: {file_path}")
+
 
 ###################
 #   models/item   #
@@ -293,9 +349,14 @@ def generate_models_item(entries):
             folder_path = os.path.join(assets_path, mod_name, 'models', 'item')
             os.makedirs(folder_path, exist_ok=True)
 
-            json_data = {
-                "parent": f"{mod_name}:block/{slab.replace('waxed_','')}"
-            }
+            if slab == "smooth_stone_vertical_slab":
+                json_data = {
+                    "parent": f"{mod_name}:block/{slab}_negative"
+                }
+            else:
+                json_data = {
+                    "parent": f"{mod_name}:block/{slab.replace('waxed_','')}"
+                }
 
             # JSONファイルとして出力
             file_path = os.path.join(folder_path, f"{slab}.json")
