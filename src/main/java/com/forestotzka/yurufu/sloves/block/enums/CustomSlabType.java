@@ -4,7 +4,7 @@ import net.minecraft.util.StringIdentifiable;
 
 public enum CustomSlabType implements StringIdentifiable {
 
-    /* SLABS START MARKER */
+    /* START MARKER */
     NONE("minecraft__air"),
     MINECRAFT__OAK_SLAB("minecraft__oak_slab"),
     MINECRAFT__SPRUCE_SLAB("minecraft__spruce_slab"),
@@ -109,23 +109,8 @@ public enum CustomSlabType implements StringIdentifiable {
     SLOVES__STRIPPED_CRIMSON_HYPHAE_SLAB("sloves__stripped_crimson_hyphae_slab"),
     SLOVES__STRIPPED_WARPED_HYPHAE_SLAB("sloves__stripped_warped_hyphae_slab"),
     SLOVES__DIRT_SLAB("sloves__dirt_slab"),
-    SLOVES__GRASS_SLAB("sloves__grass_slab"),
-    /* SLABS END MARKER */
-
-    /* VERTICAL SLABS START MARKER */
-    SLOVES__OAK_VERTICAL_SLAB("sloves__oak_vertical_slab"),
-    SLOVES__SPRUCE_VERTICAL_SLAB("sloves__spruce_vertical_slab"),
-    SLOVES__BIRCH_VERTICAL_SLAB("sloves__birch_vertical_slab"),
-    SLOVES__JUNGLE_VERTICAL_SLAB("sloves__jungle_vertical_slab"),
-    SLOVES__ACACIA_VERTICAL_SLAB("sloves__acacia_vertical_slab"),
-    SLOVES__DARK_OAK_VERTICAL_SLAB("sloves__dark_oak_vertical_slab"),
-    SLOVES__MANGROVE_VERTICAL_SLAB("sloves__mangrove_vertical_slab"),
-    SLOVES__CHERRY_VERTICAL_SLAB("sloves__cherry_vertical_slab"),
-    SLOVES__BAMBOO_VERTICAL_SLAB("sloves__bamboo_vertical_slab"),
-    SLOVES__CRIMSON_VERTICAL_SLAB("sloves__crimson_vertical_slab"),
-    SLOVES__WARPED_VERTICAL_SLAB("sloves__warped_vertical_slab"),
-    SLOVES__STONE_VERTICAL_SLAB("sloves__stone_vertical_slab");
-    /* VERTICAL SLABS END MARKER */
+    SLOVES__GRASS_SLAB("sloves__grass_slab");
+    /* END MARKER */
 
     private final String name;
 

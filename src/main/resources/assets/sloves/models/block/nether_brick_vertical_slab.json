@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/nether_bricks",
+        "east": "minecraft:block/nether_bricks",
+        "west": "minecraft:block/nether_bricks"
+    }
+}

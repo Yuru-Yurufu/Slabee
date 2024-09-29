@@ -17,7 +17,7 @@ public class SlovesClient implements ClientModInitializer {
             } else {
                 return 0xFFFFFF;
             }
-        }), ModBlocks.GRASS_SLAB);ColorProviderRegistry.ITEM.register(((state, tintIndex) -> {
+        }), ModBlocks.GRASS_SLAB, ModBlocks.DOUBLE_SLAB_BLOCK, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK);ColorProviderRegistry.ITEM.register(((state, tintIndex) -> {
             if (tintIndex == 1) {
                 return 0x7CBD6B;
             } else {
@@ -26,5 +26,7 @@ public class SlovesClient implements ClientModInitializer {
         }), ModBlocks.GRASS_SLAB.asItem());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GRASS_SLAB, RenderLayer.getCutoutMipped());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DOUBLE_SLAB_BLOCK, RenderLayer.getCutoutMipped());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK, RenderLayer.getCutoutMipped());
     }
 }

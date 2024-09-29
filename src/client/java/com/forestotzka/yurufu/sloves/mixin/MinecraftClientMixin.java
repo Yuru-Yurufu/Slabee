@@ -24,7 +24,17 @@ public class MinecraftClientMixin {
         if (hitResult instanceof BlockHitResult blockHitResult) {
             BlockPos blockPos = blockHitResult.getBlockPos();
 
+            double clickX = blockHitResult.getPos().x - blockPos.getX();
             double clickY = blockHitResult.getPos().y - blockPos.getY();
+            double clickZ = blockHitResult.getPos().z - blockPos.getZ();
+            if (clickX > 0.5) {
+                System.out.println("東半分がクリックされました");
+                ClickPositionTracker.clickEasternHalf = true;
+
+            } else {
+                System.out.println("西半分がクリックされました");
+                ClickPositionTracker.clickEasternHalf = false;
+            }
             if (clickY > 0.5) {
                 System.out.println("上半分がクリックされました");
                 ClickPositionTracker.clickUpperHalf = true;
@@ -32,6 +42,14 @@ public class MinecraftClientMixin {
             } else {
                 System.out.println("下半分がクリックされました");
                 ClickPositionTracker.clickUpperHalf = false;
+            }
+            if (clickZ > 0.5) {
+                System.out.println("南半分がクリックされました");
+                ClickPositionTracker.clickSouthernHalf = true;
+
+            } else {
+                System.out.println("北半分がクリックされました");
+                ClickPositionTracker.clickSouthernHalf = false;
             }
         }
     }

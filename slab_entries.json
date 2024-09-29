@@ -105,6 +105,7 @@
         "stripped_crimson_hyphae_slab",
         "stripped_warped_hyphae_slab",
 
-        "dirt_slab"
+        "dirt_slab",
+        "grass_slab"
     ]
 }

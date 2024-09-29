@@ -25,62 +25,41 @@ def generate_slab_json(entries):
 
     for mod, slabs in entries.items():
         for slab in slabs:
-            # top_slabに関するエントリ
             multipart.append({
                 "when": { "top_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab}_top" }
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}_top" }
             })
-            # bottom_slabに関するエントリ
             multipart.append({
                 "when": { "bottom_slab": f"{mod}__{slab}" },
-                "apply": { "model": f"{mod}:block/{slab}" }
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}" }
             })
 
     return {"multipart": multipart}
 
 # 各スラブアイテムのテンプレートを生成する関数
-def generate_vertical_slab_json(slab_name, mod_name, other_slabs):
-    data = {
-        "multipart": [
-            {
-                "when": { "facing": "south" },
-                "apply": { "model": f"{mod_name}:block/{slab_name}", "uvlock": True, "y": 270 }
-            },
-            {
-                "when": { "facing": "east" },
-                "apply": { "model": f"{mod_name}:block/{slab_name}", "uvlock": True, "y": 180 }
-            },
-            {
-                "when": { "facing": "north" },
-                "apply": { "model": f"{mod_name}:block/{slab_name}", "uvlock": True, "y": 90 }
-            },
-            {
-                "when": { "facing": "west" },
-                "apply": { "model": f"{mod_name}:block/{slab_name}", "uvlock": True }
-            }
-        ]
-    }
+def generate_vertical_slab_json(entries):
+    multipart = []
 
-    # 他のスラブに対するエントリを追加
-    for namespace, slab in other_slabs:
-        data["multipart"].append({
-            "when": { "is_double": True, "second_slab": f"{namespace}__{slab}", "facing": "north" },
-            "apply": { "model": f"{namespace}:block/{slab}", "uvlock": True, "y": 270 }
-        })
-        data["multipart"].append({
-            "when": { "is_double": True, "second_slab": f"{namespace}__{slab}", "facing": "west" },
-            "apply": { "model": f"{namespace}:block/{slab}", "uvlock": True, "y": 180 }
-        })
-        data["multipart"].append({
-            "when": { "is_double": True, "second_slab": f"{namespace}__{slab}", "facing": "south" },
-            "apply": { "model": f"{namespace}:block/{slab}", "uvlock": True, "y": 90 }
-        })
-        data["multipart"].append({
-            "when": { "is_double": True, "second_slab": f"{namespace}__{slab}", "facing": "east" },
-            "apply": { "model": f"{namespace}:block/{slab}", "uvlock": True }
-        })
+    for mod, slabs in entries.items():
+        for slab in slabs:
+            multipart.append({
+                "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_z' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": (180 if slab == 'smooth_stone_vertical_slab' else 270)}
+            })
+            multipart.append({
+                "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_x' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": 180}
+            })
+            multipart.append({
+                "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_z' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True, "y": (0 if slab == 'smooth_stone_vertical_slab' else 90)}
+            })
+            multipart.append({
+                "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
+                "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}{'_x' if slab == 'smooth_stone_vertical_slab' else ''}", "uvlock": True}
+            })
 
-    return data
+    return {"multipart": multipart}
 
 # JSONフォーマッタ関数
 def format_json(data):
@@ -88,31 +67,6 @@ def format_json(data):
     # "when": {...}, "apply": {...} を1行にまとめる
     json_str = json_str.replace('"when": {\n                ', '"when": { ').replace('"apply": {\n                ', '"apply": { ').replace(',\n                ', ', ').replace('\n            }', ' }')
     return json_str
-
-# 出力するファイルを生成する
-def generate_blockstates(entries, is_vertical):
-    for mod_name, slabs in entries.items():
-        folder_path = os.path.join(assets_path, mod_name, 'blockstates')
-        os.makedirs(folder_path, exist_ok=True)
-
-        # 同じentries.json内の全てのスラブを他スラブとして利用
-        other_slabs = [(other_mod, slab) for other_mod, slabs_list in entries.items() for slab in slabs_list if other_mod != mod_name or slab != slabs]
-
-        for slab in slabs:
-            if is_vertical == True:
-                json_data = generate_vertical_slab_json(slab, mod_name, other_slabs)
-            else:
-                json_data = generate_slab_json(slab, mod_name, other_slabs)
-
-            # JSONフォーマット
-            formatted_json = format_json(json_data)
-
-            # JSONファイルとして出力
-            file_path = os.path.join(folder_path, f"{slab}.json")
-            with open(file_path, 'w', encoding='utf-8') as json_file:
-                json_file.write(formatted_json)
-
-            print(f"Generated: {file_path}")
 
 def generate_slab_blockstates():
 
@@ -130,6 +84,57 @@ def generate_slab_blockstates():
         json_file.write(formatted_json)
 
     print(f"Generated: {file_path}")
+
+def generate_vertical_slab_blockstates():
+
+    # フォルダを作る
+    folder_path = os.path.join(assets_path, "sloves", 'blockstates')
+    os.makedirs(folder_path, exist_ok=True)
+
+    # JSONをフォーマット
+    json_data = generate_vertical_slab_json(vertical_slab_entries)
+    formatted_json = format_json(json_data)
+
+    # JSONファイルとして出力
+    file_path = os.path.join(folder_path, "double_vertical_slab_block.json")
+    with open(file_path, 'w', encoding='utf-8') as json_file:
+        json_file.write(formatted_json)
+
+    print(f"Generated: {file_path}")
+
+    # 個別のjsonも作っちゃおう
+    for mod, slabs in vertical_slab_entries.items():
+        for slab in slabs:
+            data = {
+                "multipart": [
+                    {
+                        "when": { "facing": "south" },
+                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 270 }
+                    },
+                    {
+                        "when": { "facing": "east" },
+                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 180 }
+                    },
+                    {
+                        "when": { "facing": "north" },
+                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 90 }
+                    },
+                    {
+                        "when": { "facing": "west" },
+                        "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True }
+                    }
+                ]
+            }
+
+            # フォーマット
+            formatted_json = format_json(data)
+
+            # JSONファイルとして出力
+            file_path = os.path.join(folder_path, f"{slab}.json")
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json_file.write(formatted_json)
+
+            print(f"Generated: {file_path}")
 
 ####################################
 #   blockstates (original slabs)   #
@@ -151,7 +156,7 @@ def generate_mod_slab_blockstates():
                         "model": f"{mod}:block/{slab}"
                     },
                     "type=double": {
-                        "model": f"minecraft:block/{slab.replace('_slab','')}" # ここは仮
+                        "model": f"minecraft:block/{slab.replace('_slab','_block' if 'bamboo' in slab else '')}" # ここは仮
                     },
                     "type=top": {
                         "model": f"{mod}:block/{slab}_top"
@@ -171,33 +176,37 @@ def generate_mod_slab_blockstates():
 #############
 
 sloves_path = os.path.join('src', 'main', 'java', 'com', 'forestotzka', 'yurufu', 'sloves')
-enum_second_slab_path = os.path.join(sloves_path, 'block', 'enums', 'SecondSlab.java')
+enums_path = os.path.join(sloves_path, 'block', 'enums')
+enums_slab_type_path = os.path.join(enums_path, 'CustomSlabType.java')
+enums_vertical_slab_type_path = os.path.join(enums_path, 'CustomVerticalSlabType.java')
 
 # 新しい内容を生成する関数
-def generate_new_content(entries, is_vertical):
-    lines = []
-    if is_vertical == False:
-        lines.append('    NONE("minecraft__air"),\n')
+def generate_new_content(is_vertical):
+    lines = ['    NONE("minecraft__air"),\n']
+    if is_vertical:
+        entries = vertical_slab_entries
+    else:
+        entries = slab_entries
     for mod, slabs in entries.items():
         for slab in slabs:
             formatted_slab = slab.upper()
             line = f'    {mod.upper()}__{formatted_slab}("{mod.lower()}__{slab}"),\n'
             lines.append(line)
-    if lines and is_vertical:
+    if lines:
         lines[-1] = lines[-1].rstrip(',\n') + ';\n'  # 最後の行のカンマをセミコロンに変える
     return lines
 
-def generate_enums_second_slab(entries, is_vertical):
+def generate_enums_slab_type(is_vertical):
+    if is_vertical:
+        file_path = enums_vertical_slab_type_path
+    else:
+        file_path = enums_slab_type_path
     # javaファイルの内容を読み込む
-    with open(enum_second_slab_path, 'r', encoding='utf-8') as java_file:
+    with open(file_path, 'r', encoding='utf-8') as java_file:
         java_content = java_file.readlines()
 
-    if is_vertical:
-        start_marker = '/* VERTICAL SLABS START MARKER */'
-        end_marker = '/* VERTICAL SLABS END MARKER */'
-    else:
-        start_marker = '/* SLABS START MARKER */'
-        end_marker = '/* SLABS END MARKER */'
+    start_marker = '/* START MARKER */'
+    end_marker = '/* END MARKER */'
 
     inside_section = False
     new_java_content = []
@@ -205,7 +214,7 @@ def generate_enums_second_slab(entries, is_vertical):
         if start_marker in line:
             inside_section = True
             new_java_content.append(line)
-            new_java_content.extend(generate_new_content(entries, is_vertical))  # 新しい内容を挿入
+            new_java_content.extend(generate_new_content(is_vertical))
         elif end_marker in line:
             inside_section = False
             new_java_content.append(line)
@@ -213,9 +222,66 @@ def generate_enums_second_slab(entries, is_vertical):
             new_java_content.append(line)
 
     # 変更を反映してファイルに書き込む
-    with open(enum_second_slab_path, 'w', encoding='utf-8') as java_file:
+    with open(file_path, 'w', encoding='utf-8') as java_file:
         java_file.writelines(new_java_content)
-        print(f"Updated: {enum_second_slab_path}")
+        print(f"Updated: {file_path}")
+
+####################
+#   models/block   #
+####################
+
+def generate_vertical_models_block():
+    for mod, slabs in vertical_slab_entries.items():
+        for slab in slabs:
+            if "waxed_" in slab:
+                continue
+            folder_path = os.path.join(assets_path, mod, 'models', 'block')
+            os.makedirs(folder_path, exist_ok=True)
+
+            block = slab.replace('_vertical_slab', '').replace('brick', 'bricks').replace('_tile', '_tiles')
+            if block in ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry", "bamboo", "crimson", "warped"):
+                block = block + "_planks"
+            if block in ("purpur", "quartz"):
+                block = block + "_block"
+            if block in ("smooth_sandstone", "smooth_red_sandstone"):
+                block = block.replace("smooth_", "") + "_top"
+            if block == "smooth_quartz":
+                block = "quartz_block_bottom"
+            if block == "petrified_oak":
+                block = "oak_planks"
+
+            json_data = {
+                "parent": f"sloves:block/vertical_slab{'_positive' if block == 'smooth_stone' else ''}",
+                "textures": {
+                    "side": f"minecraft:block/{block}{'_side' if block == 'quartz_block' else ''}{'_slab_side' if block == 'smooth_stone' else ''}",
+                    "east": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}",
+                    "west": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}"
+                }
+            }
+
+            # JSONファイルとして出力
+            file_path = os.path.join(folder_path, f"{slab}{'_x' if block == 'smooth_stone' else ''}.json")
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(json_data, json_file, ensure_ascii=False, indent=4)
+
+            print(f"Generated: {file_path}")
+
+            # smooth_stone_z
+            if block == "smooth_stone":
+                json_data = {
+                    "parent": "sloves:block/vertical_slab_negative",
+                    "textures": {
+                        "side": "sloves:block/smooth_stone_vertical_slab_side",
+                        "north": "minecraft:block/smooth_stone",
+                        "south": "minecraft:block/smooth_stone"
+                    }
+                }
+                # JSONファイルとして出力
+                file_path = os.path.join(folder_path, f"{slab}_negative.json")
+                with open(file_path, 'w', encoding='utf-8') as json_file:
+                    json.dump(json_data, json_file, ensure_ascii=False, indent=4)
+
+                print(f"Generated: {file_path}")
 
 ###################
 #   models/item   #
@@ -228,7 +294,7 @@ def generate_models_item(entries):
             os.makedirs(folder_path, exist_ok=True)
 
             json_data = {
-                "parent": f"{mod_name}:block/{slab}"
+                "parent": f"{mod_name}:block/{slab.replace('waxed_','')}"
             }
 
             # JSONファイルとして出力
@@ -243,9 +309,10 @@ def generate_models_item(entries):
 #   RUN   #
 ###########
 
-generate_slab_blockstates()
-generate_mod_slab_blockstates()
-#generate_blockstates(vertical_slabs, True)
-#generate_enums_second_slab(slabs, False)
-#generate_enums_second_slab(vertical_slabs, True)
-#generate_models_item(slabs_models_item)
+#generate_slab_blockstates()
+#generate_mod_slab_blockstates()
+generate_vertical_slab_blockstates()
+generate_vertical_models_block()
+#generate_enums_slab_type(True)
+#generate_enums_slab_type(False)
+generate_models_item(slab_model_item_entries)

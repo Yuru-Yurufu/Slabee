@@ -823,6 +823,14 @@
         {
             "when": { "bottom_slab": "sloves__dirt_slab" },
             "apply": { "model": "sloves:block/dirt_slab" }
+        },
+        {
+            "when": { "top_slab": "sloves__grass_slab" },
+            "apply": { "model": "sloves:block/grass_slab_top" }
+        },
+        {
+            "when": { "bottom_slab": "sloves__grass_slab" },
+            "apply": { "model": "sloves:block/grass_slab" }
         }
     ]
 }
