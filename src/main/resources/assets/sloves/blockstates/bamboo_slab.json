@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/bamboo_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/bamboo_block"
+        },
+        "type=top": {
+            "model": "sloves:block/bamboo_slab_top"
+        }
+    }
+}

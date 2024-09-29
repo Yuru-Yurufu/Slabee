@@ -4,7 +4,9 @@
     "version": "${version}",
     "name": "SLoves",
     "description": "this is test mod.",
-    "authors": [],
+    "authors": [
+        "Yurufu"
+    ],
     "contact": {},
     "license": "MIT",
     "icon": "assets/sloves/icon.png",

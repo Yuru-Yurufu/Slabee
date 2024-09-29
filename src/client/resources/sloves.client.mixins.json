@@ -1,9 +1,10 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "com.forestotzka.yurufu.sloves.mixin.client",
+    "package": "com.forestotzka.yurufu.sloves.mixin",
     "compatibilityLevel": "JAVA_21",
     "client": [
+        "MinecraftClientMixin"
     ],
     "injectors": {
         "defaultRequire": 1

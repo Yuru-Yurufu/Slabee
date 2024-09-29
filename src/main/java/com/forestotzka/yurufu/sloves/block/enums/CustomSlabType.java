@@ -109,6 +109,7 @@ public enum CustomSlabType implements StringIdentifiable {
     SLOVES__STRIPPED_CRIMSON_HYPHAE_SLAB("sloves__stripped_crimson_hyphae_slab"),
     SLOVES__STRIPPED_WARPED_HYPHAE_SLAB("sloves__stripped_warped_hyphae_slab"),
     SLOVES__DIRT_SLAB("sloves__dirt_slab"),
+    SLOVES__GRASS_SLAB("sloves__grass_slab"),
     /* SLABS END MARKER */
 
     /* VERTICAL SLABS START MARKER */

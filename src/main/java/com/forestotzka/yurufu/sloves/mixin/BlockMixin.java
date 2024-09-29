@@ -8,16 +8,21 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.forestotzka.yurufu.sloves.ClickPositionTracker;
 
 import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.TOP_SLAB;
 import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.BOTTOM_SLAB;
@@ -51,5 +56,24 @@ public abstract class BlockMixin {
                 world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState().with(TOP_SLAB, top_slab).with(BOTTOM_SLAB, bottom_slab), 3);
             }
         //}
+    }
+
+    @Inject(method = "getPickStack", at= @At("HEAD"), cancellable = true)
+    public void getPickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
+        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+            System.out.println("double slab!");
+            if (ClickPositionTracker.clickUpperHalf) {
+                String slab = state.get(TOP_SLAB).asString().replace("__",":");
+                Identifier itemId = Identifier.of(slab);
+                Item item = Registries.ITEM.get(itemId);
+                cir.setReturnValue(new ItemStack(item));
+            } else {
+                String slab = state.get(BOTTOM_SLAB).asString().replace("__",":");
+                Identifier itemId = Identifier.of(slab);
+                Item item = Registries.ITEM.get(itemId);
+                cir.setReturnValue(new ItemStack(item));
+            }
+            cir.cancel();
+        }
     }
 }

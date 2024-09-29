@@ -7,11 +7,11 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # jsonからデータを読み込む
 with open('slab_entries.json', 'r') as f:
-    slabs = json.load(f)
+    slab_entries = json.load(f)
 with open('vertical_slab_entries.json', 'r') as f:
-    vertical_slabs = json.load(f)
+    vertical_slab_entries = json.load(f)
 with open('slab_entries_models_item.json', 'r') as f:
-    slabs_models_item = json.load(f)
+    slab_model_item_entries = json.load(f)
 
 ###################
 #   blockstates   #
@@ -121,15 +121,50 @@ def generate_slab_blockstates():
     os.makedirs(folder_path, exist_ok=True)
 
     # JSONをフォーマット
-    json_data = generate_slab_json(slabs)
+    json_data = generate_slab_json(slab_entries)
     formatted_json = format_json(json_data)
 
     # JSONファイルとして出力
-    file_path = os.path.join(folder_path, f"double_slab_block.json")
+    file_path = os.path.join(folder_path, "double_slab_block.json")
     with open(file_path, 'w', encoding='utf-8') as json_file:
         json_file.write(formatted_json)
 
     print(f"Generated: {file_path}")
+
+####################################
+#   blockstates (original slabs)   #
+####################################
+
+def generate_mod_slab_blockstates():
+    for mod, slabs in slab_entries.items():
+        if mod == "minecraft":
+            continue
+
+        # フォルダを作る
+        folder_path = os.path.join(assets_path, mod, 'blockstates')
+        os.makedirs(folder_path, exist_ok=True)
+
+        for slab in slabs:
+            json_data = {
+                "variants": {
+                    "type=bottom": {
+                        "model": f"{mod}:block/{slab}"
+                    },
+                    "type=double": {
+                        "model": f"minecraft:block/{slab.replace('_slab','')}" # ここは仮
+                    },
+                    "type=top": {
+                        "model": f"{mod}:block/{slab}_top"
+                    }
+                }
+            }
+
+            # 出力
+            file_path = os.path.join(folder_path, f"{slab}.json")
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(json_data, json_file, indent=4)
+
+            print(f"Generated: {file_path}")
 
 #############
 #   enums   #
@@ -209,6 +244,7 @@ def generate_models_item(entries):
 ###########
 
 generate_slab_blockstates()
+generate_mod_slab_blockstates()
 #generate_blockstates(vertical_slabs, True)
 #generate_enums_second_slab(slabs, False)
 #generate_enums_second_slab(vertical_slabs, True)

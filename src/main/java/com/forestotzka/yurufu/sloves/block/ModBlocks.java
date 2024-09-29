@@ -100,6 +100,8 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.DARK_DULL_PINK).instrument(NoteBlockInstrument.BASS).strength(2.0F).sounds(BlockSoundGroup.NETHER_STEM)));
     public static final Block DIRT_SLAB = registerBlock("dirt_slab",
             new SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).strength(0.5f).sounds(BlockSoundGroup.GRAVEL)));
+    public static final Block GRASS_SLAB = registerBlock("grass_slab",
+            new GrassSlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_GREEN).strength(0.6f).sounds(BlockSoundGroup.GRASS)));
     public static final Block OAK_VERTICAL_SLAB = registerBlock("oak_vertical_slab",
             new VerticalSlabBlocks(AbstractBlock.Settings.create().strength(1.0F, 2.0F).requiresTool().sounds(BlockSoundGroup.WOOD)));
     public static final Block SPRUCE_VERTICAL_SLAB = registerBlock("spruce_vertical_slab",
@@ -184,6 +186,7 @@ public class ModBlocks {
             entries.addAfter(Blocks.STRIPPED_CRIMSON_HYPHAE, ModBlocks.STRIPPED_CRIMSON_HYPHAE_SLAB);
             entries.addAfter(Blocks.STRIPPED_WARPED_HYPHAE, ModBlocks.STRIPPED_WARPED_HYPHAE_SLAB);
             entries.add(ModBlocks.DIRT_SLAB);
+            entries.add(ModBlocks.GRASS_SLAB);
             entries.addAfter(Blocks.OAK_SLAB, ModBlocks.OAK_VERTICAL_SLAB);
             entries.addAfter(Blocks.SPRUCE_SLAB, ModBlocks.SPRUCE_VERTICAL_SLAB);
             entries.addAfter(Blocks.BIRCH_SLAB, ModBlocks.BIRCH_VERTICAL_SLAB);

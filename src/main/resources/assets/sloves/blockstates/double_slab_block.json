@@ -386,27 +386,27 @@
         },
         {
             "when": { "top_slab": "minecraft__waxed_weathered_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_weathered_cut_copper_slab_top" }
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab_top" }
         },
         {
             "when": { "bottom_slab": "minecraft__waxed_weathered_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_weathered_cut_copper_slab" }
+            "apply": { "model": "minecraft:block/weathered_cut_copper_slab" }
         },
         {
             "when": { "top_slab": "minecraft__waxed_exposed_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_exposed_cut_copper_slab_top" }
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab_top" }
         },
         {
             "when": { "bottom_slab": "minecraft__waxed_exposed_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_exposed_cut_copper_slab" }
+            "apply": { "model": "minecraft:block/exposed_cut_copper_slab" }
         },
         {
             "when": { "top_slab": "minecraft__waxed_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_cut_copper_slab_top" }
+            "apply": { "model": "minecraft:block/cut_copper_slab_top" }
         },
         {
             "when": { "bottom_slab": "minecraft__waxed_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_cut_copper_slab" }
+            "apply": { "model": "minecraft:block/cut_copper_slab" }
         },
         {
             "when": { "top_slab": "minecraft__oxidized_cut_copper_slab" },
@@ -442,11 +442,11 @@
         },
         {
             "when": { "top_slab": "minecraft__waxed_oxidized_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_oxidized_cut_copper_slab_top" }
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab_top" }
         },
         {
             "when": { "bottom_slab": "minecraft__waxed_oxidized_cut_copper_slab" },
-            "apply": { "model": "minecraft:block/waxed_oxidized_cut_copper_slab" }
+            "apply": { "model": "minecraft:block/oxidized_cut_copper_slab" }
         },
         {
             "when": { "top_slab": "minecraft__mud_brick_slab" },

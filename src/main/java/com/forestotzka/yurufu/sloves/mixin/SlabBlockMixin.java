@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
 import com.forestotzka.yurufu.sloves.SlovesAccessor;
-import com.forestotzka.yurufu.sloves.block.enums.CustomSlabType;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import net.minecraft.block.AbstractBlock;
@@ -30,14 +29,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccessor {
     private static final EnumProperty<SlabType> TYPE = Properties.SLAB_TYPE;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    private static final EnumProperty<CustomSlabType> SECOND_BLOCK = EnumProperty.of("second_slab", CustomSlabType.class);
 
     @Unique
     private static final BooleanProperty BOTTOM_FIRST = BooleanProperty.of("bottom_first");
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void onInit(AbstractBlock.Settings settings, CallbackInfo info) {
-        this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_BLOCK, CustomSlabType.NONE).with(BOTTOM_FIRST, true));
+        this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(false)).with(BOTTOM_FIRST, true));
     }
 
     /**
@@ -46,7 +44,7 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
      */
     @Inject(method = "appendProperties", at=@At("RETURN"))
     public void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
-        builder.add(SECOND_BLOCK, BOTTOM_FIRST);
+        builder.add(BOTTOM_FIRST);
     }
 
     /**
@@ -55,18 +53,13 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
      */
     @Overwrite
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        ItemStack itemStack = ctx.getStack();
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = ctx.getWorld().getBlockState(blockPos);
-        Boolean bf;
         if (blockState.isIn(ModBlockTags.SLABS)) {
-            bf = blockState.get(BOTTOM_FIRST);
-            String itemName = itemStack.getItem().toString();
-            CustomSlabType sb = CustomSlabType.fromString(itemName);
-            return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_BLOCK, sb).with(BOTTOM_FIRST, bf);
+            return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.valueOf(false)).with(BOTTOM_FIRST, blockState.get(BOTTOM_FIRST));
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
-            BlockState blockState2 = this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(fluidState.getFluid() == Fluids.WATER)).with(SECOND_BLOCK, CustomSlabType.NONE).with(BOTTOM_FIRST, true);
+            BlockState blockState2 = this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(fluidState.getFluid() == Fluids.WATER)).with(BOTTOM_FIRST, true);
             Direction direction = ctx.getSide();
             return direction != Direction.DOWN && (direction == Direction.UP || !(ctx.getHitPos().y - (double)blockPos.getY() > 0.5))
                     ? blockState2
