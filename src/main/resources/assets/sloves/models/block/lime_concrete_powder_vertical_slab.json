@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/lime_concrete_powder",
+        "east": "minecraft:block/lime_concrete_powder",
+        "west": "minecraft:block/lime_concrete_powder"
+    }
+}

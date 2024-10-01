@@ -223,6 +223,179 @@ public class ModBlocks {
             new VerticalSlabBlocks(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
     public static final Block TUFF_BRICK_VERTICAL_SLAB = registerBlock("tuff_brick_vertical_slab",
             new VerticalSlabBlocks(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CRACKED_STONE_BRICK_SLAB = registerBlock("cracked_stone_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block DEEPSLATE_SLAB = registerBlock("deepslate_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CRACKED_DEEPSLATE_BRICK_SLAB = registerBlock("cracked_deepslate_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block REINFORCED_DEEPSLATE_SLAB = registerBlock("reinforced_deepslate_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PACKED_MUD_SLAB = registerBlock("packed_mud_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block NETHERRACK_SLAB = registerBlock("netherrack_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CRACKED_NETHER_BRICK_SLAB = registerBlock("cracked_nether_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BASALT_SLAB = registerBlock("basalt_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block SMOOTH_BASALT_SLAB = registerBlock("smooth_basalt_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block POLISHED_BASALT_SLAB = registerBlock("polished_basalt_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block GILDED_BLACKSTONE_SLAB = registerBlock("gilded_blackstone_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = registerBlock("cracked_polished_blackstone_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block END_STONE_SLAB = registerBlock("end_stone_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PURPUR_PILLAR_SLAB = registerBlock("purpur_pillar_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block QUARTZ_BRICK_SLAB = registerBlock("quartz_brick_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block QUARTZ_PILLAR_SLAB = registerBlock("quartz_pillar_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block AMETHYST_SLAB = registerBlock("amethyst_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+
+    // Wool Slabs
+    public static final Block WHITE_WOOL_SLAB = registerBlock("white_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block LIGHT_GRAY_WOOL_SLAB = registerBlock("light_gray_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block GRAY_WOOL_SLAB = registerBlock("gray_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block BLACK_WOOL_SLAB = registerBlock("black_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block BROWN_WOOL_SLAB = registerBlock("brown_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block RED_WOOL_SLAB = registerBlock("red_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block ORANGE_WOOL_SLAB = registerBlock("orange_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block YELLOW_WOOL_SLAB = registerBlock("yellow_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block LIME_WOOL_SLAB = registerBlock("lime_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block GREEN_WOOL_SLAB = registerBlock("green_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block CYAN_WOOL_SLAB = registerBlock("cyan_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block LIGHT_BLUE_WOOL_SLAB = registerBlock("light_blue_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block BLUE_WOOL_SLAB = registerBlock("blue_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block PURPLE_WOOL_SLAB = registerBlock("purple_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block MAGENTA_WOOL_SLAB = registerBlock("magenta_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+    public static final Block PINK_WOOL_SLAB = registerBlock("pink_wool_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.8F).sounds(BlockSoundGroup.WOOL)));
+
+    // Terracotta Slabs
+    public static final Block TERRACOTTA_SLAB = registerBlock("terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block WHITE_TERRACOTTA_SLAB = registerBlock("white_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIGHT_GRAY_TERRACOTTA_SLAB = registerBlock("light_gray_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block GRAY_TERRACOTTA_SLAB = registerBlock("gray_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BLACK_TERRACOTTA_SLAB = registerBlock("black_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BROWN_TERRACOTTA_SLAB = registerBlock("brown_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block RED_TERRACOTTA_SLAB = registerBlock("red_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block ORANGE_TERRACOTTA_SLAB = registerBlock("orange_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block YELLOW_TERRACOTTA_SLAB = registerBlock("yellow_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIME_TERRACOTTA_SLAB = registerBlock("lime_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block GREEN_TERRACOTTA_SLAB = registerBlock("green_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CYAN_TERRACOTTA_SLAB = registerBlock("cyan_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIGHT_BLUE_TERRACOTTA_SLAB = registerBlock("light_blue_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BLUE_TERRACOTTA_SLAB = registerBlock("blue_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PURPLE_TERRACOTTA_SLAB = registerBlock("purple_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block MAGENTA_TERRACOTTA_SLAB = registerBlock("magenta_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PINK_TERRACOTTA_SLAB = registerBlock("pink_terracotta_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.25F, 4.2F).requiresTool().sounds(BlockSoundGroup.STONE)));
+
+    // Concrete Slabs
+    public static final Block WHITE_CONCRETE_SLAB = registerBlock("white_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIGHT_GRAY_CONCRETE_SLAB = registerBlock("light_gray_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block GRAY_CONCRETE_SLAB = registerBlock("gray_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BLACK_CONCRETE_SLAB = registerBlock("black_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BROWN_CONCRETE_SLAB = registerBlock("brown_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block RED_CONCRETE_SLAB = registerBlock("red_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block ORANGE_CONCRETE_SLAB = registerBlock("orange_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block YELLOW_CONCRETE_SLAB = registerBlock("yellow_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIME_CONCRETE_SLAB = registerBlock("lime_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block GREEN_CONCRETE_SLAB = registerBlock("green_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block CYAN_CONCRETE_SLAB = registerBlock("cyan_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block LIGHT_BLUE_CONCRETE_SLAB = registerBlock("light_blue_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block BLUE_CONCRETE_SLAB = registerBlock("blue_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PURPLE_CONCRETE_SLAB = registerBlock("purple_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block MAGENTA_CONCRETE_SLAB = registerBlock("magenta_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block PINK_CONCRETE_SLAB = registerBlock("pink_concrete_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(1.8F, 3.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+
+    // Concrete Powder Slabs
+    public static final Block WHITE_CONCRETE_POWDER_SLAB = registerBlock("white_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block LIGHT_GRAY_CONCRETE_POWDER_SLAB = registerBlock("light_gray_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block GRAY_CONCRETE_POWDER_SLAB = registerBlock("gray_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block BLACK_CONCRETE_POWDER_SLAB = registerBlock("black_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block BROWN_CONCRETE_POWDER_SLAB = registerBlock("brown_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block RED_CONCRETE_POWDER_SLAB = registerBlock("red_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block ORANGE_CONCRETE_POWDER_SLAB = registerBlock("orange_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block YELLOW_CONCRETE_POWDER_SLAB = registerBlock("yellow_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block LIME_CONCRETE_POWDER_SLAB = registerBlock("lime_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block GREEN_CONCRETE_POWDER_SLAB = registerBlock("green_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block CYAN_CONCRETE_POWDER_SLAB = registerBlock("cyan_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block LIGHT_BLUE_CONCRETE_POWDER_SLAB = registerBlock("light_blue_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block BLUE_CONCRETE_POWDER_SLAB = registerBlock("blue_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block PURPLE_CONCRETE_POWDER_SLAB = registerBlock("purple_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block MAGENTA_CONCRETE_POWDER_SLAB = registerBlock("magenta_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+    public static final Block PINK_CONCRETE_POWDER_SLAB = registerBlock("pink_concrete_powder_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.5F).sounds(BlockSoundGroup.SAND)));
+
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
             new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
@@ -286,6 +459,97 @@ public class ModBlocks {
             entries.addAfter(Blocks.STRIPPED_WARPED_HYPHAE, ModBlocks.STRIPPED_WARPED_HYPHAE_SLAB);
             entries.add(ModBlocks.DIRT_SLAB);
             entries.add(ModBlocks.GRASS_SLAB);
+            entries.addAfter(ModBlocks.CRACKED_STONE_BRICK_SLAB, ModBlocks.CRACKED_STONE_BRICK_SLAB);
+            entries.addAfter(ModBlocks.DEEPSLATE_SLAB, ModBlocks.DEEPSLATE_SLAB);
+            entries.addAfter(ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB, ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB);
+            entries.addAfter(ModBlocks.REINFORCED_DEEPSLATE_SLAB, ModBlocks.REINFORCED_DEEPSLATE_SLAB);
+            entries.addAfter(ModBlocks.PACKED_MUD_SLAB, ModBlocks.PACKED_MUD_SLAB);
+            entries.addAfter(ModBlocks.NETHERRACK_SLAB, ModBlocks.NETHERRACK_SLAB);
+            entries.addAfter(ModBlocks.CRACKED_NETHER_BRICK_SLAB, ModBlocks.CRACKED_NETHER_BRICK_SLAB);
+            entries.addAfter(ModBlocks.BASALT_SLAB, ModBlocks.BASALT_SLAB);
+            entries.addAfter(ModBlocks.SMOOTH_BASALT_SLAB, ModBlocks.SMOOTH_BASALT_SLAB);
+            entries.addAfter(ModBlocks.POLISHED_BASALT_SLAB, ModBlocks.POLISHED_BASALT_SLAB);
+            entries.addAfter(ModBlocks.GILDED_BLACKSTONE_SLAB, ModBlocks.GILDED_BLACKSTONE_SLAB);
+            entries.addAfter(ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB);
+            entries.addAfter(ModBlocks.END_STONE_SLAB, ModBlocks.END_STONE_SLAB);
+            entries.addAfter(ModBlocks.PURPUR_PILLAR_SLAB, ModBlocks.PURPUR_PILLAR_SLAB);
+            entries.addAfter(ModBlocks.QUARTZ_BRICK_SLAB, ModBlocks.QUARTZ_BRICK_SLAB);
+            entries.addAfter(ModBlocks.QUARTZ_PILLAR_SLAB, ModBlocks.QUARTZ_PILLAR_SLAB);
+            entries.addAfter(ModBlocks.AMETHYST_SLAB, ModBlocks.AMETHYST_SLAB);
+
+            // Wool Slabs
+            entries.addAfter(ModBlocks.WHITE_WOOL_SLAB, ModBlocks.WHITE_WOOL_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_GRAY_WOOL_SLAB, ModBlocks.LIGHT_GRAY_WOOL_SLAB);
+            entries.addAfter(ModBlocks.GRAY_WOOL_SLAB, ModBlocks.GRAY_WOOL_SLAB);
+            entries.addAfter(ModBlocks.BLACK_WOOL_SLAB, ModBlocks.BLACK_WOOL_SLAB);
+            entries.addAfter(ModBlocks.BROWN_WOOL_SLAB, ModBlocks.BROWN_WOOL_SLAB);
+            entries.addAfter(ModBlocks.RED_WOOL_SLAB, ModBlocks.RED_WOOL_SLAB);
+            entries.addAfter(ModBlocks.ORANGE_WOOL_SLAB, ModBlocks.ORANGE_WOOL_SLAB);
+            entries.addAfter(ModBlocks.YELLOW_WOOL_SLAB, ModBlocks.YELLOW_WOOL_SLAB);
+            entries.addAfter(ModBlocks.LIME_WOOL_SLAB, ModBlocks.LIME_WOOL_SLAB);
+            entries.addAfter(ModBlocks.GREEN_WOOL_SLAB, ModBlocks.GREEN_WOOL_SLAB);
+            entries.addAfter(ModBlocks.CYAN_WOOL_SLAB, ModBlocks.CYAN_WOOL_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_BLUE_WOOL_SLAB, ModBlocks.LIGHT_BLUE_WOOL_SLAB);
+            entries.addAfter(ModBlocks.BLUE_WOOL_SLAB, ModBlocks.BLUE_WOOL_SLAB);
+            entries.addAfter(ModBlocks.PURPLE_WOOL_SLAB, ModBlocks.PURPLE_WOOL_SLAB);
+            entries.addAfter(ModBlocks.MAGENTA_WOOL_SLAB, ModBlocks.MAGENTA_WOOL_SLAB);
+            entries.addAfter(ModBlocks.PINK_WOOL_SLAB, ModBlocks.PINK_WOOL_SLAB);
+
+            // Terracotta Slabs
+            entries.addAfter(ModBlocks.TERRACOTTA_SLAB, ModBlocks.TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.WHITE_TERRACOTTA_SLAB, ModBlocks.WHITE_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_GRAY_TERRACOTTA_SLAB, ModBlocks.LIGHT_GRAY_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.GRAY_TERRACOTTA_SLAB, ModBlocks.GRAY_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.BLACK_TERRACOTTA_SLAB, ModBlocks.BLACK_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.BROWN_TERRACOTTA_SLAB, ModBlocks.BROWN_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.RED_TERRACOTTA_SLAB, ModBlocks.RED_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.ORANGE_TERRACOTTA_SLAB, ModBlocks.ORANGE_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.YELLOW_TERRACOTTA_SLAB, ModBlocks.YELLOW_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.LIME_TERRACOTTA_SLAB, ModBlocks.LIME_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.GREEN_TERRACOTTA_SLAB, ModBlocks.GREEN_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.CYAN_TERRACOTTA_SLAB, ModBlocks.CYAN_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_BLUE_TERRACOTTA_SLAB, ModBlocks.LIGHT_BLUE_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.BLUE_TERRACOTTA_SLAB, ModBlocks.BLUE_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.PURPLE_TERRACOTTA_SLAB, ModBlocks.PURPLE_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.MAGENTA_TERRACOTTA_SLAB, ModBlocks.MAGENTA_TERRACOTTA_SLAB);
+            entries.addAfter(ModBlocks.PINK_TERRACOTTA_SLAB, ModBlocks.PINK_TERRACOTTA_SLAB);
+
+            // Concrete Slabs
+            entries.addAfter(Blocks.PINK_CONCRETE, ModBlocks.WHITE_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.WHITE_CONCRETE_SLAB, ModBlocks.LIGHT_GRAY_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_GRAY_CONCRETE_SLAB, ModBlocks.GRAY_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.GRAY_CONCRETE_SLAB, ModBlocks.BLACK_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.BLACK_CONCRETE_SLAB, ModBlocks.BROWN_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.BROWN_CONCRETE_SLAB, ModBlocks.RED_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.RED_CONCRETE_SLAB, ModBlocks.ORANGE_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.ORANGE_CONCRETE_SLAB, ModBlocks.YELLOW_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.YELLOW_CONCRETE_SLAB, ModBlocks.LIME_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.LIME_CONCRETE_SLAB, ModBlocks.GREEN_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.GREEN_CONCRETE_SLAB, ModBlocks.CYAN_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.CYAN_CONCRETE_SLAB, ModBlocks.LIGHT_BLUE_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_BLUE_CONCRETE_SLAB, ModBlocks.BLUE_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.BLUE_CONCRETE_SLAB, ModBlocks.PURPLE_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.PURPLE_CONCRETE_SLAB, ModBlocks.MAGENTA_CONCRETE_SLAB);
+            entries.addAfter(ModBlocks.MAGENTA_CONCRETE_SLAB, ModBlocks.PINK_CONCRETE_SLAB);
+
+            // Concrete Powder Slabs
+            entries.addAfter(ModBlocks.WHITE_CONCRETE_POWDER_SLAB, ModBlocks.WHITE_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_GRAY_CONCRETE_POWDER_SLAB, ModBlocks.LIGHT_GRAY_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.GRAY_CONCRETE_POWDER_SLAB, ModBlocks.GRAY_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.BLACK_CONCRETE_POWDER_SLAB, ModBlocks.BLACK_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.BROWN_CONCRETE_POWDER_SLAB, ModBlocks.BROWN_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.RED_CONCRETE_POWDER_SLAB, ModBlocks.RED_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.ORANGE_CONCRETE_POWDER_SLAB, ModBlocks.ORANGE_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.YELLOW_CONCRETE_POWDER_SLAB, ModBlocks.YELLOW_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.LIME_CONCRETE_POWDER_SLAB, ModBlocks.LIME_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.GREEN_CONCRETE_POWDER_SLAB, ModBlocks.GREEN_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.CYAN_CONCRETE_POWDER_SLAB, ModBlocks.CYAN_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.LIGHT_BLUE_CONCRETE_POWDER_SLAB, ModBlocks.LIGHT_BLUE_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.BLUE_CONCRETE_POWDER_SLAB, ModBlocks.BLUE_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.PURPLE_CONCRETE_POWDER_SLAB, ModBlocks.PURPLE_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.MAGENTA_CONCRETE_POWDER_SLAB, ModBlocks.MAGENTA_CONCRETE_POWDER_SLAB);
+            entries.addAfter(ModBlocks.PINK_CONCRETE_POWDER_SLAB, ModBlocks.PINK_CONCRETE_POWDER_SLAB);
+
             entries.addAfter(Blocks.OAK_SLAB, ModBlocks.OAK_VERTICAL_SLAB);
             entries.addAfter(Blocks.SPRUCE_SLAB, ModBlocks.SPRUCE_VERTICAL_SLAB);
             entries.addAfter(Blocks.BIRCH_SLAB, ModBlocks.BIRCH_VERTICAL_SLAB);

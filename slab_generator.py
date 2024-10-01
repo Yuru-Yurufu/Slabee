@@ -44,36 +44,36 @@ def generate_vertical_slab_json(entries):
         for slab in slabs:
             if slab == "smooth_stone_vertical_slab":
                 multipart.append({
-                    "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "z"}, {"positive_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False, "y": 90 }
                 })
                 multipart.append({
-                    "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "x"}, {"positive_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab}_positive", "uvlock": False }
                 })
                 multipart.append({
-                    "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "z"}, {"negative_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False, "y": 90 }
                 })
                 multipart.append({
-                    "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "x"}, {"negative_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab}_negative", "uvlock": False }
                 })
             else:
                 multipart.append({
-                    "when": { "axis": "z", "positive_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "z"}, {"positive_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 270 }
                 })
                 multipart.append({
-                    "when": { "axis": "x", "positive_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "x"}, {"positive_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 180 }
                 })
                 multipart.append({
-                    "when": { "axis": "z", "negative_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "z"}, {"negative_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True, "y": 90}
                 })
                 multipart.append({
-                    "when": { "axis": "x", "negative_slab": f"{mod}__{slab}" },
+                    "when": { "AND": [{"axis": "x"}, {"negative_slab": f"{mod}__{slab}"}] },
                     "apply": { "model": f"{mod}:block/{slab.replace('waxed_','')}", "uvlock": True}
                 })
 
@@ -83,7 +83,7 @@ def generate_vertical_slab_json(entries):
 def format_json(data):
     json_str = json.dumps(data, indent=4, ensure_ascii=False)
     # "when": {...}, "apply": {...} を1行にまとめる
-    json_str = json_str.replace('"when": {\n                ', '"when": { ').replace('"apply": {\n                ', '"apply": { ').replace(',\n                ', ', ').replace('\n            }', ' }')
+    json_str = json_str.replace('"when": {\n                ', '"when": { ').replace('"apply": {\n                ', '"apply": { ').replace(',\n                ', ', ').replace('\n            }', ' }').replace('[\n                    {\n                        "axis"', '[{"axis"').replace('"\n                    }\n                ]','"}]').replace('"\n                    },     {\n                        "','"}, {"')
     return json_str
 
 def generate_slab_blockstates():
@@ -196,7 +196,7 @@ def generate_mod_slab_blockstates():
                         "model": f"{mod}:block/{slab}"
                     },
                     "type=double": {
-                        "model": f"minecraft:block/{slab.replace('_slab','_block' if 'bamboo' in slab else '')}" # ここは仮
+                        "model": f"minecraft:block/{slab.replace('_slab','_block' if 'bamboo' in slab or 'grass' in slab or 'amethyst' in slab else '').replace('_brick','_bricks')}" # ここは仮
                     },
                     "type=top": {
                         "model": f"{mod}:block/{slab}_top"
@@ -270,6 +270,58 @@ def generate_enums_slab_type(is_vertical):
 #   models/block   #
 ####################
 
+def generate_models_block():
+    for mod, slabs in slab_entries.items():
+        if mod == "minecraft":
+            continue
+        for slab in slabs:
+            if "waxed_" in slab or slab == "grass_slab":
+                continue
+            folder_path = os.path.join(assets_path, mod, 'models', 'block')
+            os.makedirs(folder_path, exist_ok=True)
+
+            block = slab.replace('_slab', '').replace('brick', 'bricks').replace('_tile', '_tiles')
+            if block in ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry", "crimson", "warped"):
+                block = block + "_planks"
+            if block in ("purpur", "quartz", "amethyst") or "bamboo" in block:
+                block = block + "_block"
+            if block in ("smooth_sandstone", "smooth_red_sandstone"):
+                block = block.replace("smooth_", "") + "_top"
+            if block == "smooth_quartz":
+                block = "quartz_block_bottom"
+            if block == "petrified_oak":
+                block = "oak_planks"
+
+            json_data = {
+                "parent": f"minecraft:block/slab",
+                "textures": {
+                    "bottom": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_top' if (block in ('quartz_block', 'basalt', 'polished_basalt') or block.endswith('_log') or block.endswith('_stem') or 'bamboo' in block) else ''}{'_bottom' if block == 'reinforced_deepslate' else ''}",
+                    "side": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_side' if (block in ('quartz_block', 'basalt', 'polished_basalt') or block == 'reinforced_deepslate') else ''}",
+                    "top": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_top' if (block in ('quartz_block', 'basalt', 'polished_basalt', 'reinforced_deepslate') or block.endswith('_log') or block.endswith('_stem') or 'bamboo' in block) else ''}"
+                }
+            }
+            json_data_top = {
+                "parent": f"minecraft:block/slab_top",
+                "textures": {
+                    "bottom": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_top' if (block in ('quartz_block', 'basalt', 'polished_basalt') or block.endswith('_log') or block.endswith('_stem') or 'bamboo' in block) else ''}{'_bottom' if block == 'reinforced_deepslate' else ''}",
+                    "side": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_side' if (block in ('quartz_block', 'basalt', 'polished_basalt') or block == 'reinforced_deepslate') else ''}",
+                    "top": f"minecraft:block/{block.replace('wood', 'log').replace('hyphae','stem')}{'_top' if (block in ('quartz_block', 'basalt', 'polished_basalt', 'reinforced_deepslate') or block.endswith('_log') or block.endswith('_stem') or 'bamboo' in block) else ''}"
+                }
+            }
+
+            # JSONファイルとして出力
+            file_path = os.path.join(folder_path, f"{slab}.json")
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(json_data, json_file, ensure_ascii=False, indent=4)
+
+            print(f"Generated: {file_path}")
+
+            file_path = os.path.join(folder_path, f"{slab}_top.json")
+            with open(file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(json_data_top, json_file, ensure_ascii=False, indent=4)
+
+            print(f"Generated: {file_path}")
+
 def generate_vertical_models_block():
     for mod, slabs in vertical_slab_entries.items():
         for slab in slabs:
@@ -281,7 +333,7 @@ def generate_vertical_models_block():
             block = slab.replace('_vertical_slab', '').replace('brick', 'bricks').replace('_tile', '_tiles')
             if block in ("oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry", "bamboo", "crimson", "warped"):
                 block = block + "_planks"
-            if block in ("purpur", "quartz"):
+            if block in ("purpur", "quartz", "amethyst"):
                 block = block + "_block"
             if block in ("smooth_sandstone", "smooth_red_sandstone"):
                 block = block.replace("smooth_", "") + "_top"
@@ -370,10 +422,11 @@ def generate_models_item(entries):
 #   RUN   #
 ###########
 
-#generate_slab_blockstates()
-#generate_mod_slab_blockstates()
+generate_slab_blockstates()
+generate_mod_slab_blockstates()
 generate_vertical_slab_blockstates()
+generate_models_block()
 generate_vertical_models_block()
-#generate_enums_slab_type(True)
-#generate_enums_slab_type(False)
+generate_enums_slab_type(True)
+generate_enums_slab_type(False)
 generate_models_item(slab_model_item_entries)

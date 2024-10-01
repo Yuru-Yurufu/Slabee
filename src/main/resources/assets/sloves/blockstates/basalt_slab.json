@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/basalt_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/basalt"
+        },
+        "type=top": {
+            "model": "sloves:block/basalt_slab_top"
+        }
+    }
+}

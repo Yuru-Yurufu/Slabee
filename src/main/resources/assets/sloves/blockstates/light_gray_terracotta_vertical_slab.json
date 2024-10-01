@@ -1,0 +1,20 @@
+{
+    "multipart": [
+        {
+            "when": { "facing": "south" },
+            "apply": { "model": "sloves:block/light_gray_terracotta_vertical_slab", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "facing": "east" },
+            "apply": { "model": "sloves:block/light_gray_terracotta_vertical_slab", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "facing": "north" },
+            "apply": { "model": "sloves:block/light_gray_terracotta_vertical_slab", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "facing": "west" },
+            "apply": { "model": "sloves:block/light_gray_terracotta_vertical_slab", "uvlock": true }
+        }
+    ]
+}

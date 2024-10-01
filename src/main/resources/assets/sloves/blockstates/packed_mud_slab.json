@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/packed_mud_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/packed_mud"
+        },
+        "type=top": {
+            "model": "sloves:block/packed_mud_slab_top"
+        }
+    }
+}

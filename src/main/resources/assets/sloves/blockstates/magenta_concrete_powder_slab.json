@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/magenta_concrete_powder_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/magenta_concrete_powder"
+        },
+        "type=top": {
+            "model": "sloves:block/magenta_concrete_powder_slab_top"
+        }
+    }
+}

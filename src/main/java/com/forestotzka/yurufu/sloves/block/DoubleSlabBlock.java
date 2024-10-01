@@ -1,14 +1,15 @@
 package com.forestotzka.yurufu.sloves.block;
 
 import com.forestotzka.yurufu.sloves.block.enums.CustomSlabType;
+import com.forestotzka.yurufu.sloves.state.property.ModProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 
 public class DoubleSlabBlock extends Block {
-    public static final EnumProperty<CustomSlabType> TOP_SLAB = EnumProperty.of("top_slab", CustomSlabType.class);
-    public static final EnumProperty<CustomSlabType> BOTTOM_SLAB = EnumProperty.of("bottom_slab", CustomSlabType.class);
+    public static final EnumProperty<CustomSlabType> TOP_SLAB = ModProperties.TOP_SLAB;
+    public static final EnumProperty<CustomSlabType> BOTTOM_SLAB = ModProperties.BOTTOM_SLAB;
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);

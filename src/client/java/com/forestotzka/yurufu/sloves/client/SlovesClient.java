@@ -1,11 +1,18 @@
 package com.forestotzka.yurufu.sloves.client;
 
+import com.forestotzka.yurufu.sloves.ModModelLoader;
+import com.forestotzka.yurufu.sloves.Sloves;
 import com.forestotzka.yurufu.sloves.block.ModBlocks;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.model.BakedModelManager;
+import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.GrassColors;
 
 public class SlovesClient implements ClientModInitializer {
@@ -28,5 +35,9 @@ public class SlovesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GRASS_SLAB, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DOUBLE_SLAB_BLOCK, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK, RenderLayer.getCutoutMipped());
+
+        ModelLoadingPlugin.register(
+            new ModModelLoader()
+        );
     }
 }

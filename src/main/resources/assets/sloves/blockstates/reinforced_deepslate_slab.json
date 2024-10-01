@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/reinforced_deepslate_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/reinforced_deepslate"
+        },
+        "type=top": {
+            "model": "sloves:block/reinforced_deepslate_slab_top"
+        }
+    }
+}
