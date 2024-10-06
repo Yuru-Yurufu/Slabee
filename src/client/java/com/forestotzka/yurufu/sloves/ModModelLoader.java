@@ -7,8 +7,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.client.util.ModelIdentifier;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
-
 @Environment(EnvType.CLIENT)
 public class ModModelLoader implements ModelLoadingPlugin {
     @Override
@@ -22,7 +20,6 @@ public class ModModelLoader implements ModelLoadingPlugin {
             String[] blockProperties = id.getVariant().split(",");
             String positiveSlab = "";
             String negativeSlab = "";
-            //System.out.println("blockId: " + blockId);
             if (blockId.equals("sloves:double_vertical_slab_block")) {
                 String axis = "x";
                 for (String pair : blockProperties) {
@@ -35,8 +32,7 @@ public class ModModelLoader implements ModelLoadingPlugin {
                         axis = keyValue[1];
                     }
                 }
-                return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, true, axis);
-                //return original;
+                return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, axis);
             } else if (blockId.equals("sloves:double_slab_block")) {
                 for (String pair : blockProperties) {
                     String[] keyValue = pair.split("=");

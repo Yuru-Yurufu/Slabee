@@ -42,7 +42,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
     private BakedModel bakedModelNegative;
     private String positiveSlabPath = "";
     private String negativeSlabPath = "";
-    private boolean uvlock;
     String axis = "x";
     private Mesh meshPositive;
     private Mesh meshNegative;
@@ -50,15 +49,21 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
     private static final Matrix4f ROTATION_Z_NEGATIVE = new Matrix4f().identity().rotateY((float) Math.toRadians(270));
     private static final Matrix4f ROTATION_X_POSITIVE = new Matrix4f().identity().rotateY((float) Math.toRadians(180));
     private static final Matrix4f ROTATION_X_NEGATIVE = new Matrix4f().identity().rotateY((float) Math.toRadians(0));
-    private final int max = 100;
-    private int now = 0;
+    private boolean positiveSlabUVLock = true;
+    private boolean negativeSlabUVLock = true;
 
-    public DoubleVerticalSlabBlockModel(String positiveSlab, String negativeSlab, boolean uvlock, String axis) {
+    public DoubleVerticalSlabBlockModel(String positiveSlab, String negativeSlab, String axis) {
         this.positiveSlabPath = positiveSlab.replace("__",":block/");
         this.negativeSlabPath = negativeSlab.replace("__",":block/");
-        this.uvlock = uvlock;
         this.axis = axis;
-
+        if (positiveSlab.equals("sloves__smooth_stone_vertical_slab")) {
+            positiveSlabUVLock = false;
+            this.positiveSlabPath = this.positiveSlabPath + "_positive";
+        }
+        if (negativeSlab.equals("sloves__smooth_stone_vertical_slab")) {
+            negativeSlabUVLock = false;
+            this.negativeSlabPath = this.negativeSlabPath + "_negative";
+        }
     }
 
     @Override
@@ -69,13 +74,15 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
         UnbakedModel unbakedModelNegative = baker.getOrLoadModel(Identifier.of(negativeSlabPath));
         BakedModel bakedModelPositive = unbakedModelPositive.bake(baker, textureGetter, rotationContainer);
         BakedModel bakedModelNegative = unbakedModelNegative.bake(baker, textureGetter, rotationContainer);
-        Matrix4f rotationMatPositive = axis.equals("z") ? ROTATION_Z_POSITIVE: ROTATION_X_POSITIVE;
+        if (positiveSlabUVLock) {
+            Matrix4f rotationMatPositive = axis.equals("z") ? ROTATION_Z_POSITIVE : ROTATION_X_POSITIVE;
+            this.meshPositive = applyRotation(bakedModelPositive, rotationMatPositive, axis.equals("z") ? 3 : 2, true);
+        } else {
+            Matrix4f rotationMatPositive = axis.equals("z") ? ROTATION_Z_NEGATIVE : ROTATION_X_NEGATIVE;
+            this.meshPositive = applyRotation(bakedModelPositive, rotationMatPositive, axis.equals("z") ? 1 : 0, false);
+        }
         Matrix4f rotationMatNegative = axis.equals("z") ? ROTATION_Z_NEGATIVE: ROTATION_X_NEGATIVE;
-
-        Sprite sprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft", "block/diamond_block")));
-
-        this.meshPositive = applyRotation(bakedModelPositive, rotationMatPositive, sprite, axis.equals("z") ? 3: 2);
-        this.meshNegative = applyRotation(bakedModelNegative, rotationMatNegative, sprite, axis.equals("z") ? 1: 0);
+        this.meshNegative = applyRotation(bakedModelNegative, rotationMatNegative, axis.equals("z") ? 1: 0, negativeSlabUVLock);
 
         this.bakedModelPositive = bakedModelPositive;
         //this.bakedModelNegative = bakedModelNegative;
@@ -83,7 +90,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
         return this;
     }
 
-    private Mesh applyRotation(BakedModel model, Matrix4f rotationMat, Sprite sprite, int rotationCount) {
+    private Mesh applyRotation(BakedModel model, Matrix4f rotationMat, int rotationCount, boolean uvlock) {
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter emitter = meshBuilder.getEmitter();
         Matrix4f translationMat = new Matrix4f().identity()
@@ -92,7 +99,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 .translate(-0.5f, -0.5f, -0.5f);
 
         // モデルの各クアッドに回転行列を適用
-        for (Direction direction : Arrays.asList(Direction.values())) {
+        for (Direction direction : Direction.values()) {
             for (BakedQuad quad : model.getQuads(null, direction, null)) {
                 emitter.fromVanilla(quad, null, null);
 
@@ -104,36 +111,14 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
                     Vector3f normal = new Vector3f(emitter.normalX(i), emitter.normalY(i), emitter.normalZ(i));
                     rotationMat.transformDirection(normal);
-                    //translationMat.transformPosition(normal);
                     emitter.normal(i, normal.x(), normal.y(), normal.z());
-                    //emitter.normal(i, 0.0f, 0.0f, 1.0f);
-                    //emitter.spriteBake(quad.getSprite(), MutableQuadView.BAKE_LOCK_UV);
 
                     emitter.sprite(i,0,emitter.u(i),emitter.v(i));
-                    if (uvlock) {
-                        if (direction == Direction.DOWN || direction == Direction.UP) {
-                            emitter.spriteBake(quad.getSprite(), MutableQuadView.BAKE_LOCK_UV);
-                            //emitter.spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
-                        }
+                    if (uvlock && (direction == Direction.DOWN || direction == Direction.UP)) {
+                        emitter.spriteBake(quad.getSprite(), MutableQuadView.BAKE_LOCK_UV);
                     }
-                    /*if (uvlock) {
-                        //emitter.spriteBake(i, quad.getSprite(), MutableQuadView.BAKE_LOCK_UV);
-                        //emitter.sprite(i, 0, )
-                        emitter.sprite(i,0,emitter.spriteU(i,0),emitter.spriteV(i,0));
-                        if ()
-                    } else {
-                        emitter.sprite(i,0,emitter.spriteU(i,0),emitter.spriteV(i,0));
-                    }*/
-                    //emitter.lightmap(i, 0xF000F0);
                 }
-                //emitter.spriteBake(MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).apply(Identifier.of("minecraft", "block/stone")), 0);
 
-                //emitter.cullFace(emitter.lightFace());
-                //emitter.color(-1,-1,-1,-1);
-                /*if (now < max) {
-                    System.out.println(direction.toString() + emitter.nominalFace());
-                    now++;
-                }*/
                 if (direction != Direction.DOWN && direction != Direction.UP) {
                     Direction correctFacing = emitter.nominalFace();
                     for (int i = 0; i < rotationCount; i++) {
@@ -145,43 +130,13 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 emitter.emit();
             }
         }
-        /*for (BakedQuad quad : model.getQuads(null, null, null)) {
-            emitter.fromVanilla(quad,null,null);
-            for (int i = 0; i < 4; i++) {
-                Vector3f position = new Vector3f(emitter.x(i), emitter.y(i), emitter.z(i));
-                translationMat.transformPosition(position);
-                emitter.pos(i, position);
-
-                if (uvlock) {
-                    emitter.spriteBake(i, quad.getSprite(), MutableQuadView.BAKE_LOCK_UV);
-                } else {
-                    emitter.sprite(i,0,emitter.spriteU(i,0),emitter.spriteV(i,0));
-                }
-            }
-
-            emitter.emit();
-        }*/
-
         return meshBuilder.build();
     }
 
-    //private Direction getCorrectDirection(Direction direction, )
-
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        //mesh.outputTo(renderContext.getEmitter());
         if (meshPositive != null) {
-            /*renderContext.pushTransform(quad -> {
-                for (int i = 0; i < 4; i++) {
-                    int blockLight = blockRenderView.getLightLevel(LightType.BLOCK, blockPos);
-                    int skyLight = blockRenderView.getLightLevel(LightType.SKY, blockPos);
-                    quad.lightmap(i, blockLight | (skyLight << 4));
-                    //quad.lightmap(i, 0xF000F0);
-                }
-                return true;
-            });*/
             meshPositive.outputTo(renderContext.getEmitter());
-            //renderContext.popTransform();
         }
         if (meshNegative != null) {
             meshNegative.outputTo(renderContext.getEmitter());
@@ -196,11 +151,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
         return List.of();
-        //return bakedModelPositive.getQuads(state, face, random).stream().map(bakedQuad -> ro)
-        /*List<BakedQuad> quads = new ArrayList<>();
-        quads.addAll(bakedModelPositive.getQuads(state, face, random));
-        quads.addAll(bakedModelNegative.getQuads(state, face, random));
-        return quads;*/
     }
 
     @Override
