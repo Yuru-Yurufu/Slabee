@@ -1,10 +1,13 @@
 package com.forestotzka.yurufu.sloves;
 
 import com.forestotzka.yurufu.sloves.models.DoubleSlabBlockModel;
+import com.forestotzka.yurufu.sloves.models.DoubleVerticalSlabBlockModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.client.util.ModelIdentifier;
+
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 @Environment(EnvType.CLIENT)
 public class ModModelLoader implements ModelLoadingPlugin {
@@ -20,17 +23,20 @@ public class ModModelLoader implements ModelLoadingPlugin {
             String positiveSlab = "";
             String negativeSlab = "";
             //System.out.println("blockId: " + blockId);
-            if (blockId.contains("vertical_slab")) {
-                /*for (String pair : blockProperties) {
+            if (blockId.equals("sloves:double_vertical_slab_block")) {
+                String axis = "x";
+                for (String pair : blockProperties) {
                     String[] keyValue = pair.split("=");
                     if (keyValue[0].equals("positive_slab")) {
-                        positiveSlab = keyValue[1].replace("_vertical_slab", "").split("__")[1];
+                        positiveSlab = keyValue[1];
                     } else if (keyValue[0].equals("negative_slab")) {
-                        negativeSlab = keyValue[1].replace("_vertical_slab", "").split("__")[1];
+                        negativeSlab = keyValue[1];
+                    } else if (keyValue[0].equals("axis")) {
+                        axis = keyValue[1];
                     }
                 }
-                return new DoubleSlabBlockModel(positiveSlab, negativeSlab);*/
-                return original;
+                return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, true, axis);
+                //return original;
             } else if (blockId.equals("sloves:double_slab_block")) {
                 for (String pair : blockProperties) {
                     String[] keyValue = pair.split("=");

@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.sloves.models;
 
-import com.forestotzka.yurufu.sloves.block.DoubleSlabBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -28,15 +27,12 @@ import java.util.function.Supplier;
 public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBakedModel {
     private BakedModel bakedModelPositive;
     private BakedModel bakedModelNegative;
-    String topSlabPath = "";
-    String bottomSlabPath = "";
+    private String topSlabPath = "";
+    private String bottomSlabPath = "";
 
     public DoubleSlabBlockModel(String topSlab, String bottomSlab) {
         this.topSlabPath = topSlab.replace("__",":block/");
         this.bottomSlabPath = bottomSlab.replace("__",":block/");
-        /*this.topSlabPath = "minecraft:block/stone_slab";
-        this.bottomSlabPath = "minecraft:block/smooth_stone_slab";*/
-        //System.out.println(this.bottomSlabPath);
     }
 
     @Override
@@ -44,13 +40,7 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
         topSlabPath = topSlabPath.replace("minecraft:block/waxed_","minecraft:block/");
         bottomSlabPath = bottomSlabPath.replace("minecraft:block/waxed_","minecraft:block/");
         UnbakedModel unbakedModelPositive = baker.getOrLoadModel(Identifier.of(topSlabPath + "_top"));
-        //UnbakedModel unbakedModelPositive = baker.getOrLoadModel(Identifier.of("minecraft:block/stone_slab_top"));
         UnbakedModel unbakedModelNegative = baker.getOrLoadModel(Identifier.of(bottomSlabPath));
-        //UnbakedModel unbakedModelNegative = baker.getOrLoadModel(Identifier.of("sloves:block/dirt_slab"));
-        /*if (unbakedModelPositive == null) {
-            //throw new NullPointerException("Failed to load unbaked model: " + topSlabPath + "_top");
-            System.out.println("nulllllllll");
-        }*/
         BakedModel bakedModelPositive = unbakedModelPositive.bake(baker, textureGetter, rotationContainer);
         BakedModel bakedModelNegative = unbakedModelNegative.bake(baker, textureGetter, rotationContainer);
         this.bakedModelPositive = bakedModelPositive;
