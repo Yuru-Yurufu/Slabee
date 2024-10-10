@@ -2,7 +2,7 @@ package com.forestotzka.yurufu.sloves.mixin;
 
 import com.forestotzka.yurufu.sloves.SlovesAccessor;
 import com.forestotzka.yurufu.sloves.block.ModBlocks;
-import com.forestotzka.yurufu.sloves.block.VerticalSlabBlocks;
+import com.forestotzka.yurufu.sloves.block.VerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.enums.CustomSlabType;
 import com.forestotzka.yurufu.sloves.block.enums.CustomVerticalSlabType;
 import com.forestotzka.yurufu.sloves.block.enums.VerticalSlabAxis;
@@ -61,7 +61,7 @@ public abstract class BlockMixin {
                 bottom_slab = CustomSlabType.fromString(second_slab);
             }
             world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState().with(TOP_SLAB, top_slab).with(BOTTOM_SLAB, bottom_slab), 3);
-        } else if (state.getBlock() instanceof VerticalSlabBlocks && state.get(ModProperties.IS_DOUBLE)) {
+        } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
             String axis = "";
             CustomVerticalSlabType positive_slab;
             CustomVerticalSlabType negative_slab;

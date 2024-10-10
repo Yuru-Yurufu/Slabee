@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab",
+    "textures": {
+        "bottom": "minecraft:block/brain_coral",
+        "side": "minecraft:block/brain_coral",
+        "top": "minecraft:block/brain_coral"
+    }
+}

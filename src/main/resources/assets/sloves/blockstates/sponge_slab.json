@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/sponge_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/sponge"
+        },
+        "type=top": {
+            "model": "sloves:block/sponge_slab_top"
+        }
+    }
+}

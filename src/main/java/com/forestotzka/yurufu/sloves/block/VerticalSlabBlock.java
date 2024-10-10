@@ -24,31 +24,31 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class VerticalSlabBlocks extends Block implements Waterloggable {
-    public static final MapCodec<VerticalSlabBlocks> CODEC = createCodec(VerticalSlabBlocks::new);
+public class VerticalSlabBlock extends Block implements Waterloggable {
+    public static final MapCodec<VerticalSlabBlock> CODEC = createCodec(VerticalSlabBlock::new);
     public static final BooleanProperty IS_DOUBLE = ModProperties.IS_DOUBLE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    public static final EnumProperty<CustomVerticalSlabType> SECOND_VERTICAL_SLAB = ModProperties.SECOND_VERTICAL_SLAB;
+    //public static final EnumProperty<CustomVerticalSlabType> SECOND_VERTICAL_SLAB = ModProperties.SECOND_VERTICAL_SLAB;
     protected static final VoxelShape SOUTH = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape EAST = Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape NORTH = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0);
     protected static final VoxelShape WEST = Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 16.0, 16.0);
 
     @Override
-    public MapCodec<? extends VerticalSlabBlocks> getCodec() {
+    public MapCodec<? extends VerticalSlabBlock> getCodec() {
         return CODEC;
     }
 
-    public VerticalSlabBlocks(Settings settings) {
+    public VerticalSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, CustomVerticalSlabType.NONE));
+        //this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, CustomVerticalSlabType.NONE));
+        this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)));
     }
 
     @Override
@@ -58,7 +58,8 @@ public class VerticalSlabBlocks extends Block implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(IS_DOUBLE, FACING, WATERLOGGED, SECOND_VERTICAL_SLAB);
+        //builder.add(IS_DOUBLE, FACING, WATERLOGGED, SECOND_VERTICAL_SLAB);
+        builder.add(IS_DOUBLE, FACING, WATERLOGGED);
     }
 
     @Override
@@ -88,7 +89,8 @@ public class VerticalSlabBlocks extends Block implements Waterloggable {
         if (blockState.isOf(this)) {
             String itemName = itemStack.getItem().toString();
             CustomVerticalSlabType sb  = CustomVerticalSlabType.fromString(itemName);
-            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
+            //return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
+            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false));
         } else if (blockState.isIn(ModBlockTags.VERTICAL_SLABS)) {
             Direction d;
             String itemName = itemStack.getItem().toString();
@@ -102,7 +104,8 @@ public class VerticalSlabBlocks extends Block implements Waterloggable {
             } else {
                 d = Direction.WEST;
             }
-            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
+            //return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
+            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false));
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
 

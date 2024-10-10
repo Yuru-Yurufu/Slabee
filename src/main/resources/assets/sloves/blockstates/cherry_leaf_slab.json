@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/cherry_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/cherry_leaves"
+        },
+        "type=top": {
+            "model": "sloves:block/cherry_leaf_slab_top"
+        }
+    }
+}

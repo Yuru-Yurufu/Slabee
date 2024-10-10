@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab",
+    "textures": {
+        "bottom": "minecraft:block/sponge",
+        "side": "minecraft:block/sponge",
+        "top": "minecraft:block/sponge"
+    }
+}

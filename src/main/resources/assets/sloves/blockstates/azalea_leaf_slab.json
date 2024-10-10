@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/azalea_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/azalea_leaves"
+        },
+        "type=top": {
+            "model": "sloves:block/azalea_leaf_slab_top"
+        }
+    }
+}

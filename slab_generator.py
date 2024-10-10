@@ -17,7 +17,8 @@ with open('slab_entries_models_item.json', 'r') as f:
 #   blockstates   #
 ###################
 
-assets_path = os.path.join('src', 'main', 'resources', 'assets')
+#assets_path = os.path.join('src', 'main', 'resources', 'assets')
+assets_path = os.path.join('generated')
 
 # 各スラブアイテムのテンプレートを生成する関数
 def generate_slab_json(entries):

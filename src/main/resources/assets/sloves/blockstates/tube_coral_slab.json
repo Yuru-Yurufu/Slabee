@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/tube_coral_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/tube_coral"
+        },
+        "type=top": {
+            "model": "sloves:block/tube_coral_slab_top"
+        }
+    }
+}

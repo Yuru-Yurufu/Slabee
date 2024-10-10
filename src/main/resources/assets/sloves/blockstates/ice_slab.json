@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/ice_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/ice"
+        },
+        "type=top": {
+            "model": "sloves:block/ice_slab_top"
+        }
+    }
+}

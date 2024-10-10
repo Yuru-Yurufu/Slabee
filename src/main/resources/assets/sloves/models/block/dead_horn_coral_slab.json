@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab",
+    "textures": {
+        "bottom": "minecraft:block/dead_horn_coral",
+        "side": "minecraft:block/dead_horn_coral",
+        "top": "minecraft:block/dead_horn_coral"
+    }
+}

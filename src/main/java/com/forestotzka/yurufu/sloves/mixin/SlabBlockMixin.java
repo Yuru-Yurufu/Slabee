@@ -12,6 +12,8 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -55,7 +57,7 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = ctx.getWorld().getBlockState(blockPos);
-        if (blockState.isIn(ModBlockTags.SLABS)) {
+        if (blockState.isIn(BlockTags.SLABS)) {
             return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.valueOf(false)).with(BOTTOM_FIRST, blockState.get(BOTTOM_FIRST));
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
@@ -75,7 +77,7 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
         ItemStack itemStack = context.getStack();
         SlabType slabType = state.get(TYPE);
-        if (slabType == SlabType.DOUBLE || !itemStack.isIn(ModItemTags.SLABS)) {
+        if (slabType == SlabType.DOUBLE || !itemStack.isIn(ItemTags.SLABS)) {
             return false;
         } else if (context.canReplaceExisting()) {
             boolean bl = context.getHitPos().y - (double)context.getBlockPos().getY() > 0.5;

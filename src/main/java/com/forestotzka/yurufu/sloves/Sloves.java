@@ -15,5 +15,6 @@ public class Sloves implements ModInitializer {
         LOGGER.info("Hello Fabric world!");
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
+        ModCreativeTabs.registerItemGroups();
     }
 }

@@ -3,7 +3,7 @@
     "id": "sloves",
     "version": "${version}",
     "name": "SLoves",
-    "description": "this is test mod.",
+    "description": "this is ultimate slab mod.",
     "authors": [
         "Yurufu"
     ],
@@ -17,6 +17,9 @@
         ],
         "main": [
             "com.forestotzka.yurufu.sloves.Sloves"
+        ],
+        "fabric-datagen": [
+            "com.forestotzka.yurufu.sloves.SlovesDataGenerator"
         ]
     },
     "mixins": [

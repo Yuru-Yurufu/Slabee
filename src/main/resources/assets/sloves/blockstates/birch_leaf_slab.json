@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/birch_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/birch_leaves"
+        },
+        "type=top": {
+            "model": "sloves:block/birch_leaf_slab_top"
+        }
+    }
+}

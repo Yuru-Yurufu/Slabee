@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/brown_mushroom_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/brown_mushroom"
+        },
+        "type=top": {
+            "model": "sloves:block/brown_mushroom_slab_top"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/magma_block_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/magma_block"
+        },
+        "type=top": {
+            "model": "sloves:block/magma_block_slab_top"
+        }
+    }
+}

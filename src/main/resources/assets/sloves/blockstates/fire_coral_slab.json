@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/fire_coral_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/fire_coral"
+        },
+        "type=top": {
+            "model": "sloves:block/fire_coral_slab_top"
+        }
+    }
+}

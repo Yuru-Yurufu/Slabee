@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.sloves.models;
 
-import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;

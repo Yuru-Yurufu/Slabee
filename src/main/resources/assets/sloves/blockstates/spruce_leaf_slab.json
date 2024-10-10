@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/spruce_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/spruce_leaves"
+        },
+        "type=top": {
+            "model": "sloves:block/spruce_leaf_slab_top"
+        }
+    }
+}

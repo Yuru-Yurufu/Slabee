@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/melon_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/melon"
+        },
+        "type=top": {
+            "model": "sloves:block/melon_slab_top"
+        }
+    }
+}

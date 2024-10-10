@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab_top",
+    "textures": {
+        "bottom": "minecraft:block/dried_kelp_bottom",
+        "side": "minecraft:block/dried_kelp_side",
+        "top": "minecraft:block/dried_kelp_top"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/dark_oak_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/dark_oak_leaves"
+        },
+        "type=top": {
+            "model": "sloves:block/dark_oak_leaf_slab_top"
+        }
+    }
+}

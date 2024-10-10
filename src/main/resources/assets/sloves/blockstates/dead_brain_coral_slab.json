@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/dead_brain_coral_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/dead_brain_coral"
+        },
+        "type=top": {
+            "model": "sloves:block/dead_brain_coral_slab_top"
+        }
+    }
+}
