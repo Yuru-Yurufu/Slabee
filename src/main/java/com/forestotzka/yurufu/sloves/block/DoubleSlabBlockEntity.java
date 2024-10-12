@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.sloves.block;
 
+import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,8 +17,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class DoubleSlabBlockEntity extends BlockEntity {
-    private Identifier topSlabId = Identifier.of("sloves:purple_concrete_slab");
-    private Identifier bottomSlabId = Identifier.of("sloves:black_concrete_slab");
+    private final Identifier defaultTopSlabId = Identifier.of("sloves:purple_concrete_slab");
+    private final Identifier defaultBottomSlabId = Identifier.of("sloves:black_concrete_slab");
+    private Identifier topSlabId = defaultTopSlabId;
+    private Identifier bottomSlabId = defaultBottomSlabId;
     private Direction topSlabFacing = Direction.SOUTH;
     private Direction bottomSlabFacing = Direction.SOUTH;
     private BlockState cachedTopSlabState;
@@ -25,7 +28,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
-        System.out.println("inittttttttttttttttttaaaaaaaaaaaaa");
     }
 
     @Override
@@ -53,7 +55,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             this.topSlabFacing = Direction.byName(topSlabData.getString("facing"));
             System.out.println(topSlabId);
         } else {
-            this.topSlabId = Identifier.of("sloves:purple_wool_slab");
+            this.topSlabId = defaultTopSlabId;
             this.topSlabFacing = Direction.SOUTH;
         }
 
@@ -61,9 +63,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             NbtCompound bottomSlabData = nbt.getCompound("bottom_slab");
             this.bottomSlabId = Identifier.of(bottomSlabData.getString("id"));
             this.bottomSlabFacing = Direction.byName(bottomSlabData.getString("facing"));
-            System.out.println("booooooooooooooootommmmmmmmmmmmmmmmmmmm");
         } else {
-            this.bottomSlabId = Identifier.of("sloves:black_wool_slab");
+            this.bottomSlabId = defaultBottomSlabId;
             this.bottomSlabFacing = Direction.SOUTH;
         }
 
@@ -108,13 +109,11 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     public BlockState getTopSlabState() {
         if (this.cachedTopSlabState == null) {
             Block block = Registries.BLOCK.get(this.topSlabId);
-            if (block.getDefaultState().contains(Properties.SLAB_TYPE)) {
-                this.cachedTopSlabState = Registries.BLOCK.get(this.topSlabId).getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
-            } else {
-                this.topSlabId = Identifier.of("sloves:purple_concrete_slab");
-                this.cachedTopSlabState = Registries.BLOCK.get(this.topSlabId).getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
+            if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
+                this.topSlabId = defaultTopSlabId;
+                block = Registries.BLOCK.get(this.topSlabId);
             }
-            System.out.println("top id: " + topSlabId);
+            this.cachedTopSlabState = block.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
         }
         return this.cachedTopSlabState;
     }
@@ -122,14 +121,33 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     public BlockState getBottomSlabState() {
         if (this.cachedBottomSlabState == null) {
             Block block = Registries.BLOCK.get(this.bottomSlabId);
-            if (block.getDefaultState().contains(Properties.SLAB_TYPE)) {
-                this.cachedBottomSlabState = Registries.BLOCK.get(this.bottomSlabId).getDefaultState();
-            } else {
-                this.topSlabId = Identifier.of("sloves:black_concrete_slab");
-                this.cachedTopSlabState = Registries.BLOCK.get(this.topSlabId).getDefaultState();
+            if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
+                this.bottomSlabId = defaultBottomSlabId;
+                block = Registries.BLOCK.get(this.bottomSlabId);
             }
+            this.cachedBottomSlabState = block.getDefaultState();
         }
-        return cachedBottomSlabState;
+        return this.cachedBottomSlabState;
+    }
+
+    public Integer getTopRenderLayerType() {
+        if (Registries.BLOCK.get(this.topSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+            return 1;
+        } else if (Registries.BLOCK.get(this.topSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public Integer getBottomRenderLayerType() {
+        if (Registries.BLOCK.get(this.bottomSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+            return 1;
+        } else if (Registries.BLOCK.get(this.bottomSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 
     @Override

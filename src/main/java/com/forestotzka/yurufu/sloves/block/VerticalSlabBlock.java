@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.sloves.block;
 
-import com.forestotzka.yurufu.sloves.block.enums.CustomVerticalSlabType;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import com.forestotzka.yurufu.sloves.state.property.ModProperties;
@@ -17,7 +16,6 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,7 +32,6 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
     public static final BooleanProperty IS_DOUBLE = ModProperties.IS_DOUBLE;
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    //public static final EnumProperty<CustomVerticalSlabType> SECOND_VERTICAL_SLAB = ModProperties.SECOND_VERTICAL_SLAB;
     protected static final VoxelShape SOUTH = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape EAST = Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape NORTH = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0);
@@ -47,7 +44,6 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
     public VerticalSlabBlock(Settings settings) {
         super(settings);
-        //this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, CustomVerticalSlabType.NONE));
         this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)));
     }
 
@@ -82,19 +78,13 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        ItemStack itemStack = ctx.getStack();
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = ctx.getWorld().getBlockState(blockPos);
         Direction direction = ctx.getHorizontalPlayerFacing();
         if (blockState.isOf(this)) {
-            String itemName = itemStack.getItem().toString();
-            CustomVerticalSlabType sb  = CustomVerticalSlabType.fromString(itemName);
-            //return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
             return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false));
         } else if (blockState.isIn(ModBlockTags.VERTICAL_SLABS)) {
             Direction d;
-            String itemName = itemStack.getItem().toString();
-            CustomVerticalSlabType sb  = CustomVerticalSlabType.fromString(itemName);
             if (Objects.requireNonNull(blockState.get(FACING)) == Direction.SOUTH) {
                 d = Direction.SOUTH;
             } else if (Objects.requireNonNull(blockState.get(FACING)) == Direction.EAST) {
@@ -104,7 +94,6 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
             } else {
                 d = Direction.WEST;
             }
-            //return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false)).with(SECOND_VERTICAL_SLAB, sb);
             return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false));
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);

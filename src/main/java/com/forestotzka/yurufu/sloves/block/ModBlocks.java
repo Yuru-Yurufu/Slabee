@@ -1178,48 +1178,56 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block SPRUCE_LEAF_SLAB = registerBlock("spruce_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block BIRCH_LEAF_SLAB = registerBlock("birch_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block JUNGLE_LEAF_SLAB = registerBlock("jungle_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block ACACIA_LEAF_SLAB = registerBlock("acacia_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block DARK_OAK_LEAF_SLAB = registerBlock("dark_oak_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block MANGROVE_LEAF_SLAB = registerBlock("mangrove_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block CHERRY_LEAF_SLAB = registerBlock("cherry_leaf_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.PINK)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.CHERRY_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
@@ -1227,6 +1235,7 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.AZALEA_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
@@ -1234,6 +1243,7 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.AZALEA_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
@@ -2427,60 +2437,70 @@ public class ModBlocks {
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.OAK_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block SPRUCE_LEAF_VERTICAL_SLAB = registerBlock("spruce_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.SPRUCE_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block BIRCH_LEAF_VERTICAL_SLAB = registerBlock("birch_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.BIRCH_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block JUNGLE_LEAF_VERTICAL_SLAB = registerBlock("jungle_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.JUNGLE_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block ACACIA_LEAF_VERTICAL_SLAB = registerBlock("acacia_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.ACACIA_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block DARK_OAK_LEAF_VERTICAL_SLAB = registerBlock("dark_oak_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.DARK_OAK_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block MANGROVE_LEAF_VERTICAL_SLAB = registerBlock("mangrove_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.MANGROVE_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block CHERRY_LEAF_VERTICAL_SLAB = registerBlock("cherry_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.CHERRY_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block AZALEA_LEAF_VERTICAL_SLAB = registerBlock("azalea_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.AZALEA_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block FLOWERING_AZALEA_LEAF_VERTICAL_SLAB = registerBlock("flowering_azalea_leaf_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.FLOWERING_AZALEA_LEAVES.getDefaultMapColor())
                     .strength(0.2F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block BROWN_MUSHROOM_VERTICAL_SLAB = registerBlock("brown_mushroom_vertical_slab",

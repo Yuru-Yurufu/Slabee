@@ -125,6 +125,18 @@
         "sloves:blue_concrete_powder_vertical_slab",
         "sloves:purple_concrete_powder_vertical_slab",
         "sloves:magenta_concrete_powder_vertical_slab",
-        "sloves:pink_concrete_powder_vertical_slab"
+        "sloves:pink_concrete_powder_vertical_slab",
+
+        "sloves:grass_vertical_slab",
+        "sloves:oak_leaf_vertical_slab",
+        "sloves:spruce_leaf_vertical_slab",
+        "sloves:birch_leaf_vertical_slab",
+        "sloves:jungle_leaf_vertical_slab",
+        "sloves:acacia_leaf_vertical_slab",
+        "sloves:dark_oak_leaf_vertical_slab",
+        "sloves:mangrove_leaf_vertical_slab",
+        "sloves:cherry_leaf_vertical_slab",
+        "sloves:azalea_leaf_vertical_slab",
+        "sloves:flowering_azalea_leaf_vertical_slab"
     ]
 }
