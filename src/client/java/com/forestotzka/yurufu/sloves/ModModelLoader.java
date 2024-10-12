@@ -21,6 +21,7 @@ public class ModModelLoader implements ModelLoadingPlugin {
             String positiveSlab = "";
             String negativeSlab = "";
             if (blockId.equals("sloves:double_vertical_slab_block")) {
+                //return original;
                 String axis = "x";
                 for (String pair : blockProperties) {
                     String[] keyValue = pair.split("=");
@@ -34,7 +35,8 @@ public class ModModelLoader implements ModelLoadingPlugin {
                 }
                 return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, axis);
             } else if (blockId.equals("sloves:double_slab_block")) {
-                for (String pair : blockProperties) {
+                return original;
+                /*for (String pair : blockProperties) {
                     String[] keyValue = pair.split("=");
                     if (keyValue[0].equals("top_slab")) {
                         positiveSlab = keyValue[1];
@@ -42,7 +44,7 @@ public class ModModelLoader implements ModelLoadingPlugin {
                         negativeSlab = keyValue[1];
                     }
                 }
-                return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                return new DoubleSlabBlockModel(positiveSlab, negativeSlab);*/
             } else {
                 return original;
             }

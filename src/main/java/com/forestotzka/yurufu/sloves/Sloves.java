@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.sloves;
 
+import com.forestotzka.yurufu.sloves.block.ModBlockEntities;
 import com.forestotzka.yurufu.sloves.block.ModBlocks;
 import com.forestotzka.yurufu.sloves.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -16,5 +17,6 @@ public class Sloves implements ModInitializer {
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
         ModCreativeTabs.registerItemGroups();
+        ModBlockEntities.registerModBlockEntities();
     }
 }

@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
 import com.forestotzka.yurufu.sloves.SlovesAccessor;
+import com.forestotzka.yurufu.sloves.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.sloves.block.ModBlocks;
 import com.forestotzka.yurufu.sloves.block.VerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.enums.CustomSlabType;
@@ -29,8 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.forestotzka.yurufu.sloves.ClickPositionTracker;
 
-import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.TOP_SLAB;
-import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.BOTTOM_SLAB;
+//import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.TOP_SLAB;
+//import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.BOTTOM_SLAB;
 import static com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock.POSITIVE_SLAB;
 import static com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock.NEGATIVE_SLAB;
 import static com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock.AXIS;
@@ -51,18 +52,19 @@ public abstract class BlockMixin {
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
-            CustomSlabType top_slab;
-            CustomSlabType bottom_slab;
+            world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
+            DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (bf) {
-                top_slab = CustomSlabType.fromString(second_slab);
-                bottom_slab = CustomSlabType.fromString(first_slab);
+                blockEntity.setTopSlabId(Identifier.of(second_slab));
+                blockEntity.setBottomSlabId(Identifier.of(first_slab));
             } else {
-                top_slab = CustomSlabType.fromString(first_slab);
-                bottom_slab = CustomSlabType.fromString(second_slab);
+                blockEntity.setTopSlabId(Identifier.of(first_slab));
+                blockEntity.setBottomSlabId(Identifier.of(second_slab));
             }
-            world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState().with(TOP_SLAB, top_slab).with(BOTTOM_SLAB, bottom_slab), 3);
+            blockEntity.markDirty();
+            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
         } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
-            String axis = "";
+            String axis;
             CustomVerticalSlabType positive_slab;
             CustomVerticalSlabType negative_slab;
             String first_slab = state.getBlock().toString();
@@ -94,12 +96,17 @@ public abstract class BlockMixin {
         if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
             System.out.println("double slab!");
             String slab = "";
+            Identifier slabId;
+            DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (ClickPositionTracker.clickUpperHalf) {
-                slab = state.get(TOP_SLAB).asString().replace("__",":");
+                //slab = state.get(TOP_SLAB).asString().replace("__",":");
+                slabId = blockEntity.getTopSlabId();
             } else {
-                slab = state.get(BOTTOM_SLAB).asString().replace("__",":");
+                //slab = state.get(BOTTOM_SLAB).asString().replace("__",":");
+                slabId = blockEntity.getBottomSlabId();
             }
-            cir.setReturnValue(new ItemStack(Registries.ITEM.get(Identifier.of(slab))));
+            //cir.setReturnValue(new ItemStack(Registries.ITEM.get(Identifier.of(slab))));
+            cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();
         } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             String slab = "";

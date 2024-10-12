@@ -194,7 +194,7 @@ public enum CustomSlabType implements StringIdentifiable {
     SLOVES__PODZOL_SLAB("sloves__podzol_slab"),
     SLOVES__MYCELIUM_SLAB("sloves__mycelium_slab"),
     SLOVES__DIRT_PATH_SLAB("sloves__dirt_path_slab"),
-    SLOVES__DIRT_SLAB("sloves__dirt_slab"),
+    SLOVES__DIRT_SLAB("sloves__dirt_slab")/*,
     SLOVES__COARSE_DIRT_SLAB("sloves__coarse_dirt_slab"),
     SLOVES__ROOTED_DIRT_SLAB("sloves__rooted_dirt_slab"),
     SLOVES__MUD_SLAB("sloves__mud_slab"),
@@ -251,7 +251,7 @@ public enum CustomSlabType implements StringIdentifiable {
     //SLOVES__CARVED_PUMPKIN_SLAB("sloves__carved_pumpkin_slab"),
     SLOVES__HAY_SLAB("sloves__hay_slab"),
     SLOVES__HONEYCOMB_SLAB("sloves__honeycomb_slab"),
-    SLOVES__SCULK_SLAB("sloves__sculk_slab");
+    SLOVES__SCULK_SLAB("sloves__sculk_slab")*/;
     /* END MARKER */
 
     private final String name;

@@ -148,7 +148,7 @@ public enum CustomVerticalSlabType implements StringIdentifiable {
     SLOVES__PURPLE_CONCRETE_POWDER_VERTICAL_SLAB("sloves__purple_concrete_powder_vertical_slab"),
     SLOVES__MAGENTA_CONCRETE_POWDER_VERTICAL_SLAB("sloves__magenta_concrete_powder_vertical_slab"),
     SLOVES__PINK_CONCRETE_POWDER_VERTICAL_SLAB("sloves__pink_concrete_powder_vertical_slab"),
-    SLOVES__GRASS_VERTICAL_SLAB("sloves__grass_vertical_slab"),
+    /*SLOVES__GRASS_VERTICAL_SLAB("sloves__grass_vertical_slab"),
     SLOVES__PODZOL_VERTICAL_SLAB("sloves__podzol_vertical_slab"),
     SLOVES__MYCELIUM_VERTICAL_SLAB("sloves__mycelium_vertical_slab"),
     SLOVES__DIRT_PATH_VERTICAL_SLAB("sloves__dirt_path_vertical_slab"),
@@ -209,7 +209,7 @@ public enum CustomVerticalSlabType implements StringIdentifiable {
     //SLOVES__CARVED_PUMPKIN_VERTICAL_SLAB("sloves__carved_pumpkin_slab"),
     SLOVES__HAY_VERTICAL_SLAB("sloves__hay_vertical_slab"),
     SLOVES__HONEYCOMB_VERTICAL_SLAB("sloves__honeycomb_vertical_slab"),
-    SLOVES__SCULK_VERTICAL_SLAB("sloves__sculk_vertical_slab");
+    SLOVES__SCULK_VERTICAL_SLAB("sloves__sculk_vertical_slab")*/;
     /* END MARKER */
 
     private final String name;
