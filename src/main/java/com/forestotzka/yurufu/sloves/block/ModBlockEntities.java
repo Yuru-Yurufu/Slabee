@@ -9,7 +9,10 @@ import net.minecraft.util.Identifier;
 public class ModBlockEntities {
     public static final BlockEntityType<DoubleSlabBlockEntity> DOUBLE_SLAB_BLOCK_ENTITY =
             Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Sloves.MOD_ID, "double_slab_block"),
-                    BlockEntityType.Builder.create(DoubleSlabBlockEntity::new, ModBlocks.DOUBLE_SLAB_BLOCK).build());
+                    BlockEntityType.Builder.create(DoubleSlabBlockEntity::new, ModBlocks.DOUBLE_SLAB_BLOCK, ModBlocks.TRANSPARENT_DOUBLE_SLAB_BLOCK).build());
+    /*public static final BlockEntityType<TransparentDoubleSlabBlockEntity> TRANSPARENT_DOUBLE_SLAB_BLOCK_ENTITY =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Sloves.MOD_ID, "transparent_double_slab_block"),
+                    BlockEntityType.Builder.create(TransparentDoubleSlabBlockEntity::new, ModBlocks.TRANSPARENT_DOUBLE_SLAB_BLOCK).build());*/
     public static final BlockEntityType<DoubleVerticalSlabBlockEntity> DOUBLE_VERTICAL_SLAB_BLOCK_ENTITY =
             Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Sloves.MOD_ID, "double_vertical_slab_block"),
                     BlockEntityType.Builder.create(DoubleVerticalSlabBlockEntity::new, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK).build());

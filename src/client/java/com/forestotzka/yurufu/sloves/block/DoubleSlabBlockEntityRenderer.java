@@ -22,33 +22,20 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
     public void render(DoubleSlabBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         BlockPos pos = entity.getPos();
         BlockRenderView world = MinecraftClient.getInstance().world;
-        VertexConsumer topVertexConsumer;
-        VertexConsumer bottomVertexConsumer;
+        Random random = Random.create();
 
-        switch (entity.getTopRenderLayerType()) {
-            case 1:
-                topVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getCutout());
-                break;
-            case 2:
-                topVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-                break;
-            default:
-                topVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getSolid());
-                break;
-        }
-        switch (entity.getBottomRenderLayerType()) {
-            case 1:
-                bottomVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getCutout());
-                break;
-            case 2:
-                bottomVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-                break;
-            default:
-                bottomVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getSolid());
-                break;
-        }
+        VertexConsumer topVertexConsumer = switch (entity.getTopRenderLayerType()) {
+            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+        };
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getTopSlabState(), pos, world, matrices, topVertexConsumer, true, random);
 
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getTopSlabState(), pos, world, matrices, topVertexConsumer, true, Random.create());
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getBottomSlabState(), pos, world, matrices, bottomVertexConsumer, true, Random.create());
+        VertexConsumer bottomVertexConsumer= switch (entity.getBottomRenderLayerType()) {
+            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+        };
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getBottomSlabState(), pos, world, matrices, bottomVertexConsumer, true, random);
     }
 }

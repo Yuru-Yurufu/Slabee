@@ -1,5 +1,5 @@
 {
-    "parent": "minecraft:block/slab",
+    "parent": "sloves:block/leaf_slab",
     "textures": {
         "bottom": "minecraft:block/azalea_leaves",
         "side": "minecraft:block/azalea_leaves",

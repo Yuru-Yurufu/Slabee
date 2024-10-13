@@ -2657,6 +2657,10 @@ public class ModBlocks {
 
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
             new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+    public static final Block TRANSPARENT_DOUBLE_SLAB_BLOCK = registerBlock("transparent_double_slab_block",
+            new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().nonOpaque().sounds(BlockSoundGroup.STONE)));
+    /*public static final Block TRANSPARENT_DOUBLE_SLAB_BLOCK = registerBlock("transparent_double_slab_block",
+            new TransparentDoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().nonOpaque().sounds(BlockSoundGroup.STONE)));*/
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
             new DoubleVerticalSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
 

@@ -10,6 +10,7 @@ public class ModItemTags {
     public static final TagKey<Item> SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("sloves", "slabs"));
     //public static final TagKey<Item> CUTOUT_SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("sloves", "cutout_slabs"));
     //public static final TagKey<Item> CUTOUT_MIPPED_SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("sloves", "cutout_mipped_slabs"));
+    public static final TagKey<Item> TRANSPARENT_SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("sloves", "transparent_slabs"));
 
     private ModItemTags() {
     }

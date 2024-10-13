@@ -6,6 +6,8 @@ import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlockEntity;
 import com.forestotzka.yurufu.sloves.block.ModBlocks;
 import com.forestotzka.yurufu.sloves.block.VerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.enums.VerticalSlabAxis;
+import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
+import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import com.forestotzka.yurufu.sloves.state.property.ModProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -47,7 +49,12 @@ public abstract class BlockMixin {
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
-            world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
+
+            if (state.isIn(ModBlockTags.TRANSPARENT_SLABS) || itemStack.isIn(ModItemTags.TRANSPARENT_SLABS)) {
+                world.setBlockState(pos, ModBlocks.TRANSPARENT_DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
+            } else {
+                world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
+            }
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (bf) {
                 blockEntity.setTopSlabId(Identifier.of(second_slab));
@@ -85,8 +92,7 @@ public abstract class BlockMixin {
 
     @Inject(method = "getPickStack", at= @At("HEAD"), cancellable = true)
     public void getPickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
-        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-            System.out.println("double slab!");
+        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) || state.isOf(ModBlocks.TRANSPARENT_DOUBLE_SLAB_BLOCK)) {
             Identifier slabId;
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (ClickPositionTracker.clickUpperHalf) {

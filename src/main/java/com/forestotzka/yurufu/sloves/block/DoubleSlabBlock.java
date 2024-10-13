@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
