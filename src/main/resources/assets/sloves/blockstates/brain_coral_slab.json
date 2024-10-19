@@ -4,7 +4,7 @@
             "model": "sloves:block/brain_coral_slab"
         },
         "type=double": {
-            "model": "minecraft:block/brain_coral"
+            "model": "minecraft:block/brain_coral_block"
         },
         "type=top": {
             "model": "sloves:block/brain_coral_slab_top"

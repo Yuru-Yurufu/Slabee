@@ -2,7 +2,7 @@
     "multipart": [
         {
             "when": { "facing": "south" },
-            "apply": { "model": "sloves:block/smooth_stone_vertical_slab_positive", "uvlock": false, "y": 90 }
+            "apply": { "model": "sloves:block/smooth_stone_vertical_slab_negative", "uvlock": false, "y": 270 }
         },
         {
             "when": { "facing": "east" },
@@ -10,7 +10,7 @@
         },
         {
             "when": { "facing": "north" },
-            "apply": { "model": "sloves:block/smooth_stone_vertical_slab_negative", "uvlock": false, "y": 90 }
+            "apply": { "model": "sloves:block/smooth_stone_vertical_slab_positive", "uvlock": false, "y": 270 }
         },
         {
             "when": { "facing": "west" },

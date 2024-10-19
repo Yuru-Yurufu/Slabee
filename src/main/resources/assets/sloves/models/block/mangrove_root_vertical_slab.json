@@ -1,0 +1,11 @@
+{
+    "parent": "sloves:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/mangrove_roots_top",
+        "up": "minecraft:block/mangrove_roots_top",
+        "north": "minecraft:block/mangrove_roots_side",
+        "south": "minecraft:block/mangrove_roots_side",
+        "east": "minecraft:block/mangrove_roots_side",
+        "west": "minecraft:block/mangrove_roots_side"
+    }
+}

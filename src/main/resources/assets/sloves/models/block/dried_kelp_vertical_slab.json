@@ -1,0 +1,26 @@
+{
+    "parent": "minecraft:block/block",
+    "textures": {
+        "particle": "minecraft:block/dried_kelp_side",
+        "down": "minecraft:block/dried_kelp_bottom",
+        "up": "minecraft:block/dried_kelp_top",
+        "north": "minecraft:block/dried_kelp_side",
+        "south": "minecraft:block/dried_kelp_side",
+        "east": "minecraft:block/dried_kelp_side",
+        "west": "minecraft:block/dried_kelp_side"
+    },
+    "elements": [
+        {
+            "from": [ 0, 0, 0 ],
+            "to": [ 8, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 8, 16 ], "texture": "#down", "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 8, 16 ], "texture": "#up", "cullface": "up" },
+                "north": { "uv": [ 8, 0, 16, 16 ], "texture": "#north", "cullface": "north" },
+                "south": { "uv": [ 8, 0, 0, 16 ], "texture": "#south", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#west", "cullface": "west" },
+                "east":  { "uv": [ 16, 0, 0, 16 ], "texture": "#east", "cullface": "east" }
+            }
+        }
+    ]
+}

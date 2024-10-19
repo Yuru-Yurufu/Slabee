@@ -53,7 +53,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             NbtCompound topSlabData = nbt.getCompound("top_slab");
             this.topSlabId = Identifier.of(topSlabData.getString("id"));
             this.topSlabFacing = Direction.byName(topSlabData.getString("facing"));
-            System.out.println(topSlabId);
         } else {
             this.topSlabId = defaultTopSlabId;
             this.topSlabFacing = Direction.SOUTH;

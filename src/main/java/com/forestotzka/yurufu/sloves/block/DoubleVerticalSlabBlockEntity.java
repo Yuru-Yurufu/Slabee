@@ -126,6 +126,26 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         return cachedNegativeSlabState;
     }
 
+    public Integer getPositiveRenderLayerType() {
+        if (Registries.BLOCK.get(this.positiveSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+            return 1;
+        } else if (Registries.BLOCK.get(this.positiveSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public Integer getNegativeRenderLayerType() {
+        if (Registries.BLOCK.get(this.negativeSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+            return 1;
+        } else if (Registries.BLOCK.get(this.negativeSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);

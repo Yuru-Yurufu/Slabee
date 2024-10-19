@@ -1,8 +1,8 @@
 {
     "parent": "minecraft:block/slab",
     "textures": {
-        "bottom": "minecraft:block/horn_coral",
-        "side": "minecraft:block/horn_coral",
-        "top": "minecraft:block/horn_coral"
+        "bottom": "minecraft:block/horn_coral_block",
+        "side": "minecraft:block/horn_coral_block",
+        "top": "minecraft:block/horn_coral_block"
     }
 }

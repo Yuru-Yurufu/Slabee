@@ -1,8 +1,8 @@
 {
     "parent": "minecraft:block/slab_top",
     "textures": {
-        "bottom": "minecraft:block/quartz_pillar",
+        "bottom": "minecraft:block/quartz_pillar_top",
         "side": "minecraft:block/quartz_pillar",
-        "top": "minecraft:block/quartz_pillar"
+        "top": "minecraft:block/quartz_pillar_top"
     }
 }

@@ -45,7 +45,6 @@ public abstract class BlockMixin {
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
         if (state.getBlock() instanceof SlabBlock && state.get(Properties.SLAB_TYPE) == SlabType.DOUBLE) {
             SlovesAccessor slovesAccessor = (SlovesAccessor) this;
-            boolean bf = slovesAccessor.getBottomFirst(state);
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
@@ -55,14 +54,16 @@ public abstract class BlockMixin {
             } else {
                 world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
             }
+
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-            if (bf) {
+            if (slovesAccessor.getBottomFirst(state)) {
                 blockEntity.setTopSlabId(Identifier.of(second_slab));
                 blockEntity.setBottomSlabId(Identifier.of(first_slab));
             } else {
                 blockEntity.setTopSlabId(Identifier.of(first_slab));
                 blockEntity.setBottomSlabId(Identifier.of(second_slab));
             }
+
             blockEntity.markDirty();
             world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
         } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
@@ -70,12 +71,18 @@ public abstract class BlockMixin {
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
+
             if (state.get(HorizontalFacingBlock.FACING) == Direction.EAST || state.get(HorizontalFacingBlock.FACING) == Direction.WEST) {
                 axis = "x";
             } else {
                 axis = "z";
             }
-            world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
+
+            if (state.isIn(ModBlockTags.TRANSPARENT_SLABS) || itemStack.isIn(ModItemTags.TRANSPARENT_SLABS)) {
+                world.setBlockState(pos, ModBlocks.TRANSPARENT_DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
+            } else {
+                world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
+            }
 
             DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if (state.get(HorizontalFacingBlock.FACING) == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
@@ -85,6 +92,7 @@ public abstract class BlockMixin {
                 blockEntity.setPositiveSlabId(Identifier.of(second_slab));
                 blockEntity.setNegativeSlabId(Identifier.of(first_slab));
             }
+
             blockEntity.markDirty();
             world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
         }
@@ -102,7 +110,7 @@ public abstract class BlockMixin {
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();
-        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
+        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) || state.isOf(ModBlocks.TRANSPARENT_DOUBLE_VERTICAL_SLAB_BLOCK)) {
             Identifier slabId;
             DoubleVerticalSlabBlockEntity blockEntity= (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if ((state.get(AXIS) == VerticalSlabAxis.X && ClickPositionTracker.clickEasternHalf) || (state.get(AXIS) == VerticalSlabAxis.Z && ClickPositionTracker.clickSouthernHalf)) {

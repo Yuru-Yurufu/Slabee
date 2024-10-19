@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.sloves.block;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -22,10 +23,22 @@ public class DoubleVerticalSlabBlockEntityRenderer implements BlockEntityRendere
     public void render(DoubleVerticalSlabBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         BlockPos pos = entity.getPos();
         BlockRenderView world = MinecraftClient.getInstance().world;
+        Random random = Random.create();
 
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+        BlockState positiveSlabState = entity.getPositiveSlabState();
+        VertexConsumer positiveVertexConsumer = switch (entity.getPositiveRenderLayerType()) {
+            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+        };
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(positiveSlabState, pos, world, matrices, positiveVertexConsumer, true, random);
 
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getPositiveSlabState(), pos, world, matrices, vertexConsumer, false, Random.create());
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getNegativeSlabState(), pos, world, matrices, vertexConsumer, false, Random.create());
+        BlockState negativeSlabState = entity.getNegativeSlabState();
+        VertexConsumer negativeVertexConsumer= switch (entity.getNegativeRenderLayerType()) {
+            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+        };
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(negativeSlabState, pos, world, matrices, negativeVertexConsumer, true, random);
     }
 }

@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "sloves:block/bone_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/bone_block"
+        },
+        "type=top": {
+            "model": "sloves:block/bone_slab_top"
+        }
+    }
+}

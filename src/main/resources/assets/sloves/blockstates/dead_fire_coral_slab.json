@@ -4,7 +4,7 @@
             "model": "sloves:block/dead_fire_coral_slab"
         },
         "type=double": {
-            "model": "minecraft:block/dead_fire_coral"
+            "model": "minecraft:block/dead_fire_coral_block"
         },
         "type=top": {
             "model": "sloves:block/dead_fire_coral_slab_top"

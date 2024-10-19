@@ -11,6 +11,7 @@
         "sloves:cherry_leaf_slab",
         "sloves:azalea_leaf_slab",
         "sloves:flowering_azalea_leaf_slab",
+        "sloves:mangrove_root_slab",
 
         "sloves:grass_vertical_slab",
         "sloves:oak_leaf_vertical_slab",
@@ -22,6 +23,7 @@
         "sloves:mangrove_leaf_vertical_slab",
         "sloves:cherry_leaf_vertical_slab",
         "sloves:azalea_leaf_vertical_slab",
-        "sloves:flowering_azalea_leaf_vertical_slab"
+        "sloves:flowering_azalea_leaf_vertical_slab",
+        "sloves:mangrove_root_vertical_slab"
     ]
 }

@@ -54,7 +54,6 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        //builder.add(IS_DOUBLE, FACING, WATERLOGGED, SECOND_VERTICAL_SLAB);
         builder.add(IS_DOUBLE, FACING, WATERLOGGED);
     }
 
@@ -80,10 +79,7 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = ctx.getWorld().getBlockState(blockPos);
-        Direction direction = ctx.getHorizontalPlayerFacing();
-        if (blockState.isOf(this)) {
-            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, direction).with(WATERLOGGED, Boolean.valueOf(false));
-        } else if (blockState.isIn(ModBlockTags.VERTICAL_SLABS)) {
+        if (blockState.isIn(ModBlockTags.VERTICAL_SLABS)) {
             Direction d;
             if (Objects.requireNonNull(blockState.get(FACING)) == Direction.SOUTH) {
                 d = Direction.SOUTH;
@@ -138,19 +134,19 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
     @Override
     public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
-        return !state.get(IS_DOUBLE) ? Waterloggable.super.tryFillWithFluid(world, pos, state, fluidState) : false;
+        return !state.get(IS_DOUBLE) && Waterloggable.super.tryFillWithFluid(world, pos, state, fluidState);
     }
 
     @Override
     public boolean canFillWithFluid(@Nullable PlayerEntity player, BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
-        return !state.get(IS_DOUBLE) ? Waterloggable.super.canFillWithFluid(player, world, pos, state, fluid) : false;
+        return !state.get(IS_DOUBLE) && Waterloggable.super.canFillWithFluid(player, world, pos, state, fluid);
     }
 
     @Override
     protected BlockState getStateForNeighborUpdate(
             BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
     ) {
-        if ((Boolean)state.get(WATERLOGGED)) {
+        if (state.get(WATERLOGGED)) {
             world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 

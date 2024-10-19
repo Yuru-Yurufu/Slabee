@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/warped_nylium",
+        "east": "minecraft:block/warped_nylium",
+        "west": "minecraft:block/warped_nylium"
+    }
+}

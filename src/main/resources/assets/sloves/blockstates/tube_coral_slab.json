@@ -4,7 +4,7 @@
             "model": "sloves:block/tube_coral_slab"
         },
         "type=double": {
-            "model": "minecraft:block/tube_coral"
+            "model": "minecraft:block/tube_coral_block"
         },
         "type=top": {
             "model": "sloves:block/tube_coral_slab_top"

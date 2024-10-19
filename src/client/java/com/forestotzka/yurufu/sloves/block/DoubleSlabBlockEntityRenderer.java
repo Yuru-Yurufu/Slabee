@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.sloves.block;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -24,18 +25,20 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         BlockRenderView world = MinecraftClient.getInstance().world;
         Random random = Random.create();
 
+        BlockState topSlabState = entity.getTopSlabState();
         VertexConsumer topVertexConsumer = switch (entity.getTopRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getTopSlabState(), pos, world, matrices, topVertexConsumer, true, random);
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, true, random);
 
+        BlockState bottomSlabState = entity.getBottomSlabState();
         VertexConsumer bottomVertexConsumer= switch (entity.getBottomRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(entity.getBottomSlabState(), pos, world, matrices, bottomVertexConsumer, true, random);
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, true, random);
     }
 }

@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/leaf_vertical_slab",
+    "textures": {
+        "side": "minecraft:block/jungle_leaves",
+        "east": "minecraft:block/jungle_leaves",
+        "west": "minecraft:block/jungle_leaves"
+    }
+}

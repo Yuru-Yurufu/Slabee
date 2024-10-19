@@ -14,8 +14,4 @@ public class ModBlockTags {
 
     private ModBlockTags() {
     }
-
-    private static TagKey<Block> of(String namespace, String id) {
-        return TagKey.of(RegistryKeys.BLOCK, Identifier.of(namespace,id));
-    }
 }

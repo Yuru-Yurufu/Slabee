@@ -14,8 +14,4 @@ public class ModItemTags {
 
     private ModItemTags() {
     }
-
-    private static TagKey<Item> of(String namespace, String id) {
-        return TagKey.of(RegistryKeys.ITEM, Identifier.of(namespace,id));
-    }
 }

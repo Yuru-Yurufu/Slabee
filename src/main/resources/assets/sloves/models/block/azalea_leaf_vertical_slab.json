@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/leaf_vertical_slab",
+    "textures": {
+        "side": "minecraft:block/azalea_leaves",
+        "east": "minecraft:block/azalea_leaves",
+        "west": "minecraft:block/azalea_leaves"
+    }
+}

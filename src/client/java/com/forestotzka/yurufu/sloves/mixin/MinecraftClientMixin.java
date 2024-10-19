@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 public class MinecraftClientMixin {
 
-    @Inject(method = "doItemPick", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "doItemPick", at = @At("HEAD"))
     private void onPickBlock(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         HitResult hitResult = client.crosshairTarget;
@@ -27,30 +27,9 @@ public class MinecraftClientMixin {
             double clickX = blockHitResult.getPos().x - blockPos.getX();
             double clickY = blockHitResult.getPos().y - blockPos.getY();
             double clickZ = blockHitResult.getPos().z - blockPos.getZ();
-            if (clickX > 0.5) {
-                System.out.println("東半分がクリックされました");
-                ClickPositionTracker.clickEasternHalf = true;
-
-            } else {
-                System.out.println("西半分がクリックされました");
-                ClickPositionTracker.clickEasternHalf = false;
-            }
-            if (clickY > 0.5) {
-                System.out.println("上半分がクリックされました");
-                ClickPositionTracker.clickUpperHalf = true;
-
-            } else {
-                System.out.println("下半分がクリックされました");
-                ClickPositionTracker.clickUpperHalf = false;
-            }
-            if (clickZ > 0.5) {
-                System.out.println("南半分がクリックされました");
-                ClickPositionTracker.clickSouthernHalf = true;
-
-            } else {
-                System.out.println("北半分がクリックされました");
-                ClickPositionTracker.clickSouthernHalf = false;
-            }
+            ClickPositionTracker.clickEasternHalf = clickX > 0.5;
+            ClickPositionTracker.clickUpperHalf = clickY > 0.5;
+            ClickPositionTracker.clickSouthernHalf = clickZ > 0.5;
         }
     }
 }
