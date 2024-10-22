@@ -44,7 +44,7 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
     public VerticalSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.valueOf(false)).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)));
+        this.setDefaultState(this.getDefaultState().with(IS_DOUBLE, Boolean.FALSE).with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -90,15 +90,14 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
             } else {
                 d = Direction.WEST;
             }
-            return blockState.with(IS_DOUBLE, Boolean.valueOf(true)).with(FACING, d).with(WATERLOGGED, Boolean.valueOf(false));
+            return blockState.with(IS_DOUBLE, Boolean.TRUE).with(FACING, d).with(WATERLOGGED, Boolean.FALSE);
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
 
-            BlockState blockState2 = this.getDefaultState()
-                    .with(IS_DOUBLE, Boolean.valueOf(false))
+            return this.getDefaultState()
+                    .with(IS_DOUBLE, Boolean.FALSE)
                     .with(FACING, ctx.getHorizontalPlayerFacing())
-                    .with(WATERLOGGED, Boolean.valueOf(fluidState.getFluid() == Fluids.WATER));
-            return blockState2;
+                    .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
         }
     }
 

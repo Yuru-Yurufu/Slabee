@@ -3,6 +3,7 @@ package com.forestotzka.yurufu.sloves.block;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LightBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.nbt.NbtCompound;
@@ -16,6 +17,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+import java.util.Objects;
+import java.util.function.ToIntFunction;
+
+import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.LIGHT_LEVEL;
+
 public class DoubleSlabBlockEntity extends BlockEntity {
     private final Identifier defaultTopSlabId = Identifier.of("sloves:purple_concrete_slab");
     private final Identifier defaultBottomSlabId = Identifier.of("sloves:black_concrete_slab");
@@ -25,9 +31,13 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private Direction bottomSlabFacing = Direction.SOUTH;
     private BlockState cachedTopSlabState;
     private BlockState cachedBottomSlabState;
+    public static ToIntFunction<BlockState> LUMINANCE = (state) -> {
+        return (Integer)state.get(LIGHT_LEVEL);
+    };
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
+        System.out.println("init");
     }
 
     @Override
@@ -43,6 +53,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         bottomSlab.putString("id", this.bottomSlabId.toString());
         bottomSlab.putString("facing", this.bottomSlabFacing.getName());
         nbt.put("bottom_slab", bottomSlab);
+
+        System.out.println("WRITE");
     }
 
     @Override
@@ -71,9 +83,13 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         this.cachedBottomSlabState = null;
 
         if (this.world != null && !this.world.isClient()) {
+            updateLuminance();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
+            System.out.println("READ in server. LUMINANCE is " + LUMINANCE);
         }
+
+        System.out.println("READ. LUMINANCE is " + LUMINANCE);
     }
 
     public Identifier getTopSlabId() {
@@ -156,5 +172,26 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         return this.createComponentlessNbt(registryLookup);
+    }
+
+    public void updateLuminance() {
+        int topLuminance;
+        int bottomLuminance;
+        if (this.topSlabId.toString().equals("sloves:magma_block_slab")) {
+            topLuminance = 3;
+        } else if (this.topSlabId.toString().equals("sloves:crying_obsidian_slab")) {
+            topLuminance = 1;
+        } else {
+            topLuminance = 0;
+        }
+        if (this.bottomSlabId.toString().equals("sloves:magma_block_slab")) {
+            bottomLuminance = 3;
+        } else if (this.bottomSlabId.toString().equals("sloves:crying_obsidian_slab")) {
+            bottomLuminance = 1;
+        } else {
+            bottomLuminance = 0;
+        }
+
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, Math.max(topLuminance, bottomLuminance)), Block.NOTIFY_LISTENERS);
     }
 }

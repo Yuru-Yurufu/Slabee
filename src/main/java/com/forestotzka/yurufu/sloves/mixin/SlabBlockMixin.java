@@ -20,6 +20,7 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,7 +38,7 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void onInit(AbstractBlock.Settings settings, CallbackInfo info) {
-        this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(false)).with(BOTTOM_FIRST, true));
+        this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.FALSE).with(BOTTOM_FIRST, true));
     }
 
     /**
@@ -54,14 +55,14 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
      * @reason slab blockを重ねられるようにするため。
      */
     @Overwrite
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
+    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos blockPos = ctx.getBlockPos();
         BlockState blockState = ctx.getWorld().getBlockState(blockPos);
         if (blockState.isIn(BlockTags.SLABS)) {
-            return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.valueOf(false)).with(BOTTOM_FIRST, blockState.get(BOTTOM_FIRST));
+            return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.FALSE).with(BOTTOM_FIRST, blockState.get(BOTTOM_FIRST));
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
-            BlockState blockState2 = this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.valueOf(fluidState.getFluid() == Fluids.WATER)).with(BOTTOM_FIRST, true);
+            BlockState blockState2 = this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER).with(BOTTOM_FIRST, true);
             Direction direction = ctx.getSide();
             return direction != Direction.DOWN && (direction == Direction.UP || !(ctx.getHitPos().y - (double)blockPos.getY() > 0.5))
                     ? blockState2

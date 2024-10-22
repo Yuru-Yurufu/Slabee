@@ -31,6 +31,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.forestotzka.yurufu.sloves.ClickPositionTracker;
 
+import java.util.Objects;
+
 import static com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock.AXIS;
 
 @Mixin(Block.class)
@@ -57,13 +59,14 @@ public abstract class BlockMixin {
 
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (slovesAccessor.getBottomFirst(state)) {
-                blockEntity.setTopSlabId(Identifier.of(second_slab));
-                blockEntity.setBottomSlabId(Identifier.of(first_slab));
+                Objects.requireNonNull(blockEntity).setTopSlabId(Identifier.of(second_slab));
+                Objects.requireNonNull(blockEntity).setBottomSlabId(Identifier.of(first_slab));
             } else {
-                blockEntity.setTopSlabId(Identifier.of(first_slab));
-                blockEntity.setBottomSlabId(Identifier.of(second_slab));
+                Objects.requireNonNull(blockEntity).setTopSlabId(Identifier.of(first_slab));
+                Objects.requireNonNull(blockEntity).setBottomSlabId(Identifier.of(second_slab));
             }
 
+            blockEntity.updateLuminance();
             blockEntity.markDirty();
             world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
         } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
@@ -86,11 +89,11 @@ public abstract class BlockMixin {
 
             DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if (state.get(HorizontalFacingBlock.FACING) == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
-                blockEntity.setPositiveSlabId(Identifier.of(first_slab));
-                blockEntity.setNegativeSlabId(Identifier.of(second_slab));
+                Objects.requireNonNull(blockEntity).setPositiveSlabId(Identifier.of(first_slab));
+                Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(second_slab));
             } else {
-                blockEntity.setPositiveSlabId(Identifier.of(second_slab));
-                blockEntity.setNegativeSlabId(Identifier.of(first_slab));
+                Objects.requireNonNull(blockEntity).setPositiveSlabId(Identifier.of(second_slab));
+                Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(first_slab));
             }
 
             blockEntity.markDirty();
@@ -104,9 +107,9 @@ public abstract class BlockMixin {
             Identifier slabId;
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (ClickPositionTracker.clickUpperHalf) {
-                slabId = blockEntity.getTopSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getTopSlabId();
             } else {
-                slabId = blockEntity.getBottomSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getBottomSlabId();
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();
@@ -114,9 +117,9 @@ public abstract class BlockMixin {
             Identifier slabId;
             DoubleVerticalSlabBlockEntity blockEntity= (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if ((state.get(AXIS) == VerticalSlabAxis.X && ClickPositionTracker.clickEasternHalf) || (state.get(AXIS) == VerticalSlabAxis.Z && ClickPositionTracker.clickSouthernHalf)) {
-                slabId = blockEntity.getPositiveSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getPositiveSlabId();
             } else {
-                slabId = blockEntity.getNegativeSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getNegativeSlabId();
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();

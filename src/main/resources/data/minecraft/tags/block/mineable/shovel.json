@@ -1,0 +1,36 @@
+{
+    "values": [
+        "sloves:clay_slab",
+        "sloves:dirt_slab",
+        "sloves:coarse_dirt_slab",
+        "sloves:podzol_slab",
+        "sloves:grass_slab",
+        "sloves:gravel_slab",
+        "sloves:mycelium_slab",
+        "sloves:sand_slab",
+        "sloves:red_sand_slab",
+        "sloves:soul_sand_slab",
+        "sloves:dirt_path_slab",
+        "sloves:soul_soil_slab",
+        "sloves:rooted_dirt_slab",
+        "sloves:muddy_mangrove_root_slab",
+        "sloves:mud_slab",
+
+        "sloves:white_concrete_powder_slab",
+        "sloves:light_gray_concrete_powder_slab",
+        "sloves:gray_concrete_powder_slab",
+        "sloves:black_concrete_powder_slab",
+        "sloves:brown_concrete_powder_slab",
+        "sloves:red_concrete_powder_slab",
+        "sloves:orange_concrete_powder_slab",
+        "sloves:yellow_concrete_powder_slab",
+        "sloves:lime_concrete_powder_slab",
+        "sloves:green_concrete_powder_slab",
+        "sloves:cyan_concrete_powder_slab",
+        "sloves:light_blue_concrete_powder_slab",
+        "sloves:blue_concrete_powder_slab",
+        "sloves:purple_concrete_powder_slab",
+        "sloves:magenta_concrete_powder_slab",
+        "sloves:pink_concrete_powder_slab"
+    ]
+}

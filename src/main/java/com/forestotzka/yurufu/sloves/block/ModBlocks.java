@@ -384,7 +384,7 @@ public class ModBlocks {
     public static final Block REINFORCED_DEEPSLATE_SLAB = registerBlock("reinforced_deepslate_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.REINFORCED_DEEPSLATE.getDefaultMapColor())
-                    .strength(5.0F, 1200.0F)
+                    .strength(55.0F, 1200.0F)
                     .requiresTool()
                     .sounds(BlockSoundGroup.DEEPSLATE)));
 
@@ -1111,7 +1111,6 @@ public class ModBlocks {
                     .luminance((state) -> 3)
                     .strength(0.5F)
                     .sounds(BlockSoundGroup.STONE)
-                    .allowsSpawning((state, world, pos, entityType) -> entityType.isFireImmune())
                     .postProcess(Blocks::always)
                     .emissiveLighting(Blocks::always)));
 
@@ -1958,7 +1957,7 @@ public class ModBlocks {
     public static final Block REINFORCED_DEEPSLATE_VERTICAL_SLAB = registerBlock("reinforced_deepslate_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.REINFORCED_DEEPSLATE.getDefaultMapColor())
-                    .strength(5.0F, 1200.0F)
+                    .strength(55.0F, 1200.0F)
                     .requiresTool()
                     .sounds(BlockSoundGroup.DEEPSLATE)));
 
@@ -3179,13 +3178,13 @@ public class ModBlocks {
 
 
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
-            new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+            new DoubleSlabBlock(AbstractBlock.Settings.create()));
     public static final Block TRANSPARENT_DOUBLE_SLAB_BLOCK = registerBlock("transparent_double_slab_block",
-            new DoubleSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().nonOpaque().sounds(BlockSoundGroup.STONE)));
+            new DoubleSlabBlock(AbstractBlock.Settings.create().nonOpaque().luminance(DoubleSlabBlockEntity.LUMINANCE)));
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
-            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.STONE)));
+            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()));
     public static final Block TRANSPARENT_DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("transparent_double_vertical_slab_block",
-            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create().strength(2.0F, 6.0F).requiresTool().nonOpaque().sounds(BlockSoundGroup.STONE)));
+            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create().nonOpaque()));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
