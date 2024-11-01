@@ -6,7 +6,8 @@
     "client": [
         "ClientPlayerInteractionManagerAccessor",
         "ClientPlayerInteractionManagerMixin",
-        "MinecraftClientMixin"
+        "MinecraftClientMixin",
+        "ParticleManagerMixin"
     ],
     "injectors": {
         "defaultRequire": 1

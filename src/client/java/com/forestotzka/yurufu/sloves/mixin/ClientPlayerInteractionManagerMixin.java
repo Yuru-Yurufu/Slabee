@@ -1,25 +1,35 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
+import com.forestotzka.yurufu.sloves.ClickPositionTracker;
 import com.forestotzka.yurufu.sloves.block.DoubleSlabBlock;
 import com.forestotzka.yurufu.sloves.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlockEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.network.SequencedPacketCreator;
+import net.minecraft.client.particle.BlockDustParticle;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -37,6 +47,8 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
     @Shadow protected abstract boolean isCurrentlyBreaking(BlockPos pos);
 
     @Shadow private boolean breakingBlock;
+
+    @Shadow @Final private MinecraftClient client;
 
     @Inject(method = "updateBlockBreakingProgress", at = @At(
             value = "INVOKE",
@@ -56,16 +68,12 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
                 topSlab = Objects.requireNonNull(entity).getTopSlabState();
                 bottomSlab = Objects.requireNonNull(entity).getBottomSlabState();
-
             } else {
                 DoubleVerticalSlabBlockEntity entity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
                 topSlab = Objects.requireNonNull(entity).getPositiveSlabState();
                 bottomSlab = Objects.requireNonNull(entity).getNegativeSlabState();
-
             }
-            //if (entity == null) return;
 
-            //ClientPlayerInteractionManagerMixin accessor = (ClientPlayerInteractionManagerMixin) (Object) this;
             float blockBreakingSoundCooldown = this.getBlockBreakingSoundCooldown();
             int blockBreakingCooldown = this.getBlockBreakingCooldown();
             float currentBreakingProgress = this.getCurrentBreakingProgress();
@@ -76,32 +84,15 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 if (blockBreakingSoundCooldown % 4.0F == 0.0F) {
                     SoundManager soundManager = client.getSoundManager();
 
-                    BlockSoundGroup topSoundGroup = topSlab.getSoundGroup();
-                    BlockSoundGroup bottomSoundGroup = bottomSlab.getSoundGroup();
-
-                    soundManager.play(new PositionedSoundInstance(
-                            topSoundGroup.getHitSound(),
-                            SoundCategory.BLOCKS,
-                            (topSoundGroup.getVolume() + 1.0F) / 8.0F,
-                            topSoundGroup.getPitch() * 0.5F,
-                            world.random,
-                            pos
-                    ));
-
-                    soundManager.play(new PositionedSoundInstance(
-                            bottomSoundGroup.getHitSound(),
-                            SoundCategory.BLOCKS,
-                            (bottomSoundGroup.getVolume() + 1.0F) / 8.0F,
-                            bottomSoundGroup.getPitch() * 0.5F,
-                            world.random,
-                            pos
-                    ));
+                    playSound(soundManager, topSlab.getSoundGroup(), world, pos);
+                    if (topSlab.getBlock() != bottomSlab.getBlock()) {
+                        playSound(soundManager, bottomSlab.getSoundGroup(), world, pos);
+                    }
                 }
 
                 blockBreakingSoundCooldown++;
                 client.getTutorialManager().onBlockBreaking(client.world, pos, blockState, MathHelper.clamp(currentBreakingProgress, 0.0F, 1.0F));
                 if (currentBreakingProgress >= 1.0F) {
-                    //setBreakingBlock(false);
                     this.breakingBlock = false;
                     this.sendSequencedPacket(client.world, sequence -> {
                         this.breakBlock(pos);
@@ -122,5 +113,17 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 cir.cancel();
             }
         }
+    }
+
+    @Unique
+    private void playSound(SoundManager soundManager, BlockSoundGroup soundGroup, World world, BlockPos pos) {
+        soundManager.play(new PositionedSoundInstance(
+                soundGroup.getHitSound(),
+                SoundCategory.BLOCKS,
+                (soundGroup.getVolume() + 1.0F) / 8.0F,
+                soundGroup.getPitch() * 0.5F,
+                world.random,
+                pos
+        ));
     }
 }

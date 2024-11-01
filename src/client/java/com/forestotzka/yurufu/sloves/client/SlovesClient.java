@@ -48,7 +48,7 @@ public class SlovesClient implements ClientModInitializer {
     public void onInitializeClient() {
         LEAF_SLABS.forEach(block -> {
             ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
-                if (tintIndex == 1 && world != null && pos != null) {
+                if (tintIndex >= 0 && tintIndex <= 1 && world != null && pos != null) {
                     if (Set.of(
                             ModBlocks.OAK_LEAF_SLAB, ModBlocks.JUNGLE_LEAF_SLAB, ModBlocks.ACACIA_LEAF_SLAB, ModBlocks.DARK_OAK_LEAF_SLAB, ModBlocks.MANGROVE_LEAF_SLAB,
                             ModBlocks.OAK_LEAF_VERTICAL_SLAB, ModBlocks.JUNGLE_LEAF_VERTICAL_SLAB, ModBlocks.ACACIA_LEAF_VERTICAL_SLAB, ModBlocks.DARK_OAK_LEAF_VERTICAL_SLAB, ModBlocks.MANGROVE_LEAF_VERTICAL_SLAB
@@ -67,7 +67,7 @@ public class SlovesClient implements ClientModInitializer {
             }), block);
 
             ColorProviderRegistry.ITEM.register(((state, tintIndex) -> {
-                if (tintIndex == 1) {
+                if (tintIndex >= 0 && tintIndex <= 1) {
                     if (Set.of(
                             ModBlocks.OAK_LEAF_SLAB.asItem(), ModBlocks.JUNGLE_LEAF_SLAB.asItem(), ModBlocks.ACACIA_LEAF_SLAB.asItem(), ModBlocks.DARK_OAK_LEAF_SLAB.asItem(),
                             ModBlocks.OAK_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.JUNGLE_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.ACACIA_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.DARK_OAK_LEAF_VERTICAL_SLAB.asItem()

@@ -46,33 +46,8 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
         if (!(blockEntity instanceof DoubleVerticalSlabBlockEntity entity)) {
             return 0.0F;
         }
-        BlockState positiveSlab = entity.getPositiveSlabState();
-        BlockState negativeSlab = entity.getNegativeSlabState();
-        float hardness = getHardness(positiveSlab, negativeSlab, view, pos);
-        return hardness == -1.0F ? 0.0F : getBlockBreakingSpeed(positiveSlab, negativeSlab, player) / hardness / getHarvest(positiveSlab, negativeSlab, player);
-    }
 
-    private float getHardness(BlockState positiveSlab, BlockState negativeSlab, BlockView world, BlockPos pos) {
-        float positiveHardness = positiveSlab.getHardness(world, pos);
-        float negativeHardness = negativeSlab.getHardness(world, pos);
-        if (positiveHardness == -1.0F || negativeHardness == -1.0F) {
-            return -1.0F;
-        }
-        return (positiveHardness + negativeHardness) / 2.0F;
-    }
-    private float getBlockBreakingSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
-        return (player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F;
-    }
-    private float getHarvest(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
-        float harvest = 30;
-        boolean positiveCanHarvest = player.canHarvest(positiveSlab);
-        boolean negativeCanHarvest = player.canHarvest(negativeSlab);
-        if (!positiveCanHarvest && !negativeCanHarvest) {
-            harvest = 100;
-        } else if (!positiveCanHarvest || !negativeCanHarvest) {
-            harvest = 50;
-        }
-        return harvest;
+        return DoubleSlabUtils.getMiningSpeed(entity.getPositiveSlabState(), entity.getNegativeSlabState(), player, view, pos);
     }
 
     @Override
@@ -92,5 +67,10 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
         view.emitGameEvent(player, GameEvent.BLOCK_DESTROY, pos);
 
         return state;
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 }

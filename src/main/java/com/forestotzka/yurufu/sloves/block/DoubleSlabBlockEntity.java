@@ -53,8 +53,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         bottomSlab.putString("id", this.bottomSlabId.toString());
         bottomSlab.putString("facing", this.bottomSlabFacing.getName());
         nbt.put("bottom_slab", bottomSlab);
-
-        System.out.println("WRITE");
     }
 
     @Override
@@ -86,10 +84,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             updateLuminance();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
-            System.out.println("READ in server. LUMINANCE is " + LUMINANCE);
+            //System.out.println("READ in server. LUMINANCE is " + LUMINANCE);
         }
 
-        System.out.println("READ. LUMINANCE is " + LUMINANCE);
+        //System.out.println("READ. LUMINANCE is " + LUMINANCE);
     }
 
     public Identifier getTopSlabId() {

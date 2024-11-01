@@ -17,6 +17,26 @@
         "sloves:azalea_leaf_slab",
         "sloves:flowering_azalea_leaf_slab",
         "sloves:moss_slab",
-        "sloves:sculk_slab"
+        "sloves:sculk_slab",
+
+
+        "sloves:nether_wart_vertical_slab",
+        "sloves:warped_wart_vertical_slab",
+        "sloves:hay_vertical_slab",
+        "sloves:dried_kelp_vertical_slab",
+        "sloves:sponge_vertical_slab",
+        "sloves:wet_sponge_vertical_slab",
+        "sloves:oak_leaf_vertical_slab",
+        "sloves:spruce_leaf_vertical_slab",
+        "sloves:birch_leaf_vertical_slab",
+        "sloves:jungle_leaf_vertical_slab",
+        "sloves:acacia_leaf_vertical_slab",
+        "sloves:dark_oak_leaf_vertical_slab",
+        "sloves:mangrove_leaf_vertical_slab",
+        "sloves:cherry_leaf_vertical_slab",
+        "sloves:azalea_leaf_vertical_slab",
+        "sloves:flowering_azalea_leaf_vertical_slab",
+        "sloves:moss_vertical_slab",
+        "sloves:sculk_vertical_slab"
     ]
 }
