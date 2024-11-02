@@ -4,7 +4,9 @@
     "package": "com.forestotzka.yurufu.sloves.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "BlockItemMixin",
         "BlockMixin",
+        "EntityMixin",
         "SlabBlockMixin"
     ],
     "injectors": {
