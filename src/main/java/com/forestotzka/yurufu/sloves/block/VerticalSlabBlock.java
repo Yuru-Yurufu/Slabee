@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.FluidTags;
@@ -94,9 +95,23 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
         } else {
             FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
 
+            Direction direction = ctx.getHorizontalPlayerFacing();
+            Direction[] directions = ctx.getPlacementDirections();
+            boolean blEast = ctx.getHitPos().x - (double)ctx.getBlockPos().getX() > 0.5;
+            boolean blSouth = ctx.getHitPos().z - (double)ctx.getBlockPos().getZ() > 0.5;
+
+            for (Direction value : directions) {
+                if (blockState.canPlaceAt(ctx.getWorld(), blockPos)) {
+                    if ((direction == Direction.EAST && !blEast) || (direction == Direction.WEST && blEast) || (direction == Direction.SOUTH && !blSouth) || (direction == Direction.NORTH && blSouth)) {
+                        direction = direction.getOpposite();
+                    }
+                    break;
+                }
+            }
+
             return this.getDefaultState()
                     .with(IS_DOUBLE, Boolean.FALSE)
-                    .with(FACING, ctx.getHorizontalPlayerFacing())
+                    .with(FACING, direction)
                     .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
         }
     }
