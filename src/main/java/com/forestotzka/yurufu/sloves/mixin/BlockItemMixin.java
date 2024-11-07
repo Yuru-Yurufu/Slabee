@@ -1,6 +1,8 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
+import com.forestotzka.yurufu.sloves.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.sloves.block.VerticalSlabBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,7 +38,7 @@ public abstract class BlockItemMixin {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void injectCustomSound(ItemPlacementContext context, CallbackInfoReturnable<ActionResult> cir, ItemPlacementContext itemPlacementContext, BlockState blockState, BlockPos blockPos, World world, PlayerEntity playerEntity, ItemStack itemStack, BlockState blockState2, BlockSoundGroup blockSoundGroup) {
-        if (blockState2.getBlock() instanceof SlabBlock || blockState2.getBlock() instanceof VerticalSlabBlock) {
+        if (DoubleSlabUtils.isDoubleBlock(blockState2.getBlock())) {
             BlockState trueBlockState = ((BlockItem) itemStack.getItem()).getBlock().getDefaultState();
             BlockSoundGroup trueBlockSoundGroup = trueBlockState.getSoundGroup();
 

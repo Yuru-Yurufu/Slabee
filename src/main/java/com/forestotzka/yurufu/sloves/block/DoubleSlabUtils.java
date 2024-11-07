@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.sloves.block;
 
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -21,12 +22,10 @@ public class DoubleSlabUtils {
         if (positiveHardness == -1.0F || negativeHardness == -1.0F) {
             return -1.0F;
         }
-        System.out.println("hardness: " + (positiveHardness + negativeHardness) / 2.0F);
         return (positiveHardness + negativeHardness) / 2.0F;
     }
 
     private static float getBlockBreakingSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
-        //System.out.println("BlockBreakingSpeed: " + ((player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F));
         return (player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F;
     }
 
@@ -39,7 +38,6 @@ public class DoubleSlabUtils {
         } else if (!positiveCanHarvest || !negativeCanHarvest) {
             harvest = 50;
         }
-        System.out.println("harvest: " + harvest);
         return harvest;
     }
 
@@ -49,5 +47,9 @@ public class DoubleSlabUtils {
             return (mainhandItem.isOf(Items.DIAMOND_PICKAXE) || mainhandItem.isOf(Items.NETHERITE_PICKAXE));
         }
         return (player.canHarvest(state)) || (mainhandItem.isOf(Items.SHEARS) && state.isIn(ModBlockTags.MINEABLE_SHEARS));
+    }
+
+    public static boolean isDoubleBlock(Block block) {
+        return block instanceof DoubleSlabBlock || block instanceof DoubleVerticalSlabBlock;
     }
 }
