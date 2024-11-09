@@ -82,10 +82,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             updateLuminance();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
-            //System.out.println("READ in server. LUMINANCE is " + LUMINANCE);
         }
-
-        //System.out.println("READ. LUMINANCE is " + LUMINANCE);
     }
 
     public Identifier getTopSlabId() {

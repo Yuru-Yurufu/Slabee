@@ -34,6 +34,9 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         MinecraftClient.getInstance().getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, true, random);
 
         BlockState bottomSlabState = entity.getBottomSlabState();
+        if (bottomSlabState.isOf(ModBlocks.DIRT_PATH_SLAB)) {
+            bottomSlabState = ModBlocks.DIRT_SLAB.getDefaultState();
+        }
         VertexConsumer bottomVertexConsumer= switch (entity.getBottomRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());

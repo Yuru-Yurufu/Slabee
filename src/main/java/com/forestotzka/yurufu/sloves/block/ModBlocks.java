@@ -1019,6 +1019,7 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
                     .strength(0.65F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block COARSE_DIRT_SLAB = registerBlock("coarse_dirt_slab",
@@ -2793,6 +2794,7 @@ public class ModBlocks {
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
                     .strength(0.65F)
+                    .nonOpaque()
                     .sounds(BlockSoundGroup.GRASS)));
 
     public static final Block COARSE_DIRT_VERTICAL_SLAB = registerBlock("coarse_dirt_vertical_slab",
