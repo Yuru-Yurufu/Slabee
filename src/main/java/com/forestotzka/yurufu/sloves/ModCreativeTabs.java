@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ModCreativeTabs {
     public static final ItemGroup SLABS = Registry.register(Registries.ITEM_GROUP, Sloves.MOD_ID + "_slabs", FabricItemGroup.builder()
-            .displayName(Text.translatable("slabs"))
+            .displayName(Text.translatable("itemGroup.sloves.slabs"))
             .icon(Blocks.OAK_SLAB.asItem()::getDefaultStack)
             .entries((displayContext, entries) -> {
                 List<Item> slabs = new ArrayList<>(Registries.ITEM.streamEntries()
@@ -88,6 +88,7 @@ public class ModCreativeTabs {
                 slabs.add(115, Items.WAXED_EXPOSED_CUT_COPPER_SLAB);
                 slabs.add(116, Items.WAXED_WEATHERED_CUT_COPPER_SLAB);
                 slabs.add(117, Items.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+                slabs.add(118, Items.PETRIFIED_OAK_SLAB);
 
                 for (Item slab : slabs) {
                     entries.add(slab);
@@ -97,7 +98,7 @@ public class ModCreativeTabs {
     );
 
     public static final ItemGroup VERTICAL_SLABS = Registry.register(Registries.ITEM_GROUP, Sloves.MOD_ID + "_vertical_slabs", FabricItemGroup.builder()
-            .displayName(Text.translatable("vertical_slabs"))
+            .displayName(Text.translatable("itemGroup.sloves.verticalSlabs"))
             .icon(ModBlocks.OAK_VERTICAL_SLAB.asItem()::getDefaultStack)
             .entries((displayContext, entries) -> Registries.ITEM.streamEntries()
                     .filter(entry -> entry.isIn(ModItemTags.VERTICAL_SLABS))

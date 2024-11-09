@@ -200,6 +200,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.HAY_SLAB);
         addDrop(ModBlocks.HONEYCOMB_SLAB);
         addDrop(ModBlocks.SCULK_SLAB);
+
         addDrop(ModBlocks.OAK_VERTICAL_SLAB);
         addDrop(ModBlocks.SPRUCE_VERTICAL_SLAB);
         addDrop(ModBlocks.BIRCH_VERTICAL_SLAB);
