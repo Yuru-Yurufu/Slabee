@@ -21,12 +21,10 @@ public class DoubleSlabUtils {
         if (positiveHardness == -1.0F || negativeHardness == -1.0F) {
             return -1.0F;
         }
-        System.out.println("hardness: " + (positiveHardness + negativeHardness) / 2.0F);
         return (positiveHardness + negativeHardness) / 2.0F;
     }
 
     private static float getBlockBreakingSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
-        //System.out.println("BlockBreakingSpeed: " + ((player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F));
         return (player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F;
     }
 
@@ -39,7 +37,6 @@ public class DoubleSlabUtils {
         } else if (!positiveCanHarvest || !negativeCanHarvest) {
             harvest = 50;
         }
-        System.out.println("harvest: " + harvest);
         return harvest;
     }
 

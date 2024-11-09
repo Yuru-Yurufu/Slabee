@@ -3,7 +3,6 @@ package com.forestotzka.yurufu.sloves.block;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.LightBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.nbt.NbtCompound;
@@ -37,7 +36,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
-        System.out.println("init");
     }
 
     @Override
