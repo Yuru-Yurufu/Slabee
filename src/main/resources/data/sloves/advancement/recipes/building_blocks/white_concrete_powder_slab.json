@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "sloves:white_concrete_powder_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_concrete_powder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:white_concrete_powder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_white_concrete_powder"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sloves:white_concrete_powder_slab"
+    ]
+  }
+}

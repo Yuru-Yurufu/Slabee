@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "sloves:yellow_concrete_powder_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_concrete_powder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:yellow_concrete_powder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_yellow_concrete_powder"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sloves:yellow_concrete_powder_slab"
+    ]
+  }
+}
