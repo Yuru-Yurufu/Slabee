@@ -1,0 +1,8 @@
+{
+    "parent": "sloves:block/vertical_slab_positive",
+    "textures": {
+        "side": "minecraft:block/stripped_mangrove_log",
+        "east": "minecraft:block/stripped_mangrove_log_top",
+        "west": "minecraft:block/stripped_mangrove_log_top"
+    }
+}

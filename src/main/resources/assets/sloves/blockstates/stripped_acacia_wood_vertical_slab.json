@@ -1,0 +1,20 @@
+{
+    "multipart": [
+        {
+            "when": { "facing": "south" },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_vertical_slab_negative", "uvlock": false, "y": 270 }
+        },
+        {
+            "when": { "facing": "east" },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_vertical_slab_positive", "uvlock": false }
+        },
+        {
+            "when": { "facing": "north" },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_vertical_slab_positive", "uvlock": false, "y": 270 }
+        },
+        {
+            "when": { "facing": "west" },
+            "apply": { "model": "sloves:block/stripped_acacia_wood_vertical_slab_negative", "uvlock": false }
+        }
+    ]
+}
