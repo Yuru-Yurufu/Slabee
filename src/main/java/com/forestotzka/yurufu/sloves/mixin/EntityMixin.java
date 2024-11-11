@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 
 @Mixin(Entity.class)
@@ -35,18 +34,6 @@ public abstract class EntityMixin {
 
     @Shadow
     public abstract double getY();
-
-    @Shadow
-    public float fallDistance;
-
-    @Shadow
-    public Optional<BlockPos> supportingBlockPos;
-
-    @Shadow
-    private Vec3d pos;
-
-    @Shadow
-    public abstract void onLanding();
 
     @Unique
     private final Random random = new Random();
@@ -109,21 +96,5 @@ public abstract class EntityMixin {
     @Unique
     private boolean isDoubleBlock(Block block) {
         return block instanceof DoubleSlabBlock || block instanceof DoubleVerticalSlabBlock;
-    }
-
-    @Unique
-    private BlockState getTopSlabState(BlockPos pos) {
-        DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-        return Objects.requireNonNull(entity).getTopSlabState();
-    }
-
-    @Unique
-    private BlockState getRandomVerticalSlabState(BlockPos pos) {
-        DoubleVerticalSlabBlockEntity entity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
-        if (random.nextBoolean()) {
-            return Objects.requireNonNull(entity).getPositiveSlabState();
-        } else {
-            return Objects.requireNonNull(entity).getNegativeSlabState();
-        }
     }
 }
