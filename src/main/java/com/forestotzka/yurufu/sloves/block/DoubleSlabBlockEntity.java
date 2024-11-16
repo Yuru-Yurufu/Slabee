@@ -26,18 +26,26 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private final Identifier defaultBottomSlabId = Identifier.of("sloves:black_concrete_slab");
     private final Block defaultTopSlabBlock = Registries.BLOCK.get(defaultTopSlabId);
     private final Block defaultBottomSlabBlock = Registries.BLOCK.get(defaultBottomSlabId);
+    private final BlockState defaultTopSlabState = Registries.BLOCK.get(defaultTopSlabId).getDefaultState();
+    private final BlockState defaultBottomSlabState = Registries.BLOCK.get(defaultBottomSlabId).getDefaultState();
     private Identifier topSlabId = defaultTopSlabId;
     private Identifier bottomSlabId = defaultBottomSlabId;
     private Direction topSlabFacing = Direction.SOUTH;
     private Direction bottomSlabFacing = Direction.SOUTH;
-    private BlockState cachedTopSlabState;
-    private BlockState cachedBottomSlabState;
+    private BlockState topSlabState = defaultTopSlabState;
+    private BlockState bottomSlabState = defaultBottomSlabState;
+    //private BlockState cachedTopSlabState;
+    //private BlockState cachedBottomSlabState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> {
         return (Integer)state.get(LIGHT_LEVEL);
     };
+/*
 
     private boolean isEmissiveLighting;
     private boolean needUpdateEmissiveLighting = true;
+    private boolean isOpaque;
+    private boolean needUpdateOpaque = true;
+*/
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
@@ -80,18 +88,19 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             this.bottomSlabFacing = Direction.SOUTH;
         }
 
-        this.cachedTopSlabState = null;
-        this.cachedBottomSlabState = null;
+        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState();
+        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
 
-        this.needUpdateEmissiveLighting = true;
+        //this.cachedTopSlabState = null;
+        //this.cachedBottomSlabState = null;
+
+        //this.needUpdateEmissiveLighting = true;
 
         if (this.world != null && !this.world.isClient()) {
-            updateLuminance();
+            updateBlockProperties();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
         }
-
-        System.out.println("reaaaaaaaad" + topSlabId + bottomSlabId);
     }
 
     public Identifier getTopSlabId() {
@@ -100,16 +109,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public void setTopSlabId(Identifier id) {
         this.topSlabId = id;
-        this.cachedTopSlabState = null;
-        markDirty();
-    }
-
-    public Direction getTopSlabFacing() {
-        return topSlabFacing;
-    }
-
-    public void setTopSlabFacing(Direction facing) {
-        this.topSlabFacing = facing;
+        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState();
+        //this.cachedTopSlabState = null;
         markDirty();
     }
 
@@ -119,12 +120,13 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public void setBottomSlabId(Identifier id) {
         this.bottomSlabId = id;
-        this.cachedBottomSlabState = null;
+        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
+        //this.cachedBottomSlabState = null;
         markDirty();
     }
 
     public BlockState getTopSlabState() {
-        if (this.cachedTopSlabState == null) {
+        /*if (this.cachedTopSlabState == null) {
             Block block = Registries.BLOCK.get(this.topSlabId);
             if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
                 this.topSlabId = defaultTopSlabId;
@@ -132,11 +134,12 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             }
             this.cachedTopSlabState = block.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
         }
-        return this.cachedTopSlabState;
+        return this.cachedTopSlabState;*/
+        return this.topSlabState.with(Properties.SLAB_TYPE, SlabType.TOP);
     }
 
     public BlockState getBottomSlabState() {
-        if (this.cachedBottomSlabState == null) {
+        /*if (this.cachedBottomSlabState == null) {
             Block block = Registries.BLOCK.get(this.bottomSlabId);
             if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
                 this.bottomSlabId = defaultBottomSlabId;
@@ -144,7 +147,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             }
             this.cachedBottomSlabState = block.getDefaultState();
         }
-        return this.cachedBottomSlabState;
+        return this.cachedBottomSlabState;*/
+        return this.bottomSlabState;
     }
 
     public Integer getTopRenderLayerType() {
@@ -176,28 +180,32 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         return this.createComponentlessNbt(registryLookup);
     }
 
-    public void updateLuminance() {
+    public void updateBlockProperties() {
         int topLuminance;
         int bottomLuminance;
-        if (this.topSlabId.toString().equals("sloves:magma_block_slab")) {
+        if (topSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
             topLuminance = 3;
-        } else if (this.topSlabId.toString().equals("sloves:crying_obsidian_slab")) {
+        } else if (topSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB)) {
             topLuminance = 1;
         } else {
             topLuminance = 0;
         }
-        if (this.bottomSlabId.toString().equals("sloves:magma_block_slab")) {
+        if (bottomSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
             bottomLuminance = 3;
-        } else if (this.bottomSlabId.toString().equals("sloves:crying_obsidian_slab")) {
+        } else if (bottomSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB)) {
             bottomLuminance = 1;
         } else {
             bottomLuminance = 0;
         }
+        int luminance = Math.max(topLuminance, bottomLuminance);
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, Math.max(topLuminance, bottomLuminance)), Block.NOTIFY_LISTENERS);
+        boolean isOpaque = (topSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS)) || (bottomSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS));
+        boolean isEmissiveLighting = (topSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) || (bottomSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB));
+
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, isOpaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), Block.NOTIFY_LISTENERS);
     }
 
-    public boolean isEmissiveLighting() {
+    /*public boolean isEmissiveLighting() {
         if (needUpdateEmissiveLighting) {
             updateEmissiveLighting();
         }
@@ -205,8 +213,20 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     }
 
     private void updateEmissiveLighting() {
-        System.out.println("update!");
+        //System.out.println("update!");
         this.isEmissiveLighting = (Registries.BLOCK.get(topSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING)) || (Registries.BLOCK.get(bottomSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING));
         needUpdateEmissiveLighting = false;
     }
+
+    public boolean isOpaque() {
+        if (needUpdateOpaque) {
+            updateOpaque();
+        }
+        return this.isOpaque;
+    }
+
+    private void updateOpaque() {
+        this.isOpaque = true;
+        needUpdateOpaque = false;
+    }*/
 }

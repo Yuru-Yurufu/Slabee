@@ -3179,15 +3179,20 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASS)));
 
 
-    /*public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
-            new DoubleSlabBlock(AbstractBlock.Settings.create()));*/
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
-            new DoubleSlabBlock(AbstractBlock.Settings.create().emissiveLighting((state, world, pos) -> {
-                if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
-                    return entity.isEmissiveLighting();
-                }
-                return false;
-            })));
+            new DoubleSlabBlock(AbstractBlock.Settings.create()
+                    .luminance(DoubleSlabBlockEntity.LUMINANCE)
+                    .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))
+                    ));
+    /*public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
+            new DoubleSlabBlock(AbstractBlock.Settings.create()
+                    .emissiveLighting((state, world, pos) -> {
+                        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+                            return entity.isEmissiveLighting();
+                        }
+                        return false;
+                    })
+                    .luminance(DoubleSlabBlockEntity.LUMINANCE)));*/
     public static final Block TRANSPARENT_DOUBLE_SLAB_BLOCK = registerBlock("transparent_double_slab_block",
             new DoubleSlabBlock(AbstractBlock.Settings.create().nonOpaque().luminance(DoubleSlabBlockEntity.LUMINANCE)));
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",

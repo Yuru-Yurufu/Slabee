@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.sloves.block;
 
+import com.forestotzka.yurufu.sloves.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -7,8 +8,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -18,11 +19,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
-    public static final IntProperty LIGHT_LEVEL = Properties.LEVEL_15;
+    public static final BooleanProperty IS_OPAQUE = ModProperties.IS_OPAQUE;
+    public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
+    public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(LIGHT_LEVEL, 0));
+        this.setDefaultState(this.getDefaultState().with(LIGHT_LEVEL, 0).with(IS_OPAQUE, false).with(IS_EMISSIVE_LIGHTING, false));
     }
 
     @Override
@@ -32,7 +35,7 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL);
+        builder.add(LIGHT_LEVEL).add(IS_OPAQUE).add(IS_EMISSIVE_LIGHTING);
     }
 
     @Override
