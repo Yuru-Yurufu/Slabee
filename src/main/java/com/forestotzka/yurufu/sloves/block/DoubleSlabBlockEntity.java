@@ -24,6 +24,8 @@ import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.LIGHT_LEVEL;
 public class DoubleSlabBlockEntity extends BlockEntity {
     private final Identifier defaultTopSlabId = Identifier.of("sloves:purple_concrete_slab");
     private final Identifier defaultBottomSlabId = Identifier.of("sloves:black_concrete_slab");
+    private final Block defaultTopSlabBlock = Registries.BLOCK.get(defaultTopSlabId);
+    private final Block defaultBottomSlabBlock = Registries.BLOCK.get(defaultBottomSlabId);
     private Identifier topSlabId = defaultTopSlabId;
     private Identifier bottomSlabId = defaultBottomSlabId;
     private Direction topSlabFacing = Direction.SOUTH;
@@ -33,6 +35,9 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> {
         return (Integer)state.get(LIGHT_LEVEL);
     };
+
+    private boolean isEmissiveLighting;
+    private boolean needUpdateEmissiveLighting = true;
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
@@ -78,11 +83,15 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         this.cachedTopSlabState = null;
         this.cachedBottomSlabState = null;
 
+        this.needUpdateEmissiveLighting = true;
+
         if (this.world != null && !this.world.isClient()) {
             updateLuminance();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
         }
+
+        System.out.println("reaaaaaaaad" + topSlabId + bottomSlabId);
     }
 
     public Identifier getTopSlabId() {
@@ -110,7 +119,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public void setBottomSlabId(Identifier id) {
         this.bottomSlabId = id;
-        this.cachedTopSlabState = null;
+        this.cachedBottomSlabState = null;
         markDirty();
     }
 
@@ -186,5 +195,18 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         }
 
         Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, Math.max(topLuminance, bottomLuminance)), Block.NOTIFY_LISTENERS);
+    }
+
+    public boolean isEmissiveLighting() {
+        if (needUpdateEmissiveLighting) {
+            updateEmissiveLighting();
+        }
+        return this.isEmissiveLighting;
+    }
+
+    private void updateEmissiveLighting() {
+        System.out.println("update!");
+        this.isEmissiveLighting = (Registries.BLOCK.get(topSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING)) || (Registries.BLOCK.get(bottomSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING));
+        needUpdateEmissiveLighting = false;
     }
 }

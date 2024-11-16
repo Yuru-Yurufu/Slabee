@@ -12,6 +12,7 @@ public class ModBlockTags {
     public static final TagKey<Block> CUTOUT_MIPPED_SLABS = TagKey.of(RegistryKeys.BLOCK, Identifier.of("sloves", "cutout_mipped_slabs"));
     public static final TagKey<Block> TRANSPARENT_SLABS = TagKey.of(RegistryKeys.BLOCK, Identifier.of("sloves", "transparent_slabs"));
     public static final TagKey<Block> MINEABLE_SHEARS = TagKey.of(RegistryKeys.BLOCK, Identifier.of("sloves", "mineable/shears"));
+    public static final TagKey<Block> IS_EMISSIVE_LIGHTING = TagKey.of(RegistryKeys.BLOCK, Identifier.of("sloves", "is_emissive_lighting"));
 
     private ModBlockTags() {
     }
