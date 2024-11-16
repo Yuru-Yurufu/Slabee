@@ -19,16 +19,16 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SlabBlock.class)
 public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccessor {
+    @Unique
     private static final EnumProperty<SlabType> TYPE = Properties.SLAB_TYPE;
+    @Unique
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     @Unique
@@ -39,11 +39,7 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
         this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.FALSE).with(BOTTOM_FIRST, true));
     }
 
-    /**
-     * @author yurufu
-     * @reason slab blockを重ねられるようにするため。
-     */
-    @Inject(method = "appendProperties", at=@At("RETURN"))
+    @Inject(method = "appendProperties", at=@At("HEAD"))
     public void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(BOTTOM_FIRST);
     }
@@ -89,8 +85,8 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlovesAccesso
         }
     }
 
-    @Override
-    public boolean getBottomFirst(BlockState blockState) {
+    @Unique
+    public boolean sloves$getBottomFirst(BlockState blockState) {
         return blockState.get(BOTTOM_FIRST);
     }
 }

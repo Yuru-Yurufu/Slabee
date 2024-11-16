@@ -1,27 +1,19 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
-import com.forestotzka.yurufu.sloves.ClickPositionTracker;
 import com.forestotzka.yurufu.sloves.block.DoubleSlabBlock;
 import com.forestotzka.yurufu.sloves.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlockEntity;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.network.SequencedPacketCreator;
-import net.minecraft.client.particle.BlockDustParticle;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;

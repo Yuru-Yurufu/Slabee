@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.sloves.datagen;
 
-import com.forestotzka.yurufu.sloves.block.ModBlocks;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;

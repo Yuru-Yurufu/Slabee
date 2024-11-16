@@ -50,7 +50,7 @@ public abstract class BlockMixin {
             world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
 
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-            if (slovesAccessor.getBottomFirst(state)) {
+            if (slovesAccessor.sloves$getBottomFirst(state)) {
                 Objects.requireNonNull(blockEntity).setTopSlabId(Identifier.of(second_slab));
                 Objects.requireNonNull(blockEntity).setBottomSlabId(Identifier.of(first_slab));
             } else {
