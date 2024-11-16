@@ -2,7 +2,6 @@ package com.forestotzka.yurufu.sloves.block;
 
 import com.forestotzka.yurufu.sloves.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -16,13 +15,21 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+import java.util.Objects;
+import java.util.function.ToIntFunction;
+
+import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.LIGHT_LEVEL;
+
 public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     private final Identifier defaultPositiveSlabId = Identifier.of("sloves:purple_concrete_vertical_slab");
     private final Identifier defaultNegativeSlabId = Identifier.of("sloves:black_concrete_vertical_slab");
+    private final BlockState defaultPositiveSlabState = Registries.BLOCK.get(defaultPositiveSlabId).getDefaultState();
+    private final BlockState defaultNegativeSlabState = Registries.BLOCK.get(defaultNegativeSlabId).getDefaultState();
     private Identifier positiveSlabId = defaultPositiveSlabId;
     private Identifier negativeSlabId = defaultNegativeSlabId;
-    private BlockState cachedPositiveSlabState;
-    private BlockState cachedNegativeSlabState;
+    private BlockState positiveSlabState = defaultPositiveSlabState;
+    private BlockState negativeSlabState = defaultNegativeSlabState;
+    public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
 
     public DoubleVerticalSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_VERTICAL_SLAB_BLOCK_ENTITY, pos, state);
@@ -63,10 +70,10 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             this.negativeSlabId = defaultNegativeSlabId;
         }
 
-        this.cachedPositiveSlabState = null;
-        this.cachedNegativeSlabState = null;
+        updateSlabState();
 
         if (this.world != null && !this.world.isClient()) {
+            updateBlockProperties();
             this.markDirty();
             world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
         }
@@ -78,7 +85,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
     public void setPositiveSlabId(Identifier id) {
         this.positiveSlabId = id;
-        this.cachedPositiveSlabState = null;
+        updatePositiveSlabState();
         markDirty();
     }
 
@@ -88,42 +95,16 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
     public void setNegativeSlabId(Identifier id) {
         this.negativeSlabId = id;
-        this.cachedPositiveSlabState = null;
+        updateNegativeSlabState();
         markDirty();
     }
 
     public BlockState getPositiveSlabState() {
-        if (this.cachedPositiveSlabState == null) {
-            Block block = Registries.BLOCK.get(this.positiveSlabId);
-            if (!block.getDefaultState().isIn(ModBlockTags.VERTICAL_SLABS)) {
-                this.positiveSlabId = defaultPositiveSlabId;
-                block = Registries.BLOCK.get(this.positiveSlabId);
-            }
-            BlockState blockState = this.world.getBlockState(this.pos);
-            if (blockState.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
-                this.cachedPositiveSlabState = block.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST);
-            } else {
-                this.cachedPositiveSlabState = block.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
-            }
-        }
-        return this.cachedPositiveSlabState;
+        return this.positiveSlabState;
     }
 
     public BlockState getNegativeSlabState() {
-        if (this.cachedNegativeSlabState == null) {
-            Block block = Registries.BLOCK.get(this.negativeSlabId);
-            if (!block.getDefaultState().isIn(ModBlockTags.VERTICAL_SLABS)) {
-                this.negativeSlabId = defaultNegativeSlabId;
-                block = Registries.BLOCK.get(this.negativeSlabId);
-            }
-            BlockState blockState = this.world.getBlockState(this.pos);
-            if (blockState.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
-                this.cachedNegativeSlabState = block.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST);
-            } else {
-                this.cachedNegativeSlabState = block.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);
-            }
-        }
-        return cachedNegativeSlabState;
+        return negativeSlabState;
     }
 
     public Integer getPositiveRenderLayerType() {
@@ -153,5 +134,51 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         return this.createComponentlessNbt(registryLookup);
+    }
+
+    public void updateBlockProperties() {
+        int positiveLuminance;
+        int negativeLuminance;
+        if (positiveSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
+            positiveLuminance = 3;
+        } else if (positiveSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
+            positiveLuminance = 1;
+        } else {
+            positiveLuminance = 0;
+        }
+        if (negativeSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
+            negativeLuminance = 3;
+        } else if (negativeSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
+            negativeLuminance = 1;
+        } else {
+            negativeLuminance = 0;
+        }
+        int luminance = Math.max(positiveLuminance, negativeLuminance);
+
+        boolean isOpaque = (positiveSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS)) || (negativeSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS));
+        boolean isEmissiveLighting = (positiveSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) || (negativeSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB));
+
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.IS_OPAQUE, isOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+    }
+
+    private void updateSlabState() {
+        updatePositiveSlabState();
+        updateNegativeSlabState();
+    }
+
+    private void updatePositiveSlabState() {
+        if (Objects.requireNonNull(world).getBlockState(pos).get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
+            this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST);
+        } else {
+            this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
+        }
+    }
+
+    private void updateNegativeSlabState() {
+        if (Objects.requireNonNull(world).getBlockState(pos).get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
+            this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST);
+        } else {
+            this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);
+        }
     }
 }

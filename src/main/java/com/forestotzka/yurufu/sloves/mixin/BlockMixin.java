@@ -3,8 +3,6 @@ package com.forestotzka.yurufu.sloves.mixin;
 import com.forestotzka.yurufu.sloves.SlovesAccessor;
 import com.forestotzka.yurufu.sloves.block.*;
 import com.forestotzka.yurufu.sloves.block.enums.VerticalSlabAxis;
-import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
-import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import com.forestotzka.yurufu.sloves.state.property.ModProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -49,11 +47,6 @@ public abstract class BlockMixin {
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
 
-            /*if (state.isIn(ModBlockTags.TRANSPARENT_SLABS) || itemStack.isIn(ModItemTags.TRANSPARENT_SLABS)) {
-                world.setBlockState(pos, ModBlocks.TRANSPARENT_DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
-            } else {
-                world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
-            }*/
             world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
 
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
@@ -80,11 +73,7 @@ public abstract class BlockMixin {
                 axis = "z";
             }
 
-            if (state.isIn(ModBlockTags.TRANSPARENT_SLABS) || itemStack.isIn(ModItemTags.TRANSPARENT_SLABS)) {
-                world.setBlockState(pos, ModBlocks.TRANSPARENT_DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
-            } else {
-                world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
-            }
+            world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
 
             DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if (state.get(HorizontalFacingBlock.FACING) == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
@@ -95,6 +84,7 @@ public abstract class BlockMixin {
                 Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(first_slab));
             }
 
+            blockEntity.updateBlockProperties();
             blockEntity.markDirty();
             world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
         }
@@ -112,7 +102,7 @@ public abstract class BlockMixin {
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();
-        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) || state.isOf(ModBlocks.TRANSPARENT_DOUBLE_VERTICAL_SLAB_BLOCK)) {
+        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             Identifier slabId;
             DoubleVerticalSlabBlockEntity blockEntity= (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if ((state.get(AXIS) == VerticalSlabAxis.X && ClickPositionTracker.clickEasternHalf) || (state.get(AXIS) == VerticalSlabAxis.Z && ClickPositionTracker.clickSouthernHalf)) {
@@ -129,9 +119,10 @@ public abstract class BlockMixin {
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(otherPos);
         if (blockState.getBlock() instanceof DoubleSlabBlock) {
-            /*DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-            cir.setReturnValue(entity.isOpaque());*/
             cir.setReturnValue(blockState.get(DoubleSlabBlock.IS_OPAQUE));
+            cir.cancel();
+        } else if (blockState.getBlock() instanceof DoubleVerticalSlabBlock) {
+            cir.setReturnValue(blockState.get(DoubleVerticalSlabBlock.IS_OPAQUE));
             cir.cancel();
         }
     }

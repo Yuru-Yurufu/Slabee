@@ -1,8 +1,6 @@
 package com.forestotzka.yurufu.sloves.mixin;
 
 import com.forestotzka.yurufu.sloves.SlovesAccessor;
-import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
-import com.forestotzka.yurufu.sloves.registry.tag.ModItemTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

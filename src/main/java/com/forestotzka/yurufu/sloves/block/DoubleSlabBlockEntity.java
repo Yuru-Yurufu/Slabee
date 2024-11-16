@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.sloves.block;
 
 import com.forestotzka.yurufu.sloves.registry.tag.ModBlockTags;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
@@ -24,8 +23,6 @@ import static com.forestotzka.yurufu.sloves.block.DoubleSlabBlock.LIGHT_LEVEL;
 public class DoubleSlabBlockEntity extends BlockEntity {
     private final Identifier defaultTopSlabId = Identifier.of("sloves:purple_concrete_slab");
     private final Identifier defaultBottomSlabId = Identifier.of("sloves:black_concrete_slab");
-    private final Block defaultTopSlabBlock = Registries.BLOCK.get(defaultTopSlabId);
-    private final Block defaultBottomSlabBlock = Registries.BLOCK.get(defaultBottomSlabId);
     private final BlockState defaultTopSlabState = Registries.BLOCK.get(defaultTopSlabId).getDefaultState();
     private final BlockState defaultBottomSlabState = Registries.BLOCK.get(defaultBottomSlabId).getDefaultState();
     private Identifier topSlabId = defaultTopSlabId;
@@ -34,18 +31,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private Direction bottomSlabFacing = Direction.SOUTH;
     private BlockState topSlabState = defaultTopSlabState;
     private BlockState bottomSlabState = defaultBottomSlabState;
-    //private BlockState cachedTopSlabState;
-    //private BlockState cachedBottomSlabState;
-    public static ToIntFunction<BlockState> LUMINANCE = (state) -> {
-        return (Integer)state.get(LIGHT_LEVEL);
-    };
-/*
-
-    private boolean isEmissiveLighting;
-    private boolean needUpdateEmissiveLighting = true;
-    private boolean isOpaque;
-    private boolean needUpdateOpaque = true;
-*/
+    public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
@@ -88,13 +74,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             this.bottomSlabFacing = Direction.SOUTH;
         }
 
-        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState();
-        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
-
-        //this.cachedTopSlabState = null;
-        //this.cachedBottomSlabState = null;
-
-        //this.needUpdateEmissiveLighting = true;
+        updateSlabState();
 
         if (this.world != null && !this.world.isClient()) {
             updateBlockProperties();
@@ -109,8 +89,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public void setTopSlabId(Identifier id) {
         this.topSlabId = id;
-        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState();
-        //this.cachedTopSlabState = null;
+        updateTopSlabState();
         markDirty();
     }
 
@@ -120,34 +99,15 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     public void setBottomSlabId(Identifier id) {
         this.bottomSlabId = id;
-        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
-        //this.cachedBottomSlabState = null;
+        updateBottomSlabState();
         markDirty();
     }
 
     public BlockState getTopSlabState() {
-        /*if (this.cachedTopSlabState == null) {
-            Block block = Registries.BLOCK.get(this.topSlabId);
-            if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
-                this.topSlabId = defaultTopSlabId;
-                block = Registries.BLOCK.get(this.topSlabId);
-            }
-            this.cachedTopSlabState = block.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
-        }
-        return this.cachedTopSlabState;*/
-        return this.topSlabState.with(Properties.SLAB_TYPE, SlabType.TOP);
+        return this.topSlabState;
     }
 
     public BlockState getBottomSlabState() {
-        /*if (this.cachedBottomSlabState == null) {
-            Block block = Registries.BLOCK.get(this.bottomSlabId);
-            if (!block.getDefaultState().contains(Properties.SLAB_TYPE)) {
-                this.bottomSlabId = defaultBottomSlabId;
-                block = Registries.BLOCK.get(this.bottomSlabId);
-            }
-            this.cachedBottomSlabState = block.getDefaultState();
-        }
-        return this.cachedBottomSlabState;*/
         return this.bottomSlabState;
     }
 
@@ -202,31 +162,19 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         boolean isOpaque = (topSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS)) || (bottomSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS));
         boolean isEmissiveLighting = (topSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) || (bottomSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, isOpaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), Block.NOTIFY_LISTENERS);
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, isOpaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
 
-    /*public boolean isEmissiveLighting() {
-        if (needUpdateEmissiveLighting) {
-            updateEmissiveLighting();
-        }
-        return this.isEmissiveLighting;
+    private void updateSlabState() {
+        updateTopSlabState();
+        updateBottomSlabState();
     }
 
-    private void updateEmissiveLighting() {
-        //System.out.println("update!");
-        this.isEmissiveLighting = (Registries.BLOCK.get(topSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING)) || (Registries.BLOCK.get(bottomSlabId).getDefaultState().isIn(ModBlockTags.IS_EMISSIVE_LIGHTING));
-        needUpdateEmissiveLighting = false;
+    private void updateTopSlabState() {
+        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
     }
 
-    public boolean isOpaque() {
-        if (needUpdateOpaque) {
-            updateOpaque();
-        }
-        return this.isOpaque;
+    private void updateBottomSlabState() {
+        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
     }
-
-    private void updateOpaque() {
-        this.isOpaque = true;
-        needUpdateOpaque = false;
-    }*/
 }

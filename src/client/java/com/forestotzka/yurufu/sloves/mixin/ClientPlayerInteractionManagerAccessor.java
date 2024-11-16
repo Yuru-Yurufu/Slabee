@@ -27,9 +27,6 @@ public interface ClientPlayerInteractionManagerAccessor {
     @Accessor("currentBreakingProgress")
     void setCurrentBreakingProgress(float progress);
 
-    /*@Accessor("breakingBlock")
-    void setBreakingBlock(boolean breakingBlock);*/
-
     @Accessor("currentBreakingPos")
     BlockPos getCurrentBreakingPos();
 

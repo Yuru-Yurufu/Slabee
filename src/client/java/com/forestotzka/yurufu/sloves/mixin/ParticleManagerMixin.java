@@ -6,7 +6,6 @@ import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlock;
 import com.forestotzka.yurufu.sloves.block.DoubleVerticalSlabBlockEntity;
 import com.forestotzka.yurufu.sloves.block.enums.VerticalSlabAxis;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.particle.BlockDustParticle;
 import net.minecraft.client.particle.Particle;
@@ -15,7 +14,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,7 +36,7 @@ public abstract class ParticleManagerMixin {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    private void modifyBlockBreakingParticles(BlockPos pos, Direction direction, CallbackInfo cir, BlockState blockState, int i, int j, int k, float f, Box box, double d, double e, double g) {
+    private void addBlockBreakingParticles(BlockPos pos, Direction direction, CallbackInfo cir, BlockState blockState, int i, int j, int k, float f, Box box, double d, double e, double g) {
         if (blockState.getBlock() instanceof DoubleSlabBlock || blockState.getBlock() instanceof DoubleVerticalSlabBlock) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockState particleState;
