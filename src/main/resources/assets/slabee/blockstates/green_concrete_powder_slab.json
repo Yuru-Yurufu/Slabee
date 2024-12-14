@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/green_concrete_powder_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/green_concrete_powder"
+        },
+        "type=top": {
+            "model": "slabee:block/green_concrete_powder_slab_top"
+        }
+    }
+}

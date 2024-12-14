@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/oxidized_cut_copper",
+        "east": "minecraft:block/oxidized_cut_copper",
+        "west": "minecraft:block/oxidized_cut_copper"
+    }
+}

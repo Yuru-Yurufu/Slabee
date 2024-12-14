@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/dripstone_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/dripstone_block"
+        },
+        "type=top": {
+            "model": "slabee:block/dripstone_slab_top"
+        }
+    }
+}

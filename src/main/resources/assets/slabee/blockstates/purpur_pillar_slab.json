@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/purpur_pillar_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/purpur_pillar"
+        },
+        "type=top": {
+            "model": "slabee:block/purpur_pillar_slab_top"
+        }
+    }
+}

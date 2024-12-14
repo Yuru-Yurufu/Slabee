@@ -45,7 +45,7 @@ def format_json(data):
 def generate_slab_blockstates():
 
     # フォルダを作る
-    folder_path = os.path.join(assets_path, "sloves", 'blockstates')
+    folder_path = os.path.join(assets_path, "slabee", 'blockstates')
     os.makedirs(folder_path, exist_ok=True)
 
     # JSONをフォーマット
@@ -62,7 +62,7 @@ def generate_slab_blockstates():
 def generate_vertical_slab_blockstates():
 
     # フォルダを作る
-    folder_path = os.path.join(assets_path, "sloves", 'blockstates')
+    folder_path = os.path.join(assets_path, "slabee", 'blockstates')
     os.makedirs(folder_path, exist_ok=True)
 
     # 個別のjsonも作っちゃおう
@@ -234,17 +234,17 @@ def generate_vertical_models_block():
 
             if block == "smooth_stone":
                 json_data_positive = {
-                    "parent": f"sloves:block/vertical_slab_positive",
+                    "parent": f"slabee:block/vertical_slab_positive",
                     "textures": {
-                        "side": f"sloves:block/{block}_vertical_slab_side",
+                        "side": f"slabee:block/{block}_vertical_slab_side",
                         "east": f"minecraft:block/{block}",
                         "west": f"minecraft:block/{block}"
                     }
                 }
                 json_data_negative = {
-                    "parent": f"sloves:block/vertical_slab_negative",
+                    "parent": f"slabee:block/vertical_slab_negative",
                     "textures": {
-                        "side": f"sloves:block/{block}_vertical_slab_side",
+                        "side": f"slabee:block/{block}_vertical_slab_side",
                         "east": f"minecraft:block/{block}",
                         "west": f"minecraft:block/{block}"
                     }
@@ -265,7 +265,7 @@ def generate_vertical_models_block():
 
             elif "log" in block or "wood" in block or "hyphae" in block or "stem" in block or "bamboo_block" in block or "stripped_bamboo" in block or "pillar" in block:
                 json_data_positive = {
-                    "parent": f"sloves:block/vertical_slab_positive",
+                    "parent": f"slabee:block/vertical_slab_positive",
                     "textures": {
                         "side": f"minecraft:block/{block}_side",
                         "east": f"minecraft:block/{block}_top",
@@ -273,7 +273,7 @@ def generate_vertical_models_block():
                     }
                 }
                 json_data_negative = {
-                    "parent": f"sloves:block/vertical_slab_negative",
+                    "parent": f"slabee:block/vertical_slab_negative",
                     "textures": {
                         "side": f"minecraft:block/{block}_side",
                         "east": f"minecraft:block/{block}_top",
@@ -295,7 +295,7 @@ def generate_vertical_models_block():
                 print(f"Generated: {file_path}")
             else:
                 json_data = {
-                    "parent": f"sloves:block/vertical_slab",
+                    "parent": f"slabee:block/vertical_slab",
                     "textures": {
                         "side": f"minecraft:block/{block}{'_side' if block == 'quartz_block' else ''}",
                         "east": f"minecraft:block/{block}{'_top' if block == 'quartz_block' else ''}",

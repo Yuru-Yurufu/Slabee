@@ -1,0 +1,16 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.forestotzka.yurufu.slabee.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "BlockItemMixin",
+        "BlockMixin",
+        "EntityMixin",
+        "LivingEntityMixin",
+        "SlabBlockMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/muddy_mangrove_root_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/muddy_mangrove_roots"
+        },
+        "type=top": {
+            "model": "slabee:block/muddy_mangrove_root_slab_top"
+        }
+    }
+}

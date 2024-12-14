@@ -14,7 +14,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        "sloves" {
+        "slabee" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }

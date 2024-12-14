@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/red_sandstone_top",
+        "up": "minecraft:block/red_sandstone_top",
+        "north": "minecraft:block/cut_red_sandstone",
+        "south": "minecraft:block/cut_red_sandstone",
+        "east": "minecraft:block/cut_red_sandstone",
+        "west": "minecraft:block/cut_red_sandstone"
+    }
+}

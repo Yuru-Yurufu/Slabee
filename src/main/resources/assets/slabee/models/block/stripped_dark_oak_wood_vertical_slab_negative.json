@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_negative",
+    "textures": {
+        "side": "minecraft:block/stripped_dark_oak_log",
+        "east": "minecraft:block/stripped_dark_oak_log",
+        "west": "minecraft:block/stripped_dark_oak_log"
+    }
+}

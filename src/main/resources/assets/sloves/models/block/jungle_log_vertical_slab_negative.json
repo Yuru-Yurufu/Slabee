@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab_negative",
-    "textures": {
-        "side": "minecraft:block/jungle_log",
-        "east": "minecraft:block/jungle_log_top",
-        "west": "minecraft:block/jungle_log_top"
-    }
-}

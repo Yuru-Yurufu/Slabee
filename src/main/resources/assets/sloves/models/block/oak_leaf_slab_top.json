@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/leaf_slab_top",
-    "textures": {
-        "bottom": "minecraft:block/oak_leaves",
-        "side": "minecraft:block/oak_leaves",
-        "top": "minecraft:block/oak_leaves"
-    }
-}

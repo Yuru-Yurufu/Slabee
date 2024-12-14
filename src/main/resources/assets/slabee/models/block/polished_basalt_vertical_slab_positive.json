@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_positive",
+    "textures": {
+        "side": "minecraft:block/polished_basalt_side",
+        "east": "minecraft:block/polished_basalt_top",
+        "west": "minecraft:block/polished_basalt_top"
+    }
+}

@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/polished_diorite",
-        "east": "minecraft:block/polished_diorite",
-        "west": "minecraft:block/polished_diorite"
-    }
-}

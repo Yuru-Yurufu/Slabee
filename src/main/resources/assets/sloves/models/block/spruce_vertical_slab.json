@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/spruce_planks",
-        "east": "minecraft:block/spruce_planks",
-        "west": "minecraft:block/spruce_planks"
-    }
-}

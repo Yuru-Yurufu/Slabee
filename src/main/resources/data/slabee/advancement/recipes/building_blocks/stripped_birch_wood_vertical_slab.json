@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stripped_birch_wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:stripped_birch_wood"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:stripped_birch_wood_vertical_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_stripped_birch_wood"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:stripped_birch_wood_vertical_slab"
+    ]
+  }
+}

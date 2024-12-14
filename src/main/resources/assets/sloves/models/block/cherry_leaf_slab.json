@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/leaf_slab",
-    "textures": {
-        "bottom": "minecraft:block/cherry_leaves",
-        "side": "minecraft:block/cherry_leaves",
-        "top": "minecraft:block/cherry_leaves"
-    }
-}

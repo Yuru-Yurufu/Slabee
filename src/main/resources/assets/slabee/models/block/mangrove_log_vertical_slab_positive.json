@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_positive",
+    "textures": {
+        "side": "minecraft:block/mangrove_log",
+        "east": "minecraft:block/mangrove_log_top",
+        "west": "minecraft:block/mangrove_log_top"
+    }
+}

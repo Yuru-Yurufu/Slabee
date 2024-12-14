@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/dead_bubble_coral_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/dead_bubble_coral_block"
+        },
+        "type=top": {
+            "model": "slabee:block/dead_bubble_coral_slab_top"
+        }
+    }
+}

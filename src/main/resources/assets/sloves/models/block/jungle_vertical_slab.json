@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/jungle_planks",
-        "east": "minecraft:block/jungle_planks",
-        "west": "minecraft:block/jungle_planks"
-    }
-}

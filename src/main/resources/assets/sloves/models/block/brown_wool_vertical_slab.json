@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/brown_wool",
-        "east": "minecraft:block/brown_wool",
-        "west": "minecraft:block/brown_wool"
-    }
-}

@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/moss_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/moss_block"
+        },
+        "type=top": {
+            "model": "slabee:block/moss_slab_top"
+        }
+    }
+}

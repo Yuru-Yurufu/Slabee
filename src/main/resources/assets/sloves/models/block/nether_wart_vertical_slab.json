@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/nether_wart_block",
-        "east": "minecraft:block/nether_wart_block",
-        "west": "minecraft:block/nether_wart_block"
-    }
-}

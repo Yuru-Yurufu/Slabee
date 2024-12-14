@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crimson_nylium": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:crimson_nylium"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:crimson_nylium_vertical_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_crimson_nylium"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:crimson_nylium_vertical_slab"
+    ]
+  }
+}

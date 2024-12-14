@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/carved_pumpkin_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/carved_pumpkin"
+        },
+        "type=top": {
+            "model": "slabee:block/carved_pumpkin_slab_top"
+        }
+    }
+}

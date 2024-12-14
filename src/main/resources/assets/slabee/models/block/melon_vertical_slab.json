@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/melon_top",
+        "up": "minecraft:block/melon_top",
+        "north": "minecraft:block/melon_side",
+        "south": "minecraft:block/melon_side",
+        "east": "minecraft:block/melon_side",
+        "west": "minecraft:block/melon_side"
+    }
+}

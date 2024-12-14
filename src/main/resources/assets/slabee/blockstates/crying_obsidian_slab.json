@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/crying_obsidian_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/crying_obsidian"
+        },
+        "type=top": {
+            "model": "slabee:block/crying_obsidian_slab_top"
+        }
+    }
+}

@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab_negative",
-    "textures": {
-        "side": "minecraft:block/stripped_cherry_log",
-        "east": "minecraft:block/stripped_cherry_log_top",
-        "west": "minecraft:block/stripped_cherry_log_top"
-    }
-}

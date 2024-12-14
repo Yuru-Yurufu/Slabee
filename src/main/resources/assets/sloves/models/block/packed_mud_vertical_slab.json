@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/packed_mud",
-        "east": "minecraft:block/packed_mud",
-        "west": "minecraft:block/packed_mud"
-    }
-}

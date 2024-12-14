@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/red_mushroom_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/red_mushroom"
+        },
+        "type=top": {
+            "model": "slabee:block/red_mushroom_slab_top"
+        }
+    }
+}

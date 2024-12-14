@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_negative",
+    "textures": {
+        "side": "minecraft:block/cherry_log",
+        "east": "minecraft:block/cherry_log",
+        "west": "minecraft:block/cherry_log"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/purple_wool",
+        "east": "minecraft:block/purple_wool",
+        "west": "minecraft:block/purple_wool"
+    }
+}

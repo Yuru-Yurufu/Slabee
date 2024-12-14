@@ -1,20 +1,20 @@
 {
     "values": [
-        "sloves:white_wool_slab",
-        "sloves:light_gray_wool_slab",
-        "sloves:gray_wool_slab",
-        "sloves:black_wool_slab",
-        "sloves:brown_wool_slab",
-        "sloves:red_wool_slab",
-        "sloves:orange_wool_slab",
-        "sloves:yellow_wool_slab",
-        "sloves:lime_wool_slab",
-        "sloves:green_wool_slab",
-        "sloves:cyan_wool_slab",
-        "sloves:light_blue_wool_slab",
-        "sloves:blue_wool_slab",
-        "sloves:purple_wool_slab",
-        "sloves:magenta_wool_slab",
-        "sloves:pink_wool_slab"
+        "slabee:white_wool_slab",
+        "slabee:light_gray_wool_slab",
+        "slabee:gray_wool_slab",
+        "slabee:black_wool_slab",
+        "slabee:brown_wool_slab",
+        "slabee:red_wool_slab",
+        "slabee:orange_wool_slab",
+        "slabee:yellow_wool_slab",
+        "slabee:lime_wool_slab",
+        "slabee:green_wool_slab",
+        "slabee:cyan_wool_slab",
+        "slabee:light_blue_wool_slab",
+        "slabee:blue_wool_slab",
+        "slabee:purple_wool_slab",
+        "slabee:magenta_wool_slab",
+        "slabee:pink_wool_slab"
     ]
 }

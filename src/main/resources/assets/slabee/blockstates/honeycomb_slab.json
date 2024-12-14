@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/honeycomb_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/honeycomb_block"
+        },
+        "type=top": {
+            "model": "slabee:block/honeycomb_slab_top"
+        }
+    }
+}

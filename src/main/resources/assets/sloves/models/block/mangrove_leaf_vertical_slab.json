@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/leaf_vertical_slab",
-    "textures": {
-        "side": "minecraft:block/mangrove_leaves",
-        "east": "minecraft:block/mangrove_leaves",
-        "west": "minecraft:block/mangrove_leaves"
-    }
-}

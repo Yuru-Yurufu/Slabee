@@ -1,12 +1,12 @@
 {
     "values": [
-        "sloves:cut_copper_vertical_slab",
-        "sloves:exposed_cut_copper_vertical_slab",
-        "sloves:weathered_cut_copper_vertical_slab",
-        "sloves:oxidized_cut_copper_vertical_slab",
-        "sloves:waxed_cut_copper_vertical_slab",
-        "sloves:waxed_exposed_cut_copper_vertical_slab",
-        "sloves:waxed_weathered_cut_copper_vertical_slab",
-        "sloves:waxed_oxidized_cut_copper_vertical_slab"
+        "slabee:cut_copper_vertical_slab",
+        "slabee:exposed_cut_copper_vertical_slab",
+        "slabee:weathered_cut_copper_vertical_slab",
+        "slabee:oxidized_cut_copper_vertical_slab",
+        "slabee:waxed_cut_copper_vertical_slab",
+        "slabee:waxed_exposed_cut_copper_vertical_slab",
+        "slabee:waxed_weathered_cut_copper_vertical_slab",
+        "slabee:waxed_oxidized_cut_copper_vertical_slab"
     ]
 }

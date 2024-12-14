@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/prismarine_bricks",
-        "east": "minecraft:block/prismarine_bricks",
-        "west": "minecraft:block/prismarine_bricks"
-    }
-}

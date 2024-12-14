@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/horn_coral_block",
+        "east": "minecraft:block/horn_coral_block",
+        "west": "minecraft:block/horn_coral_block"
+    }
+}

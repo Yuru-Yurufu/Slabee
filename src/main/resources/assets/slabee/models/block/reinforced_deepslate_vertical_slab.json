@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/reinforced_deepslate_bottom",
+        "up": "minecraft:block/reinforced_deepslate_top",
+        "north": "minecraft:block/reinforced_deepslate_side",
+        "south": "minecraft:block/reinforced_deepslate_side",
+        "east": "minecraft:block/reinforced_deepslate_side",
+        "west": "minecraft:block/reinforced_deepslate_side"
+    }
+}

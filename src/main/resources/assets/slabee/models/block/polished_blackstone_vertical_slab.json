@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/polished_blackstone",
+        "east": "minecraft:block/polished_blackstone",
+        "west": "minecraft:block/polished_blackstone"
+    }
+}

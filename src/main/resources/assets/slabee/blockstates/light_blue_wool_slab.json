@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/light_blue_wool_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/light_blue_wool"
+        },
+        "type=top": {
+            "model": "slabee:block/light_blue_wool_slab_top"
+        }
+    }
+}

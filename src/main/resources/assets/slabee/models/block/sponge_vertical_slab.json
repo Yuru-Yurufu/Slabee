@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/sponge",
+        "east": "minecraft:block/sponge",
+        "west": "minecraft:block/sponge"
+    }
+}

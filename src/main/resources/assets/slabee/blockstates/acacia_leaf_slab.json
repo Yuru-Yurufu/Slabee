@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/acacia_leaf_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/acacia_leaves"
+        },
+        "type=top": {
+            "model": "slabee:block/acacia_leaf_slab_top"
+        }
+    }
+}

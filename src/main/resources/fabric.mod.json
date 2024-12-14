@@ -1,31 +1,31 @@
 {
     "schemaVersion": 1,
-    "id": "sloves",
+    "id": "slabee",
     "version": "${version}",
-    "name": "SLoves",
+    "name": "Slabee",
     "description": "this is ultimate slab mod.",
     "authors": [
         "Yurufu"
     ],
     "contact": {},
     "license": "MIT",
-    "icon": "assets/sloves/icon.png",
+    "icon": "assets/slabee/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
-            "com.forestotzka.yurufu.sloves.client.SlovesClient"
+            "com.forestotzka.yurufu.slabee.client.SlabeeClient"
         ],
         "main": [
-            "com.forestotzka.yurufu.sloves.Sloves"
+            "com.forestotzka.yurufu.slabee.Slabee"
         ],
         "fabric-datagen": [
-            "com.forestotzka.yurufu.sloves.SlovesDataGenerator"
+            "com.forestotzka.yurufu.slabee.SlabeeDataGenerator"
         ]
     },
     "mixins": [
-        "sloves.mixins.json",
+        "slabee.mixins.json",
         {
-            "config": "sloves.client.mixins.json",
+            "config": "slabee.client.mixins.json",
             "environment": "client"
         }
     ],

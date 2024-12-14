@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/quartz_pillar_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/quartz_pillar"
+        },
+        "type=top": {
+            "model": "slabee:block/quartz_pillar_slab_top"
+        }
+    }
+}

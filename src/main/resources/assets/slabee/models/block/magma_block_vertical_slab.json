@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/magma",
+        "east": "minecraft:block/magma",
+        "west": "minecraft:block/magma"
+    }
+}

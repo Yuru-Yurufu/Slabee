@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/netherrack",
-        "east": "minecraft:block/netherrack",
-        "west": "minecraft:block/netherrack"
-    }
-}

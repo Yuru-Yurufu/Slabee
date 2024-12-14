@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_negative",
+    "textures": {
+        "side": "minecraft:block/acacia_log",
+        "east": "minecraft:block/acacia_log",
+        "west": "minecraft:block/acacia_log"
+    }
+}

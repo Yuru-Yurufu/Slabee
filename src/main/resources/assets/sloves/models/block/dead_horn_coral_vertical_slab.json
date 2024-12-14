@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/dead_horn_coral_block",
-        "east": "minecraft:block/dead_horn_coral_block",
-        "west": "minecraft:block/dead_horn_coral_block"
-    }
-}

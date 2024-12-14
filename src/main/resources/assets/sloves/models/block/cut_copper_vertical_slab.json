@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/cut_copper",
-        "east": "minecraft:block/cut_copper",
-        "west": "minecraft:block/cut_copper"
-    }
-}

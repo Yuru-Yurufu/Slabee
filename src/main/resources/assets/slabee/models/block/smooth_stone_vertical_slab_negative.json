@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_negative",
+    "textures": {
+        "side": "minecraft:block/smooth_stone_slab_side",
+        "east": "minecraft:block/smooth_stone",
+        "west": "minecraft:block/smooth_stone"
+    }
+}

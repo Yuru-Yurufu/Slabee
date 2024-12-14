@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/deepslate_bricks",
+        "east": "minecraft:block/deepslate_bricks",
+        "west": "minecraft:block/deepslate_bricks"
+    }
+}

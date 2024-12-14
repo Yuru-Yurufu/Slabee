@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/hay_block_top",
+        "up": "minecraft:block/hay_block_top",
+        "north": "minecraft:block/hay_block_side",
+        "south": "minecraft:block/hay_block_side",
+        "east": "minecraft:block/hay_block_side",
+        "west": "minecraft:block/hay_block_side"
+    }
+}

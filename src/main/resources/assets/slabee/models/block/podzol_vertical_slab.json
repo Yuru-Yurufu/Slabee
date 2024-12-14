@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/dirt",
+        "up": "minecraft:block/podzol_top",
+        "north": "minecraft:block/podzol_side",
+        "south": "minecraft:block/podzol_side",
+        "east": "minecraft:block/podzol_side",
+        "west": "minecraft:block/podzol_side"
+    }
+}

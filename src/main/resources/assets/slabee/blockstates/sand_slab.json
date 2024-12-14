@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/sand_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/sand"
+        },
+        "type=top": {
+            "model": "slabee:block/sand_slab_top"
+        }
+    }
+}

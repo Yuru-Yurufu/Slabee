@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/muddy_mangrove_roots_top",
+        "up": "minecraft:block/muddy_mangrove_roots_top",
+        "north": "minecraft:block/muddy_mangrove_roots_side",
+        "south": "minecraft:block/muddy_mangrove_roots_side",
+        "east": "minecraft:block/muddy_mangrove_roots_side",
+        "west": "minecraft:block/muddy_mangrove_roots_side"
+    }
+}

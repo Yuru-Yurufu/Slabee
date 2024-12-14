@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_positive",
+    "textures": {
+        "side": "minecraft:block/stripped_birch_log",
+        "east": "minecraft:block/stripped_birch_log_top",
+        "west": "minecraft:block/stripped_birch_log_top"
+    }
+}

@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab_positive",
-    "textures": {
-        "side": "minecraft:block/birch_log",
-        "east": "minecraft:block/birch_log",
-        "west": "minecraft:block/birch_log"
-    }
-}

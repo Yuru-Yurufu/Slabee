@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/brain_coral_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/brain_coral_block"
+        },
+        "type=top": {
+            "model": "slabee:block/brain_coral_slab_top"
+        }
+    }
+}

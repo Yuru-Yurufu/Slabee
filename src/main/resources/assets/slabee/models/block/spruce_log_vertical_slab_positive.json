@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab_positive",
+    "textures": {
+        "side": "minecraft:block/spruce_log",
+        "east": "minecraft:block/spruce_log_top",
+        "west": "minecraft:block/spruce_log_top"
+    }
+}

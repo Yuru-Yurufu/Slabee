@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "minecraft:block/pumpkin_top",
+        "up": "minecraft:block/pumpkin_top",
+        "north": "minecraft:block/pumpkin_side",
+        "south": "minecraft:block/pumpkin_side",
+        "east": "minecraft:block/pumpkin_side",
+        "west": "minecraft:block/pumpkin_side"
+    }
+}

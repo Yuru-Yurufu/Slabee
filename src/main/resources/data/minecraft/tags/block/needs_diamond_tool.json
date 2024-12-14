@@ -1,9 +1,9 @@
 {
     "values": [
-        "sloves:obsidian_slab",
-        "sloves:crying_obsidian_slab",
+        "slabee:obsidian_slab",
+        "slabee:crying_obsidian_slab",
 
-        "sloves:obsidian_vertical_slab",
-        "sloves:crying_obsidian_vertical_slab"
+        "slabee:obsidian_vertical_slab",
+        "slabee:crying_obsidian_vertical_slab"
     ]
 }

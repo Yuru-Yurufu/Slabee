@@ -1,2 +1,2 @@
-# SLoves
+# slabee
 Ultimate slab block mod

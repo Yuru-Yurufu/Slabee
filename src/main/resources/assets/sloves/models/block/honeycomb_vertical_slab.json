@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/honeycomb_block",
-        "east": "minecraft:block/honeycomb_block",
-        "west": "minecraft:block/honeycomb_block"
-    }
-}

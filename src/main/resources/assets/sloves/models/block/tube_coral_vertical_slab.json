@@ -1,8 +1,0 @@
-{
-    "parent": "sloves:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/tube_coral_block",
-        "east": "minecraft:block/tube_coral_block",
-        "west": "minecraft:block/tube_coral_block"
-    }
-}

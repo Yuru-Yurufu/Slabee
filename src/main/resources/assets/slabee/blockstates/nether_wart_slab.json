@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/nether_wart_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/nether_wart_block"
+        },
+        "type=top": {
+            "model": "slabee:block/nether_wart_slab_top"
+        }
+    }
+}

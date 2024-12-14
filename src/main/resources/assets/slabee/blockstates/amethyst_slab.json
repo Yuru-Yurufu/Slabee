@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/amethyst_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/amethyst_block"
+        },
+        "type=top": {
+            "model": "slabee:block/amethyst_slab_top"
+        }
+    }
+}

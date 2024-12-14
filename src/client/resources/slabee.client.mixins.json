@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.forestotzka.yurufu.slabee.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "ClientPlayerInteractionManagerAccessor",
+        "ClientPlayerInteractionManagerMixin",
+        "MinecraftClientMixin",
+        "ParticleManagerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
