@@ -66,18 +66,18 @@ public class SlabeeClient implements ClientModInitializer {
                 }
             }), block);
 
-            ColorProviderRegistry.ITEM.register(((state, tintIndex) -> {
+            ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> {
                 if (tintIndex >= 0 && tintIndex <= 1) {
                     if (Set.of(
                             ModBlocks.OAK_LEAF_SLAB.asItem(), ModBlocks.JUNGLE_LEAF_SLAB.asItem(), ModBlocks.ACACIA_LEAF_SLAB.asItem(), ModBlocks.DARK_OAK_LEAF_SLAB.asItem(),
                             ModBlocks.OAK_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.JUNGLE_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.ACACIA_LEAF_VERTICAL_SLAB.asItem(), ModBlocks.DARK_OAK_LEAF_VERTICAL_SLAB.asItem()
-                    ).contains(state.getItem())) {
+                    ).contains(stack.getItem())) {
                         return 0x48B518;
-                    } else if (state.isOf(ModBlocks.MANGROVE_LEAF_SLAB.asItem()) || state.isOf(ModBlocks.MANGROVE_LEAF_VERTICAL_SLAB.asItem())) {
+                    } else if (stack.isOf(ModBlocks.MANGROVE_LEAF_SLAB.asItem()) || stack.isOf(ModBlocks.MANGROVE_LEAF_VERTICAL_SLAB.asItem())) {
                         return 0x92C648;
-                    } else if (state.isOf(ModBlocks.SPRUCE_LEAF_SLAB.asItem()) || state.isOf(ModBlocks.SPRUCE_LEAF_VERTICAL_SLAB.asItem())) {
+                    } else if (stack.isOf(ModBlocks.SPRUCE_LEAF_SLAB.asItem()) || stack.isOf(ModBlocks.SPRUCE_LEAF_VERTICAL_SLAB.asItem())) {
                         return 0x619961;
-                    } else if (state.isOf(ModBlocks.BIRCH_LEAF_SLAB.asItem()) || state.isOf(ModBlocks.BIRCH_LEAF_VERTICAL_SLAB.asItem())) {
+                    } else if (stack.isOf(ModBlocks.BIRCH_LEAF_SLAB.asItem()) || stack.isOf(ModBlocks.BIRCH_LEAF_VERTICAL_SLAB.asItem())) {
                         return 0x80a755;
                     } else {
                         return 0xFFFFFF;

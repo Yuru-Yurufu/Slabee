@@ -1,6 +1,8 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
@@ -112,9 +114,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     }
 
     public Integer getTopRenderLayerType() {
-        if (Registries.BLOCK.get(this.topSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+        Block block = Registries.BLOCK.get(this.topSlabId);
+        if (SlabeeUtils.isCutoutSlabs(block)) {
             return 1;
-        } else if (Registries.BLOCK.get(this.topSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
             return 2;
         } else {
             return 0;
@@ -122,9 +125,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     }
 
     public Integer getBottomRenderLayerType() {
-        if (Registries.BLOCK.get(this.bottomSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+        Block block = Registries.BLOCK.get(this.bottomSlabId);
+        if (SlabeeUtils.isCutoutSlabs(block)) {
             return 1;
-        } else if (Registries.BLOCK.get(this.bottomSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
             return 2;
         } else {
             return 0;
@@ -159,8 +163,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         }
         int luminance = Math.max(topLuminance, bottomLuminance);
 
-        boolean isOpaque = (topSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS)) || (bottomSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS));
-        boolean isEmissiveLighting = (topSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) || (bottomSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB));
+        Block topSlab = topSlabState.getBlock();
+        Block bottomSlab = bottomSlabState.getBlock();
+        boolean isOpaque = (SlabeeUtils.isOpaqueSlabs(topSlab) || SlabeeUtils.isOpaqueSlabs(bottomSlab));
+        boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
 
         Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, isOpaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }

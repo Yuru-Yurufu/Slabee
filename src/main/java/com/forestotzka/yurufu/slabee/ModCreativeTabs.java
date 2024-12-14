@@ -103,6 +103,6 @@ public class ModCreativeTabs {
     );
 
     public static void registerItemGroups() {
-        Slabee.LOGGER.info("Registering Item Groups for" + Slabee.MOD_ID);
+        Slabee.LOGGER.info("Registering Item Groups for " + Slabee.MOD_ID);
     }
 }

@@ -1,6 +1,8 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -136,9 +138,10 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     }
 
     public Integer getPositiveRenderLayerType() {
-        if (Registries.BLOCK.get(this.positiveSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+        Block block = Registries.BLOCK.get(this.positiveSlabId);
+        if (SlabeeUtils.isCutoutVerticalSlabs(block)) {
             return 1;
-        } else if (Registries.BLOCK.get(this.positiveSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+        } else if (SlabeeUtils.isCutoutMippedVerticalSlabs(block)) {
             return 2;
         } else {
             return 0;
@@ -146,9 +149,10 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     }
 
     public Integer getNegativeRenderLayerType() {
-        if (Registries.BLOCK.get(this.negativeSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_SLABS)) {
+        Block block = Registries.BLOCK.get(this.negativeSlabId);
+        if (SlabeeUtils.isCutoutVerticalSlabs(block)) {
             return 1;
-        } else if (Registries.BLOCK.get(this.negativeSlabId).getDefaultState().isIn(ModBlockTags.CUTOUT_MIPPED_SLABS)) {
+        } else if (SlabeeUtils.isCutoutMippedVerticalSlabs(block)) {
             return 2;
         } else {
             return 0;
@@ -183,8 +187,10 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         }
         int luminance = Math.max(positiveLuminance, negativeLuminance);
 
-        boolean isOpaque = (positiveSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS)) || (negativeSlabState.isIn(ModBlockTags.TRANSPARENT_SLABS));
-        boolean isEmissiveLighting = (positiveSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) || (negativeSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB));
+        Block positiveSlab = positiveSlabState.getBlock();
+        Block negativeSlab = negativeSlabState.getBlock();
+        boolean isOpaque = (SlabeeUtils.isOpaqueVerticalSlabs(positiveSlab) || SlabeeUtils.isOpaqueVerticalSlabs(negativeSlab));
+        boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingVerticalSlabs(positiveSlab) || SlabeeUtils.isEmissiveLightingVerticalSlabs(negativeSlab));
 
         Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.IS_OPAQUE, isOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
