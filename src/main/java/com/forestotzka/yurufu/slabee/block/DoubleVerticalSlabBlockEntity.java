@@ -115,7 +115,11 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     }
 
     public String getAxis() {
-        return isX ? "x" : "z";
+        return this.isX ? "x" : "z";
+    }
+
+    public boolean isX() {
+        return this.isX;
     }
 
     public void setAxis(String axis) {

@@ -13,12 +13,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
-    public static final AbstractBlock.Settings DEFAULT_CONCRETE_SETTINGS = AbstractBlock.Settings.create()
-            .strength(1.8F)
-            .instrument(NoteBlockInstrument.BASEDRUM)
-            .requiresTool()
-            .sounds(BlockSoundGroup.STONE);
-
 
     //////////////
     //   Slab   //
