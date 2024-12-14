@@ -1,2 +1,2 @@
-# slabee
+# Slabee
 Ultimate slab block mod
