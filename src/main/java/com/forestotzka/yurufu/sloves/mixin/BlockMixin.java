@@ -76,6 +76,7 @@ public abstract class BlockMixin {
             world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
 
             DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
+            Objects.requireNonNull(blockEntity).setAxis(axis);
             if (state.get(HorizontalFacingBlock.FACING) == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
                 Objects.requireNonNull(blockEntity).setPositiveSlabId(Identifier.of(first_slab));
                 Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(second_slab));

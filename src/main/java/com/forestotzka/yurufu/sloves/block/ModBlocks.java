@@ -3537,9 +3537,5 @@ public class ModBlocks {
             entries.addAfter(ModBlocks.MAGENTA_CONCRETE_POWDER_VERTICAL_SLAB, ModBlocks.PINK_CONCRETE_POWDER_VERTICAL_SLAB);
 
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SEARCH).register(entries -> {
-            //entries.add(ModBlocks.DOUBLE_SLAB_BLOCK);
-            //entries.add(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK);
-        });
     }
 }

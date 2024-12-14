@@ -29,6 +29,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     private Identifier negativeSlabId = defaultNegativeSlabId;
     private BlockState positiveSlabState = defaultPositiveSlabState;
     private BlockState negativeSlabState = defaultNegativeSlabState;
+    private boolean isX = true;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
 
     public DoubleVerticalSlabBlockEntity(BlockPos pos, BlockState state) {
@@ -50,6 +51,12 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             negativeSlab.putString("id", this.negativeSlabId.toString());
             nbt.put("negative_slab", negativeSlab);
         }
+
+        if (this.isX) {
+            nbt.putString("axis", "X");
+        } else {
+            nbt.putString("axis", "Z");
+        }
     }
 
     @Override
@@ -70,7 +77,16 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             this.negativeSlabId = defaultNegativeSlabId;
         }
 
-        updateSlabState();
+        if (nbt.contains("axis")) {
+            String inputAxis = nbt.getString("axis");
+            if ("X".equals(inputAxis)) {
+                this.isX = true;
+            } else if ("Z".equals(inputAxis)) {
+                this.isX = false;
+            }
+        }
+
+        updateBothSlabState();
 
         if (this.world != null && !this.world.isClient()) {
             updateBlockProperties();
@@ -96,6 +112,15 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     public void setNegativeSlabId(Identifier id) {
         this.negativeSlabId = id;
         updateNegativeSlabState();
+        markDirty();
+    }
+
+    public String getAxis() {
+        return isX ? "x" : "z";
+    }
+
+    public void setAxis(String axis) {
+        this.isX = axis.equals("x");
         markDirty();
     }
 
@@ -161,13 +186,13 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.IS_OPAQUE, isOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
 
-    private void updateSlabState() {
+    private void updateBothSlabState() {
         updatePositiveSlabState();
         updateNegativeSlabState();
     }
 
     private void updatePositiveSlabState() {
-        if (Objects.requireNonNull(world).getBlockState(pos).get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
+        if (this.isX) {
             this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST);
         } else {
             this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
@@ -175,7 +200,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     }
 
     private void updateNegativeSlabState() {
-        if (Objects.requireNonNull(world).getBlockState(pos).get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
+        if (this.isX) {
             this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST);
         } else {
             this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);

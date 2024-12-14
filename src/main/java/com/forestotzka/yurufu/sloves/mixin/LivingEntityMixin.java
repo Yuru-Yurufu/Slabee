@@ -49,7 +49,7 @@ public abstract class LivingEntityMixin extends Entity {
                     target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"
             ),
             cancellable = true,
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION
+            locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci, ServerWorld serverWorld, double d, double e, double f, double g, BlockPos blockPos, float k, double l, int m) {
         if (isDoubleBlock(state.getBlock())) {

@@ -40,8 +40,6 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
 
     @Shadow private boolean breakingBlock;
 
-    @Shadow @Final private MinecraftClient client;
-
     @Inject(method = "updateBlockBreakingProgress", at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;syncSelectedSlot()V",
@@ -71,7 +69,7 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
             float currentBreakingProgress = this.getCurrentBreakingProgress();
 
             if (blockBreakingCooldown <= 0 && !(getGameMode().isCreative() && client.world.getWorldBorder().contains(pos)) && this.isCurrentlyBreaking(pos)) {
-                currentBreakingProgress = currentBreakingProgress + blockState.calcBlockBreakingDelta(client.player, client.player.getWorld(), pos);
+                currentBreakingProgress = currentBreakingProgress + blockState.calcBlockBreakingDelta(client.player, Objects.requireNonNull(client.player).getWorld(), pos);
 
                 if (blockBreakingSoundCooldown % 4.0F == 0.0F) {
                     SoundManager soundManager = client.getSoundManager();

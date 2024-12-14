@@ -10,6 +10,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
 import java.util.List;
@@ -458,26 +459,64 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
+        //slabs(exporter);
+        //verticalSlabs(exporter);
+        combineSlabs(exporter);
+        combineVerticalSlabs(exporter);
+    }
+
+    private void slabs(RecipeExporter exporter) {
         for (Pair<ItemConvertible, ItemConvertible> recipe : slabs) {
-            ItemConvertible product = recipe.getFirst();
-            ItemConvertible material = recipe.getSecond();
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, product, 6)
+            ItemConvertible slab = recipe.getFirst();
+            ItemConvertible block = recipe.getSecond();
+            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, slab, 6)
                     .pattern("###")
-                    .input('#', material)
-                    .criterion(FabricRecipeProvider.hasItem(material), FabricRecipeProvider.conditionsFromItem(material))
+                    .input('#', block)
+                    .criterion(FabricRecipeProvider.hasItem(block), FabricRecipeProvider.conditionsFromItem(block))
                     .offerTo(exporter);
         }
+    }
 
+    private void verticalSlabs(RecipeExporter exporter) {
         for (Pair<ItemConvertible, ItemConvertible> recipe : vertical_slabs) {
-            ItemConvertible product = recipe.getFirst();
-            ItemConvertible material = recipe.getSecond();
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, product, 6)
+            ItemConvertible slab = recipe.getFirst();
+            ItemConvertible block = recipe.getSecond();
+            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, slab, 6)
                     .pattern("#")
                     .pattern("#")
                     .pattern("#")
-                    .input('#', material)
-                    .criterion(FabricRecipeProvider.hasItem(material), FabricRecipeProvider.conditionsFromItem(material))
+                    .input('#', block)
+                    .criterion(FabricRecipeProvider.hasItem(block), FabricRecipeProvider.conditionsFromItem(block))
                     .offerTo(exporter);
+        }
+    }
+
+    private void combineSlabs(RecipeExporter exporter) {
+        for (Pair<ItemConvertible, ItemConvertible> recipe : slabs) {
+            ItemConvertible slab = recipe.getFirst();
+            ItemConvertible block = recipe.getSecond();
+            String filePath = block.toString();
+            filePath = filePath.substring((filePath.indexOf(":") + 1), filePath.indexOf("}")) + "_from_slab";
+            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, block, 1)
+                    .pattern("#")
+                    .pattern("#")
+                    .input('#', slab)
+                    .criterion(FabricRecipeProvider.hasItem(slab), FabricRecipeProvider.conditionsFromItem(slab))
+                    .offerTo(exporter, Identifier.of("sloves", filePath));
+        }
+    }
+
+    private void combineVerticalSlabs(RecipeExporter exporter) {
+        for (Pair<ItemConvertible, ItemConvertible> recipe : vertical_slabs) {
+            ItemConvertible slab = recipe.getFirst();
+            ItemConvertible block = recipe.getSecond();
+            String filePath = block.toString();
+            filePath = filePath.substring((filePath.indexOf(":") + 1), filePath.indexOf("}")) + "_from_vertical_slab";
+            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, block, 1)
+                    .pattern("##")
+                    .input('#', slab)
+                    .criterion(FabricRecipeProvider.hasItem(slab), FabricRecipeProvider.conditionsFromItem(slab))
+                    .offerTo(exporter, Identifier.of("sloves", filePath));
         }
     }
 }
