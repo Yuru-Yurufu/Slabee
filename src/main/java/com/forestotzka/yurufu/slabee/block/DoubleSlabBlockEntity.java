@@ -43,15 +43,19 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
 
-        NbtCompound topSlab = new NbtCompound();
-        topSlab.putString("id", this.topSlabId.toString());
-        topSlab.putString("facing", this.topSlabFacing.getName());
-        nbt.put("top_slab", topSlab);
+        if (this.topSlabId != null) {
+            NbtCompound topSlab = new NbtCompound();
+            topSlab.putString("id", this.topSlabId.toString());
+            topSlab.putString("facing", this.topSlabFacing.getName());
+            nbt.put("top_slab", topSlab);
+        }
 
-        NbtCompound bottomSlab = new NbtCompound();
-        bottomSlab.putString("id", this.bottomSlabId.toString());
-        bottomSlab.putString("facing", this.bottomSlabFacing.getName());
-        nbt.put("bottom_slab", bottomSlab);
+        if (this.bottomSlabId != null) {
+            NbtCompound bottomSlab = new NbtCompound();
+            bottomSlab.putString("id", this.bottomSlabId.toString());
+            bottomSlab.putString("facing", this.bottomSlabFacing.getName());
+            nbt.put("bottom_slab", bottomSlab);
+        }
     }
 
     @Override

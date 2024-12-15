@@ -2761,7 +2761,7 @@ public class ModBlocks {
 
     // Natural Vertical Slabs
     public static final Block GRASS_VERTICAL_SLAB = registerBlock("grass_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new GrassVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.GRASS_BLOCK.getDefaultMapColor())
                     .strength(0.6F)
                     .sounds(BlockSoundGroup.GRASS)));
