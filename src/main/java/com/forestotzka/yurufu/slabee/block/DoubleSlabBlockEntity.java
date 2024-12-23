@@ -34,10 +34,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private BlockState topSlabState = defaultTopSlabState;
     private BlockState bottomSlabState = defaultBottomSlabState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
-    public static boolean IS_OPAQUE;
     public static boolean DOWN_OPAQUE;
     public static boolean UP_OPAQUE;
-    //public static Predicate<BlockState> IS_OPAQUE = state -> state.get(DoubleSlabBlock.IS_OPAQUE);
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);

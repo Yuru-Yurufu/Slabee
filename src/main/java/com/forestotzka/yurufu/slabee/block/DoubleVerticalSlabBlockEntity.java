@@ -193,10 +193,11 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
         Block positiveSlab = positiveSlabState.getBlock();
         Block negativeSlab = negativeSlabState.getBlock();
-        boolean isOpaque = (SlabeeUtils.isOpaqueVerticalSlabs(positiveSlab) || SlabeeUtils.isOpaqueVerticalSlabs(negativeSlab));
+        boolean positiveOpaque = SlabeeUtils.isOpaqueVerticalSlabs(positiveSlab);
+        boolean negativeOpaque = SlabeeUtils.isOpaqueVerticalSlabs(negativeSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingVerticalSlabs(positiveSlab) || SlabeeUtils.isEmissiveLightingVerticalSlabs(negativeSlab));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.IS_OPAQUE, isOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.POSITIVE_OPAQUE, positiveOpaque).with(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE, negativeOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
 
     private void updateBothSlabState() {

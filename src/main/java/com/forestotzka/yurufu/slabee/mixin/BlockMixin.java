@@ -123,7 +123,7 @@ public abstract class BlockMixin {
             cir.setReturnValue(!blockState.get(DoubleSlabBlock.DOWN_OPAQUE) || !blockState.get(DoubleSlabBlock.UP_OPAQUE));
             cir.cancel();
         } else if (blockState.getBlock() instanceof DoubleVerticalSlabBlock) {
-            cir.setReturnValue(blockState.get(DoubleVerticalSlabBlock.IS_OPAQUE));
+            cir.setReturnValue(!blockState.get(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE) || !blockState.get(DoubleVerticalSlabBlock.POSITIVE_OPAQUE));
             cir.cancel();
         }
     }
