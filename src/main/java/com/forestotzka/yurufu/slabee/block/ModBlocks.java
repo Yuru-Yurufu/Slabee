@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.Slabee;
-import com.forestotzka.yurufu.slabee.extensions.AbstractBlockSettingsExtensions;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -3235,9 +3234,9 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASS)));
 
 
-    private static final AbstractBlock.Settings doubleSlabSettings = ((AbstractBlockSettingsExtensions) AbstractBlock.Settings.create()
+    private static final AbstractBlock.Settings doubleSlabSettings = AbstractBlock.Settings.create()
             .luminance(DoubleSlabBlockEntity.LUMINANCE)
-            .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))).slabee$setOpaque(state -> state.get(DoubleSlabBlock.IS_OPAQUE) ? 1 : 0);
+            .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING));
 
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
             new DoubleSlabBlock(doubleSlabSettings));

@@ -177,12 +177,11 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
         Block topSlab = topSlabState.getBlock();
         Block bottomSlab = bottomSlabState.getBlock();
-        IS_OPAQUE = (SlabeeUtils.isOpaqueSlabs(topSlab) || SlabeeUtils.isOpaqueSlabs(bottomSlab));
         DOWN_OPAQUE = SlabeeUtils.isOpaqueSlabs(bottomSlab);
         UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, IS_OPAQUE).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
 
     private void updateSlabState() {

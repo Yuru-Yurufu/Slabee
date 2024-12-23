@@ -120,7 +120,7 @@ public abstract class BlockMixin {
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(otherPos);
         if (blockState.getBlock() instanceof DoubleSlabBlock) {
-            cir.setReturnValue(blockState.get(DoubleSlabBlock.IS_OPAQUE));
+            cir.setReturnValue(!blockState.get(DoubleSlabBlock.DOWN_OPAQUE) || !blockState.get(DoubleSlabBlock.UP_OPAQUE));
             cir.cancel();
         } else if (blockState.getBlock() instanceof DoubleVerticalSlabBlock) {
             cir.setReturnValue(blockState.get(DoubleVerticalSlabBlock.IS_OPAQUE));

@@ -11,7 +11,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -22,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
-    public static final BooleanProperty IS_OPAQUE = ModProperties.IS_OPAQUE;
     public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
     public static final BooleanProperty DOWN_OPAQUE = BooleanProperty.of("down_opaque");
@@ -34,7 +32,7 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(LIGHT_LEVEL, 0).with(IS_OPAQUE, false).with(DOWN_OPAQUE, false).with(UP_OPAQUE, false).with(IS_EMISSIVE_LIGHTING, false));
+        this.setDefaultState(this.getDefaultState().with(LIGHT_LEVEL, 0).with(DOWN_OPAQUE, false).with(UP_OPAQUE, false).with(IS_EMISSIVE_LIGHTING, false));
     }
 
     @Override
@@ -44,7 +42,7 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL).add(IS_OPAQUE).add(DOWN_OPAQUE).add(UP_OPAQUE).add(IS_EMISSIVE_LIGHTING);
+        builder.add(LIGHT_LEVEL).add(DOWN_OPAQUE).add(UP_OPAQUE).add(IS_EMISSIVE_LIGHTING);
     }
 
     @Override
