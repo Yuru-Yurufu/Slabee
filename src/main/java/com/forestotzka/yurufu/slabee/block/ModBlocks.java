@@ -3234,15 +3234,16 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASS)));
 
 
-    private static final AbstractBlock.Settings doubleSlabSettings = AbstractBlock.Settings.create()
-            .luminance(DoubleSlabBlockEntity.LUMINANCE)
-            .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING));
 
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
-            new DoubleSlabBlock(doubleSlabSettings));
+            new DoubleSlabBlock(AbstractBlock.Settings.create()
+                    .luminance(DoubleSlabBlockEntity.LUMINANCE)
+                    .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))));
 
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
-            new DoubleVerticalSlabBlock(doubleSlabSettings));
+            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()
+                    .luminance(DoubleVerticalSlabBlockEntity.LUMINANCE)
+                    .emissiveLighting((state, world, pos) -> state.get(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING))));
 
 
 

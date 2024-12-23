@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
-import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
