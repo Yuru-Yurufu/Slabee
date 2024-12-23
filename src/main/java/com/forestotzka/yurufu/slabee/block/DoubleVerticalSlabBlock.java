@@ -79,4 +79,9 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
+
+    @Override
+    protected boolean hasSidedTransparency(BlockState state) {
+        return true;
+    }
 }

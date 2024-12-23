@@ -143,6 +143,8 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             return 1;
         } else if (SlabeeUtils.isCutoutMippedVerticalSlabs(block)) {
             return 2;
+        } else if (SlabeeUtils.isTranslucentVerticalSlabs(block)) {
+            return 3;
         } else {
             return 0;
         }
@@ -154,6 +156,8 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             return 1;
         } else if (SlabeeUtils.isCutoutMippedVerticalSlabs(block)) {
             return 2;
+        } else if (SlabeeUtils.isTranslucentVerticalSlabs(block)) {
+            return 3;
         } else {
             return 0;
         }

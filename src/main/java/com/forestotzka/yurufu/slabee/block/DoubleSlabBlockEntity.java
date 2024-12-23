@@ -34,6 +34,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private BlockState topSlabState = defaultTopSlabState;
     private BlockState bottomSlabState = defaultBottomSlabState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
+    public static boolean IS_OPAQUE;
+    public static boolean DOWN_OPAQUE;
+    public static boolean UP_OPAQUE;
+    //public static Predicate<BlockState> IS_OPAQUE = state -> state.get(DoubleSlabBlock.IS_OPAQUE);
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
@@ -123,6 +127,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             return 1;
         } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
             return 2;
+        } else if (SlabeeUtils.isTranslucentSlabs(block)) {
+            return 3;
         } else {
             return 0;
         }
@@ -134,6 +140,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
             return 1;
         } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
             return 2;
+        } else if (SlabeeUtils.isTranslucentSlabs(block)) {
+            return 3;
         } else {
             return 0;
         }
@@ -169,10 +177,12 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
         Block topSlab = topSlabState.getBlock();
         Block bottomSlab = bottomSlabState.getBlock();
-        boolean isOpaque = (SlabeeUtils.isOpaqueSlabs(topSlab) || SlabeeUtils.isOpaqueSlabs(bottomSlab));
+        IS_OPAQUE = (SlabeeUtils.isOpaqueSlabs(topSlab) || SlabeeUtils.isOpaqueSlabs(bottomSlab));
+        DOWN_OPAQUE = SlabeeUtils.isOpaqueSlabs(bottomSlab);
+        UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, isOpaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.IS_OPAQUE, IS_OPAQUE).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
     }
 
     private void updateSlabState() {

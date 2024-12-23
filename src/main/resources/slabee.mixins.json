@@ -4,6 +4,8 @@
     "package": "com.forestotzka.yurufu.slabee.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "AbstractBlockSettingsMixin",
+        "AbstractBlockStateMixin",
         "BlockItemMixin",
         "BlockMixin",
         "EntityMixin",

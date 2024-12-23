@@ -43,6 +43,41 @@ public class SlabeeClient implements ClientModInitializer {
             ModBlocks.AZALEA_LEAF_VERTICAL_SLAB,
             ModBlocks.FLOWERING_AZALEA_LEAF_VERTICAL_SLAB
     );
+    private static final List<Block> STAINED_GLASS_SLABS = Arrays.asList(
+            ModBlocks.WHITE_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_SLAB,
+            ModBlocks.RED_STAINED_GLASS_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_SLAB,
+
+            ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB
+    );
 
     @Override
     public void onInitializeClient() {
@@ -89,6 +124,10 @@ public class SlabeeClient implements ClientModInitializer {
 
             BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutoutMipped());
         });
+
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GLASS_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GLASS_VERTICAL_SLAB, RenderLayer.getCutout());
+        STAINED_GLASS_SLABS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent()));
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             if (tintIndex == 1 && world != null && pos != null) {

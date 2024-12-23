@@ -29,6 +29,7 @@ public class DoubleVerticalSlabBlockEntityRenderer implements BlockEntityRendere
         VertexConsumer positiveVertexConsumer = switch (entity.getPositiveRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
         MinecraftClient.getInstance().getBlockRenderManager().renderBlock(positiveSlabState, pos, world, matrices, positiveVertexConsumer, true, random);
@@ -37,6 +38,7 @@ public class DoubleVerticalSlabBlockEntityRenderer implements BlockEntityRendere
         VertexConsumer negativeVertexConsumer= switch (entity.getNegativeRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
         MinecraftClient.getInstance().getBlockRenderManager().renderBlock(negativeSlabState, pos, world, matrices, negativeVertexConsumer, true, random);

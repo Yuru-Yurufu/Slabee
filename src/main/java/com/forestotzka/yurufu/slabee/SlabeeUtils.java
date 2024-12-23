@@ -7,8 +7,10 @@ import java.util.Set;
 
 public class SlabeeUtils {
     private static final Set<Block> CutoutSlabs = Set.of(
+            ModBlocks.GLASS_SLAB
     );
     private static final Set<Block> CutoutVerticalSlabs = Set.of(
+            ModBlocks.GLASS_VERTICAL_SLAB
     );
     private static final Set<Block> CutoutMippedSlabs = Set.of(
             ModBlocks.GRASS_SLAB,
@@ -40,7 +42,61 @@ public class SlabeeUtils {
             ModBlocks.MANGROVE_ROOT_VERTICAL_SLAB,
             ModBlocks.DIRT_PATH_VERTICAL_SLAB
     );
-    private static final Set<Block> OpaqueSlabs = Set.of(
+    private static final Set<Block> TranslucentSlabs = Set.of(
+            ModBlocks.WHITE_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_SLAB,
+            ModBlocks.RED_STAINED_GLASS_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_SLAB
+    );
+    private static final Set<Block> TranslucentVerticalSlabs = Set.of(
+            ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB
+    );
+    private static final Set<Block> NonOpaqueSlabs = Set.of(
+            ModBlocks.GLASS_SLAB,
+            ModBlocks.WHITE_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_SLAB,
+            ModBlocks.RED_STAINED_GLASS_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_SLAB,
+
             ModBlocks.OAK_LEAF_SLAB,
             ModBlocks.SPRUCE_LEAF_SLAB,
             ModBlocks.BIRCH_LEAF_SLAB,
@@ -54,7 +110,25 @@ public class SlabeeUtils {
             ModBlocks.MANGROVE_ROOT_SLAB,
             ModBlocks.DIRT_PATH_SLAB
     );
-    private static final Set<Block> OpaqueVerticalSlabs = Set.of(
+    private static final Set<Block> NonOpaqueVerticalSlabs = Set.of(
+            ModBlocks.GLASS_VERTICAL_SLAB,
+            ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB,
+            ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB,
+
             ModBlocks.OAK_LEAF_VERTICAL_SLAB,
             ModBlocks.SPRUCE_LEAF_VERTICAL_SLAB,
             ModBlocks.BIRCH_LEAF_VERTICAL_SLAB,
@@ -87,11 +161,17 @@ public class SlabeeUtils {
     public static boolean isCutoutMippedVerticalSlabs(Block block) {
         return CutoutMippedVerticalSlabs.contains(block);
     }
+    public static boolean isTranslucentSlabs(Block block) {
+        return TranslucentSlabs.contains(block);
+    }
+    public static boolean isTranslucentVerticalSlabs(Block block) {
+        return TranslucentVerticalSlabs.contains(block);
+    }
     public static boolean isOpaqueSlabs(Block block) {
-        return OpaqueSlabs.contains(block);
+        return !NonOpaqueSlabs.contains(block);
     }
     public static boolean isOpaqueVerticalSlabs(Block block) {
-        return OpaqueVerticalSlabs.contains(block);
+        return !NonOpaqueVerticalSlabs.contains(block);
     }
     public static boolean isEmissiveLightingSlabs(Block block) {
         return EmissiveLightingSlabs.contains(block);
