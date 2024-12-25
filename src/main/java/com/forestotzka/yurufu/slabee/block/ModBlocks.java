@@ -997,6 +997,18 @@ public class ModBlocks {
                     .suffocates(Blocks::never)
                     .blockVision(Blocks::never)));
 
+    public static final Block TINTED_GLASS_SLAB = registerBlock("tinted_glass_slab",
+            new SlabBlock(AbstractBlock.Settings.create()
+                    .mapColor(MapColor.GRAY)
+                    .instrument(NoteBlockInstrument.HAT)
+                    .strength(0.3F)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
+                    .allowsSpawning(Blocks::never)
+                    .solidBlock(Blocks::never)
+                    .suffocates(Blocks::never)
+                    .blockVision(Blocks::never)));
+
     public static final Block WHITE_STAINED_GLASS_SLAB = registerBlock("white_stained_glass_slab", createStainedGlassSlab(DyeColor.WHITE));
     public static final Block ORANGE_STAINED_GLASS_SLAB = registerBlock("orange_stained_glass_slab", createStainedGlassSlab(DyeColor.ORANGE));
     public static final Block MAGENTA_STAINED_GLASS_SLAB = registerBlock("magenta_stained_glass_slab", createStainedGlassSlab(DyeColor.MAGENTA));
@@ -1184,6 +1196,15 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.XYLOPHONE)
                     .strength(2.0F)
                     .sounds(BlockSoundGroup.BONE)));
+
+    public static final Block GLOWSTONE_SLAB = registerBlock("glowstone_slab",
+            new SlabBlock(AbstractBlock.Settings.create()
+                    .mapColor(MapColor.PALE_YELLOW)
+                    .instrument(NoteBlockInstrument.PLING)
+                    .strength(0.3F)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .luminance((state) -> 15)
+                    .solidBlock(Blocks::never)));
 
     public static final Block MANGROVE_ROOT_SLAB = registerBlock("mangrove_root_slab",
             new SlabBlock(AbstractBlock.Settings.create()
@@ -2802,6 +2823,18 @@ public class ModBlocks {
                     .suffocates(Blocks::never)
                     .blockVision(Blocks::never)));
 
+    public static final Block TINTED_GLASS_VERTICAL_SLAB = registerBlock("tinted_glass_vertical_slab",
+            new VerticalSlabBlock(AbstractBlock.Settings.create()
+                    .mapColor(MapColor.GRAY)
+                    .instrument(NoteBlockInstrument.HAT)
+                    .strength(0.3F)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
+                    .allowsSpawning(Blocks::never)
+                    .solidBlock(Blocks::never)
+                    .suffocates(Blocks::never)
+                    .blockVision(Blocks::never)));
+
     public static final Block WHITE_STAINED_GLASS_VERTICAL_SLAB = registerBlock("white_stained_glass_vertical_slab", createStainedGlassVerticalSlab(DyeColor.WHITE));
     public static final Block ORANGE_STAINED_GLASS_VERTICAL_SLAB = registerBlock("orange_stained_glass_vertical_slab", createStainedGlassVerticalSlab(DyeColor.ORANGE));
     public static final Block MAGENTA_STAINED_GLASS_VERTICAL_SLAB = registerBlock("magenta_stained_glass_vertical_slab", createStainedGlassVerticalSlab(DyeColor.MAGENTA));
@@ -2992,6 +3025,15 @@ public class ModBlocks {
                     .strength(2.0F)
                     .sounds(BlockSoundGroup.BONE)
                     .instrument(NoteBlockInstrument.XYLOPHONE)));
+
+    public static final Block GLOWSTONE_VERTICAL_SLAB = registerBlock("glowstone_vertical_slab",
+            new VerticalSlabBlock(AbstractBlock.Settings.create()
+                    .mapColor(MapColor.PALE_YELLOW)
+                    .instrument(NoteBlockInstrument.PLING)
+                    .strength(0.3F)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .luminance((state) -> 15)
+                    .solidBlock(Blocks::never)));
 
     public static final Block MANGROVE_ROOT_VERTICAL_SLAB = registerBlock("mangrove_root_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
@@ -3545,7 +3587,8 @@ public class ModBlocks {
 
             // Glass Slabs
             entries.addAfter(Blocks.PINK_STAINED_GLASS, ModBlocks.GLASS_SLAB);
-            entries.addAfter(ModBlocks.GLASS_SLAB, ModBlocks.WHITE_STAINED_GLASS_SLAB);
+            entries.addAfter(ModBlocks.GLASS_SLAB, ModBlocks.TINTED_GLASS_SLAB);
+            entries.addAfter(ModBlocks.TINTED_GLASS_SLAB, ModBlocks.WHITE_STAINED_GLASS_SLAB);
             entries.addAfter(ModBlocks.WHITE_STAINED_GLASS_SLAB, ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB);
             entries.addAfter(ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB, ModBlocks.GRAY_STAINED_GLASS_SLAB);
             entries.addAfter(ModBlocks.GRAY_STAINED_GLASS_SLAB, ModBlocks.BLACK_STAINED_GLASS_SLAB);
@@ -3637,7 +3680,8 @@ public class ModBlocks {
 
             // Glass Vertical Slabs
             entries.addAfter(ModBlocks.PINK_STAINED_GLASS_SLAB, ModBlocks.GLASS_VERTICAL_SLAB);
-            entries.addAfter(ModBlocks.GLASS_VERTICAL_SLAB, ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB);
+            entries.addAfter(ModBlocks.GLASS_VERTICAL_SLAB, ModBlocks.TINTED_GLASS_VERTICAL_SLAB);
+            entries.addAfter(ModBlocks.TINTED_GLASS_VERTICAL_SLAB, ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB);
             entries.addAfter(ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB, ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB);
             entries.addAfter(ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB, ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB);
             entries.addAfter(ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB, ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB);

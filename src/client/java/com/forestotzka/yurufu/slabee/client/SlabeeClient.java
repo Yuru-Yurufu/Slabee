@@ -43,7 +43,8 @@ public class SlabeeClient implements ClientModInitializer {
             ModBlocks.AZALEA_LEAF_VERTICAL_SLAB,
             ModBlocks.FLOWERING_AZALEA_LEAF_VERTICAL_SLAB
     );
-    private static final List<Block> STAINED_GLASS_SLABS = Arrays.asList(
+    private static final List<Block> COLORED_GLASS_SLABS = Arrays.asList(
+            ModBlocks.TINTED_GLASS_SLAB,
             ModBlocks.WHITE_STAINED_GLASS_SLAB,
             ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB,
             ModBlocks.GRAY_STAINED_GLASS_SLAB,
@@ -61,6 +62,7 @@ public class SlabeeClient implements ClientModInitializer {
             ModBlocks.MAGENTA_STAINED_GLASS_SLAB,
             ModBlocks.PINK_STAINED_GLASS_SLAB,
 
+            ModBlocks.TINTED_GLASS_VERTICAL_SLAB,
             ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB,
             ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB,
             ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB,
@@ -127,7 +129,7 @@ public class SlabeeClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GLASS_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GLASS_VERTICAL_SLAB, RenderLayer.getCutout());
-        STAINED_GLASS_SLABS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent()));
+        COLORED_GLASS_SLABS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent()));
 
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> {
             if (tintIndex == 1 && world != null && pos != null) {

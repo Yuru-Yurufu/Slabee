@@ -134,6 +134,7 @@
         "slabee:pink_concrete_powder_slab",
 
         "slabee:glass_slab",
+        "slabee:tinted_glass_slab",
         "slabee:white_stained_glass_slab",
         "slabee:light_gray_stained_glass_slab",
         "slabee:gray_stained_glass_slab",
@@ -177,6 +178,7 @@
         "slabee:soul_sand_slab",
         "slabee:soul_soil_slab",
         "slabee:bone_slab",
+        "slabee:glowstone_slab",
 
         "slabee:mangrove_root_slab",
         "slabee:muddy_mangrove_root_slab",

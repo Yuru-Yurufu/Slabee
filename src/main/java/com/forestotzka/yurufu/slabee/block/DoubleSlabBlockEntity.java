@@ -154,23 +154,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     }
 
     public void updateBlockProperties() {
-        int topLuminance;
-        int bottomLuminance;
-        if (topSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
-            topLuminance = 3;
-        } else if (topSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB)) {
-            topLuminance = 1;
-        } else {
-            topLuminance = 0;
-        }
-        if (bottomSlabState.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
-            bottomLuminance = 3;
-        } else if (bottomSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB)) {
-            bottomLuminance = 1;
-        } else {
-            bottomLuminance = 0;
-        }
-        int luminance = Math.max(topLuminance, bottomLuminance);
+        int luminance = Math.max(DoubleSlabUtils.getLuminance(topSlabState), DoubleSlabUtils.getLuminance(bottomSlabState));
 
         Block topSlab = topSlabState.getBlock();
         Block bottomSlab = bottomSlabState.getBlock();

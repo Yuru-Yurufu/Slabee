@@ -139,6 +139,7 @@
     "block.slabee.pink_concrete_powder_slab": "桃色のコンクリートパウダーのハーフブロック",
 
     "block.slabee.glass_slab": "ガラスのハーフブロック",
+    "block.slabee.tinted_glass_slab": "遮光ガラスのハーフブロック",
     "block.slabee.white_stained_glass_slab": "白色の色付きガラスのハーフブロック",
     "block.slabee.light_gray_stained_glass_slab": "薄灰色の色付きガラスのハーフブロック",
     "block.slabee.gray_stained_glass_slab": "灰色の色付きガラスのハーフブロック",
@@ -182,6 +183,7 @@
     "block.slabee.soul_sand_slab": "ソウルサンドのハーフブロック",
     "block.slabee.soul_soil_slab": "ソウルソイルのハーフブロック",
     "block.slabee.bone_slab": "骨ブロックのハーフブロック",
+    "block.slabee.glowstone_slab": "グロウストーンのハーフブロック",
     "block.slabee.mangrove_root_slab": "マングローブの根のハーフブロック",
     "block.slabee.muddy_mangrove_root_slab": "泥だらけのマングローブの根のハーフブロック",
     "block.slabee.mushroom_stem_slab": "キノコの柄のハーフブロック",
@@ -411,6 +413,7 @@
     "block.slabee.pink_concrete_powder_vertical_slab": "桃色のコンクリートパウダーの縦ハーフブロック",
 
     "block.slabee.glass_vertical_slab": "ガラスの縦ハーフブロック",
+    "block.slabee.tinted_glass_vertical_slab": "遮光ガラスの縦ハーフブロック",
     "block.slabee.white_stained_glass_vertical_slab": "白色の色付きガラスの縦ハーフブロック",
     "block.slabee.light_gray_stained_glass_vertical_slab": "薄灰色の色付きガラスの縦ハーフブロック",
     "block.slabee.gray_stained_glass_vertical_slab": "灰色の色付きガラスの縦ハーフブロック",
@@ -454,6 +457,7 @@
     "block.slabee.soul_sand_vertical_slab": "ソウルサンドの縦ハーフブロック",
     "block.slabee.soul_soil_vertical_slab": "ソウルソイルの縦ハーフブロック",
     "block.slabee.bone_vertical_slab": "骨ブロックの縦ハーフブロック",
+    "block.slabee.glowstone_vertical_slab": "グロウストーンの縦ハーフブロック",
     "block.slabee.mangrove_root_vertical_slab": "マングローブの根の縦ハーフブロック",
     "block.slabee.muddy_mangrove_root_vertical_slab": "泥だらけのマングローブの根の縦ハーフブロック",
     "block.slabee.mushroom_stem_vertical_slab": "キノコの柄の縦ハーフブロック",

@@ -43,6 +43,7 @@ public class SlabeeUtils {
             ModBlocks.DIRT_PATH_VERTICAL_SLAB
     );
     private static final Set<Block> TranslucentSlabs = Set.of(
+            ModBlocks.TINTED_GLASS_SLAB,
             ModBlocks.WHITE_STAINED_GLASS_SLAB,
             ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB,
             ModBlocks.GRAY_STAINED_GLASS_SLAB,
@@ -61,6 +62,7 @@ public class SlabeeUtils {
             ModBlocks.PINK_STAINED_GLASS_SLAB
     );
     private static final Set<Block> TranslucentVerticalSlabs = Set.of(
+            ModBlocks.TINTED_GLASS_VERTICAL_SLAB,
             ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB,
             ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB,
             ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB,

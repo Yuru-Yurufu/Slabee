@@ -172,23 +172,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     }
 
     public void updateBlockProperties() {
-        int positiveLuminance;
-        int negativeLuminance;
-        if (positiveSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
-            positiveLuminance = 3;
-        } else if (positiveSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
-            positiveLuminance = 1;
-        } else {
-            positiveLuminance = 0;
-        }
-        if (negativeSlabState.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
-            negativeLuminance = 3;
-        } else if (negativeSlabState.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
-            negativeLuminance = 1;
-        } else {
-            negativeLuminance = 0;
-        }
-        int luminance = Math.max(positiveLuminance, negativeLuminance);
+        int luminance = Math.max(DoubleSlabUtils.getLuminance(positiveSlabState), DoubleSlabUtils.getLuminance(negativeSlabState));
 
         Block positiveSlab = positiveSlabState.getBlock();
         Block negativeSlab = negativeSlabState.getBlock();

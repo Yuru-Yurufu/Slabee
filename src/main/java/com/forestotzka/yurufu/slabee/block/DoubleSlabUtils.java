@@ -10,6 +10,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
 public class DoubleSlabUtils {
+    public static int getLuminance(BlockState state) {
+        if (state.isOf(ModBlocks.GLOWSTONE_SLAB) || state.isOf(ModBlocks.GLOWSTONE_VERTICAL_SLAB)) {
+            return 15;
+        } else if (state.isOf(ModBlocks.MAGMA_BLOCK_SLAB) || state.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
+            return 3;
+        } else if (state.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB) || state.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static float getMiningSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player, BlockView world, BlockPos pos) {
         float hardness = getHardness(positiveSlab, negativeSlab, world, pos);
         return hardness == -1.0F ? 0.0F : getBlockBreakingSpeed(positiveSlab, negativeSlab, player) / hardness / getHarvest(positiveSlab, negativeSlab, player);

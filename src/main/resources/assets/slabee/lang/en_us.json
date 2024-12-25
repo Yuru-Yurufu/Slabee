@@ -155,6 +155,7 @@
     "block.slabee.purple_stained_glass_slab": "Purple Stained Glass Slab",
     "block.slabee.magenta_stained_glass_slab": "Magenta Stained Glass Slab",
     "block.slabee.pink_stained_glass_slab": "Pink Stained Glass Slab",
+    "block.slabee.tinted_glass_slab": "Tinted Glass Slab",
 
     "block.slabee.grass_slab": "Grass Slab",
     "block.slabee.podzol_slab": "Podzol Slab",
@@ -182,6 +183,7 @@
     "block.slabee.soul_sand_slab": "Soul Sand Slab",
     "block.slabee.soul_soil_slab": "Soul Soil Slab",
     "block.slabee.bone_slab": "Bone Slab",
+    "block.slabee.glowstone_slab": "Glowstone Slab",
     "block.slabee.mangrove_root_slab": "Mangrove Root Slab",
     "block.slabee.muddy_mangrove_root_slab": "Muddy Mangrove Root Slab",
     "block.slabee.mushroom_stem_slab": "Mushroom Stem Slab",
@@ -411,6 +413,7 @@
     "block.slabee.pink_concrete_powder_vertical_slab": "Pink Concrete Powder Vertical Slab",
 
     "block.slabee.glass_vertical_slab": "Glass Vertical Slab",
+    "block.slabee.tinted_glass_vertical_slab": "Tinted Glass Vertical Slab",
     "block.slabee.white_stained_glass_vertical_slab": "White Stained Glass Vertical Slab",
     "block.slabee.light_gray_stained_glass_vertical_slab": "Light Gray Stained Glass Vertical Slab",
     "block.slabee.gray_stained_glass_vertical_slab": "Gray Stained Glass Vertical Slab",
@@ -454,6 +457,7 @@
     "block.slabee.soul_sand_vertical_slab": "Soul Sand Vertical Slab",
     "block.slabee.soul_soil_vertical_slab": "Soul Soil Vertical Slab",
     "block.slabee.bone_vertical_slab": "Bone Vertical Slab",
+    "block.slabee.glowstone_vertical_slab": "Glowstone Vertical Slab",
     "block.slabee.mangrove_root_vertical_slab": "Mangrove Root Vertical Slab",
     "block.slabee.muddy_mangrove_root_vertical_slab": "Muddy Mangrove Root Vertical Slab",
     "block.slabee.mushroom_stem_vertical_slab": "Mushroom Stem Vertical Slab",

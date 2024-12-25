@@ -195,6 +195,7 @@
         "slabee:pink_concrete_powder_vertical_slab",
 
         "slabee:glass_vertical_slab",
+        "slabee:tinted_glass_vertical_slab",
         "slabee:white_stained_glass_vertical_slab",
         "slabee:light_gray_stained_glass_vertical_slab",
         "slabee:gray_stained_glass_vertical_slab",
@@ -238,6 +239,7 @@
         "slabee:soul_sand_vertical_slab",
         "slabee:soul_soil_vertical_slab",
         "slabee:bone_vertical_slab",
+        "slabee:glowstone_vertical_slab",
 
         "slabee:mangrove_root_vertical_slab",
         "slabee:muddy_mangrove_root_vertical_slab",
