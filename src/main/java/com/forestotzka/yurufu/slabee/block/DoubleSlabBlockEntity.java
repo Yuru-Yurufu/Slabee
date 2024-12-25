@@ -66,7 +66,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         if (nbt.contains("top_slab")) {
             NbtCompound topSlabData = nbt.getCompound("top_slab");
             this.topSlabId = Identifier.of(topSlabData.getString("id"));
-            this.topSlabFacing = Direction.byName(topSlabData.getString("facing"));
+            Direction d = Direction.byName(topSlabData.getString("facing"));
+            this.topSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
             this.topSlabId = defaultTopSlabId;
             this.topSlabFacing = Direction.SOUTH;
@@ -75,7 +76,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         if (nbt.contains("bottom_slab")) {
             NbtCompound bottomSlabData = nbt.getCompound("bottom_slab");
             this.bottomSlabId = Identifier.of(bottomSlabData.getString("id"));
-            this.bottomSlabFacing = Direction.byName(bottomSlabData.getString("facing"));
+            Direction d = Direction.byName(bottomSlabData.getString("facing"));
+            this.bottomSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
             this.bottomSlabId = defaultBottomSlabId;
             this.bottomSlabFacing = Direction.SOUTH;
