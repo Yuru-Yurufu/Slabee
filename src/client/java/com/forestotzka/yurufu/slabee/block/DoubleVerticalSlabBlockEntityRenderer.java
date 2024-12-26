@@ -16,13 +16,17 @@ import net.minecraft.world.BlockRenderView;
 
 @Environment(EnvType.CLIENT)
 public class DoubleVerticalSlabBlockEntityRenderer implements BlockEntityRenderer<DoubleVerticalSlabBlockEntity> {
+    private int cachedRenderDistance = 1;
+    private long lastUpdateTime = 0;
+    private final MinecraftClient client = MinecraftClient.getInstance();
+
     public DoubleVerticalSlabBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }
 
     @Override
     public void render(DoubleVerticalSlabBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         BlockPos pos = entity.getPos();
-        BlockRenderView world = MinecraftClient.getInstance().world;
+        BlockRenderView world = client.world;
         Random random = Random.create();
 
         BlockState positiveSlabState = entity.getPositiveSlabState();
@@ -32,15 +36,25 @@ public class DoubleVerticalSlabBlockEntityRenderer implements BlockEntityRendere
             case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(positiveSlabState, pos, world, matrices, positiveVertexConsumer, true, random);
+        client.getBlockRenderManager().renderBlock(positiveSlabState, pos, world, matrices, positiveVertexConsumer, true, random);
 
         BlockState negativeSlabState = entity.getNegativeSlabState();
-        VertexConsumer negativeVertexConsumer= switch (entity.getNegativeRenderLayerType()) {
+        VertexConsumer negativeVertexConsumer = switch (entity.getNegativeRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
             case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(negativeSlabState, pos, world, matrices, negativeVertexConsumer, true, random);
+        client.getBlockRenderManager().renderBlock(negativeSlabState, pos, world, matrices, negativeVertexConsumer, true, random);
+    }
+
+    @Override
+    public int getRenderDistance() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastUpdateTime > 1000) {
+            cachedRenderDistance = (client.options.getViewDistance().getValue() + 1) * 16;
+            lastUpdateTime = currentTime;
+        }
+        return cachedRenderDistance;
     }
 }
