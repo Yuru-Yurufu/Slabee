@@ -2,7 +2,7 @@
     "parent": "minecraft:block/slab",
     "textures": {
         "bottom": "minecraft:block/lime_stained_glass",
-        "side": "minecraft:block/lime_stained_glass",
+        "side": "slabee:block/lime_stained_glass_slab",
         "top": "minecraft:block/lime_stained_glass"
     }
 }
