@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "slabee:pink_stained_glass_slab"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:pink_stained_glass"
+  }
+}

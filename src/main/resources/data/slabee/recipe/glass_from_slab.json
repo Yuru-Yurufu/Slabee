@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "slabee:glass_slab"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:glass"
+  }
+}

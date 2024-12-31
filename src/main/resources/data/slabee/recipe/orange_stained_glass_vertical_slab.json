@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:orange_stained_glass"
+    }
+  },
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 6,
+    "id": "slabee:orange_stained_glass_vertical_slab"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:cyan_stained_glass"
+    }
+  },
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 6,
+    "id": "slabee:cyan_stained_glass_vertical_slab"
+  }
+}
