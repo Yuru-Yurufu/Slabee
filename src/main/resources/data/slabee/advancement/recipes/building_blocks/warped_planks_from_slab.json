@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:warped_planks_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warped_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:warped_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_warped_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:warped_planks_from_slab"
+    ]
+  }
+}

@@ -141,7 +141,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.BLUE_CONCRETE_POWDER_SLAB, Blocks.BLUE_CONCRETE_POWDER),
             new Pair<>(ModBlocks.PURPLE_CONCRETE_POWDER_SLAB, Blocks.PURPLE_CONCRETE_POWDER),
             new Pair<>(ModBlocks.MAGENTA_CONCRETE_POWDER_SLAB, Blocks.MAGENTA_CONCRETE_POWDER),
-            new Pair<>(ModBlocks.PINK_CONCRETE_POWDER_SLAB, Blocks.PINK_CONCRETE_POWDER),*/
+            new Pair<>(ModBlocks.PINK_CONCRETE_POWDER_SLAB, Blocks.PINK_CONCRETE_POWDER),
             new Pair<>(ModBlocks.GLASS_SLAB, Blocks.GLASS),
             new Pair<>(ModBlocks.TINTED_GLASS_SLAB, Blocks.TINTED_GLASS),
             new Pair<>(ModBlocks.WHITE_STAINED_GLASS_SLAB, Blocks.WHITE_STAINED_GLASS),
@@ -160,7 +160,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.PURPLE_STAINED_GLASS_SLAB, Blocks.PURPLE_STAINED_GLASS),
             new Pair<>(ModBlocks.MAGENTA_STAINED_GLASS_SLAB, Blocks.MAGENTA_STAINED_GLASS),
             new Pair<>(ModBlocks.PINK_STAINED_GLASS_SLAB, Blocks.PINK_STAINED_GLASS),
-            /*new Pair<>(ModBlocks.GRASS_SLAB, Blocks.GRASS_BLOCK),
+            new Pair<>(ModBlocks.GRASS_SLAB, Blocks.GRASS_BLOCK),
             new Pair<>(ModBlocks.PODZOL_SLAB, Blocks.PODZOL),
             new Pair<>(ModBlocks.MYCELIUM_SLAB, Blocks.MYCELIUM),
             new Pair<>(ModBlocks.DIRT_SLAB, Blocks.DIRT),
@@ -185,8 +185,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.WARPED_NYLIUM_SLAB, Blocks.WARPED_NYLIUM),
             new Pair<>(ModBlocks.SOUL_SAND_SLAB, Blocks.SOUL_SAND),
             new Pair<>(ModBlocks.SOUL_SOIL_SLAB, Blocks.SOUL_SOIL),
-            new Pair<>(ModBlocks.BONE_SLAB, Blocks.BONE_BLOCK),*/
-            new Pair<>(ModBlocks.GLOWSTONE_SLAB, Blocks.GLOWSTONE)/*,
+            new Pair<>(ModBlocks.BONE_SLAB, Blocks.BONE_BLOCK),
+            new Pair<>(ModBlocks.GLOWSTONE_SLAB, Blocks.GLOWSTONE),
             new Pair<>(ModBlocks.MANGROVE_ROOT_SLAB, Blocks.MANGROVE_ROOTS),
             new Pair<>(ModBlocks.MUDDY_MANGROVE_ROOT_SLAB, Blocks.MUDDY_MANGROVE_ROOTS),
             new Pair<>(ModBlocks.MUSHROOM_STEM_SLAB, Blocks.MUSHROOM_STEM),
@@ -408,7 +408,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.BLUE_CONCRETE_POWDER_VERTICAL_SLAB, Blocks.BLUE_CONCRETE_POWDER),
             new Pair<>(ModBlocks.PURPLE_CONCRETE_POWDER_VERTICAL_SLAB, Blocks.PURPLE_CONCRETE_POWDER),
             new Pair<>(ModBlocks.MAGENTA_CONCRETE_POWDER_VERTICAL_SLAB, Blocks.MAGENTA_CONCRETE_POWDER),
-            new Pair<>(ModBlocks.PINK_CONCRETE_POWDER_VERTICAL_SLAB, Blocks.PINK_CONCRETE_POWDER),*/
+            new Pair<>(ModBlocks.PINK_CONCRETE_POWDER_VERTICAL_SLAB, Blocks.PINK_CONCRETE_POWDER),
             new Pair<>(ModBlocks.GLASS_VERTICAL_SLAB, Blocks.GLASS),
             new Pair<>(ModBlocks.TINTED_GLASS_VERTICAL_SLAB, Blocks.TINTED_GLASS),
             new Pair<>(ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB, Blocks.WHITE_STAINED_GLASS),
@@ -427,7 +427,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB, Blocks.PURPLE_STAINED_GLASS),
             new Pair<>(ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB, Blocks.MAGENTA_STAINED_GLASS),
             new Pair<>(ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB, Blocks.PINK_STAINED_GLASS),
-            /*new Pair<>(ModBlocks.GRASS_VERTICAL_SLAB, Blocks.GRASS_BLOCK),
+            new Pair<>(ModBlocks.GRASS_VERTICAL_SLAB, Blocks.GRASS_BLOCK),
             new Pair<>(ModBlocks.PODZOL_VERTICAL_SLAB, Blocks.PODZOL),
             new Pair<>(ModBlocks.MYCELIUM_VERTICAL_SLAB, Blocks.MYCELIUM),
             new Pair<>(ModBlocks.DIRT_VERTICAL_SLAB, Blocks.DIRT),
@@ -452,8 +452,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.WARPED_NYLIUM_VERTICAL_SLAB, Blocks.WARPED_NYLIUM),
             new Pair<>(ModBlocks.SOUL_SAND_VERTICAL_SLAB, Blocks.SOUL_SAND),
             new Pair<>(ModBlocks.SOUL_SOIL_VERTICAL_SLAB, Blocks.SOUL_SOIL),
-            new Pair<>(ModBlocks.BONE_VERTICAL_SLAB, Blocks.BONE_BLOCK),*/
-            new Pair<>(ModBlocks.GLOWSTONE_VERTICAL_SLAB, Blocks.GLOWSTONE)/*,
+            new Pair<>(ModBlocks.BONE_VERTICAL_SLAB, Blocks.BONE_BLOCK),
+            new Pair<>(ModBlocks.GLOWSTONE_VERTICAL_SLAB, Blocks.GLOWSTONE),
             new Pair<>(ModBlocks.MANGROVE_ROOT_VERTICAL_SLAB, Blocks.MANGROVE_ROOTS),
             new Pair<>(ModBlocks.MUDDY_MANGROVE_ROOT_VERTICAL_SLAB, Blocks.MUDDY_MANGROVE_ROOTS),
             new Pair<>(ModBlocks.MUSHROOM_STEM_VERTICAL_SLAB, Blocks.MUSHROOM_STEM),
@@ -491,16 +491,80 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.SCULK_VERTICAL_SLAB, Blocks.SCULK)*/
     );
 
+    List<Pair<ItemConvertible, ItemConvertible>> vanilla_slabs = Arrays.asList(
+            new Pair<>(Blocks.OAK_SLAB, Blocks.OAK_PLANKS),
+            new Pair<>(Blocks.SPRUCE_SLAB, Blocks.SPRUCE_PLANKS),
+            new Pair<>(Blocks.BIRCH_SLAB, Blocks.BIRCH_PLANKS),
+            new Pair<>(Blocks.JUNGLE_SLAB, Blocks.JUNGLE_PLANKS),
+            new Pair<>(Blocks.ACACIA_SLAB, Blocks.ACACIA_PLANKS),
+            new Pair<>(Blocks.DARK_OAK_SLAB, Blocks.DARK_OAK_PLANKS),
+            new Pair<>(Blocks.MANGROVE_SLAB, Blocks.MANGROVE_PLANKS),
+            new Pair<>(Blocks.CHERRY_SLAB, Blocks.CHERRY_PLANKS),
+            new Pair<>(Blocks.BAMBOO_SLAB, Blocks.BAMBOO_PLANKS),
+            new Pair<>(Blocks.BAMBOO_MOSAIC_SLAB, Blocks.BAMBOO_MOSAIC),
+            new Pair<>(Blocks.CRIMSON_SLAB, Blocks.CRIMSON_PLANKS),
+            new Pair<>(Blocks.WARPED_SLAB, Blocks.WARPED_PLANKS),
+            new Pair<>(Blocks.STONE_SLAB, Blocks.STONE),
+            new Pair<>(Blocks.COBBLESTONE_SLAB, Blocks.COBBLESTONE),
+            new Pair<>(Blocks.MOSSY_COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE),
+            new Pair<>(Blocks.SMOOTH_STONE_SLAB, Blocks.SMOOTH_STONE),
+            new Pair<>(Blocks.STONE_BRICK_SLAB, Blocks.STONE_BRICKS),
+            new Pair<>(Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.MOSSY_STONE_BRICKS),
+            new Pair<>(Blocks.GRANITE_SLAB, Blocks.GRANITE),
+            new Pair<>(Blocks.POLISHED_GRANITE_SLAB, Blocks.POLISHED_GRANITE),
+            new Pair<>(Blocks.DIORITE_SLAB, Blocks.DIORITE),
+            new Pair<>(Blocks.POLISHED_DIORITE_SLAB, Blocks.POLISHED_DIORITE),
+            new Pair<>(Blocks.ANDESITE_SLAB, Blocks.ANDESITE),
+            new Pair<>(Blocks.POLISHED_ANDESITE_SLAB, Blocks.POLISHED_ANDESITE),
+            new Pair<>(Blocks.COBBLED_DEEPSLATE_SLAB, Blocks.COBBLED_DEEPSLATE),
+            new Pair<>(Blocks.POLISHED_DEEPSLATE_SLAB, Blocks.POLISHED_DEEPSLATE),
+            new Pair<>(Blocks.DEEPSLATE_BRICK_SLAB, Blocks.DEEPSLATE_BRICKS),
+            new Pair<>(Blocks.DEEPSLATE_TILE_SLAB, Blocks.DEEPSLATE_TILES),
+            new Pair<>(Blocks.TUFF_SLAB, Blocks.TUFF),
+            new Pair<>(Blocks.POLISHED_TUFF_SLAB, Blocks.POLISHED_TUFF),
+            new Pair<>(Blocks.TUFF_BRICK_SLAB, Blocks.TUFF_BRICKS),
+            new Pair<>(Blocks.BRICK_SLAB, Blocks.BRICKS),
+            new Pair<>(Blocks.MUD_BRICK_SLAB, Blocks.MUD_BRICKS),
+            new Pair<>(Blocks.SANDSTONE_SLAB, Blocks.SANDSTONE),
+            new Pair<>(Blocks.SMOOTH_SANDSTONE_SLAB, Blocks.SMOOTH_SANDSTONE),
+            new Pair<>(Blocks.CUT_SANDSTONE_SLAB, Blocks.CUT_SANDSTONE),
+            new Pair<>(Blocks.RED_SANDSTONE_SLAB, Blocks.RED_SANDSTONE),
+            new Pair<>(Blocks.SMOOTH_RED_SANDSTONE_SLAB, Blocks.SMOOTH_RED_SANDSTONE),
+            new Pair<>(Blocks.CUT_RED_SANDSTONE_SLAB, Blocks.CUT_RED_SANDSTONE),
+            new Pair<>(Blocks.PRISMARINE_SLAB, Blocks.PRISMARINE),
+            new Pair<>(Blocks.PRISMARINE_BRICK_SLAB, Blocks.PRISMARINE_BRICKS),
+            new Pair<>(Blocks.DARK_PRISMARINE_SLAB, Blocks.DARK_PRISMARINE),
+            new Pair<>(Blocks.NETHER_BRICK_SLAB, Blocks.NETHER_BRICKS),
+            new Pair<>(Blocks.RED_NETHER_BRICK_SLAB, Blocks.RED_NETHER_BRICKS),
+            new Pair<>(Blocks.BLACKSTONE_SLAB, Blocks.BLACKSTONE),
+            new Pair<>(Blocks.POLISHED_BLACKSTONE_SLAB, Blocks.POLISHED_BLACKSTONE),
+            new Pair<>(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, Blocks.POLISHED_BLACKSTONE_BRICKS),
+            new Pair<>(Blocks.END_STONE_BRICK_SLAB, Blocks.END_STONE_BRICKS),
+            new Pair<>(Blocks.PURPUR_SLAB, Blocks.PURPUR_BLOCK),
+            new Pair<>(Blocks.QUARTZ_SLAB, Blocks.QUARTZ_BLOCK),
+            new Pair<>(Blocks.SMOOTH_QUARTZ_SLAB, Blocks.SMOOTH_QUARTZ),
+            new Pair<>(Blocks.CUT_COPPER_SLAB, Blocks.CUT_COPPER),
+            new Pair<>(Blocks.EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER),
+            new Pair<>(Blocks.WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER),
+            new Pair<>(Blocks.OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER),
+            new Pair<>(Blocks.WAXED_CUT_COPPER_SLAB, Blocks.WAXED_CUT_COPPER),
+            new Pair<>(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.WAXED_EXPOSED_CUT_COPPER),
+            new Pair<>(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WAXED_WEATHERED_CUT_COPPER),
+            new Pair<>(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, Blocks.WAXED_OXIDIZED_CUT_COPPER)
+            //new Pair<>(Blocks.PETRIFIED_OAK_SLAB, Blocks.PETRIFIED_OAK)
+    );
+
     public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
     public void generate(RecipeExporter exporter) {
-        slabs(exporter);
+        /*slabs(exporter);
         verticalSlabs(exporter);
-        combineSlabs(exporter);
-        combineVerticalSlabs(exporter);
+        combineSlabs(exporter, slabs);
+        combineVerticalSlabs(exporter);*/
+        combineSlabs(exporter, vanilla_slabs);
     }
 
     private void slabs(RecipeExporter exporter) {
@@ -529,8 +593,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         }
     }
 
-    private void combineSlabs(RecipeExporter exporter) {
-        for (Pair<ItemConvertible, ItemConvertible> recipe : slabs) {
+    private void combineSlabs(RecipeExporter exporter, List<Pair<ItemConvertible, ItemConvertible>> entries) {
+        for (Pair<ItemConvertible, ItemConvertible> recipe : entries) {
             ItemConvertible slab = recipe.getFirst();
             ItemConvertible block = recipe.getSecond();
             String filePath = block.toString();
