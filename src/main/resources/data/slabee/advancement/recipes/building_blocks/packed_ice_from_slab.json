@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_packed_ice_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:packed_ice_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:packed_ice_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_packed_ice_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:packed_ice_from_slab"
+    ]
+  }
+}

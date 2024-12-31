@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_deepslate_vertical_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:polished_deepslate_vertical_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:polished_deepslate_from_vertical_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_polished_deepslate_vertical_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:polished_deepslate_from_vertical_slab"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mangrove_root_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:mangrove_root_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:mangrove_roots_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mangrove_root_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:mangrove_roots_from_slab"
+    ]
+  }
+}

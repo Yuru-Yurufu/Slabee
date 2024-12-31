@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mushroom_stem_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:mushroom_stem_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:mushroom_stem_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mushroom_stem_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:mushroom_stem_from_slab"
+    ]
+  }
+}

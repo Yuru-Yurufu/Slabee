@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cherry_vertical_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:cherry_vertical_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:cherry_planks_from_vertical_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cherry_vertical_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:cherry_planks_from_vertical_slab"
+    ]
+  }
+}

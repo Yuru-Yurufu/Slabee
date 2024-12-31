@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_azalea_leaf_vertical_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:azalea_leaf_vertical_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:azalea_leaves_from_vertical_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_azalea_leaf_vertical_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:azalea_leaves_from_vertical_slab"
+    ]
+  }
+}

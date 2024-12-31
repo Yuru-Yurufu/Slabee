@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pink_concrete_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:pink_concrete_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:pink_concrete_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pink_concrete_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:pink_concrete_from_slab"
+    ]
+  }
+}

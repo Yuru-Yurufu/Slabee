@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_brain_coral_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:brain_coral_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:brain_coral_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_brain_coral_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:brain_coral_from_slab"
+    ]
+  }
+}

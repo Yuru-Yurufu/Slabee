@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:warped_stem_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warped_stem_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:warped_stem_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_warped_stem_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:warped_stem_from_slab"
+    ]
+  }
+}

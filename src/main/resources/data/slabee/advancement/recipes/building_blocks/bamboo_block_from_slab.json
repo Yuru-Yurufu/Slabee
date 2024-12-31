@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bamboo_block_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:bamboo_block_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:bamboo_block_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bamboo_block_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:bamboo_block_from_slab"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rooted_dirt_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "slabee:rooted_dirt_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "slabee:rooted_dirt_from_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rooted_dirt_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "slabee:rooted_dirt_from_slab"
+    ]
+  }
+}
