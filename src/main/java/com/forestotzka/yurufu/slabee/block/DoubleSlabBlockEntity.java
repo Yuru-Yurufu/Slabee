@@ -16,7 +16,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import java.util.Objects;
 import java.util.function.ToIntFunction;
 
 import static com.forestotzka.yurufu.slabee.block.DoubleSlabBlock.LIGHT_LEVEL;
@@ -67,7 +66,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
         if (nbt.contains("top_slab")) {
             NbtCompound topSlabData = nbt.getCompound("top_slab");
-            this.topSlabId = Identifier.of(topSlabData.getString("id"));
+            Identifier i = Identifier.of(topSlabData.getString("id"));
+            this.topSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultTopSlabId;
             Direction d = Direction.byName(topSlabData.getString("facing"));
             this.topSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
@@ -77,7 +77,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
         if (nbt.contains("bottom_slab")) {
             NbtCompound bottomSlabData = nbt.getCompound("bottom_slab");
-            this.bottomSlabId = Identifier.of(bottomSlabData.getString("id"));
+            Identifier i = Identifier.of(bottomSlabData.getString("id"));
+            this.bottomSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultBottomSlabId;
             Direction d = Direction.byName(bottomSlabData.getString("facing"));
             this.bottomSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
@@ -166,7 +167,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
 
-        //System.out.println("luminance" + luminance + "DOWN_OPAQUE" + DOWN_OPAQUE + "UP_OPAQUE" + UP_OPAQUE + "isEmissiveLighting" + isEmissiveLighting);
         if (world != null) {
             this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting);
             world.setBlockState(pos, this.blockState, 3);

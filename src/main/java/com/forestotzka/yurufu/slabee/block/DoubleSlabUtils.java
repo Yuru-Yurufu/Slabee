@@ -5,11 +5,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
 public class DoubleSlabUtils {
+    public static boolean isTrueSlabId(Identifier id) {
+        return id != null && Registries.BLOCK.containsId(id);
+    }
+
     public static int getLuminance(BlockState state) {
         if (state.isOf(ModBlocks.GLOWSTONE_SLAB) || state.isOf(ModBlocks.GLOWSTONE_VERTICAL_SLAB)) {
             return 15;

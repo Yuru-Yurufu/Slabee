@@ -65,14 +65,16 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
         if (nbt.contains("positive_slab")) {
             NbtCompound positiveSlabData = nbt.getCompound("positive_slab");
-            this.positiveSlabId = Identifier.of(positiveSlabData.getString("id"));
+            Identifier i = Identifier.of(positiveSlabData.getString("id"));
+            this.positiveSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultPositiveSlabId;
         } else {
             this.positiveSlabId = defaultPositiveSlabId;
         }
 
         if (nbt.contains("negative_slab")) {
             NbtCompound negativeSlabData = nbt.getCompound("negative_slab");
-            this.negativeSlabId = Identifier.of(negativeSlabData.getString("id"));
+            Identifier i = Identifier.of(negativeSlabData.getString("id"));
+            this.negativeSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultNegativeSlabId;
         } else {
             this.negativeSlabId = defaultNegativeSlabId;
         }
