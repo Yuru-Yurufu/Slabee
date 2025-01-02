@@ -69,7 +69,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         if (nbt.contains("positive_slab")) {
             NbtCompound positiveSlabData = nbt.getCompound("positive_slab");
             Identifier i = Identifier.of(positiveSlabData.getString("id"));
-            this.positiveSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultPositiveSlabId;
+            this.positiveSlabId = isTrueSlabId(i) ? i : defaultPositiveSlabId;
         } else {
             this.positiveSlabId = defaultPositiveSlabId;
         }
@@ -77,7 +77,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         if (nbt.contains("negative_slab")) {
             NbtCompound negativeSlabData = nbt.getCompound("negative_slab");
             Identifier i = Identifier.of(negativeSlabData.getString("id"));
-            this.negativeSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultNegativeSlabId;
+            this.negativeSlabId = isTrueSlabId(i) ? i : defaultNegativeSlabId;
         } else {
             this.negativeSlabId = defaultNegativeSlabId;
         }
@@ -216,5 +216,9 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
         } else {
             this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);
         }
+    }
+
+    private boolean isTrueSlabId(Identifier i) {
+        return DoubleSlabUtils.isTrueSlabId(i) && Registries.BLOCK.get(i) instanceof VerticalSlabBlock;
     }
 }

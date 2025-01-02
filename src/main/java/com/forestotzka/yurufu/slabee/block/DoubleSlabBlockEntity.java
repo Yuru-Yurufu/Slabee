@@ -3,6 +3,7 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.nbt.NbtCompound;
@@ -67,7 +68,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         if (nbt.contains("top_slab")) {
             NbtCompound topSlabData = nbt.getCompound("top_slab");
             Identifier i = Identifier.of(topSlabData.getString("id"));
-            this.topSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultTopSlabId;
+            this.topSlabId = isTrueSlabId(i) ? i : defaultTopSlabId;
             Direction d = Direction.byName(topSlabData.getString("facing"));
             this.topSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
@@ -78,7 +79,7 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         if (nbt.contains("bottom_slab")) {
             NbtCompound bottomSlabData = nbt.getCompound("bottom_slab");
             Identifier i = Identifier.of(bottomSlabData.getString("id"));
-            this.bottomSlabId = (DoubleSlabUtils.isTrueSlabId(i)) ? i : defaultBottomSlabId;
+            this.bottomSlabId = isTrueSlabId(i) ? i : defaultBottomSlabId;
             Direction d = Direction.byName(bottomSlabData.getString("facing"));
             this.bottomSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
@@ -190,5 +191,9 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
     private void updateBottomSlabState() {
         this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
+    }
+
+    private boolean isTrueSlabId(Identifier i) {
+        return DoubleSlabUtils.isTrueSlabId(i) && Registries.BLOCK.get(i) instanceof SlabBlock;
     }
 }
