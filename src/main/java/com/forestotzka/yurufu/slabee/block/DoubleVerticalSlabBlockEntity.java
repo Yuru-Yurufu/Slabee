@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import java.util.Objects;
 import java.util.function.ToIntFunction;
 
 import static com.forestotzka.yurufu.slabee.block.DoubleSlabBlock.LIGHT_LEVEL;
@@ -29,8 +28,12 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
     private Identifier negativeSlabId = defaultNegativeSlabId;
     private BlockState positiveSlabState = defaultPositiveSlabState;
     private BlockState negativeSlabState = defaultNegativeSlabState;
+    private final BlockState defaultBlockState = this.getCachedState();
+    private BlockState blockState = defaultBlockState;
     private boolean isX = true;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
+    public static boolean POSITIVE_OPAQUE;
+    public static boolean NEGATIVE_OPAQUE;
 
     public DoubleVerticalSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_VERTICAL_SLAB_BLOCK_ENTITY, pos, state);
@@ -88,7 +91,7 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
             }
         }
 
-        updateBothSlabState();
+        updateSlabState();
 
         if (this.world != null && !this.world.isClient()) {
             updateBlockProperties();
@@ -178,14 +181,23 @@ public class DoubleVerticalSlabBlockEntity extends BlockEntity {
 
         Block positiveSlab = positiveSlabState.getBlock();
         Block negativeSlab = negativeSlabState.getBlock();
-        boolean positiveOpaque = SlabeeUtils.isOpaqueVerticalSlabs(positiveSlab);
-        boolean negativeOpaque = SlabeeUtils.isOpaqueVerticalSlabs(negativeSlab);
+        POSITIVE_OPAQUE = SlabeeUtils.isOpaqueVerticalSlabs(positiveSlab);
+        NEGATIVE_OPAQUE = SlabeeUtils.isOpaqueVerticalSlabs(negativeSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingVerticalSlabs(positiveSlab) || SlabeeUtils.isEmissiveLightingVerticalSlabs(negativeSlab));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleVerticalSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.POSITIVE_OPAQUE, positiveOpaque).with(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE, negativeOpaque).with(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+        if (world != null) {
+            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleVerticalSlabBlock.POSITIVE_OPAQUE, POSITIVE_OPAQUE).with(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE, NEGATIVE_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting);
+            world.setBlockState(pos, this.blockState, 3);
+        } else {
+            this.blockState = this.defaultBlockState;
+        }
     }
 
-    private void updateBothSlabState() {
+    public BlockState getBlockState() {
+        return this.blockState;
+    }
+
+    private void updateSlabState() {
         updatePositiveSlabState();
         updateNegativeSlabState();
     }

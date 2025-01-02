@@ -12,10 +12,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -86,7 +84,7 @@ public abstract class BlockMixin {
 
             blockEntity.updateBlockProperties();
             blockEntity.markDirty();
-            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
+            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getBlockState(),3);
         }
     }
 
