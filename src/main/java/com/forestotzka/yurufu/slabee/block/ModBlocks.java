@@ -998,7 +998,7 @@ public class ModBlocks {
                     .blockVision(Blocks::never)));
 
     public static final Block TINTED_GLASS_SLAB = registerBlock("tinted_glass_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new TintedGlassSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.GRAY)
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
@@ -3284,8 +3284,7 @@ public class ModBlocks {
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
             new DoubleSlabBlock(AbstractBlock.Settings.create()
                     .luminance(DoubleSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))
-                    .nonOpaque()));
+                    .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))));
 
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
             new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()

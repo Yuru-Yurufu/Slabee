@@ -7,10 +7,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -26,7 +28,7 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
     public static final BooleanProperty DOWN_OPAQUE = BooleanProperty.of("down_opaque");
     public static final BooleanProperty UP_OPAQUE = BooleanProperty.of("up_opaque");
 
-    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.99999, 16.0);
+    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 7.99999, 16.0);
     protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape NON_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 15.99999, 16.0);
 
@@ -94,7 +96,7 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         if (state.get(DOWN_OPAQUE) && state.get(UP_OPAQUE)) {
-            return VoxelShapes.fullCube();
+            return NON_OPAQUE_SHAPE;
         } else if (state.get(DOWN_OPAQUE)) {
             return DOWN_OPAQUE_SHAPE;
         } else if (state.get(UP_OPAQUE)) {
@@ -103,4 +105,89 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
             return NON_OPAQUE_SHAPE;
         }
     }
+
+    @Override
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+        return true;
+    }
+
+    @Override
+    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
+        if (state.get(DOWN_OPAQUE) && state.get(UP_OPAQUE)) {
+            return world.getMaxLightLevel();
+        } else if (state.get(DOWN_OPAQUE) || state.get(UP_OPAQUE)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.fullCube();
+    }
+
+    /*@Override
+    protected VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+        if (state.get(DOWN_OPAQUE) && state.get(UP_OPAQUE)) {
+            return VoxelShapes.fullCube();
+        } else if (state.get(DOWN_OPAQUE)) {
+            return DOWN_OPAQUE_SHAPE;
+        } else if (state.get(UP_OPAQUE)) {
+            return UP_OPAQUE_SHAPE;
+        } else {
+            return NON_OPAQUE_SHAPE;
+        }
+    }*/
+
+    /*@Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        super.onBlockAdded(state, world, pos, oldState, notify);
+        //world.updateNeighborsAlways(pos, this);
+        world.getLightingProvider().checkBlock(pos);
+        //world.updateComparators(pos, this);
+        System.out.println("ADD!");
+        world.getLightingProvider().getLight(pos, 0);
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+
+        if (!world.isClient) {
+            world.getLightingProvider().checkBlock(pos);
+            ((ServerWorld) world).getChunkManager().markForUpdate(pos);
+            System.out.println("feshjgfbeskjgbjk");
+        }
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        super.onStateReplaced(state, world, pos, newState, moved);
+        if (state.getLuminance() > 0) {
+            world.updateComparators(pos, this); // コンパレータや光の再計算をトリガー
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = pos.offset(direction);
+                world.getLightingProvider().checkBlock(neighborPos); // 周囲の光を再計算
+            }
+        }
+    }
+
+    @Override
+    protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+        return 1.0F;
+    }
+    @Override
+    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.empty();
+    }
+    @Override
+    protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        return stateFrom.isOf(this) ? true : super.isSideInvisible(state, stateFrom, direction);
+    }*/
+
+    /*@Override
+    public boolean isOpaque(BlockState state) {
+        return false; // 透過ブロックとして扱う
+    }*/
 }
