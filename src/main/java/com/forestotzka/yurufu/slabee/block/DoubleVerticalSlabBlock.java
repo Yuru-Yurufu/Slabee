@@ -13,8 +13,6 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -28,13 +26,6 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
     public static final EnumProperty<VerticalSlabAxis> AXIS = EnumProperty.of("axis", VerticalSlabAxis.class);
     public static final BooleanProperty POSITIVE_OPAQUE = BooleanProperty.of("opaque_positive");
     public static final BooleanProperty NEGATIVE_OPAQUE = BooleanProperty.of("opaque_negative");
-
-    protected static final VoxelShape EAST_OPAQUE_SHAPE = Block.createCuboidShape(0.00001, 0.0, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape WEST_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 15.99999, 16.0, 16.0);
-    protected static final VoxelShape SOUTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.00001, 16.0, 16.0, 16.0);
-    protected static final VoxelShape NORTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 15.99999);
-    protected static final VoxelShape NON_OPAQUE_SHAPE_X = Block.createCuboidShape(0.00001, 0.0, 0.0, 15.99999, 16.0, 16.0);
-    protected static final VoxelShape NON_OPAQUE_SHAPE_Z = Block.createCuboidShape(0.0, 0.0, 0.00001, 16.0, 16.0, 15.99999);
 
     public DoubleVerticalSlabBlock(Settings settings) {
         super(settings);
@@ -93,28 +84,5 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
     @Override
     protected boolean hasSidedTransparency(BlockState state) {
         return true;
-    }
-
-    @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        if (state.get(NEGATIVE_OPAQUE) && state.get(POSITIVE_OPAQUE)) {
-            return VoxelShapes.fullCube();
-        } else if (state.get(AXIS) == VerticalSlabAxis.X) {
-            if (state.get(NEGATIVE_OPAQUE)) {
-                return WEST_OPAQUE_SHAPE;
-            } else if (state.get(POSITIVE_OPAQUE)) {
-                return EAST_OPAQUE_SHAPE;
-            } else {
-                return NON_OPAQUE_SHAPE_X;
-            }
-        } else {
-            if (state.get(NEGATIVE_OPAQUE)) {
-                return NORTH_OPAQUE_SHAPE;
-            } else if (state.get(POSITIVE_OPAQUE)) {
-                return SOUTH_OPAQUE_SHAPE;
-            } else {
-                return NON_OPAQUE_SHAPE_Z;
-            }
-        }
     }
 }

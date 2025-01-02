@@ -11,8 +11,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -25,10 +23,6 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
     public static final BooleanProperty DOWN_OPAQUE = BooleanProperty.of("down_opaque");
     public static final BooleanProperty UP_OPAQUE = BooleanProperty.of("up_opaque");
-
-    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.99999, 16.0);
-    protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape NON_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 15.99999, 16.0);
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);
@@ -89,18 +83,5 @@ public class DoubleSlabBlock extends BlockWithEntity implements BlockEntityProvi
     @Override
     protected boolean hasSidedTransparency(BlockState state) {
         return true;
-    }
-
-    @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        if (state.get(DOWN_OPAQUE) && state.get(UP_OPAQUE)) {
-            return VoxelShapes.fullCube();
-        } else if (state.get(DOWN_OPAQUE)) {
-            return DOWN_OPAQUE_SHAPE;
-        } else if (state.get(UP_OPAQUE)) {
-            return UP_OPAQUE_SHAPE;
-        } else {
-            return NON_OPAQUE_SHAPE;
-        }
     }
 }
