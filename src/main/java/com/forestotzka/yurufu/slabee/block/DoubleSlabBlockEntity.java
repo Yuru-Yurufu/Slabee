@@ -32,6 +32,8 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private Direction bottomSlabFacing = Direction.SOUTH;
     private BlockState topSlabState = defaultTopSlabState;
     private BlockState bottomSlabState = defaultBottomSlabState;
+    private final BlockState defaultBlockState = this.getCachedState();
+    private BlockState blockState = defaultBlockState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
     public static boolean DOWN_OPAQUE;
     public static boolean UP_OPAQUE;
@@ -164,7 +166,17 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
 
-        Objects.requireNonNull(world).setBlockState(pos, world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting), 3);
+        //System.out.println("luminance" + luminance + "DOWN_OPAQUE" + DOWN_OPAQUE + "UP_OPAQUE" + UP_OPAQUE + "isEmissiveLighting" + isEmissiveLighting);
+        if (world != null) {
+            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting);
+            world.setBlockState(pos, this.blockState, 3);
+        } else {
+            this.blockState = this.defaultBlockState;
+        }
+    }
+
+    public BlockState getBlockState() {
+        return this.blockState;
     }
 
     private void updateSlabState() {

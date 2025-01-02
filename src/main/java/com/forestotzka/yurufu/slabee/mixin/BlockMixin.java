@@ -4,10 +4,7 @@ import com.forestotzka.yurufu.slabee.SlabeeAccessor;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.SlabBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -15,8 +12,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -60,7 +59,7 @@ public abstract class BlockMixin {
 
             blockEntity.updateBlockProperties();
             blockEntity.markDirty();
-            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getCachedState(),3);
+            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getBlockState(),3);
         } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
             String axis;
             String first_slab = state.getBlock().toString();
