@@ -167,9 +167,10 @@ public class DoubleSlabBlockEntity extends BlockEntity {
         DOWN_OPAQUE = SlabeeUtils.isOpaqueSlabs(bottomSlab);
         UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
+        int seeThrough = SlabeeUtils.isSeeThroughSlabs(topSlab, bottomSlab);
 
         if (world != null) {
-            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting);
+            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting).with(DoubleSlabBlock.SEE_THROUGH, seeThrough);
             world.setBlockState(pos, this.blockState, 3);
         } else {
             this.blockState = this.defaultBlockState;
@@ -196,4 +197,16 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private boolean isTrueSlabId(Identifier i) {
         return DoubleSlabUtils.isTrueSlabId(i) && Registries.BLOCK.get(i) instanceof SlabBlock;
     }
+
+    /*public static boolean isFaceTransparent(BlockState state, Direction direction) {
+        if (!state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+            return false;
+        }
+
+        DoubleSlabBlockEntity blockEntity = world.getBlockEntity();
+
+        if (direction == Direction.UP) {
+            return DOWN_OPAQUE;
+        }
+    }*/
 }

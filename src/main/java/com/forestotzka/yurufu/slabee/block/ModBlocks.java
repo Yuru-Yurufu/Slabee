@@ -987,7 +987,7 @@ public class ModBlocks {
 
     // Glass Slabs
     public static final Block GLASS_SLAB = registerBlock("glass_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new TransparentSlabBlock(AbstractBlock.Settings.create()
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
                     .sounds(BlockSoundGroup.GLASS)
@@ -2813,7 +2813,7 @@ public class ModBlocks {
 
     // Glass Vertical Slabs
     public static final Block GLASS_VERTICAL_SLAB = registerBlock("glass_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new TransparentVerticalSlabBlock(AbstractBlock.Settings.create()
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
                     .sounds(BlockSoundGroup.GLASS)
@@ -2824,7 +2824,7 @@ public class ModBlocks {
                     .blockVision(Blocks::never)));
 
     public static final Block TINTED_GLASS_VERTICAL_SLAB = registerBlock("tinted_glass_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new TintedGlassVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.GRAY)
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
@@ -3305,7 +3305,7 @@ public class ModBlocks {
     }
 
     private static Block createStainedGlassSlab(DyeColor color) {
-        return new SlabBlock(AbstractBlock.Settings.create()
+        return new TransparentSlabBlock(AbstractBlock.Settings.create()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
@@ -3318,7 +3318,7 @@ public class ModBlocks {
     }
 
     private static Block createStainedGlassVerticalSlab(DyeColor color) {
-        return new VerticalSlabBlock(AbstractBlock.Settings.create()
+        return new TransparentVerticalSlabBlock(AbstractBlock.Settings.create()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
