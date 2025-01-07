@@ -35,8 +35,6 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     private final BlockState defaultBlockState = this.getCachedState();
     private BlockState blockState = defaultBlockState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
-    public static boolean DOWN_OPAQUE;
-    public static boolean UP_OPAQUE;
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
@@ -164,13 +162,12 @@ public class DoubleSlabBlockEntity extends BlockEntity {
 
         Block topSlab = topSlabState.getBlock();
         Block bottomSlab = bottomSlabState.getBlock();
-        DOWN_OPAQUE = SlabeeUtils.isOpaqueSlabs(bottomSlab);
-        UP_OPAQUE = SlabeeUtils.isOpaqueSlabs(topSlab);
         boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
-        int seeThrough = SlabeeUtils.isSeeThroughSlabs(topSlab, bottomSlab);
+        int opaque = SlabeeUtils.getOpaque(topSlab, bottomSlab);
+        int seeThrough = SlabeeUtils.getSeeThrough(topSlab, bottomSlab);
 
         if (world != null) {
-            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.DOWN_OPAQUE, DOWN_OPAQUE).with(DoubleSlabBlock.UP_OPAQUE, UP_OPAQUE).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting).with(DoubleSlabBlock.SEE_THROUGH, seeThrough);
+            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.OPAQUE, opaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting).with(DoubleSlabBlock.SEE_THROUGH, seeThrough);
             world.setBlockState(pos, this.blockState, 3);
         } else {
             this.blockState = this.defaultBlockState;

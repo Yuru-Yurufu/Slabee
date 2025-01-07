@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -119,26 +118,16 @@ public abstract class BlockMixin {
         BlockState blockState = world.getBlockState(otherPos);
         if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
             if (side == Direction.UP) {
-                cir.setReturnValue(isBottomSeeThrough(blockState));
+                cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
             } else if (side == Direction.DOWN) {
-                cir.setReturnValue(isTopSeeThrough(blockState));
+                cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
             } else {
-                cir.setReturnValue(isTopSeeThrough(blockState) || isBottomSeeThrough(blockState));
+                cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
             }
             cir.cancel();
         } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             cir.setReturnValue(!blockState.get(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE) || !blockState.get(DoubleVerticalSlabBlock.POSITIVE_OPAQUE));
             cir.cancel();
         }
-    }
-
-    @Unique
-    private static boolean isTopSeeThrough(BlockState state) {
-        return state.get(DoubleSlabBlock.SEE_THROUGH) >= 2;
-    }
-
-    @Unique
-    private static boolean isBottomSeeThrough(BlockState state) {
-        return (state.get(DoubleSlabBlock.SEE_THROUGH) % 2) == 1;
     }
 }

@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
+import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,36 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
 public class DoubleSlabUtils {
+    private DoubleSlabUtils() {}
+
+    public static boolean isPositiveSeeThrough(BlockState state) {
+        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+            return false;
+        }
+        return state.get(ModProperties.SEE_THROUGH) >= 2;
+    }
+
+    public static boolean isNegativeSeeThrough(BlockState state) {
+        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+            return false;
+        }
+        return (state.get(ModProperties.SEE_THROUGH) % 2) == 1;
+    }
+
+    public static boolean isPositiveOpaque(BlockState state) {
+        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+            return false;
+        }
+        return state.get(ModProperties.OPAQUE) >= 2;
+    }
+
+    public static boolean isNegativeOpaque(BlockState state) {
+        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+            return false;
+        }
+        return (state.get(ModProperties.OPAQUE) % 2) == 1;
+    }
+
     public static boolean isTrueSlabId(Identifier id) {
         return id != null && Registries.BLOCK.containsId(id);
     }

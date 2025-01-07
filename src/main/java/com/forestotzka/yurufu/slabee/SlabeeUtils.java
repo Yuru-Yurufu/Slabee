@@ -1,7 +1,9 @@
 package com.forestotzka.yurufu.slabee;
 
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
+import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.SlabBlock;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -170,9 +172,6 @@ public class SlabeeUtils {
     public static boolean isTranslucentVerticalSlabs(Block block) {
         return TranslucentVerticalSlabs.contains(block);
     }
-    public static boolean isOpaqueSlabs(Block block) {
-        return !NonOpaqueSlabs.contains(block);
-    }
     public static boolean isOpaqueVerticalSlabs(Block block) {
         return !NonOpaqueVerticalSlabs.contains(block);
     }
@@ -182,16 +181,26 @@ public class SlabeeUtils {
     public static boolean isEmissiveLightingVerticalSlabs(Block block) {
         return EmissiveLightingVerticalSlabs.contains(block);
     }
-    public static int isSeeThroughSlabs(Block p, Block n) {
-        return booleanToInt(SeeThroughSlabs.contains(p), SeeThroughSlabs.contains(n));
+
+    public static int getOpaque(Block p, Block n) {
+        if (p instanceof SlabBlock) {
+            return booleanToInt(!NonOpaqueSlabs.contains(p), !NonOpaqueSlabs.contains(n));
+        } else if (p instanceof VerticalSlabBlock) {
+            return booleanToInt(!NonOpaqueVerticalSlabs.contains(p), !NonOpaqueVerticalSlabs.contains(n));
+        } else {
+            return 0;
+        }
     }
-    public static int isSeeThroughVerticalSlabs(Block p, Block n) {
-        return booleanToInt(SeeThroughVerticalSlabs.contains(p), SeeThroughVerticalSlabs.contains(n));
+    public static int getSeeThrough(Block p, Block n) {
+        if (p instanceof SlabBlock) {
+            return booleanToInt(SeeThroughSlabs.contains(p), SeeThroughSlabs.contains(n));
+        } else if (p instanceof VerticalSlabBlock) {
+            return booleanToInt(SeeThroughVerticalSlabs.contains(p), SeeThroughVerticalSlabs.contains(n));
+        } else {
+            return 0;
+        }
     }
 
-    private static int booleanToInt(boolean bl) {
-        return bl ? 1 : 0;
-    }
     private static int booleanToInt(boolean bl1, boolean bl2) {
         return (bl1 ? 2 : 0) + (bl2 ? 1 : 0);
     }
