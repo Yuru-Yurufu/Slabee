@@ -102,7 +102,7 @@ public abstract class BlockMixin {
             cir.cancel();
         } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             Identifier slabId;
-            DoubleVerticalSlabBlockEntity blockEntity= (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
+            DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
             if ((state.get(AXIS) == VerticalSlabAxis.X && ClickPositionTracker.clickEasternHalf) || (state.get(AXIS) == VerticalSlabAxis.Z && ClickPositionTracker.clickSouthernHalf)) {
                 slabId = Objects.requireNonNull(blockEntity).getPositiveSlabId();
             } else {
@@ -126,7 +126,23 @@ public abstract class BlockMixin {
             }
             cir.cancel();
         } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
-            cir.setReturnValue(!blockState.get(DoubleVerticalSlabBlock.NEGATIVE_OPAQUE) || !blockState.get(DoubleVerticalSlabBlock.POSITIVE_OPAQUE));
+            if (blockState.get(AXIS) == VerticalSlabAxis.X) {
+                if (side == Direction.EAST) {
+                    cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
+                } else if (side == Direction.WEST) {
+                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
+                } else {
+                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
+                }
+            } else {
+                if (side == Direction.SOUTH) {
+                    cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
+                } else if (side == Direction.NORTH) {
+                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
+                } else {
+                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
+                }
+            }
             cir.cancel();
         }
     }

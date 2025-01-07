@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
-import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,9 +8,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -22,12 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEntityProvider {
-    public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
-    public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
+public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
     public static final EnumProperty<VerticalSlabAxis> AXIS = EnumProperty.of("axis", VerticalSlabAxis.class);
-    public static final BooleanProperty POSITIVE_OPAQUE = BooleanProperty.of("opaque_positive");
-    public static final BooleanProperty NEGATIVE_OPAQUE = BooleanProperty.of("opaque_negative");
 
     protected static final VoxelShape EAST_OPAQUE_SHAPE = Block.createCuboidShape(0.00001, 0.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape WEST_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 15.99999, 16.0, 16.0);
@@ -38,7 +31,7 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
 
     public DoubleVerticalSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(LIGHT_LEVEL, 0).with(POSITIVE_OPAQUE, false).with(NEGATIVE_OPAQUE, false).with(IS_EMISSIVE_LIGHTING, false).with(AXIS, VerticalSlabAxis.X));
+        this.setDefaultState(this.getDefaultState().with(AXIS, VerticalSlabAxis.X));
     }
 
     @Override
@@ -48,7 +41,8 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL).add(POSITIVE_OPAQUE).add(NEGATIVE_OPAQUE).add(IS_EMISSIVE_LIGHTING).add(AXIS);
+        super.appendProperties(builder);
+        builder.add(AXIS);
     }
 
     @Override
@@ -86,31 +80,23 @@ public class DoubleVerticalSlabBlock extends BlockWithEntity implements BlockEnt
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-    @Override
-    protected boolean hasSidedTransparency(BlockState state) {
-        return true;
-    }
-
-    @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        if (state.get(NEGATIVE_OPAQUE) && state.get(POSITIVE_OPAQUE)) {
+        boolean positiveOpaque = DoubleSlabUtils.isPositiveOpaque(state);
+        boolean negativeOpaque = DoubleSlabUtils.isNegativeOpaque(state);
+        if (positiveOpaque && negativeOpaque) {
             return VoxelShapes.fullCube();
         } else if (state.get(AXIS) == VerticalSlabAxis.X) {
-            if (state.get(NEGATIVE_OPAQUE)) {
+            if (positiveOpaque) {
                 return WEST_OPAQUE_SHAPE;
-            } else if (state.get(POSITIVE_OPAQUE)) {
+            } else if (negativeOpaque) {
                 return EAST_OPAQUE_SHAPE;
             } else {
                 return NON_OPAQUE_SHAPE_X;
             }
         } else {
-            if (state.get(NEGATIVE_OPAQUE)) {
+            if (positiveOpaque) {
                 return NORTH_OPAQUE_SHAPE;
-            } else if (state.get(POSITIVE_OPAQUE)) {
+            } else if (negativeOpaque) {
                 return SOUTH_OPAQUE_SHAPE;
             } else {
                 return NON_OPAQUE_SHAPE_Z;

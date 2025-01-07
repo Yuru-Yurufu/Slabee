@@ -77,17 +77,4 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
             return NON_OPAQUE_SHAPE;
         }
     }
-
-    @Override
-    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
-        boolean topOpaque = DoubleSlabUtils.isPositiveOpaque(state);
-        boolean bottomOpaque = DoubleSlabUtils.isNegativeOpaque(state);
-        if (bottomOpaque && topOpaque) {
-            return world.getMaxLightLevel();
-        } else if (bottomOpaque || topOpaque) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
 }
