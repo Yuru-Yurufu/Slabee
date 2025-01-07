@@ -1,4 +1,4 @@
-package com.forestotzka.yurufu.slabee.client;
+package com.forestotzka.yurufu.slabee;
 
 import com.forestotzka.yurufu.slabee.block.ModBlockEntities;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
