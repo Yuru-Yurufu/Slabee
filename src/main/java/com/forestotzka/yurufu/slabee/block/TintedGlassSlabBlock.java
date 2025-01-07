@@ -16,11 +16,12 @@ public class TintedGlassSlabBlock extends TransparentSlabBlock {
         super(settings);
     }
 
-    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
-        return false;
+    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
+        return 1;
     }
 
-    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
-        return world.getMaxLightLevel();
+    @Override
+    protected boolean hasSidedTransparency(BlockState state) {
+        return true;
     }
 }

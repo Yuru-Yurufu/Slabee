@@ -51,11 +51,6 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     @Override
-    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
-        return true;
-    }
-
-    @Override
     protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
         boolean positiveOpaque = DoubleSlabUtils.isPositiveOpaque(state);
         boolean negativeOpaque = DoubleSlabUtils.isNegativeOpaque(state);
