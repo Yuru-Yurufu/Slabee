@@ -1197,7 +1197,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.BONE)));
 
     public static final Block GLOWSTONE_SLAB = registerBlock("glowstone_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new GlowingSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.PALE_YELLOW)
                     .instrument(NoteBlockInstrument.PLING)
                     .strength(0.3F)
@@ -3025,7 +3025,7 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.XYLOPHONE)));
 
     public static final Block GLOWSTONE_VERTICAL_SLAB = registerBlock("glowstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new GlowingVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.PALE_YELLOW)
                     .instrument(NoteBlockInstrument.PLING)
                     .strength(0.3F)

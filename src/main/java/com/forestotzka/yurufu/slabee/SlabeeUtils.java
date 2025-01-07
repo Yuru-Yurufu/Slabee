@@ -13,6 +13,8 @@ public class SlabeeUtils {
     private static final Set<Block> StainedGlassVerticalSlabs;
     private static final Set<Block> LeafSlabs;
     private static final Set<Block> LeafVerticalSlabs;
+    private static final Set<Block> GlowingSlabs;
+    private static final Set<Block> GlowingVerticalSlabs;
 
     private static final Set<Block> CutoutSlabs;
     private static final Set<Block> CutoutVerticalSlabs;
@@ -88,6 +90,16 @@ public class SlabeeUtils {
                 ModBlocks.AZALEA_LEAF_VERTICAL_SLAB,
                 ModBlocks.FLOWERING_AZALEA_LEAF_VERTICAL_SLAB
         );
+        GlowingSlabs = Set.of(
+                ModBlocks.GLOWSTONE_SLAB,
+                ModBlocks.MAGMA_BLOCK_SLAB,
+                ModBlocks.CRYING_OBSIDIAN_SLAB
+        );
+        GlowingVerticalSlabs = Set.of(
+                ModBlocks.GLOWSTONE_VERTICAL_SLAB,
+                ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB,
+                ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB
+        );
 
         CutoutSlabs = Set.of(
                 ModBlocks.GLASS_SLAB
@@ -108,6 +120,7 @@ public class SlabeeUtils {
                 ModBlocks.DIRT_PATH_VERTICAL_SLAB
         ));
         CutoutMippedVerticalSlabs.addAll(LeafVerticalSlabs);
+
         TranslucentSlabs = new HashSet<>(Set.of(
                 ModBlocks.TINTED_GLASS_SLAB
         ));
@@ -116,6 +129,7 @@ public class SlabeeUtils {
                 ModBlocks.TINTED_GLASS_VERTICAL_SLAB
         ));
         TranslucentVerticalSlabs.addAll(StainedGlassVerticalSlabs);
+
         NonOpaqueSlabs = new HashSet<>(Set.of(
                 ModBlocks.GLASS_SLAB,
                 ModBlocks.MANGROVE_ROOT_SLAB,
@@ -123,6 +137,7 @@ public class SlabeeUtils {
         ));
         NonOpaqueSlabs.addAll(StainedGlassSlabs);
         NonOpaqueSlabs.addAll(LeafSlabs);
+        NonOpaqueSlabs.addAll(GlowingSlabs);
         NonOpaqueVerticalSlabs = new HashSet<>(Set.of(
                 ModBlocks.GLASS_VERTICAL_SLAB,
                 ModBlocks.MANGROVE_ROOT_VERTICAL_SLAB,
@@ -130,12 +145,15 @@ public class SlabeeUtils {
         ));
         NonOpaqueVerticalSlabs.addAll(StainedGlassVerticalSlabs);
         NonOpaqueVerticalSlabs.addAll(LeafVerticalSlabs);
+        NonOpaqueVerticalSlabs.addAll(GlowingVerticalSlabs);
+
         EmissiveLightingSlabs = Set.of(
                 ModBlocks.MAGMA_BLOCK_SLAB
         );
         EmissiveLightingVerticalSlabs = Set.of(
                 ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB
         );
+
         SeeThroughSlabs = new HashSet<>(Set.of(
                 ModBlocks.GLASS_SLAB,
                 ModBlocks.TINTED_GLASS_SLAB,
@@ -172,9 +190,7 @@ public class SlabeeUtils {
     public static boolean isTranslucentVerticalSlabs(Block block) {
         return TranslucentVerticalSlabs.contains(block);
     }
-    public static boolean isOpaqueVerticalSlabs(Block block) {
-        return !NonOpaqueVerticalSlabs.contains(block);
-    }
+
     public static boolean isEmissiveLightingSlabs(Block block) {
         return EmissiveLightingSlabs.contains(block);
     }
