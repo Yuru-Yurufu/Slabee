@@ -1,8 +1,0 @@
-{
-    "parent": "slabee:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/green_stained_glass",
-        "east": "minecraft:block/green_stained_glass",
-        "west": "minecraft:block/green_stained_glass"
-    }
-}

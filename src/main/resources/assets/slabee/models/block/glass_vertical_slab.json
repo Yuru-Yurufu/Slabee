@@ -1,8 +1,0 @@
-{
-    "parent": "slabee:block/vertical_slab",
-    "textures": {
-        "side": "minecraft:block/glass",
-        "east": "minecraft:block/glass",
-        "west": "minecraft:block/glass"
-    }
-}

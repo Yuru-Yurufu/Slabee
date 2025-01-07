@@ -1,0 +1,11 @@
+{
+    "parent": "slabee:block/hexa_vertical_slab",
+    "textures": {
+        "down": "slabee:block/red_stained_glass_slab",
+        "up": "slabee:block/red_stained_glass_slab",
+        "north": "slabee:block/red_stained_glass_vertical_slab",
+        "south": "slabee:block/red_stained_glass_vertical_slab",
+        "east": "minecraft:block/red_stained_glass",
+        "west": "minecraft:block/red_stained_glass"
+    }
+}
