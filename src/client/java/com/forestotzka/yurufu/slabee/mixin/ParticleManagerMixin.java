@@ -43,9 +43,9 @@ public abstract class ParticleManagerMixin {
 
             if (blockEntity instanceof DoubleSlabBlockEntity entity) {
                 if ((e - j) > 0.5) {
-                    particleState = entity.getTopSlabState();
+                    particleState = entity.getPositiveSlabState();
                 } else {
-                    particleState = entity.getBottomSlabState();
+                    particleState = entity.getNegativeSlabState();
                 }
             } else if (blockEntity instanceof DoubleVerticalSlabBlockEntity entity) {
                 if ((blockState.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X && (d - i) > 0.5) || (blockState.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.Z && (g - k) > 0.5)) {

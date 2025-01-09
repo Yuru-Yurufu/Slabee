@@ -19,7 +19,6 @@ import net.minecraft.world.BlockRenderView;
 public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<DoubleSlabBlockEntity> {
     private int cachedRenderDistance = 1;
     private long lastUpdateTime = 0;
-    private long lastUpdateTime2 = 0;
     private final MinecraftClient client = MinecraftClient.getInstance();
 
     public DoubleSlabBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
@@ -31,8 +30,8 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         BlockRenderView world = client.world;
         Random random = Random.create();
 
-        BlockState topSlabState = entity.getTopSlabState();
-        VertexConsumer topVertexConsumer = switch (entity.getTopRenderLayerType()) {
+        BlockState topSlabState = entity.getPositiveSlabState();
+        VertexConsumer topVertexConsumer = switch (entity.getPositiveRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
             case 3 -> vertexConsumers.getBuffer(SlabeeRenderLayer.getCustomTranslucent4());
@@ -40,20 +39,17 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         };
         client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, false, random);
 
-        BlockState bottomSlabState = entity.getBottomSlabState();
+        BlockState bottomSlabState = entity.getNegativeSlabState();
         if (bottomSlabState.isOf(ModBlocks.DIRT_PATH_SLAB)) {
             bottomSlabState = ModBlocks.DIRT_SLAB.getDefaultState();
         }
-        VertexConsumer bottomVertexConsumer = switch (entity.getBottomRenderLayerType()) {
+        VertexConsumer bottomVertexConsumer = switch (entity.getNegativeRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
             case 3 -> vertexConsumers.getBuffer(SlabeeRenderLayer.getCustomTranslucent4());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
         client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, false, random);
-
-        /*System.out.println("Rendering block at " + pos + " with state: up: " + topSlabState + "bottom: " + bottomSlabState);
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");*/
     }
 
     @Override

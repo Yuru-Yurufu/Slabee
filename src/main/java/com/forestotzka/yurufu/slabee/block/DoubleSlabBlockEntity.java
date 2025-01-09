@@ -1,15 +1,8 @@
 package com.forestotzka.yurufu.slabee.block;
 
-import com.forestotzka.yurufu.slabee.SlabeeUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.state.property.Properties;
@@ -17,45 +10,30 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import java.util.function.ToIntFunction;
-
-import static com.forestotzka.yurufu.slabee.block.DoubleSlabBlock.LIGHT_LEVEL;
-
-public class DoubleSlabBlockEntity extends BlockEntity {
-    private final Identifier defaultTopSlabId = Identifier.of("slabee:purple_concrete_slab");
-    private final Identifier defaultBottomSlabId = Identifier.of("slabee:black_concrete_slab");
-    private final BlockState defaultTopSlabState = Registries.BLOCK.get(defaultTopSlabId).getDefaultState();
-    private final BlockState defaultBottomSlabState = Registries.BLOCK.get(defaultBottomSlabId).getDefaultState();
-    private Identifier topSlabId = defaultTopSlabId;
-    private Identifier bottomSlabId = defaultBottomSlabId;
-    private Direction topSlabFacing = Direction.SOUTH;
-    private Direction bottomSlabFacing = Direction.SOUTH;
-    private BlockState topSlabState = defaultTopSlabState;
-    private BlockState bottomSlabState = defaultBottomSlabState;
-    private final BlockState defaultBlockState = this.getCachedState();
-    private BlockState blockState = defaultBlockState;
-    public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
+public class DoubleSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
+    private Direction positiveSlabFacing = Direction.SOUTH;
+    private Direction negativeSlabFacing = Direction.SOUTH;
 
     public DoubleSlabBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.DOUBLE_SLAB_BLOCK_ENTITY, pos, state, Identifier.of("slabee:purple_concrete_slab"), Identifier.of("slabee:black_concrete_slab"));
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
 
-        if (this.topSlabId != null) {
-            NbtCompound topSlab = new NbtCompound();
-            topSlab.putString("id", this.topSlabId.toString());
-            topSlab.putString("facing", this.topSlabFacing.getName());
-            nbt.put("top_slab", topSlab);
+        if (this.positiveSlabId != null) {
+            NbtCompound positiveSlab = new NbtCompound();
+            positiveSlab.putString("id", this.positiveSlabId.toString());
+            positiveSlab.putString("facing", this.positiveSlabFacing.getName());
+            nbt.put("positive_slab", positiveSlab);
         }
 
-        if (this.bottomSlabId != null) {
-            NbtCompound bottomSlab = new NbtCompound();
-            bottomSlab.putString("id", this.bottomSlabId.toString());
-            bottomSlab.putString("facing", this.bottomSlabFacing.getName());
-            nbt.put("bottom_slab", bottomSlab);
+        if (this.negativeSlabId != null) {
+            NbtCompound negativeSlab = new NbtCompound();
+            negativeSlab.putString("id", this.negativeSlabId.toString());
+            negativeSlab.putString("facing", this.negativeSlabFacing.getName());
+            nbt.put("negative_slab", negativeSlab);
         }
     }
 
@@ -63,147 +41,38 @@ public class DoubleSlabBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
 
-        if (nbt.contains("top_slab")) {
-            NbtCompound topSlabData = nbt.getCompound("top_slab");
-            Identifier i = Identifier.of(topSlabData.getString("id"));
-            this.topSlabId = isTrueSlabId(i) ? i : defaultTopSlabId;
-            Direction d = Direction.byName(topSlabData.getString("facing"));
-            this.topSlabFacing = (d != null) ? d : Direction.SOUTH;
+        if (nbt.contains("positive_slab")) {
+            NbtCompound positiveSlabData = nbt.getCompound("positive_slab");
+            Identifier i = Identifier.of(positiveSlabData.getString("id"));
+            this.positiveSlabId = isTrueSlabId(i) ? i : defaultPositiveSlabId;
+            System.out.println(this.positiveSlabId);
+            Direction d = Direction.byName(positiveSlabData.getString("facing"));
+            this.positiveSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
-            this.topSlabId = defaultTopSlabId;
-            this.topSlabFacing = Direction.SOUTH;
+            this.positiveSlabId = defaultPositiveSlabId;
+            this.positiveSlabFacing = Direction.SOUTH;
         }
 
-        if (nbt.contains("bottom_slab")) {
-            NbtCompound bottomSlabData = nbt.getCompound("bottom_slab");
-            Identifier i = Identifier.of(bottomSlabData.getString("id"));
-            this.bottomSlabId = isTrueSlabId(i) ? i : defaultBottomSlabId;
-            Direction d = Direction.byName(bottomSlabData.getString("facing"));
-            this.bottomSlabFacing = (d != null) ? d : Direction.SOUTH;
+        if (nbt.contains("negative_slab")) {
+            NbtCompound negativeSlabData = nbt.getCompound("negative_slab");
+            Identifier i = Identifier.of(negativeSlabData.getString("id"));
+            this.negativeSlabId = isTrueSlabId(i) ? i : defaultNegativeSlabId;
+            Direction d = Direction.byName(negativeSlabData.getString("facing"));
+            this.negativeSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
-            this.bottomSlabId = defaultBottomSlabId;
-            this.bottomSlabFacing = Direction.SOUTH;
+            this.negativeSlabId = defaultNegativeSlabId;
+            this.negativeSlabFacing = Direction.SOUTH;
         }
 
         updateSlabState();
-
-        if (this.world != null && !this.world.isClient()) {
-            updateBlockProperties();
-            this.markDirty();
-            world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
-        }
+        updateBlockProperties();
     }
 
-    public Identifier getTopSlabId() {
-        return topSlabId;
+    protected void updatePositiveSlabState() {
+        this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
     }
 
-    public void setTopSlabId(Identifier id) {
-        this.topSlabId = id;
-        updateTopSlabState();
-        markDirty();
+    protected void updateNegativeSlabState() {
+        this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState();
     }
-
-    public Identifier getBottomSlabId() {
-        return bottomSlabId;
-    }
-
-    public void setBottomSlabId(Identifier id) {
-        this.bottomSlabId = id;
-        updateBottomSlabState();
-        markDirty();
-    }
-
-    public BlockState getTopSlabState() {
-        return this.topSlabState;
-    }
-
-    public BlockState getBottomSlabState() {
-        return this.bottomSlabState;
-    }
-
-    public Integer getTopRenderLayerType() {
-        Block block = Registries.BLOCK.get(this.topSlabId);
-        if (SlabeeUtils.isCutoutSlabs(block)) {
-            return 1;
-        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
-            return 2;
-        } else if (SlabeeUtils.isTranslucentSlabs(block)) {
-            return 3;
-        } else {
-            return 0;
-        }
-    }
-
-    public Integer getBottomRenderLayerType() {
-        Block block = Registries.BLOCK.get(this.bottomSlabId);
-        if (SlabeeUtils.isCutoutSlabs(block)) {
-            return 1;
-        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
-            return 2;
-        } else if (SlabeeUtils.isTranslucentSlabs(block)) {
-            return 3;
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-        return this.createComponentlessNbt(registryLookup);
-    }
-
-    public void updateBlockProperties() {
-        int luminance = Math.max(DoubleSlabUtils.getLuminance(topSlabState), DoubleSlabUtils.getLuminance(bottomSlabState));
-
-        Block topSlab = topSlabState.getBlock();
-        Block bottomSlab = bottomSlabState.getBlock();
-        boolean isEmissiveLighting = (SlabeeUtils.isEmissiveLightingSlabs(topSlab) || SlabeeUtils.isEmissiveLightingSlabs(bottomSlab));
-        int opaque = SlabeeUtils.getOpaque(topSlab, bottomSlab);
-        int seeThrough = SlabeeUtils.getSeeThrough(topSlab, bottomSlab);
-
-        if (world != null) {
-            this.blockState = world.getBlockState(pos).with(DoubleSlabBlock.LIGHT_LEVEL, luminance).with(DoubleSlabBlock.OPAQUE, opaque).with(DoubleSlabBlock.IS_EMISSIVE_LIGHTING, isEmissiveLighting).with(DoubleSlabBlock.SEE_THROUGH, seeThrough);
-            world.setBlockState(pos, this.blockState, 3);
-        } else {
-            this.blockState = this.defaultBlockState;
-        }
-    }
-
-    public BlockState getBlockState() {
-        return this.blockState;
-    }
-
-    private void updateSlabState() {
-        updateTopSlabState();
-        updateBottomSlabState();
-    }
-
-    private void updateTopSlabState() {
-        this.topSlabState = Registries.BLOCK.get(topSlabId).getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP);
-    }
-
-    private void updateBottomSlabState() {
-        this.bottomSlabState = Registries.BLOCK.get(bottomSlabId).getDefaultState();
-    }
-
-    private boolean isTrueSlabId(Identifier i) {
-        return DoubleSlabUtils.isTrueSlabId(i) && Registries.BLOCK.get(i) instanceof SlabBlock;
-    }
-
-    /*public static boolean isFaceTransparent(BlockState state, Direction direction) {
-        if (!state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-            return false;
-        }
-
-        DoubleSlabBlockEntity blockEntity = world.getBlockEntity();
-
-        if (direction == Direction.UP) {
-            return DOWN_OPAQUE;
-        }
-    }*/
 }

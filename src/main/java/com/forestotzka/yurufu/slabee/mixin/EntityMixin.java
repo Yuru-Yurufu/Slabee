@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.block.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -42,7 +41,7 @@ public abstract class EntityMixin {
     private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         if (state.getBlock() instanceof DoubleSlabBlock) {
             DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-            BlockSoundGroup blockSoundGroup = Objects.requireNonNull(entity).getTopSlabState().getSoundGroup();
+            BlockSoundGroup blockSoundGroup = Objects.requireNonNull(entity).getPositiveSlabState().getSoundGroup();
             playSound(blockSoundGroup, ci);
         } else if (state.getBlock() instanceof DoubleVerticalSlabBlock) {
             DoubleVerticalSlabBlockEntity entity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
@@ -71,14 +70,13 @@ public abstract class EntityMixin {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    private void beforeAddParticle(CallbackInfo ci, BlockPos blockPos, BlockState blockState, Vec3d vec3d, BlockPos blockPos2, double d, double e) {
-
-        if (isDoubleBlock(blockState.getBlock())) {
+    private void spawnSprintingParticles(CallbackInfo ci, BlockPos blockPos, BlockState blockState, Vec3d vec3d, BlockPos blockPos2, double d, double e) {
+        if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
             BlockState particleState;
 
             if (blockState.getBlock() instanceof DoubleSlabBlock) {
                 DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(blockPos);
-                particleState = Objects.requireNonNull(entity).getTopSlabState();
+                particleState = Objects.requireNonNull(entity).getPositiveSlabState();
             } else {
                 DoubleVerticalSlabBlockEntity entity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(blockPos);
                 if (random.nextBoolean()) {
@@ -91,10 +89,5 @@ public abstract class EntityMixin {
             this.getWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, particleState), d, this.getY() + 0.1, e, vec3d.x * -4.0, 1.5, vec3d.z * -4.0);
             ci.cancel();
         }
-    }
-
-    @Unique
-    private boolean isDoubleBlock(Block block) {
-        return block instanceof DoubleSlabBlock || block instanceof DoubleVerticalSlabBlock;
     }
 }

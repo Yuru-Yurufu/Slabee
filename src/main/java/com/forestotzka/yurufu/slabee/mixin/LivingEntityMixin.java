@@ -82,7 +82,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     private BlockState getTopSlabState(BlockPos pos) {
         DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-        return Objects.requireNonNull(entity).getTopSlabState();
+        return Objects.requireNonNull(entity).getPositiveSlabState();
     }
 
     @Unique

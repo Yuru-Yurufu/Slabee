@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeAccessor;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
@@ -43,26 +44,45 @@ public abstract class BlockMixin {
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
+            Identifier positiveSlabId;
+            Identifier negativeSlabId;
 
-            world.setBlockState(pos, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState(), 3);
-
-            DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (slabeeAccessor.slabee$getBottomFirst(state)) {
-                Objects.requireNonNull(blockEntity).setTopSlabId(Identifier.of(second_slab));
-                Objects.requireNonNull(blockEntity).setBottomSlabId(Identifier.of(first_slab));
+                positiveSlabId = Identifier.of(second_slab);
+                negativeSlabId = Identifier.of(first_slab);
             } else {
-                Objects.requireNonNull(blockEntity).setTopSlabId(Identifier.of(first_slab));
-                Objects.requireNonNull(blockEntity).setBottomSlabId(Identifier.of(second_slab));
+                positiveSlabId = Identifier.of(first_slab);
+                negativeSlabId = Identifier.of(second_slab);
             }
 
-            blockEntity.updateBlockProperties();
-            blockEntity.markDirty();
-            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getBlockState(),3);
+            Block positiveSlabBlock = Registries.BLOCK.get(positiveSlabId);
+            Block negativeSlabBlock = Registries.BLOCK.get(negativeSlabId);
+
+            world.setBlockState(pos, SlabeeUtils.getAbstractState(positiveSlabBlock, negativeSlabBlock), 3);
+
+            DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
+            if (blockEntity != null) {
+                blockEntity.setPositiveSlabId(positiveSlabId);
+                blockEntity.setNegativeSlabId(negativeSlabId);
+            }
         } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
             String axis;
             String first_slab = state.getBlock().toString();
             first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
             String second_slab = itemStack.getItem().toString();
+            Identifier positiveSlabId;
+            Identifier negativeSlabId;
+
+            if (state.get(HorizontalFacingBlock.FACING)  == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
+                positiveSlabId = Identifier.of(first_slab);
+                negativeSlabId = Identifier.of(second_slab);
+            } else {
+                positiveSlabId = Identifier.of(second_slab);
+                negativeSlabId = Identifier.of(first_slab);
+            }
+
+            Block positiveSlabBlock = Registries.BLOCK.get(positiveSlabId);
+            Block negativeSlabBlock = Registries.BLOCK.get(negativeSlabId);
 
             if (state.get(HorizontalFacingBlock.FACING) == Direction.EAST || state.get(HorizontalFacingBlock.FACING) == Direction.WEST) {
                 axis = "x";
@@ -70,21 +90,14 @@ public abstract class BlockMixin {
                 axis = "z";
             }
 
-            world.setBlockState(pos, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
+            world.setBlockState(pos, SlabeeUtils.getAbstractState(positiveSlabBlock, negativeSlabBlock).with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
 
             DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
-            Objects.requireNonNull(blockEntity).setAxis(axis);
-            if (state.get(HorizontalFacingBlock.FACING) == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
-                Objects.requireNonNull(blockEntity).setPositiveSlabId(Identifier.of(first_slab));
-                Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(second_slab));
-            } else {
-                Objects.requireNonNull(blockEntity).setPositiveSlabId(Identifier.of(second_slab));
-                Objects.requireNonNull(blockEntity).setNegativeSlabId(Identifier.of(first_slab));
+            if (blockEntity != null) {
+                blockEntity.setAxis(axis);
+                blockEntity.setPositiveSlabId(positiveSlabId);
+                blockEntity.setNegativeSlabId(negativeSlabId);
             }
-
-            blockEntity.updateBlockProperties();
-            blockEntity.markDirty();
-            world.updateListeners(pos, blockEntity.getCachedState(), blockEntity.getBlockState(),3);
         }
     }
 
@@ -94,9 +107,9 @@ public abstract class BlockMixin {
             Identifier slabId;
             DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             if (ClickPositionTracker.clickUpperHalf) {
-                slabId = Objects.requireNonNull(blockEntity).getTopSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getPositiveSlabId();
             } else {
-                slabId = Objects.requireNonNull(blockEntity).getBottomSlabId();
+                slabId = Objects.requireNonNull(blockEntity).getNegativeSlabId();
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
             cir.cancel();

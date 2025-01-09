@@ -1,12 +1,18 @@
 package com.forestotzka.yurufu.slabee;
 
+import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
+import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.*;
+import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.SEE_THROUGH;
 
 public class SlabeeUtils {
     private static final Set<Block> StainedGlassSlabs;
@@ -173,29 +179,43 @@ public class SlabeeUtils {
     }
 
     public static boolean isCutoutSlabs(Block block) {
-        return CutoutSlabs.contains(block);
-    }
-    public static boolean isCutoutVerticalSlabs(Block block) {
-        return CutoutVerticalSlabs.contains(block);
-    }
-    public static boolean isCutoutMippedSlabs(Block block) {
-        return CutoutMippedSlabs.contains(block);
-    }
-    public static boolean isCutoutMippedVerticalSlabs(Block block) {
-        return CutoutMippedVerticalSlabs.contains(block);
-    }
-    public static boolean isTranslucentSlabs(Block block) {
-        return TranslucentSlabs.contains(block);
-    }
-    public static boolean isTranslucentVerticalSlabs(Block block) {
-        return TranslucentVerticalSlabs.contains(block);
+        if (block instanceof SlabBlock) {
+            return CutoutSlabs.contains(block);
+        } else if (block instanceof VerticalSlabBlock) {
+            return CutoutVerticalSlabs.contains(block);
+        } else {
+            return false;
+        }
     }
 
-    public static boolean isEmissiveLightingSlabs(Block block) {
-        return EmissiveLightingSlabs.contains(block);
+    public static boolean isCutoutMippedSlabs(Block block) {
+        if (block instanceof SlabBlock) {
+            return CutoutMippedSlabs.contains(block);
+        } else if (block instanceof VerticalSlabBlock) {
+            return CutoutMippedVerticalSlabs.contains(block);
+        } else {
+            return false;
+        }
     }
-    public static boolean isEmissiveLightingVerticalSlabs(Block block) {
-        return EmissiveLightingVerticalSlabs.contains(block);
+
+    public static boolean isTranslucentSlabs(Block block) {
+        if (block instanceof SlabBlock) {
+            return TranslucentSlabs.contains(block);
+        } else if (block instanceof VerticalSlabBlock) {
+            return TranslucentVerticalSlabs.contains(block);
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isEmissiveLightingSlabs(Block p, Block n) {
+        if (p instanceof SlabBlock) {
+            return EmissiveLightingSlabs.contains(p) || EmissiveLightingSlabs.contains(n);
+        } else if (p instanceof VerticalSlabBlock) {
+            return EmissiveLightingVerticalSlabs.contains(p) || EmissiveLightingVerticalSlabs.contains(n);
+        } else {
+            return false;
+        }
     }
 
     public static int getOpaque(Block p, Block n) {
@@ -207,6 +227,7 @@ public class SlabeeUtils {
             return 0;
         }
     }
+
     public static int getSeeThrough(Block p, Block n) {
         if (p instanceof SlabBlock) {
             return booleanToInt(SeeThroughSlabs.contains(p), SeeThroughSlabs.contains(n));
@@ -215,6 +236,35 @@ public class SlabeeUtils {
         } else {
             return 0;
         }
+    }
+
+    public static int getLuminance(Block p, Block n) {
+        return Math.max(DoubleSlabUtils.getLuminance(p.getDefaultState()), DoubleSlabUtils.getLuminance(n.getDefaultState()));
+    }
+
+    public static BlockState getAbstractState(Block p, Block n) {
+        BlockState state;
+
+        if (p instanceof SlabBlock) {
+            state = ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+        } else if (p instanceof VerticalSlabBlock) {
+            state = ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState();
+        } else {
+            return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+        }
+
+        return getAbstractState(p, n, state);
+    }
+
+    public static BlockState getAbstractState(Block p, Block n, BlockState state) {
+        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+            return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+        }
+
+        return state.with(IS_EMISSIVE_LIGHTING, SlabeeUtils.isEmissiveLightingSlabs(p, n))
+                .with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
+                .with(OPAQUE, SlabeeUtils.getOpaque(p, n))
+                .with(SEE_THROUGH, SlabeeUtils.getSeeThrough(p, n));
     }
 
     private static int booleanToInt(boolean bl1, boolean bl2) {
