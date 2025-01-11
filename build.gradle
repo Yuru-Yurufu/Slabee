@@ -75,10 +75,15 @@ java {
     withSourcesJar()
 }
 
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
+tasks.named("remapJar") {
+    archiveBaseName.set(project.archives_base_name)
+    archiveVersion.set("${project.mod_version}+${project.minecraft_version}")
+}
+
+tasks.named("remapSourcesJar") {
+    archiveBaseName.set(project.archives_base_name)
+    archiveVersion.set("${project.mod_version}+${project.minecraft_version}")
+    archiveClassifier.set("sources")
 }
 
 // configure the maven publication
