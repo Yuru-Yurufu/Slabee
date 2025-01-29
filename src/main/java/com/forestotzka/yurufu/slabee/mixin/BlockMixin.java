@@ -157,9 +157,6 @@ public abstract class BlockMixin {
                 }
             }
             cir.cancel();
-        } else if (!state.isOf(blockState.getBlock()) && (blockState.isOf(ModBlocks.TINTED_GLASS_SLAB) || blockState.isOf(ModBlocks.TINTED_GLASS_VERTICAL_SLAB))) {
-            cir.setReturnValue(true);
-            cir.cancel();
         }
     }
 }

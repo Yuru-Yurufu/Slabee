@@ -26,6 +26,13 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     public static final IntProperty OPAQUE = ModProperties.OPAQUE;
     public static final IntProperty SEE_THROUGH = ModProperties.SEE_THROUGH;
 
+    protected enum ShapeType {
+        FULL,
+        POSITIVE,
+        NEGATIVE,
+        NONE
+    }
+
     protected AbstractDoubleSlabBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState()
@@ -101,5 +108,33 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.fullCube();
+    }
+
+    protected ShapeType calcCullingShapeType(BlockState state) {
+        boolean positiveSeeThrough = DoubleSlabUtils.isPositiveSeeThrough(state);
+        boolean negativeSeeThrough = DoubleSlabUtils.isNegativeSeeThrough(state);
+        if (positiveSeeThrough && negativeSeeThrough) {
+            return ShapeType.NONE;
+        } else if (positiveSeeThrough) {
+            return ShapeType.NEGATIVE;
+        } else if (negativeSeeThrough) {
+            return ShapeType.POSITIVE;
+        } else {
+            return ShapeType.FULL;
+        }
+    }
+
+    protected static ShapeType calcLightingShapeType(BlockState state) {
+        boolean positiveOpaque = DoubleSlabUtils.isPositiveOpaque(state);
+        boolean negativeOpaque = DoubleSlabUtils.isNegativeOpaque(state);
+        if (positiveOpaque && negativeOpaque) {
+            return ShapeType.FULL;
+        } else if (positiveOpaque) {
+            return ShapeType.POSITIVE;
+        } else if (negativeOpaque) {
+            return ShapeType.NEGATIVE;
+        } else {
+            return ShapeType.NONE;
+        }
     }
 }

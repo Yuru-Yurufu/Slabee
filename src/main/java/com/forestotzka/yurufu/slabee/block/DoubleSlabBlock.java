@@ -10,9 +10,8 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
-    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.99999, 16.0);
-    protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape NON_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.00001, 0.0, 16.0, 15.99999, 16.0);
+    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
+    protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0);
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);
@@ -29,17 +28,21 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        boolean topOpaque = DoubleSlabUtils.isPositiveOpaque(state);
-        boolean bottomOpaque = DoubleSlabUtils.isNegativeOpaque(state);
-        if (bottomOpaque && topOpaque) {
-            return VoxelShapes.fullCube();
-        } else if (bottomOpaque) {
-            return DOWN_OPAQUE_SHAPE;
-        } else if (topOpaque) {
-            return UP_OPAQUE_SHAPE;
-        } else {
-            return NON_OPAQUE_SHAPE;
-        }
+    protected VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+        return switch (calcCullingShapeType(state)) {
+            case FULL -> VoxelShapes.fullCube();
+            case POSITIVE -> UP_OPAQUE_SHAPE;
+            case NEGATIVE -> DOWN_OPAQUE_SHAPE;
+            default -> VoxelShapes.empty();
+        };
+    }
+
+    public static VoxelShape getLightingShape(BlockState state) {
+        return switch (calcLightingShapeType(state)) {
+            case FULL -> VoxelShapes.fullCube();
+            case POSITIVE -> UP_OPAQUE_SHAPE;
+            case NEGATIVE -> DOWN_OPAQUE_SHAPE;
+            default -> VoxelShapes.empty();
+        };
     }
 }

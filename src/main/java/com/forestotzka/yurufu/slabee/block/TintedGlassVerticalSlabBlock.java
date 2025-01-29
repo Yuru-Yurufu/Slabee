@@ -16,6 +16,10 @@ public class TintedGlassVerticalSlabBlock extends TransparentVerticalSlabBlock {
         super(settings);
     }
 
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+        return false;
+    }
+
     protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
         return 1;
     }

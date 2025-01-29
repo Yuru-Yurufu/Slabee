@@ -1003,6 +1003,7 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
                     .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
                     .allowsSpawning(Blocks::never)
                     .solidBlock(Blocks::never)
                     .suffocates(Blocks::never)
@@ -2828,6 +2829,7 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
                     .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
                     .allowsSpawning(Blocks::never)
                     .solidBlock(Blocks::never)
                     .suffocates(Blocks::never)
@@ -3287,8 +3289,7 @@ public class ModBlocks {
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
             new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()
                     .luminance(DoubleVerticalSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> state.get(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING))
-                    .nonOpaque()));
+                    .emissiveLighting((state, world, pos) -> state.get(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING))));
 
 
 
