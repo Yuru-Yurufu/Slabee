@@ -17,6 +17,6 @@ public class TranslucentSlabBlock extends SlabBlock {
     }
 
     protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
-        return stateFrom.isOf(this) || super.isSideInvisible(state, stateFrom, direction);
+        return (stateFrom.isOf(this) && state.get(SlabBlock.TYPE) == stateFrom.get(SlabBlock.TYPE)) || super.isSideInvisible(state, stateFrom, direction);
     }
 }
