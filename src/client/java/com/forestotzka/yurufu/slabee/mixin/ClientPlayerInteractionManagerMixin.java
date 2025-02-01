@@ -1,11 +1,15 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import com.forestotzka.yurufu.slabee.block.DoubleSlabBlock;
-import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
-import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock;
-import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntity;
+import com.forestotzka.yurufu.slabee.LookingPositionTracker;
+import com.forestotzka.yurufu.slabee.block.*;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.enums.SlabType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -18,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -39,13 +44,14 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
 
     @Shadow private boolean breakingBlock;
 
+    @Shadow @Final private MinecraftClient client;
+
     @Inject(method = "updateBlockBreakingProgress", at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;syncSelectedSlot()V",
             shift = At.Shift.AFTER
     ), cancellable = true)
     private void updateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        MinecraftClient client = MinecraftClient.getInstance();
         World world = client.world;
         if (world == null) return;
 
@@ -114,5 +120,57 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 world.random,
                 pos
         ));
+    }
+
+    @Inject(
+            method = "breakBlock",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/block/Block;onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/block/BlockState;",
+                    shift = At.Shift.AFTER
+            ),
+            cancellable = true
+    )
+    private void onBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        World world = client.world;
+        ClientPlayerEntity player = client.player;
+        if (world != null && player != null && player.isSneaking()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockState blockState = world.getBlockState(pos);
+            Block block = blockState.getBlock();
+            if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
+                BlockState stayState;
+                if (blockEntity instanceof DoubleSlabBlockEntity entity) {
+                    if (LookingPositionTracker.lookingAtUpperHalf) {
+                        stayState = entity.getNegativeSlabState().with(SlabBlock.TYPE, SlabType.BOTTOM);
+                    } else {
+                        stayState = entity.getPositiveSlabState().with(SlabBlock.TYPE, SlabType.TOP);
+                    }
+                } else if (blockEntity instanceof DoubleVerticalSlabBlockEntity entity) {
+                    if (entity.isX()) {
+                        if (LookingPositionTracker.lookingAtEasternHalf) {
+                            stayState = entity.getNegativeSlabState().with(VerticalSlabBlock.FACING, Direction.WEST);
+                        } else {
+                            stayState = entity.getPositiveSlabState().with(VerticalSlabBlock.FACING, Direction.EAST);
+                        }
+                    } else {
+                        if (LookingPositionTracker.lookingAtSouthernHalf) {
+                            stayState = entity.getNegativeSlabState().with(VerticalSlabBlock.FACING, Direction.NORTH);
+                        } else {
+                            stayState = entity.getPositiveSlabState().with(VerticalSlabBlock.FACING, Direction.SOUTH);
+                        }
+                    }
+                } else {
+                    stayState = Blocks.STONE_SLAB.getDefaultState();
+                }
+
+                boolean bl = world.setBlockState(pos, stayState, 11);
+                if (bl) {
+                    block.onBroken(world, pos, blockState);
+                }
+                cir.setReturnValue(bl);
+                cir.cancel();
+            }
+        }
     }
 }

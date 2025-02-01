@@ -18,8 +18,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
@@ -66,21 +64,42 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     @Override
     public BlockState onBreak(World view, BlockPos pos, BlockState state, PlayerEntity player) {
         AbstractDoubleSlabBlockEntity entity = (AbstractDoubleSlabBlockEntity) view.getBlockEntity(pos);
-        BlockState positiveSlab = Objects.requireNonNull(entity).getPositiveSlabState();
-        BlockState negativeSlab = Objects.requireNonNull(entity).getNegativeSlabState();
-        if (!player.isCreative() && !player.isSpectator()) {
+        if (entity == null) return state;
+
+        BlockState positiveSlab = entity.getPositiveSlabState();
+        BlockState negativeSlab = entity.getNegativeSlabState();
+
+        boolean isSneaking = player.isSneaking();
+        boolean shouldDrop = !player.isCreative() && !player.isSpectator();
+        boolean lookingAtPositiveHalf = !isSneaking || isLookingPositiveHalf(state);
+        boolean lookingAtNegativeHalf = !isSneaking || !isLookingPositiveHalf(state);
+
+        if (shouldDrop) {
             double x = pos.getX() + 0.5d;
             double y = pos.getY() + 0.5d;
             double z = pos.getZ() + 0.5d;
-            view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(positiveSlab.getBlock())));
-            view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(negativeSlab.getBlock())));
+            if (lookingAtPositiveHalf) view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(positiveSlab.getBlock())));
+            if (lookingAtNegativeHalf) view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(negativeSlab.getBlock())));
         }
-        this.spawnBreakParticles(view, player, pos, positiveSlab);
-        this.spawnBreakParticles(view, player, pos, negativeSlab);
+
+        if (lookingAtPositiveHalf) this.spawnBreakParticles(view, player, pos, positiveSlab);
+        if (lookingAtNegativeHalf) this.spawnBreakParticles(view, player, pos, negativeSlab);
+/*
+
+        if (isSneaking) {
+            if (lookingAtPositiveHalf) {
+                view.setBlockState(pos, negativeSlab.with(SlabBlock.TYPE, SlabType.BOTTOM), 3);
+            } else {
+                view.setBlockState(pos, positiveSlab.with(SlabBlock.TYPE, SlabType.TOP), 3);
+            }
+        }
+*/
         view.emitGameEvent(player, GameEvent.BLOCK_DESTROY, pos);
 
         return state;
     }
+
+    protected abstract boolean isLookingPositiveHalf(BlockState state);
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {

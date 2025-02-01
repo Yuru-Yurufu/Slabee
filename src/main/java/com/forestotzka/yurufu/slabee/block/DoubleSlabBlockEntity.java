@@ -45,7 +45,6 @@ public class DoubleSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
             NbtCompound positiveSlabData = nbt.getCompound("positive_slab");
             Identifier i = Identifier.of(positiveSlabData.getString("id"));
             this.positiveSlabId = isTrueSlabId(i) ? i : defaultPositiveSlabId;
-            System.out.println(this.positiveSlabId);
             Direction d = Direction.byName(positiveSlabData.getString("facing"));
             this.positiveSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {

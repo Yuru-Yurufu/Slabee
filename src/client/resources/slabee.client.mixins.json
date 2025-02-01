@@ -6,6 +6,7 @@
     "client": [
         "ClientPlayerInteractionManagerAccessor",
         "ClientPlayerInteractionManagerMixin",
+        "GameRendererMixin",
         "MinecraftClientMixin",
         "ParticleManagerMixin"
     ],
