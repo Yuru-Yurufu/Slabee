@@ -39,18 +39,22 @@ public abstract class EntityMixin {
 
     @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
     private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
-        if (state.getBlock() instanceof DoubleSlabBlock) {
+        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
             DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
             BlockSoundGroup blockSoundGroup = Objects.requireNonNull(entity).getPositiveSlabState().getSoundGroup();
+
             playSound(blockSoundGroup, ci);
-        } else if (state.getBlock() instanceof DoubleVerticalSlabBlock) {
+        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             DoubleVerticalSlabBlockEntity entity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
+            BlockState playState;
+
             if (random.nextBoolean()) {
-                state = Objects.requireNonNull(entity).getPositiveSlabState();
+                playState = Objects.requireNonNull(entity).getPositiveSlabState();
             } else {
-                state = Objects.requireNonNull(entity).getNegativeSlabState();
+                playState = Objects.requireNonNull(entity).getNegativeSlabState();
             }
-            BlockSoundGroup blockSoundGroup = state.getSoundGroup();
+            BlockSoundGroup blockSoundGroup = playState.getSoundGroup();
+
             playSound(blockSoundGroup, ci);
         }
     }
@@ -74,7 +78,7 @@ public abstract class EntityMixin {
         if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
             BlockState particleState;
 
-            if (blockState.getBlock() instanceof DoubleSlabBlock) {
+            if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
                 DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(blockPos);
                 particleState = Objects.requireNonNull(entity).getPositiveSlabState();
             } else {

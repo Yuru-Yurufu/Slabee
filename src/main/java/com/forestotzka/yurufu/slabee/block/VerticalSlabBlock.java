@@ -170,10 +170,8 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
                 return true;
             } else if (Objects.requireNonNull(state.get(FACING)) == Direction.NORTH && (direction == Direction.SOUTH || (blSouth && direction.getAxis().isVertical()))) {
                 return true;
-            } else if (Objects.requireNonNull(state.get(FACING)) == Direction.WEST && (direction == Direction.EAST || (blEast && direction.getAxis().isVertical()))) {
-                return true;
             } else {
-                return false;
+                return Objects.requireNonNull(state.get(FACING)) == Direction.WEST && (direction == Direction.EAST || (blEast && direction.getAxis().isVertical()));
             }
         } else {
             return true;
@@ -208,15 +206,11 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
     @Override
     protected boolean canPathfindThrough(BlockState state, NavigationType type) {
-        switch (type) {
-            case LAND:
-                return false;
-            case WATER:
-                return state.getFluidState().isIn(FluidTags.WATER);
-            case AIR:
-                return false;
-            default:
-                return false;
-        }
+        return switch (type) {
+            case LAND -> false;
+            case WATER -> state.getFluidState().isIn(FluidTags.WATER);
+            case AIR -> false;
+            default -> false;
+        };
     }
 }

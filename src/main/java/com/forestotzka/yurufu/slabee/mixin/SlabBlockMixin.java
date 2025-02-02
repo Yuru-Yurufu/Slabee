@@ -70,24 +70,30 @@ public abstract class SlabBlockMixin extends BlockMixin {
         }
     }
 
-    /**
-     * @author yurufu
-     * @reason slab blockを重ねられるようにするため。
-     */
-    @Overwrite
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        ItemStack itemStack = context.getStack();
+    @Inject(
+            method = "canReplace",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void injectCanReplace(BlockState state, ItemPlacementContext ctx, CallbackInfoReturnable<Boolean> cir) {
+        ItemStack itemStack = ctx.getStack();
         SlabType slabType = state.get(TYPE);
+
         if (slabType == SlabType.DOUBLE || !itemStack.isIn(ItemTags.SLABS)) {
-            return false;
-        } else if (context.canReplaceExisting()) {
-            boolean bl = context.getHitPos().y - (double)context.getBlockPos().getY() > 0.5;
-            Direction direction = context.getSide();
-            return slabType == SlabType.BOTTOM
-                    ? direction == Direction.UP || bl && direction.getAxis().isHorizontal()
-                    : direction == Direction.DOWN || !bl && direction.getAxis().isHorizontal();
+            cir.setReturnValue(false);
+        } else if (ctx.canReplaceExisting()) {
+            boolean bl = ctx.getHitPos().y - (double)ctx.getBlockPos().getY() > 0.5;
+            Direction direction = ctx.getSide();
+
+            if (slabType == SlabType.BOTTOM) {
+                cir.setReturnValue(direction == Direction.UP || bl && direction.getAxis().isHorizontal());
+            } else {
+                cir.setReturnValue(direction == Direction.DOWN || !bl && direction.getAxis().isHorizontal());
+            }
         } else {
-            return true;
+            cir.setReturnValue(true);
         }
+
+        cir.cancel();
     }
 }

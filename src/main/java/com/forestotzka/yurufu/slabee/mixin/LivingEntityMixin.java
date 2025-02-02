@@ -1,10 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import com.forestotzka.yurufu.slabee.block.DoubleSlabBlock;
-import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
-import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock;
-import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntity;
-import net.minecraft.block.Block;
+import com.forestotzka.yurufu.slabee.block.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -52,19 +48,20 @@ public abstract class LivingEntityMixin extends Entity {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci, ServerWorld serverWorld, double d, double e, double f, double g, BlockPos blockPos, float k, double l, int m) {
-        if (isDoubleBlock(state.getBlock())) {
+        if (state.getBlock() instanceof AbstractDoubleSlabBlock) {
             LivingEntity entity = (LivingEntity) (Object) this;
             world = entity.getWorld();
+            BlockState particleState;
 
-            if (state.getBlock() instanceof DoubleSlabBlock) {
-                state = getTopSlabState(landedPosition);
+            if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+                particleState = getTopSlabState(landedPosition);
             } else {
-                state = getRandomVerticalSlabState(landedPosition);
+                particleState = getRandomVerticalSlabState(landedPosition);
             }
 
-            ((ServerWorld)entity.getWorld()).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, state), e, f, g, m, 0.0, 0.0, 0.0, 0.15000000596046448);
+            ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, particleState), e, f, g, m, 0.0, 0.0, 0.0, 0.15000000596046448);
 
-            super.fall(heightDifference, onGround, state, landedPosition);
+            super.fall(heightDifference, onGround, particleState, landedPosition);
             if (onGround) {
                 this.climbingPos = Optional.empty();
             }
@@ -72,11 +69,6 @@ public abstract class LivingEntityMixin extends Entity {
             ci.cancel();
         }
 
-    }
-
-    @Unique
-    private boolean isDoubleBlock(Block block) {
-        return block instanceof DoubleSlabBlock || block instanceof DoubleVerticalSlabBlock;
     }
 
     @Unique

@@ -56,10 +56,10 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
         if (world == null) return;
 
         BlockState blockState = world.getBlockState(pos);
-        if (blockState.getBlock() instanceof DoubleSlabBlock || blockState.getBlock() instanceof DoubleVerticalSlabBlock) {
+        if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
             BlockState topSlab;
             BlockState bottomSlab;
-            if (blockState.getBlock() instanceof DoubleSlabBlock) {
+            if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
                 DoubleSlabBlockEntity entity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
                 topSlab = Objects.requireNonNull(entity).getPositiveSlabState();
                 bottomSlab = Objects.requireNonNull(entity).getNegativeSlabState();
