@@ -270,9 +270,4 @@ public class SlabeeUtils {
     private static int booleanToInt(boolean bl1, boolean bl2) {
         return (bl1 ? 2 : 0) + (bl2 ? 1 : 0);
     }
-
-    public static boolean isDoubleSlab(BlockState state) {
-        return state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) || state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK);
-    }
-
 }

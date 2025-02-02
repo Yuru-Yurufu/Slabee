@@ -23,8 +23,6 @@ import static com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock.AXIS;
 
 @Mixin(Block.class)
 public abstract class BlockMixin {
-    @Shadow
-    protected abstract void setDefaultState(BlockState state);
 
     @Shadow
     public abstract BlockState getDefaultState();
