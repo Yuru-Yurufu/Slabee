@@ -1,28 +1,34 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeAccessor;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
+import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
+import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.enums.SlabType;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SlabBlock.class)
 public abstract class SlabBlockMixin extends BlockMixin implements SlabeeAccessor {
@@ -44,23 +50,43 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlabeeAccesso
         builder.add(BOTTOM_FIRST);
     }
 
-    /**
-     * @author yurufu
-     * @reason slab blockを重ねられるようにするため。
-     */
-    @Overwrite
-    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockPos blockPos = ctx.getBlockPos();
-        BlockState blockState = ctx.getWorld().getBlockState(blockPos);
-        if (blockState.isIn(BlockTags.SLABS)) {
-            return blockState.with(TYPE, SlabType.DOUBLE).with(WATERLOGGED, Boolean.FALSE).with(BOTTOM_FIRST, blockState.get(BOTTOM_FIRST));
-        } else {
-            FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
-            BlockState blockState2 = this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER).with(BOTTOM_FIRST, true);
-            Direction direction = ctx.getSide();
-            return direction != Direction.DOWN && (direction == Direction.UP || !(ctx.getHitPos().y - (double)blockPos.getY() > 0.5))
-                    ? blockState2
-                    : blockState2.with(TYPE, SlabType.TOP).with(BOTTOM_FIRST, false);
+    @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
+    private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+        BlockPos pos = ctx.getBlockPos();
+        World world = ctx.getWorld();
+        BlockState oldState = world.getBlockState(pos);
+        BlockState newState;
+
+        if (oldState.isIn(BlockTags.SLABS)) {
+            Block positiveSlab;
+            Block negativeSlab;
+            Item placementItem = ctx.getStack().getItem();
+
+            if (placementItem instanceof BlockItem blockItem) {
+                if (oldState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                    positiveSlab = blockItem.getBlock();
+                    negativeSlab = oldState.getBlock();
+                } else {
+                    positiveSlab = oldState.getBlock();
+                    negativeSlab = blockItem.getBlock();
+                }
+
+                Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
+                Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
+
+                newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
+
+                world.setBlockState(pos, newState, 3);
+
+                DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
+                if (blockEntity != null) {
+                    blockEntity.setPositiveSlabId(positiveId);
+                    blockEntity.setNegativeSlabId(negativeId);
+                }
+
+                cir.setReturnValue(newState);
+                cir.cancel();
+            }
         }
     }
 

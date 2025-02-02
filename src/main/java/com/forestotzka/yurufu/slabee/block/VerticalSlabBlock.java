@@ -1,5 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
+import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
 import com.forestotzka.yurufu.slabee.registry.tag.ModItemTags;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
@@ -10,22 +12,29 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+
+import static com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock.AXIS;
 
 public class VerticalSlabBlock extends Block implements Waterloggable {
     public static final MapCodec<VerticalSlabBlock> CODEC = createCodec(VerticalSlabBlock::new);
@@ -77,22 +86,53 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockPos blockPos = ctx.getBlockPos();
-        BlockState blockState = ctx.getWorld().getBlockState(blockPos);
-        if (blockState.isIn(ModBlockTags.VERTICAL_SLABS)) {
-            Direction d;
-            if (Objects.requireNonNull(blockState.get(FACING)) == Direction.SOUTH) {
-                d = Direction.SOUTH;
-            } else if (Objects.requireNonNull(blockState.get(FACING)) == Direction.EAST) {
-                d = Direction.EAST;
-            } else if (Objects.requireNonNull(blockState.get(FACING)) == Direction.NORTH) {
-                d = Direction.NORTH;
-            } else {
-                d = Direction.WEST;
+        BlockPos pos = ctx.getBlockPos();
+        World world = ctx.getWorld();
+        BlockState oldState = world.getBlockState(pos);
+        BlockState newState;
+
+        if (oldState.isIn(ModBlockTags.VERTICAL_SLABS)) {
+            String axis;
+            Block positiveSlab;
+            Block negativeSlab;
+            Item placementItem = ctx.getStack().getItem();
+
+            if (placementItem instanceof BlockItem blockItem) {
+                Direction facing = oldState.get(HorizontalFacingBlock.FACING);
+                if (facing  == Direction.SOUTH || facing == Direction.EAST) {
+                    positiveSlab = oldState.getBlock();
+                    negativeSlab = blockItem.getBlock();
+                } else {
+                    positiveSlab = blockItem.getBlock();
+                    negativeSlab = oldState.getBlock();
+                }
+
+                Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
+                Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
+
+                if (facing == Direction.EAST || facing == Direction.WEST) {
+                    axis = "x";
+                } else {
+                    axis = "z";
+                }
+
+                newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)));
+
+                world.setBlockState(pos, newState, 3);
+
+                DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
+                if (blockEntity != null) {
+                    blockEntity.setAxis(axis);
+                    blockEntity.setPositiveSlabId(positiveId);
+                    blockEntity.setNegativeSlabId(negativeId);
+                }
+
+                return newState;
             }
-            return blockState.with(IS_DOUBLE, Boolean.TRUE).with(FACING, d).with(WATERLOGGED, Boolean.FALSE);
+
+            return oldState;
         } else {
-            FluidState fluidState = ctx.getWorld().getFluidState(blockPos);
+            FluidState fluidState = ctx.getWorld().getFluidState(pos);
 
             Direction direction = ctx.getHorizontalPlayerFacing();
             Direction[] directions = ctx.getPlacementDirections();
@@ -100,7 +140,7 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
             boolean blSouth = ctx.getHitPos().z - (double)ctx.getBlockPos().getZ() > 0.5;
 
             for (Direction value : directions) {
-                if (blockState.canPlaceAt(ctx.getWorld(), blockPos)) {
+                if (oldState.canPlaceAt(ctx.getWorld(), pos)) {
                     if ((direction == Direction.EAST && !blEast) || (direction == Direction.WEST && blEast) || (direction == Direction.SOUTH && !blSouth) || (direction == Direction.NORTH && blSouth)) {
                         direction = direction.getOpposite();
                     }

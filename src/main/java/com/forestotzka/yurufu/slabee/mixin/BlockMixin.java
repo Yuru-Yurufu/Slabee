@@ -1,27 +1,19 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import com.forestotzka.yurufu.slabee.SlabeeAccessor;
-import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
-import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.forestotzka.yurufu.slabee.ClickPositionTracker;
 
@@ -36,70 +28,6 @@ public abstract class BlockMixin {
 
     @Shadow
     public abstract BlockState getDefaultState();
-
-    @Inject(method = "onPlaced", at = @At("HEAD"))
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
-        if (state.getBlock() instanceof SlabBlock && state.get(Properties.SLAB_TYPE) == SlabType.DOUBLE) {
-            SlabeeAccessor slabeeAccessor = (SlabeeAccessor) this;
-            String first_slab = state.getBlock().toString();
-            first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
-            String second_slab = itemStack.getItem().toString();
-            Identifier positiveSlabId;
-            Identifier negativeSlabId;
-
-            if (slabeeAccessor.slabee$getBottomFirst(state)) {
-                positiveSlabId = Identifier.of(second_slab);
-                negativeSlabId = Identifier.of(first_slab);
-            } else {
-                positiveSlabId = Identifier.of(first_slab);
-                negativeSlabId = Identifier.of(second_slab);
-            }
-
-            Block positiveSlabBlock = Registries.BLOCK.get(positiveSlabId);
-            Block negativeSlabBlock = Registries.BLOCK.get(negativeSlabId);
-
-            world.setBlockState(pos, SlabeeUtils.getAbstractState(positiveSlabBlock, negativeSlabBlock), 3);
-
-            DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-            if (blockEntity != null) {
-                blockEntity.setPositiveSlabId(positiveSlabId);
-                blockEntity.setNegativeSlabId(negativeSlabId);
-            }
-        } else if (state.getBlock() instanceof VerticalSlabBlock && state.get(ModProperties.IS_DOUBLE)) {
-            String axis;
-            String first_slab = state.getBlock().toString();
-            first_slab = first_slab.substring(first_slab.indexOf('{') + 1, first_slab.indexOf('}'));
-            String second_slab = itemStack.getItem().toString();
-            Identifier positiveSlabId;
-            Identifier negativeSlabId;
-
-            if (state.get(HorizontalFacingBlock.FACING)  == Direction.SOUTH || state.get(HorizontalFacingBlock.FACING) == Direction.EAST) {
-                positiveSlabId = Identifier.of(first_slab);
-                negativeSlabId = Identifier.of(second_slab);
-            } else {
-                positiveSlabId = Identifier.of(second_slab);
-                negativeSlabId = Identifier.of(first_slab);
-            }
-
-            Block positiveSlabBlock = Registries.BLOCK.get(positiveSlabId);
-            Block negativeSlabBlock = Registries.BLOCK.get(negativeSlabId);
-
-            if (state.get(HorizontalFacingBlock.FACING) == Direction.EAST || state.get(HorizontalFacingBlock.FACING) == Direction.WEST) {
-                axis = "x";
-            } else {
-                axis = "z";
-            }
-
-            world.setBlockState(pos, SlabeeUtils.getAbstractState(positiveSlabBlock, negativeSlabBlock).with(AXIS, VerticalSlabAxis.fromString(axis)), 3);
-
-            DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
-            if (blockEntity != null) {
-                blockEntity.setAxis(axis);
-                blockEntity.setPositiveSlabId(positiveSlabId);
-                blockEntity.setNegativeSlabId(negativeSlabId);
-            }
-        }
-    }
 
     @Inject(method = "getPickStack", at= @At("HEAD"), cancellable = true)
     public void getPickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
