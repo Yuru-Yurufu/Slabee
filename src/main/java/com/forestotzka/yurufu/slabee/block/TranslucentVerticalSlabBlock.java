@@ -16,6 +16,12 @@ public class TranslucentVerticalSlabBlock extends VerticalSlabBlock {
     }
 
     protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
-        return stateFrom.isOf(this) || super.isSideInvisible(state, stateFrom, direction);
+        if (stateFrom.isOf(this)) {
+            Direction facing = state.get(VerticalSlabBlock.FACING);
+            Direction facingFrom = stateFrom.get(VerticalSlabBlock.FACING);
+            return facing == facingFrom || facingFrom == direction.getOpposite();
+        }
+
+        return super.isSideInvisible(state, stateFrom, direction);
     }
 }
