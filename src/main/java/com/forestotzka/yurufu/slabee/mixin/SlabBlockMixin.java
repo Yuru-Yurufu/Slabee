@@ -1,10 +1,8 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import com.forestotzka.yurufu.slabee.SlabeeAccessor;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -16,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -27,28 +23,12 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SlabBlock.class)
-public abstract class SlabBlockMixin extends BlockMixin implements SlabeeAccessor {
+public abstract class SlabBlockMixin extends BlockMixin {
     @Unique
     private static final EnumProperty<SlabType> TYPE = Properties.SLAB_TYPE;
-    @Unique
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-
-    @Unique
-    private static final BooleanProperty BOTTOM_FIRST = BooleanProperty.of("bottom_first");
-
-    @Inject(method = "<init>", at = @At("TAIL"))
-    public void onInit(AbstractBlock.Settings settings, CallbackInfo info) {
-        this.setDefaultState(this.getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, Boolean.FALSE).with(BOTTOM_FIRST, true));
-    }
-
-    @Inject(method = "appendProperties", at=@At("HEAD"))
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
-        builder.add(BOTTOM_FIRST);
-    }
 
     @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
     private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
@@ -109,10 +89,5 @@ public abstract class SlabBlockMixin extends BlockMixin implements SlabeeAccesso
         } else {
             return true;
         }
-    }
-
-    @Unique
-    public boolean slabee$getBottomFirst(BlockState blockState) {
-        return blockState.get(BOTTOM_FIRST);
     }
 }
