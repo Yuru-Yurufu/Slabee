@@ -19,7 +19,7 @@ public class TranslucentVerticalSlabBlock extends VerticalSlabBlock {
         if (stateFrom.isOf(this)) {
             Direction facing = state.get(VerticalSlabBlock.FACING);
             Direction facingFrom = stateFrom.get(VerticalSlabBlock.FACING);
-            return facing == facingFrom || facingFrom == direction.getOpposite();
+            return facing == facingFrom ? (facing.rotateYClockwise() == direction || facing.rotateYCounterclockwise() == direction) : facingFrom == direction.getOpposite();
         }
 
         return super.isSideInvisible(state, stateFrom, direction);
