@@ -4,9 +4,9 @@ import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
@@ -62,44 +62,14 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     @Override
-    public BlockState onBreak(World view, BlockPos pos, BlockState state, PlayerEntity player) {
-        AbstractDoubleSlabBlockEntity entity = (AbstractDoubleSlabBlockEntity) view.getBlockEntity(pos);
-        if (entity == null) return state;
-
-        BlockState positiveSlab = entity.getPositiveSlabState();
-        BlockState negativeSlab = entity.getNegativeSlabState();
-
-        boolean isSneaking = player.isSneaking();
-        boolean shouldDrop = !player.isCreative() && !player.isSpectator();
-        boolean lookingAtPositiveHalf = !isSneaking || isLookingPositiveHalf(state);
-        boolean lookingAtNegativeHalf = !isSneaking || !isLookingPositiveHalf(state);
-
-        if (shouldDrop) {
-            double x = pos.getX() + 0.5d;
-            double y = pos.getY() + 0.5d;
-            double z = pos.getZ() + 0.5d;
-            if (lookingAtPositiveHalf) view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(positiveSlab.getBlock())));
-            if (lookingAtNegativeHalf) view.spawnEntity(new ItemEntity(view, x, y, z, new ItemStack(negativeSlab.getBlock())));
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
+            PiglinBrain.onGuardedBlockInteracted(player, false);
         }
 
-        if (lookingAtPositiveHalf) this.spawnBreakParticles(view, player, pos, positiveSlab);
-        if (lookingAtNegativeHalf) this.spawnBreakParticles(view, player, pos, negativeSlab);
-/*
-
-        if (isSneaking) {
-            if (lookingAtPositiveHalf) {
-                view.setBlockState(pos, negativeSlab.with(SlabBlock.TYPE, SlabType.BOTTOM), 3);
-            } else {
-                view.setBlockState(pos, positiveSlab.with(SlabBlock.TYPE, SlabType.TOP), 3);
-            }
-        }
-*/
-        view.emitGameEvent(player, GameEvent.BLOCK_DESTROY, pos);
-
+        world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
         return state;
     }
-
-    protected abstract boolean isLookingPositiveHalf(BlockState state);
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {

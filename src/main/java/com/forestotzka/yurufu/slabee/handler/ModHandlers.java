@@ -6,6 +6,6 @@ public class ModHandlers {
     public static void register() {
         Slabee.LOGGER.info("Registering Mod Events for " + Slabee.MOD_ID);
 
-        BlockBreakHandler.register();
+        BreakBlockHandler.register();
     }
 }

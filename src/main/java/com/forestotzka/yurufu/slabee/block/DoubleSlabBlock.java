@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.slabee.block;
 
-import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,11 +25,6 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new DoubleSlabBlockEntity(pos, state);
-    }
-
-    @Override
-    protected boolean isLookingPositiveHalf(BlockState state) {
-        return LookingPositionTracker.lookingAtUpperHalf;
     }
 
     @Override
