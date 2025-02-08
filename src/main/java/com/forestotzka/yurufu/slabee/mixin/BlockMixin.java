@@ -7,8 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,40 +46,6 @@ public abstract class BlockMixin {
                 slabId = Objects.requireNonNull(blockEntity).getNegativeSlabId();
             }
             cir.setReturnValue(new ItemStack(Registries.ITEM.get(slabId)));
-            cir.cancel();
-        }
-    }
-
-    @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
-    private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> cir) {
-        BlockState blockState = world.getBlockState(otherPos);
-        if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-            if (side == Direction.UP) {
-                cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
-            } else if (side == Direction.DOWN) {
-                cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
-            } else {
-                cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
-            }
-            cir.cancel();
-        } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
-            if (blockState.get(AXIS) == VerticalSlabAxis.X) {
-                if (side == Direction.EAST) {
-                    cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
-                } else if (side == Direction.WEST) {
-                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
-                } else {
-                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
-                }
-            } else {
-                if (side == Direction.SOUTH) {
-                    cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
-                } else if (side == Direction.NORTH) {
-                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
-                } else {
-                    cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) || DoubleSlabUtils.isNegativeSeeThrough(blockState));
-                }
-            }
             cir.cancel();
         }
     }
