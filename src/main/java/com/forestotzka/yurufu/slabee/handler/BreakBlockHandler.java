@@ -21,7 +21,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class BreakBlockHandler {
@@ -85,8 +84,19 @@ public class BreakBlockHandler {
                         breakBlock(world, player, pos, x, y, z, positiveState);
                         breakBlock(world, player, pos, x, y, z, negativeState);
                     }
-                    world.syncWorldEvent(2001, pos, Block.getRawIdFromState(positiveState));
-                    world.syncWorldEvent(2001, pos, Block.getRawIdFromState(negativeState));
+
+                    if (positiveState.getBlock() == negativeState.getBlock()) {
+                        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+                            world.syncWorldEvent(2001, pos, Block.getRawIdFromState(positiveState.with(SlabBlock.TYPE, SlabType.DOUBLE)));
+                        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
+                            world.syncWorldEvent(2001, pos, Block.getRawIdFromState(positiveState.with(VerticalSlabBlock.IS_DOUBLE, true)));
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        world.syncWorldEvent(2001, pos, Block.getRawIdFromState(positiveState));
+                        world.syncWorldEvent(2001, pos, Block.getRawIdFromState(negativeState));
+                    }
 
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
                 }
