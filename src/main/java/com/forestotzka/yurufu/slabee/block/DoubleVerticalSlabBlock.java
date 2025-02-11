@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -39,6 +40,12 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new DoubleVerticalSlabBlockEntity(pos, state);
+    }
+
+    @Override
+    protected boolean isLookingPositiveHalf(BlockState state) {
+        boolean isX = state.get(AXIS) == VerticalSlabAxis.X;
+        return (isX && LookingPositionTracker.lookingAtEasternHalf) || (!isX && LookingPositionTracker.lookingAtSouthernHalf);
     }
 
     @Override

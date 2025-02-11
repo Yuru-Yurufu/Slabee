@@ -9,6 +9,7 @@
         "ChunkLightProviderMixin",
         "EntityMixin",
         "LivingEntityMixin",
+        "ServerPlayerInteractionManagerMixin",
         "SlabBlockMixin"
     ],
     "injectors": {

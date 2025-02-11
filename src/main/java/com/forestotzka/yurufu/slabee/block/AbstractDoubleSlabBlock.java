@@ -58,7 +58,18 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
             return 0.0F;
         }
 
-        return DoubleSlabUtils.getMiningSpeed(entity.getPositiveSlabState(), entity.getNegativeSlabState(), player, view, pos);
+        BlockState positiveState = entity.getPositiveSlabState();
+        BlockState negativeState = entity.getNegativeSlabState();
+
+        if (player.isSneaking()) {
+            if (isLookingPositiveHalf(state)) {
+                return DoubleSlabUtils.getMiningSpeed(positiveState, positiveState, player, view, pos);
+            } else {
+                return DoubleSlabUtils.getMiningSpeed(negativeState, negativeState, player, view, pos);
+            }
+        } else {
+            return DoubleSlabUtils.getMiningSpeed(positiveState, negativeState, player, view, pos);
+        }
     }
 
     @Override
@@ -70,6 +81,8 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
         return state;
     }
+
+    protected abstract boolean isLookingPositiveHalf(BlockState state);
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
