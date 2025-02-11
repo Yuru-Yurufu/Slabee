@@ -118,13 +118,15 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
                 newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)));
 
-                world.setBlockState(pos, newState, 3);
+                if (DoubleSlabUtils.canPlace(ctx, newState)) {
+                    world.setBlockState(pos, newState, 3);
 
-                DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
-                if (blockEntity != null) {
-                    blockEntity.setAxis(axis);
-                    blockEntity.setPositiveSlabId(positiveId);
-                    blockEntity.setNegativeSlabId(negativeId);
+                    DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
+                    if (blockEntity != null) {
+                        blockEntity.setAxis(axis);
+                        blockEntity.setPositiveSlabId(positiveId);
+                        blockEntity.setNegativeSlabId(negativeId);
+                    }
                 }
 
                 return newState;

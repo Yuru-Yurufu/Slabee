@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
+import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -56,12 +57,14 @@ public abstract class SlabBlockMixin extends BlockMixin {
 
                 newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
 
-                world.setBlockState(pos, newState, 3);
+                if (DoubleSlabUtils.canPlace(ctx, newState)) {
+                    world.setBlockState(pos, newState, 3);
 
-                DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
-                if (blockEntity != null) {
-                    blockEntity.setPositiveSlabId(positiveId);
-                    blockEntity.setNegativeSlabId(negativeId);
+                    DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
+                    if (blockEntity != null) {
+                        blockEntity.setPositiveSlabId(positiveId);
+                        blockEntity.setNegativeSlabId(negativeId);
+                    }
                 }
 
                 cir.setReturnValue(newState);

@@ -4,7 +4,9 @@ import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -15,6 +17,12 @@ import net.minecraft.world.BlockView;
 
 public class DoubleSlabUtils {
     private DoubleSlabUtils() {}
+
+    public static boolean canPlace(ItemPlacementContext context, BlockState state) {
+        PlayerEntity playerEntity = context.getPlayer();
+        ShapeContext shapeContext = playerEntity == null ? ShapeContext.absent() : ShapeContext.of(playerEntity);
+        return context.getWorld().canPlace(state, context.getBlockPos(), shapeContext);
+    }
 
     public static boolean isPositiveSeeThrough(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
