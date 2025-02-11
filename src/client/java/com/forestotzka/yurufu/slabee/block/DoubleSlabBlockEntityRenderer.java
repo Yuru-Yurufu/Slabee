@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.slabee.block;
 
-import com.forestotzka.yurufu.slabee.render.SlabeeRenderLayer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -34,7 +33,7 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         VertexConsumer topVertexConsumer = switch (entity.getPositiveRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-            case 3 -> vertexConsumers.getBuffer(SlabeeRenderLayer.getCustomTranslucent4());
+            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
         client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, false, random);
@@ -46,7 +45,7 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         VertexConsumer bottomVertexConsumer = switch (entity.getNegativeRenderLayerType()) {
             case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
             case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-            case 3 -> vertexConsumers.getBuffer(SlabeeRenderLayer.getCustomTranslucent4());
+            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
             default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
         };
         client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, false, random);
