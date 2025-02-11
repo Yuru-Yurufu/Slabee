@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
-import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -36,7 +35,7 @@ public abstract class BlockItemMixin {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void injectCustomSound(ItemPlacementContext context, CallbackInfoReturnable<ActionResult> cir, ItemPlacementContext itemPlacementContext, BlockState blockState, BlockPos blockPos, World world, PlayerEntity playerEntity, ItemStack itemStack, BlockState blockState2, BlockSoundGroup blockSoundGroup) {
-        if (blockState2.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(blockState2)) {
             BlockState trueBlockState = ((BlockItem) itemStack.getItem()).getBlock().getDefaultState();
             BlockSoundGroup trueBlockSoundGroup = trueBlockState.getSoundGroup();
 
@@ -51,7 +50,7 @@ public abstract class BlockItemMixin {
 
     @Inject(method = "place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z", at = @At("HEAD"), cancellable = true)
     private void placeDoubleSlab(ItemPlacementContext ctx, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (state.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(state)) {
             cir.setReturnValue(true);
             cir.cancel();
         }

@@ -257,7 +257,7 @@ public class SlabeeUtils {
     }
 
     public static BlockState getAbstractState(Block p, Block n, BlockState state) {
-        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+        if (!SlabeeUtils.isDoubleSlab(state)) {
             return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
         }
 
@@ -269,5 +269,13 @@ public class SlabeeUtils {
 
     private static int booleanToInt(boolean bl1, boolean bl2) {
         return (bl1 ? 2 : 0) + (bl2 ? 1 : 0);
+    }
+
+    public static boolean isDoubleSlab(BlockState state) {
+        return isDoubleSlab(state.getBlock());
+    }
+
+    public static boolean isDoubleSlab(Block block) {
+        return block instanceof AbstractDoubleSlabBlock;
     }
 }

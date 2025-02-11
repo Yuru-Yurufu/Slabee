@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import net.minecraft.block.BlockState;
@@ -16,28 +17,28 @@ public class DoubleSlabUtils {
     private DoubleSlabUtils() {}
 
     public static boolean isPositiveSeeThrough(BlockState state) {
-        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+        if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
         return state.get(ModProperties.SEE_THROUGH) >= 2;
     }
 
     public static boolean isNegativeSeeThrough(BlockState state) {
-        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+        if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
         return (state.get(ModProperties.SEE_THROUGH) % 2) == 1;
     }
 
     public static boolean isPositiveOpaque(BlockState state) {
-        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+        if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
         return state.get(ModProperties.OPAQUE) >= 2;
     }
 
     public static boolean isNegativeOpaque(BlockState state) {
-        if (!(state.getBlock() instanceof AbstractDoubleSlabBlock)) {
+        if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
         return (state.get(ModProperties.OPAQUE) % 2) == 1;

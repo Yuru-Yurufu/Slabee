@@ -1,6 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -34,7 +34,7 @@ public class ServerPlayerInteractionManagerMixin {
             )
     )
     private float redirectCalcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
-        if (this.currentAction == PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK && state.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (this.currentAction == PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK && SlabeeUtils.isDoubleSlab(state)) {
             return 1.0F;
         } else {
             return state.calcBlockBreakingDelta(player, world, pos);

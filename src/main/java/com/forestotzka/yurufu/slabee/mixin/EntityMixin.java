@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -75,7 +76,7 @@ public abstract class EntityMixin {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void spawnSprintingParticles(CallbackInfo ci, BlockPos blockPos, BlockState blockState, Vec3d vec3d, BlockPos blockPos2, double d, double e) {
-        if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(blockState)) {
             BlockState particleState;
 
             if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {

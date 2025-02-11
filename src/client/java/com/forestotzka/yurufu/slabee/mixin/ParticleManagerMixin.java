@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import net.minecraft.block.BlockState;
@@ -34,7 +35,7 @@ public abstract class ParticleManagerMixin {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void addBlockBreakingParticles(BlockPos pos, Direction direction, CallbackInfo cir, BlockState blockState, int i, int j, int k, float f, Box box, double d, double e, double g) {
-        if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(blockState)) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockState particleState;
 

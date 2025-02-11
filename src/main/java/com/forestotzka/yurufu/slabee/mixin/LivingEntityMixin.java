@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -48,7 +49,7 @@ public abstract class LivingEntityMixin extends Entity {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     private void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci, ServerWorld serverWorld, double d, double e, double f, double g, BlockPos blockPos, float k, double l, int m) {
-        if (state.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(state)) {
             LivingEntity entity = (LivingEntity) (Object) this;
             world = entity.getWorld();
             BlockState particleState;

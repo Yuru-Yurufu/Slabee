@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.LookingPositionTracker;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -56,7 +57,7 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
         if (world == null) return;
 
         BlockState blockState = world.getBlockState(pos);
-        if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
+        if (SlabeeUtils.isDoubleSlab(blockState)) {
             BlockState topSlab;
             BlockState bottomSlab;
             if (world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity) {
@@ -135,7 +136,7 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
             BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();
-            if (blockState.getBlock() instanceof AbstractDoubleSlabBlock) {
+            if (SlabeeUtils.isDoubleSlab(blockState)) {
                 BlockState stayState;
                 if (blockEntity instanceof DoubleSlabBlockEntity entity) {
                     if (LookingPositionTracker.lookingAtUpperHalf) {
