@@ -23,8 +23,6 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
-    /*public static final IntProperty OPAQUE = ModProperties.OPAQUE;
-    public static final IntProperty SEE_THROUGH = ModProperties.SEE_THROUGH;*/
     public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
     public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
 
@@ -40,8 +38,6 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         this.setDefaultState(this.getDefaultState()
                 .with(IS_EMISSIVE_LIGHTING, false)
                 .with(LIGHT_LEVEL, 0)
-                /*.with(OPAQUE, 3)
-                .with(SEE_THROUGH, 0)*/
                 .with(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)
                 .with(NEGATIVE_SLAB, DoubleSlabVariant.NORMAL));
     }
@@ -51,7 +47,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL)/*.add(OPAQUE)*/.add(IS_EMISSIVE_LIGHTING)/*.add(SEE_THROUGH)*/.add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
+        builder.add(LIGHT_LEVEL).add(IS_EMISSIVE_LIGHTING).add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
     }
 
     @Override
@@ -100,19 +96,6 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         return true;
     }
 
-    /*@Override
-    protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
-        boolean positiveOpaque = DoubleSlabUtils.isPositiveOpaque(state);
-        boolean negativeOpaque = DoubleSlabUtils.isNegativeOpaque(state);
-        if (negativeOpaque && positiveOpaque) {
-            return world.getMaxLightLevel();
-        } else if (negativeOpaque || positiveOpaque) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }*/
-
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.fullCube();
@@ -130,16 +113,6 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         } else {
             return ShapeType.FULL;
         }
-
-        /*BlockState positiveSlab = entity.getPositiveSlabState();
-        BlockState negativeSlab = entity.getNegativeSlabState();
-
-        return switch (SlabeeUtils.getSeeThrough(positiveSlab, negativeSlab)) {
-            case 3 -> ShapeType.NONE;
-            case 2 -> ShapeType.NEGATIVE;
-            case 1 -> ShapeType.POSITIVE;
-            default -> ShapeType.FULL;
-        };*/
     }
 
     protected static ShapeType calcLightingShapeType(BlockState state) {

@@ -84,29 +84,6 @@ public enum DoubleSlabVariant implements StringIdentifiable {
         return this.name;
     }
 
-
-    /*public static DoubleSlabVariant fromBlock(Block block) {
-        if (block instanceof SlabBlock) {
-            return SLAB_VARIANT_MAP_SUPPLIER.get().getOrDefault(block, NORMAL);
-        } else if (block instanceof VerticalSlabBlock) {
-            return VERTICAL_SLAB_VARIANT_MAP_SUPPLIER.get().getOrDefault(block, NORMAL);
-        } else {
-            return NORMAL;
-        }
-    }*/
-
-    /*public static DoubleSlabVariant fromBlock(Block block) {
-        Identifier id = Registries.BLOCK.getId(block);
-        String path = id.getPath();
-        String base = path.replace("_slab", "").replace("_vertical", "");
-        for (DoubleSlabVariant variant : DoubleSlabVariant.values()) {
-            if (variant.asString().equals(base)) {
-                return variant;
-            }
-        }
-        return NORMAL;
-    }*/
-
     public static DoubleSlabVariant fromBlock(Block block) {
         DoubleSlabVariant variant = null;
         if (block instanceof SlabBlock) {

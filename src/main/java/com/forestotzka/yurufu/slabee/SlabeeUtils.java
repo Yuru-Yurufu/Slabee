@@ -218,26 +218,6 @@ public class SlabeeUtils {
         }
     }
 
-    public static int getOpaque(Block p, Block n) {
-        if (p instanceof SlabBlock) {
-            return booleanToInt(!NonOpaqueSlabs.contains(p), !NonOpaqueSlabs.contains(n));
-        } else if (p instanceof VerticalSlabBlock) {
-            return booleanToInt(!NonOpaqueVerticalSlabs.contains(p), !NonOpaqueVerticalSlabs.contains(n));
-        } else {
-            return 0;
-        }
-    }
-
-    public static int getSeeThrough(Block p, Block n) {
-        if (p instanceof SlabBlock) {
-            return booleanToInt(SeeThroughSlabs.contains(p), SeeThroughSlabs.contains(n));
-        } else if (p instanceof VerticalSlabBlock) {
-            return booleanToInt(SeeThroughVerticalSlabs.contains(p), SeeThroughVerticalSlabs.contains(n));
-        } else {
-            return 0;
-        }
-    }
-
     public static boolean isSeeThrough(Block block) {
         if (block instanceof SlabBlock) {
             return SeeThroughSlabs.contains(block);
@@ -273,14 +253,8 @@ public class SlabeeUtils {
 
         return state.with(IS_EMISSIVE_LIGHTING, SlabeeUtils.isEmissiveLightingSlabs(p, n))
                 .with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
-                /*.with(OPAQUE, SlabeeUtils.getOpaque(p, n))
-                .with(SEE_THROUGH, SlabeeUtils.getSeeThrough(p, n))*/
                 .with(POSITIVE_SLAB, DoubleSlabVariant.fromBlock(p))
                 .with(NEGATIVE_SLAB, DoubleSlabVariant.fromBlock(n));
-    }
-
-    private static int booleanToInt(boolean bl1, boolean bl2) {
-        return (bl1 ? 2 : 0) + (bl2 ? 1 : 0);
     }
 
     public static boolean isDoubleSlab(BlockState state) {

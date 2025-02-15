@@ -37,22 +37,4 @@ public class ChunkLightProviderMixin {
         }
         return state.getCullingFace(blockView, pos, direction);
     }
-/*
-
-    @Redirect(
-            method = "getRealisticOpacity",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/block/BlockState;getCullingShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/shape/VoxelShape;",
-                    ordinal = 0
-            )
-    )
-    private static VoxelShape getLightingShape(BlockState state, BlockView world, BlockPos pos) {
-        if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-            return DoubleSlabBlock.getLightingShape(state);
-        }
-        return state.getCullingShape(world, pos);
-    }
-*/
-
 }
