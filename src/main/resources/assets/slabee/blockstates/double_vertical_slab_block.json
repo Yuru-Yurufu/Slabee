@@ -1,7 +1,309 @@
 {
-    "variants": {
-        "": {
-            "model": "slabee:block/double_slab_block"
+    "multipart": [
+        {
+            "when": { "axis": "z", "positive_slab": "normal" },
+            "apply": { "model": "slabee:block/normal_vertical_slab", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "normal" },
+            "apply": { "model": "slabee:block/normal_vertical_slab", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "normal" },
+            "apply": { "model": "slabee:block/normal_vertical_slab", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "normal" },
+            "apply": { "model": "slabee:block/normal_vertical_slab", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "white_stained_glass" },
+            "apply": { "model": "slabee:block/white_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "white_stained_glass" },
+            "apply": { "model": "slabee:block/white_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "white_stained_glass" },
+            "apply": { "model": "slabee:block/white_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "white_stained_glass" },
+            "apply": { "model": "slabee:block/white_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "orange_stained_glass" },
+            "apply": { "model": "slabee:block/orange_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "orange_stained_glass" },
+            "apply": { "model": "slabee:block/orange_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "orange_stained_glass" },
+            "apply": { "model": "slabee:block/orange_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "orange_stained_glass" },
+            "apply": { "model": "slabee:block/orange_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "magenta_stained_glass" },
+            "apply": { "model": "slabee:block/magenta_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "magenta_stained_glass" },
+            "apply": { "model": "slabee:block/magenta_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "magenta_stained_glass" },
+            "apply": { "model": "slabee:block/magenta_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "magenta_stained_glass" },
+            "apply": { "model": "slabee:block/magenta_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "light_blue_stained_glass" },
+            "apply": { "model": "slabee:block/light_blue_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "light_blue_stained_glass" },
+            "apply": { "model": "slabee:block/light_blue_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "light_blue_stained_glass" },
+            "apply": { "model": "slabee:block/light_blue_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "light_blue_stained_glass" },
+            "apply": { "model": "slabee:block/light_blue_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "yellow_stained_glass" },
+            "apply": { "model": "slabee:block/yellow_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "yellow_stained_glass" },
+            "apply": { "model": "slabee:block/yellow_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "yellow_stained_glass" },
+            "apply": { "model": "slabee:block/yellow_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "yellow_stained_glass" },
+            "apply": { "model": "slabee:block/yellow_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "lime_stained_glass" },
+            "apply": { "model": "slabee:block/lime_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "lime_stained_glass" },
+            "apply": { "model": "slabee:block/lime_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "lime_stained_glass" },
+            "apply": { "model": "slabee:block/lime_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "lime_stained_glass" },
+            "apply": { "model": "slabee:block/lime_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "pink_stained_glass" },
+            "apply": { "model": "slabee:block/pink_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "pink_stained_glass" },
+            "apply": { "model": "slabee:block/pink_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "pink_stained_glass" },
+            "apply": { "model": "slabee:block/pink_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "pink_stained_glass" },
+            "apply": { "model": "slabee:block/pink_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "gray_stained_glass" },
+            "apply": { "model": "slabee:block/gray_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "gray_stained_glass" },
+            "apply": { "model": "slabee:block/gray_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "gray_stained_glass" },
+            "apply": { "model": "slabee:block/gray_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "gray_stained_glass" },
+            "apply": { "model": "slabee:block/gray_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "light_gray_stained_glass" },
+            "apply": { "model": "slabee:block/light_gray_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "light_gray_stained_glass" },
+            "apply": { "model": "slabee:block/light_gray_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "light_gray_stained_glass" },
+            "apply": { "model": "slabee:block/light_gray_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "light_gray_stained_glass" },
+            "apply": { "model": "slabee:block/light_gray_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "cyan_stained_glass" },
+            "apply": { "model": "slabee:block/cyan_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "cyan_stained_glass" },
+            "apply": { "model": "slabee:block/cyan_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "cyan_stained_glass" },
+            "apply": { "model": "slabee:block/cyan_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "cyan_stained_glass" },
+            "apply": { "model": "slabee:block/cyan_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "purple_stained_glass" },
+            "apply": { "model": "slabee:block/purple_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "purple_stained_glass" },
+            "apply": { "model": "slabee:block/purple_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "purple_stained_glass" },
+            "apply": { "model": "slabee:block/purple_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "purple_stained_glass" },
+            "apply": { "model": "slabee:block/purple_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "blue_stained_glass" },
+            "apply": { "model": "slabee:block/blue_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "blue_stained_glass" },
+            "apply": { "model": "slabee:block/blue_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "blue_stained_glass" },
+            "apply": { "model": "slabee:block/blue_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "blue_stained_glass" },
+            "apply": { "model": "slabee:block/blue_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "brown_stained_glass" },
+            "apply": { "model": "slabee:block/brown_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "brown_stained_glass" },
+            "apply": { "model": "slabee:block/brown_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "brown_stained_glass" },
+            "apply": { "model": "slabee:block/brown_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "brown_stained_glass" },
+            "apply": { "model": "slabee:block/brown_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "green_stained_glass" },
+            "apply": { "model": "slabee:block/green_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "green_stained_glass" },
+            "apply": { "model": "slabee:block/green_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "green_stained_glass" },
+            "apply": { "model": "slabee:block/green_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "green_stained_glass" },
+            "apply": { "model": "slabee:block/green_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "red_stained_glass" },
+            "apply": { "model": "slabee:block/red_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "red_stained_glass" },
+            "apply": { "model": "slabee:block/red_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "red_stained_glass" },
+            "apply": { "model": "slabee:block/red_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "red_stained_glass" },
+            "apply": { "model": "slabee:block/red_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "black_stained_glass" },
+            "apply": { "model": "slabee:block/black_stained_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "black_stained_glass" },
+            "apply": { "model": "slabee:block/black_stained_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "black_stained_glass" },
+            "apply": { "model": "slabee:block/black_stained_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "black_stained_glass" },
+            "apply": { "model": "slabee:block/black_stained_glass_vertical_slab_x", "uvlock": true }
+        },
+
+        {
+            "when": { "axis": "z", "positive_slab": "tinted_glass" },
+            "apply": { "model": "slabee:block/tinted_glass_vertical_slab_z", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "axis": "x", "positive_slab": "tinted_glass" },
+            "apply": { "model": "slabee:block/tinted_glass_vertical_slab_x", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "axis": "z", "negative_slab": "tinted_glass" },
+            "apply": { "model": "slabee:block/tinted_glass_vertical_slab_z", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "axis": "x", "negative_slab": "tinted_glass" },
+            "apply": { "model": "slabee:block/tinted_glass_vertical_slab_x", "uvlock": true }
         }
-    }
+    ]
 }

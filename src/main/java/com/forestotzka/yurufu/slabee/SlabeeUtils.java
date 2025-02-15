@@ -4,6 +4,7 @@ import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
+import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -12,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.*;
-import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.SEE_THROUGH;
 
 public class SlabeeUtils {
     private static final Set<Block> StainedGlassSlabs;
@@ -238,6 +238,16 @@ public class SlabeeUtils {
         }
     }
 
+    public static boolean isSeeThrough(Block block) {
+        if (block instanceof SlabBlock) {
+            return SeeThroughSlabs.contains(block);
+        } else if (block instanceof VerticalSlabBlock) {
+            return SeeThroughVerticalSlabs.contains(block);
+        } else {
+            return false;
+        }
+    }
+
     public static int getLuminance(Block p, Block n) {
         return Math.max(DoubleSlabUtils.getLuminance(p.getDefaultState()), DoubleSlabUtils.getLuminance(n.getDefaultState()));
     }
@@ -263,8 +273,10 @@ public class SlabeeUtils {
 
         return state.with(IS_EMISSIVE_LIGHTING, SlabeeUtils.isEmissiveLightingSlabs(p, n))
                 .with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
-                .with(OPAQUE, SlabeeUtils.getOpaque(p, n))
-                .with(SEE_THROUGH, SlabeeUtils.getSeeThrough(p, n));
+                /*.with(OPAQUE, SlabeeUtils.getOpaque(p, n))
+                .with(SEE_THROUGH, SlabeeUtils.getSeeThrough(p, n))*/
+                .with(POSITIVE_SLAB, DoubleSlabVariant.fromBlock(p))
+                .with(NEGATIVE_SLAB, DoubleSlabVariant.fromBlock(n));
     }
 
     private static int booleanToInt(boolean bl1, boolean bl2) {

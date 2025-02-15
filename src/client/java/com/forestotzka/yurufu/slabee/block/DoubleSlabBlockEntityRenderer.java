@@ -30,25 +30,29 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
         Random random = Random.create();
 
         BlockState topSlabState = entity.getPositiveSlabState();
-        VertexConsumer topVertexConsumer = switch (entity.getPositiveRenderLayerType()) {
-            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
-            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
-            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
-        };
-        client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, false, random);
+        int positiveRenderLayerType = entity.getPositiveRenderLayerType();
+        if (positiveRenderLayerType <= 2) {
+            VertexConsumer topVertexConsumer = switch (positiveRenderLayerType) {
+                case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+                case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+                default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+            };
+            client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, false, random);
+        }
 
         BlockState bottomSlabState = entity.getNegativeSlabState();
         if (bottomSlabState.isOf(ModBlocks.DIRT_PATH_SLAB)) {
             bottomSlabState = ModBlocks.DIRT_SLAB.getDefaultState();
         }
-        VertexConsumer bottomVertexConsumer = switch (entity.getNegativeRenderLayerType()) {
-            case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
-            case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
-            case 3 -> vertexConsumers.getBuffer(RenderLayer.getTranslucent());
-            default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
-        };
-        client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, false, random);
+        int negativeRenderLayerType = entity.getNegativeRenderLayerType();
+        if (negativeRenderLayerType <= 2) {
+            VertexConsumer bottomVertexConsumer = switch (entity.getNegativeRenderLayerType()) {
+                case 1 -> vertexConsumers.getBuffer(RenderLayer.getCutout());
+                case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
+                default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
+            };
+            client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, false, random);
+        }
     }
 
     @Override

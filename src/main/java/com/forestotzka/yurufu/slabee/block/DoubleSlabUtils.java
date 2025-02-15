@@ -1,8 +1,8 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
+import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
-import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,28 +28,36 @@ public class DoubleSlabUtils {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return state.get(ModProperties.SEE_THROUGH) >= 2;
+        return isSeeThrough(state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
     }
 
     public static boolean isNegativeSeeThrough(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return (state.get(ModProperties.SEE_THROUGH) % 2) == 1;
+        return isSeeThrough(state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
+    }
+
+    private static boolean isSeeThrough(DoubleSlabVariant variant) {
+        return variant != DoubleSlabVariant.NORMAL;
     }
 
     public static boolean isPositiveOpaque(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return state.get(ModProperties.OPAQUE) >= 2;
+        return isOpaque(state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
     }
 
     public static boolean isNegativeOpaque(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return (state.get(ModProperties.OPAQUE) % 2) == 1;
+        return isOpaque(state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
+    }
+
+    private static boolean isOpaque(DoubleSlabVariant variant) {
+        return variant == DoubleSlabVariant.NORMAL || variant == DoubleSlabVariant.TINTED_GLASS;
     }
 
     public static boolean isTrueSlabId(Identifier id) {

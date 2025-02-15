@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -21,8 +23,10 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
-    public static final IntProperty OPAQUE = ModProperties.OPAQUE;
-    public static final IntProperty SEE_THROUGH = ModProperties.SEE_THROUGH;
+    /*public static final IntProperty OPAQUE = ModProperties.OPAQUE;
+    public static final IntProperty SEE_THROUGH = ModProperties.SEE_THROUGH;*/
+    public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
+    public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
 
     protected enum ShapeType {
         FULL,
@@ -36,8 +40,10 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         this.setDefaultState(this.getDefaultState()
                 .with(IS_EMISSIVE_LIGHTING, false)
                 .with(LIGHT_LEVEL, 0)
-                .with(OPAQUE, 3)
-                .with(SEE_THROUGH, 0));
+                /*.with(OPAQUE, 3)
+                .with(SEE_THROUGH, 0)*/
+                .with(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)
+                .with(NEGATIVE_SLAB, DoubleSlabVariant.NORMAL));
     }
 
     @Override
@@ -45,7 +51,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL).add(OPAQUE).add(IS_EMISSIVE_LIGHTING).add(SEE_THROUGH);
+        builder.add(LIGHT_LEVEL)/*.add(OPAQUE)*/.add(IS_EMISSIVE_LIGHTING)/*.add(SEE_THROUGH)*/.add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
     }
 
     @Override
@@ -94,7 +100,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         return true;
     }
 
-    @Override
+    /*@Override
     protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
         boolean positiveOpaque = DoubleSlabUtils.isPositiveOpaque(state);
         boolean negativeOpaque = DoubleSlabUtils.isNegativeOpaque(state);
@@ -105,7 +111,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         } else {
             return 0;
         }
-    }
+    }*/
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
@@ -124,6 +130,16 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         } else {
             return ShapeType.FULL;
         }
+
+        /*BlockState positiveSlab = entity.getPositiveSlabState();
+        BlockState negativeSlab = entity.getNegativeSlabState();
+
+        return switch (SlabeeUtils.getSeeThrough(positiveSlab, negativeSlab)) {
+            case 3 -> ShapeType.NONE;
+            case 2 -> ShapeType.NEGATIVE;
+            case 1 -> ShapeType.POSITIVE;
+            default -> ShapeType.FULL;
+        };*/
     }
 
     protected static ShapeType calcLightingShapeType(BlockState state) {
