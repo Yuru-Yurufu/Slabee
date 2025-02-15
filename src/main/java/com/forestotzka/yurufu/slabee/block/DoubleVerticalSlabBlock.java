@@ -16,10 +16,10 @@ import org.jetbrains.annotations.Nullable;
 public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
     public static final EnumProperty<VerticalSlabAxis> AXIS = EnumProperty.of("axis", VerticalSlabAxis.class);
 
-    protected static final VoxelShape EAST_OPAQUE_SHAPE = Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape WEST_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 16.0, 16.0);
-    protected static final VoxelShape SOUTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape NORTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0);
+    protected static final VoxelShape EAST_OPAQUE_SHAPE = Block.createCuboidShape(7.9999, 0.0, 0.0, 16.0, 16.0, 16.0);
+    protected static final VoxelShape WEST_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 8.0001, 16.0, 16.0);
+    protected static final VoxelShape SOUTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 7.9999, 16.0, 16.0, 16.0);
+    protected static final VoxelShape NORTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0001);
 
     public DoubleVerticalSlabBlock(Settings settings) {
         super(settings);

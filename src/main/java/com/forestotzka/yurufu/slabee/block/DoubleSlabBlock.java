@@ -11,8 +11,8 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
-    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
-    protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0);
+    protected static final VoxelShape DOWN_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0001, 16.0);
+    protected static final VoxelShape UP_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 7.9999, 0.0, 16.0, 16.0, 16.0);
 
     public DoubleSlabBlock(Settings settings) {
         super(settings);
