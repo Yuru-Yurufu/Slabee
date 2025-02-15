@@ -32,6 +32,8 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     protected BlockState blockState = defaultBlockState;
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
 
+    private boolean init = true;
+
     public AbstractDoubleSlabBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Identifier defaultPositiveSlabId, Identifier defaultNegativeSlabId) {
         super(type, pos, state);
 
@@ -122,6 +124,13 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
             }
         } else {
             this.blockState = this.defaultBlockState;
+        }
+    }
+
+    public void serverTick() {
+        if (init) {
+            updateBlockProperties();
+            init = false;
         }
     }
 

@@ -5,6 +5,8 @@ import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.BlockTags;
@@ -52,6 +54,15 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     @Override
     public abstract @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state);
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return world.isClient ? null : (world1, pos, blockState, blockEntity) -> {
+            if (blockEntity instanceof AbstractDoubleSlabBlockEntity entity) {
+                entity.serverTick();
+            }
+        };
+    }
 
     @Override
     public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView view, BlockPos pos) {
