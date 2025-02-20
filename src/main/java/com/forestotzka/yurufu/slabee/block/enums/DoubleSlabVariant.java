@@ -92,6 +92,6 @@ public enum DoubleSlabVariant implements StringIdentifiable {
             variant = VERTICAL_SLAB_VARIANT_MAP.get(block);
         }
 
-        return Objects.requireNonNullElseGet(variant, () -> SlabeeUtils.isSeeThrough(block) ? NON_OPAQUE : NORMAL);
+        return Objects.requireNonNullElseGet(variant, () -> !SlabeeUtils.isOpaque(block) ? NON_OPAQUE : NORMAL);
     }
 }

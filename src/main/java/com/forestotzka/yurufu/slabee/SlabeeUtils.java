@@ -218,11 +218,11 @@ public class SlabeeUtils {
         }
     }
 
-    public static boolean isSeeThrough(Block block) {
+    public static boolean isOpaque(Block block) {
         if (block instanceof SlabBlock) {
-            return SeeThroughSlabs.contains(block);
+            return !NonOpaqueSlabs.contains(block);
         } else if (block instanceof VerticalSlabBlock) {
-            return SeeThroughVerticalSlabs.contains(block);
+            return !NonOpaqueVerticalSlabs.contains(block);
         } else {
             return false;
         }
