@@ -8,7 +8,9 @@
         "ClientPlayerInteractionManagerMixin",
         "GameRendererMixin",
         "MinecraftClientMixin",
-        "ParticleManagerMixin"
+        "ParticleManagerMixin",
+        "WorldRendererAccessor",
+        "WorldRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
