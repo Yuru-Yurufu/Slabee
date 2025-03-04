@@ -150,7 +150,7 @@ public class SlabeeClient implements ClientModInitializer {
         ) {
             return BiomeColors.getFoliageColor(world, pos);
         } else {
-            return FoliageColors.getDefaultColor();
+            return 0xFFFFFF;
         }
     }
 
