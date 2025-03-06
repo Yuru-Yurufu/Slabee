@@ -9,7 +9,7 @@
             "to": [ 15.95, 7.95, 15.95 ],
             "faces": {
                 "down":  { "uv": [ 0.05, 0.05, 15.95, 15.95 ], "texture": "#all", "cullface": "down" },
-                "up":    { "uv": [ 0.05, 0.05, 15.95, 15.95 ], "texture": "#all" },
+                "up":    { "uv": [ 0.05, 0.05, 15.95, 15.95 ], "texture": "#all", "cullface": "up" },
                 "north": { "uv": [ 0.05, 8.05, 15.95, 15.95 ], "texture": "#all", "cullface": "north" },
                 "south": { "uv": [ 0.05, 8.05, 15.95, 15.95 ], "texture": "#all", "cullface": "south" },
                 "west":  { "uv": [ 0.05, 8.05, 15.95, 15.95 ], "texture": "#all", "cullface": "west" },

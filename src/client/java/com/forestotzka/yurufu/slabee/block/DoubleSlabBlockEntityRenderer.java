@@ -37,7 +37,7 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
                 case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
                 default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
             };
-            client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, false, random);
+            client.getBlockRenderManager().renderBlock(topSlabState, pos, world, matrices, topVertexConsumer, true, random);
         }
 
         BlockState bottomSlabState = entity.getNegativeSlabState();
@@ -51,7 +51,7 @@ public class DoubleSlabBlockEntityRenderer implements BlockEntityRenderer<Double
                 case 2 -> vertexConsumers.getBuffer(RenderLayer.getCutoutMipped());
                 default -> vertexConsumers.getBuffer(RenderLayer.getSolid());
             };
-            client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, false, random);
+            client.getBlockRenderManager().renderBlock(bottomSlabState, pos, world, matrices, bottomVertexConsumer, true, random);
         }
     }
 
