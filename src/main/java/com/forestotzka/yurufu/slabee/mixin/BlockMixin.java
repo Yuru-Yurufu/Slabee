@@ -59,29 +59,17 @@ public abstract class BlockMixin {
     @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
     private static void onShouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(pos);
-        BlockState otherState = world.getBlockState(otherPos);
         if (SlabeeUtils.isDoubleSlab(blockState)) {
             if (state.getBlock() instanceof SlabBlock) {
-                if (state.get(Properties.SLAB_TYPE) == SlabType.BOTTOM) {
+                SlabType slabType = state.get(Properties.SLAB_TYPE);
+                if (slabType == SlabType.BOTTOM) {
                     if (side == Direction.UP) {
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && (!blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)|| DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB)));
+                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
                         cir.cancel();
-                    } else  {
-                        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-                            cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(otherState) && DoubleSlabVariant.fromBlock(state.getBlock()) != otherState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
-                            cir.cancel();
-                        }
-                    }/* else if (side != Direction.DOWN && otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(otherState) && DoubleSlabVariant.fromBlock(state.getBlock()) != otherState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
-                        cir.cancel();
-                    }*/
-                } else if (state.get(Properties.SLAB_TYPE) == SlabType.TOP) {
+                    }
+                } else if (slabType == SlabType.TOP) {
                     if (side == Direction.DOWN) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && (!blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)|| DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB)));
-                        cir.cancel();
-                    } else if (/*side != Direction.UP && */otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-                        //System.out.println("aaaaaaaaaa" + DoubleSlabVariant.fromBlock(state.getBlock()) + " ::::::::: " + otherState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(otherState) && DoubleSlabVariant.fromBlock(state.getBlock()) != otherState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
+                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
                         cir.cancel();
                     }
                 }
@@ -89,17 +77,13 @@ public abstract class BlockMixin {
                 Direction d = state.get(Properties.HORIZONTAL_FACING);
                 if (d.getOpposite() == side) {
                     if (d == Direction.EAST || d == Direction.SOUTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState));
+                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
                         cir.cancel();
                     } else if (d == Direction.WEST || d == Direction.NORTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState));
+                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
                         cir.cancel();
-                    }/* else {
-                        cir.setReturnValue(true);
-                    }*/
-                }/* else {
-                    cir.setReturnValue(true);
-                }*/
+                    }
+                }
             }
         }
     }
