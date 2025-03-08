@@ -108,6 +108,18 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     @Override
+    protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+        boolean positiveSeeThrough = DoubleSlabUtils.isPositiveSeeThrough(state);
+        boolean negativeSeeThrough = DoubleSlabUtils.isNegativeSeeThrough(state);
+        if (positiveSeeThrough || negativeSeeThrough) {
+            return 1.0f;
+        } else {
+            return 0.0f;
+        }
+    }
+
+
+    @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.fullCube();
     }
