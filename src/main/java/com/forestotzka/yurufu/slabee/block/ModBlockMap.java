@@ -2,37 +2,17 @@ package com.forestotzka.yurufu.slabee.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SlabBlock;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class ModBlockMap {
-    public static class BlockTriple {
-        private final Block original;
-        private final Block slab;
-        private final Block verticalSlab;
-
-        public BlockTriple(Block original, Block slab, Block verticalSlab) {
-            this.original = original;
-            this.slab = slab;
-            this.verticalSlab = verticalSlab;
-        }
-
-        public Block getOriginal() {
-            return original;
-        }
-
-        public Block getSlab() {
-            return slab;
-        }
-
-        public Block getVerticalSlab() {
-            return verticalSlab;
-        }
+    private record BlockTriple(Block original, Block slab, Block verticalSlab) {
     }
 
-    public static final List<BlockTriple> ENTRIES = Arrays.asList(
+    private static final List<BlockTriple> ENTRIES = Arrays.asList(
             new BlockTriple(Blocks.OAK_PLANKS, Blocks.OAK_SLAB, ModBlocks.OAK_VERTICAL_SLAB),
             new BlockTriple(Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_SLAB, ModBlocks.SPRUCE_VERTICAL_SLAB),
             new BlockTriple(Blocks.BIRCH_PLANKS, Blocks.BIRCH_SLAB, ModBlocks.BIRCH_VERTICAL_SLAB),
@@ -315,47 +295,63 @@ public class ModBlockMap {
 
     private static Optional<BlockTriple> findTripleFromOriginal(Block block) {
         return ENTRIES.stream()
-                .filter(triple -> triple.getOriginal() == block)
+                .filter(triple -> triple.original() == block)
                 .findFirst();
     }
     private static Optional<BlockTriple> findTripleFromSlab(Block block) {
         return ENTRIES.stream()
-                .filter(triple -> triple.getSlab() == block)
+                .filter(triple -> triple.slab() == block)
                 .findFirst();
     }
     private static Optional<BlockTriple> findTripleFromVerticalSlab(Block block) {
         return ENTRIES.stream()
-                .filter(triple -> triple.getVerticalSlab() == block)
+                .filter(triple -> triple.verticalSlab() == block)
                 .findFirst();
     }
 
     public static Block originalToSlab(Block block) {
         Optional<BlockTriple> tripleOpt = findTripleFromOriginal(block);
-        return tripleOpt.map(BlockTriple::getSlab).orElse(null);
+        return tripleOpt.map(BlockTriple::slab).orElse(null);
     }
 
     public static Block originalToVerticalSlab(Block block) {
         Optional<BlockTriple> tripleOpt = findTripleFromOriginal(block);
-        return tripleOpt.map(BlockTriple::getVerticalSlab).orElse(null);
+        return tripleOpt.map(BlockTriple::verticalSlab).orElse(null);
     }
 
     public static Block slabToOriginal(Block block) {
+        if (!(block instanceof SlabBlock)) {
+            return null;
+        }
+
         Optional<BlockTriple> tripleOpt = findTripleFromSlab(block);
-        return tripleOpt.map(BlockTriple::getOriginal).orElse(null);
+        return tripleOpt.map(BlockTriple::original).orElse(null);
     }
 
     public static Block slabToVerticalSlab(Block block) {
+        if (!(block instanceof SlabBlock)) {
+            return null;
+        }
+
         Optional<BlockTriple> tripleOpt = findTripleFromSlab(block);
-        return tripleOpt.map(BlockTriple::getVerticalSlab).orElse(null);
+        return tripleOpt.map(BlockTriple::verticalSlab).orElse(null);
     }
 
     public static Block verticalSlabToOriginal(Block block) {
+        if (!(block instanceof VerticalSlabBlock)) {
+            return null;
+        }
+
         Optional<BlockTriple> tripleOpt = findTripleFromVerticalSlab(block);
-        return tripleOpt.map(BlockTriple::getOriginal).orElse(null);
+        return tripleOpt.map(BlockTriple::original).orElse(null);
     }
 
     public static Block verticalSlabToSlab(Block block) {
+        if (!(block instanceof VerticalSlabBlock)) {
+            return null;
+        }
+
         Optional<BlockTriple> tripleOpt = findTripleFromVerticalSlab(block);
-        return tripleOpt.map(BlockTriple::getSlab).orElse(null);
+        return tripleOpt.map(BlockTriple::slab).orElse(null);
     }
 }
