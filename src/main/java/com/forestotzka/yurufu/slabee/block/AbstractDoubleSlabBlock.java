@@ -151,4 +151,15 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
             return ShapeType.NONE;
         }
     }
+
+    /*protected boolean areBothSlabsEqual(BlockState state, BlockState stateFrom) {
+        return arePositiveSlabsEqual(state, stateFrom) && areNegativeSlabsEqual(state, stateFrom);
+    }
+
+    protected boolean arePositiveSlabsEqual(BlockState state, BlockState stateFrom) {
+        return stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
+    }
+    protected boolean areNegativeSlabsEqual(BlockState state, BlockState stateFrom) {
+        return stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
+    }*/
 }

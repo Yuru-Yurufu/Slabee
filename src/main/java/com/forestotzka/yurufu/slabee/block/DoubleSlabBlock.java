@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -51,4 +52,15 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
             default -> VoxelShapes.empty();
         };
     }
+
+    /*protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        if (stateFrom.isOf(this)) {
+            if (direction == Direction.UP) {
+                return stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB);
+            } else if (direction == Direction.DOWN) {
+                return stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB);
+            }
+        }
+        return false;
+    }*/
 }

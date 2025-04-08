@@ -5,6 +5,7 @@ import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntityRenderer;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntityRenderer;
 import com.forestotzka.yurufu.slabee.handler.ModClientHandlers;
+import com.forestotzka.yurufu.slabee.model.ModModelLoaders;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -91,6 +92,7 @@ public class SlabeeClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModClientHandlers.register();
+        ModModelLoaders.register();
 
         LEAF_SLABS.forEach(block -> {
             ColorProviderRegistry.BLOCK.register(this::getLeafSlabColor, block);

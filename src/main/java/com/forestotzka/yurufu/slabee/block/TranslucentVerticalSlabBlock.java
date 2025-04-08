@@ -3,7 +3,10 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.enums.SlabType;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
 public class TranslucentVerticalSlabBlock extends VerticalSlabBlock {
@@ -24,7 +27,7 @@ public class TranslucentVerticalSlabBlock extends VerticalSlabBlock {
             Direction facingFrom = stateFrom.get(VerticalSlabBlock.FACING);
 
             if (facing == facingFrom) {
-                return facing != direction || facing.getOpposite() != direction;
+                return facing != direction && facing.getOpposite() != direction;
             } else {
                 return facingFrom == direction.getOpposite();
             }
@@ -33,37 +36,66 @@ public class TranslucentVerticalSlabBlock extends VerticalSlabBlock {
             boolean isXFrom = stateFrom.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X;
             boolean isPositive = facing == Direction.EAST || facing == Direction.SOUTH;
 
-            boolean isSamePositive = stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
-            boolean isSameNegative = stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
             if (facing == direction) {
                 if (isX == isXFrom) {
                     if (isPositive) {
-                        return isSameNegative;
+                        return areNegativeSlabsEqual(state, stateFrom);
                     } else {
-                        return isSamePositive;
+                        return arePositiveSlabsEqual(state, stateFrom);
                     }
                 } else {
-                    return isSamePositive && isSameNegative;
+                    return areBothSlabsEqual(state, stateFrom);
                 }
             } else if (!(facing.getOpposite() == direction)) {
                 if (isX == isXFrom) {
                     if (isPositive) {
-                        return isSamePositive;
+                        return arePositiveSlabsEqual(state, stateFrom);
                     } else {
-                        return isSameNegative;
+                        return areNegativeSlabsEqual(state, stateFrom);
                     }
                 } else {
                     if (direction == Direction.EAST || direction == Direction.SOUTH) {
-                        return isSameNegative;
+                        return areNegativeSlabsEqual(state, stateFrom);
                     } else if (direction == Direction.WEST || direction == Direction.NORTH) {
-                        return isSamePositive;
+                        return arePositiveSlabsEqual(state, stateFrom);
                     } else {
-                        return isSamePositive && isSameNegative;
+                        return areBothSlabsEqual(state, stateFrom);
                     }
                 }
+            }
+        } else if (stateFrom.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+            if (direction == Direction.UP) {
+                return areNegativeSlabsEqual(state, stateFrom);
+            } else if (direction == Direction.DOWN) {
+                return arePositiveSlabsEqual(state, stateFrom);
+            } else {
+                return facing.getOpposite() != direction && areBothSlabsEqual(state, stateFrom);
+            }
+        } else {
+            Block block = state.getBlock();
+            Block blockFrom = stateFrom.getBlock();
+            if (block == ModBlockMap.slabToVerticalSlab(blockFrom)) {
+                if (direction == Direction.UP) {
+                    return stateFrom.get(Properties.SLAB_TYPE) == SlabType.BOTTOM;
+                } else if (direction == Direction.DOWN) {
+                    return stateFrom.get(Properties.SLAB_TYPE) == SlabType.TOP;
+                }
+            } else if (block == ModBlockMap.originalToVerticalSlab(blockFrom)) {
+                return facing.getOpposite() != direction;
             }
         }
 
         return super.isSideInvisible(state, stateFrom, direction);
+    }
+
+    private boolean areBothSlabsEqual(BlockState state, BlockState stateFrom) {
+        return arePositiveSlabsEqual(state, stateFrom) && areNegativeSlabsEqual(state, stateFrom);
+    }
+
+    private boolean arePositiveSlabsEqual(BlockState state, BlockState stateFrom) {
+        return stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
+    }
+    private boolean areNegativeSlabsEqual(BlockState state, BlockState stateFrom) {
+        return stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
     }
 }
