@@ -62,8 +62,6 @@ public abstract class BlockMixin {
         Block block = state.getBlock();
 
         if (block instanceof SlabBlock) {
-            cir.setReturnValue(false);
-            cir.cancel();
             BlockState blockState = world.getBlockState(pos);
             BlockState otherState = world.getBlockState(otherPos);
             SlabType slabType = state.get(Properties.SLAB_TYPE);
@@ -71,14 +69,15 @@ public abstract class BlockMixin {
             if (SlabeeUtils.isDoubleSlab(blockState)) {
                 if (slabType == SlabType.BOTTOM) {
                     if (side == Direction.UP) {
-                        //cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
-                        cir.setReturnValue(false);
+                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
                         cir.cancel();
+                        return;
                     }
                 } else if (slabType == SlabType.TOP) {
                     if (side == Direction.DOWN) {
                         cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
                         cir.cancel();
+                        return;
                     }
                 }
             }
