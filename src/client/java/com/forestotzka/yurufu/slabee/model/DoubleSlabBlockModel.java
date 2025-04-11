@@ -1,6 +1,6 @@
 package com.forestotzka.yurufu.slabee.model;
 
-//import com.forestotzka.yurufu.slabee.render.DoubleSlabRenderContext;
+import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.fabricmc.api.EnvType;
@@ -31,17 +31,13 @@ import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBakedModel {
-    //private final String modelPath;
     private final Identifier positiveId;
     private final Identifier negativeId;
     private final Block positiveSlab;
     private final Block negativeSlab;
-    //private final BlockState positiveState;
-    //private final BlockState negativeState;
     private BakedModel positiveBakedModel;
     private BakedModel negativeBakedModel;
 
-    //public DoubleSlabBlockModel(String positivePath, String negativePath) {
     public DoubleSlabBlockModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
         this.positiveSlab = positiveSlab;
         this.negativeSlab = negativeSlab;
@@ -50,16 +46,14 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
             this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
         } else {
-            this.positiveId = Identifier.of("slabee", "block/normal_slab_top");
+            this.positiveId = Identifier.of(Slabee.MOD_ID, "block/normal_slab_top");
         }
 
         if (this.negativeSlab != null) {
-            //this.positiveState = positiveSlab.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP);
-            //this.negativeState = negativeSlab.getDefaultState();
             Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
             this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath());
         } else {
-            this.negativeId = Identifier.of("slabee", "block/normal_slab");
+            this.negativeId = Identifier.of(Slabee.MOD_ID, "block/normal_slab");
         }
     }
 
@@ -129,28 +123,21 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        //DoubleSlabRenderContext context = new DoubleSlabRenderContext(renderContext);
-
         if (this.positiveSlab != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                if (face != null && shouldCullPositive(face, blockRenderView, blockPos)) {
-                    return false;
-                }
-                return true;
+                return face != null && !shouldCullPositive(face, blockRenderView, blockPos);
             });
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
         }
-        //positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
+
         if (this.negativeSlab != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
-                if (face != null && shouldCullNegative(face, blockRenderView, blockPos)) {
-                    return false;
-                }
-                return true;
+
+                return face != null && !shouldCullNegative(face, blockRenderView, blockPos);
             });
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
