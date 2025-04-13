@@ -207,8 +207,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                         return positiveSlab == bp;
                     }
                 }
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                return positiveSlab == entity.getPositiveSlabState().getBlock() && positiveSlab == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.SOUTH) {
             otherPos = pos.south();
@@ -231,8 +229,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                         return positiveSlab == bp && positiveSlab == bn;
                     }
                 }
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                return positiveSlab == entity.getPositiveSlabState().getBlock() && positiveSlab == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.WEST) {
             otherPos = pos.west();
@@ -244,8 +240,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 return d == Direction.EAST || d == Direction.SOUTH;
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                return positiveSlab == entity.getPositiveSlabState().getBlock() && positiveSlab == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.NORTH) {
             otherPos = pos.north();
@@ -257,8 +251,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 return d == Direction.EAST || d == Direction.SOUTH;
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                return positiveSlab == entity.getPositiveSlabState().getBlock() && positiveSlab == entity.getNegativeSlabState().getBlock();
             }
         } else {
             if (face == Direction.UP) {
@@ -280,14 +272,15 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 } else {
                     return otherState.get(SlabBlock.TYPE) == SlabType.TOP;
                 }
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                return positiveSlab == entity.getPositiveSlabState().getBlock() && positiveSlab == entity.getNegativeSlabState().getBlock();
-            } else {
-                return positiveSlab == ModBlockMap.originalToVerticalSlab(otherBlock);
             }
         }
 
-        return false;
+        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            Block b = ModBlockMap.verticalSlabToSlab(positiveSlab);
+            return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
+        }
+
+        return ModBlockMap.verticalSlabToOriginal(positiveSlab) == otherBlock;
     }
 
     private boolean shouldCullNegative(Direction face, BlockRenderView world, BlockPos pos) {
@@ -377,9 +370,20 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 return (isX && d == Direction.WEST) || (!isX && d == Direction.NORTH);
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
+            } else if (otherBlock instanceof SlabBlock && negativeSlab == ModBlockMap.slabToVerticalSlab(otherBlock)) {
+                if (face == Direction.UP) {
+                    return otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
+                } else {
+                    return otherState.get(SlabBlock.TYPE) == SlabType.TOP;
+                }
             }
         }
 
-        return false;
+        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            Block b = ModBlockMap.verticalSlabToSlab(negativeSlab);
+            return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
+        }
+
+        return ModBlockMap.verticalSlabToOriginal(negativeSlab) == otherBlock;
     }
 }
