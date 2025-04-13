@@ -2,6 +2,7 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.TranslucentSlabBlock;
+import com.forestotzka.yurufu.slabee.block.TranslucentVerticalSlabBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
@@ -83,6 +84,30 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                             return new TranslucentSlabBlockModel(b, true);
                         } else if (keyValue[1].equals("bottom")) {
                             return new TranslucentSlabBlockModel(b, false);
+                        }
+
+                        break;
+                    }
+                }
+            } else if (b instanceof TranslucentVerticalSlabBlock) {
+                String[] ss = id.getVariant().split(",");
+
+                for (String s : ss) {
+                    String[] keyValue = s.split("=");
+                    if (keyValue[0].equals("facing")) {
+                        switch (keyValue[1]) {
+                            case "east" -> {
+                                return new DoubleVerticalSlabBlockModel(b, null, true);
+                            }
+                            case "south" -> {
+                                return new DoubleVerticalSlabBlockModel(b, null, false);
+                            }
+                            case "west" -> {
+                                return new DoubleVerticalSlabBlockModel(null, b, true);
+                            }
+                            case "north" -> {
+                                return new DoubleVerticalSlabBlockModel(null, b, false);
+                            }
                         }
 
                         break;

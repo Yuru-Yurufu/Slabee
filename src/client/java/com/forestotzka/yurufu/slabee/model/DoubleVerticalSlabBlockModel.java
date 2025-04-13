@@ -109,7 +109,11 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
     @Override
     public Sprite getParticleSprite() {
-        return null;
+        if (positiveSlab != null) {
+            return positiveBakedModel.getParticleSprite();
+        } else {
+            return negativeBakedModel.getParticleSprite();
+        }
     }
 
     @Override
@@ -308,7 +312,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
-                return d == Direction.NORTH || d == Direction.EAST;
+                return d == Direction.NORTH || d == Direction.WEST;
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
             }
@@ -341,18 +345,18 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
-                return d == Direction.EAST || (isX && d == Direction.NORTH);
+                return d == Direction.SOUTH || (isX && d == Direction.WEST);
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 Block bp = entity.getPositiveSlabState().getBlock();
                 Block bn = entity.getNegativeSlabState().getBlock();
 
                 if (otherState.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.Z) {
-                    return positiveSlab == bp;
+                    return negativeSlab == bp;
                 } else {
                     if (isX) {
-                        return positiveSlab == bn;
+                        return negativeSlab == bn;
                     } else {
-                        return positiveSlab == bp && positiveSlab == bn;
+                        return negativeSlab == bp && negativeSlab == bn;
                     }
                 }
             }
