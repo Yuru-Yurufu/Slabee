@@ -14,6 +14,7 @@ import java.util.Objects;
 public enum DoubleSlabVariant implements StringIdentifiable {
     NORMAL("normal"),
     NON_OPAQUE("non_opaque"),
+    GLASS("glass"),
     WHITE_STAINED_GLASS("white_stained_glass"),
     ORANGE_STAINED_GLASS("orange_stained_glass"),
     MAGENTA_STAINED_GLASS("magenta_stained_glass"),
@@ -36,6 +37,7 @@ public enum DoubleSlabVariant implements StringIdentifiable {
     private static final Map<Block, DoubleSlabVariant> VERTICAL_SLAB_VARIANT_MAP = new HashMap<>();
 
     static {
+        SLAB_VARIANT_MAP.put(ModBlocks.GLASS_SLAB, GLASS);
         SLAB_VARIANT_MAP.put(ModBlocks.WHITE_STAINED_GLASS_SLAB, WHITE_STAINED_GLASS);
         SLAB_VARIANT_MAP.put(ModBlocks.ORANGE_STAINED_GLASS_SLAB, ORANGE_STAINED_GLASS);
         SLAB_VARIANT_MAP.put(ModBlocks.MAGENTA_STAINED_GLASS_SLAB, MAGENTA_STAINED_GLASS);
@@ -54,6 +56,7 @@ public enum DoubleSlabVariant implements StringIdentifiable {
         SLAB_VARIANT_MAP.put(ModBlocks.BLACK_STAINED_GLASS_SLAB, BLACK_STAINED_GLASS);
         SLAB_VARIANT_MAP.put(ModBlocks.TINTED_GLASS_SLAB, TINTED_GLASS);
 
+        VERTICAL_SLAB_VARIANT_MAP.put(ModBlocks.GLASS_VERTICAL_SLAB, GLASS);
         VERTICAL_SLAB_VARIANT_MAP.put(ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB, WHITE_STAINED_GLASS);
         VERTICAL_SLAB_VARIANT_MAP.put(ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB, ORANGE_STAINED_GLASS);
         VERTICAL_SLAB_VARIANT_MAP.put(ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB, MAGENTA_STAINED_GLASS);

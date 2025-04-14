@@ -1,13 +1,3 @@
 {
-    "multipart": [
-        {
-            "when": { "positive_slab": "normal" },
-            "apply": { "model": "slabee:block/normal_slab_top" }
-        },
-
-        {
-            "when": { "negative_slab": "normal" },
-            "apply": { "model": "slabee:block/normal_slab" }
-        }
-    ]
+    "multipart": []
 }

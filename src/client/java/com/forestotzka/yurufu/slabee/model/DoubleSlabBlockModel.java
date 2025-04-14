@@ -37,22 +37,29 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
     private BakedModel positiveBakedModel;
     private BakedModel negativeBakedModel;
 
-    public DoubleSlabBlockModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
-        this.positiveSlab = positiveSlab;
-        this.negativeSlab = negativeSlab;
-
-        if (this.positiveSlab != null) {
-            Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
-            this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
-        } else {
+    public DoubleSlabBlockModel(String positiveSlab, String negativeSlab) {
+        if (positiveSlab.equals("normal")) {
+            this.positiveSlab = null;
             this.positiveId = Identifier.of(Slabee.MOD_ID, "block/normal_slab_top");
+        } else if (positiveSlab.equals("non_opaque")) {
+            this.positiveSlab = null;
+            this.positiveId = null;
+        } else {
+            this.positiveSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, positiveSlab + "_slab"));
+            Identifier positiveId = Registries.BLOCK.getId(this.positiveSlab);
+            this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
         }
 
-        if (this.negativeSlab != null) {
-            Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
-            this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath());
-        } else {
+        if (negativeSlab.equals("normal")) {
+            this.negativeSlab = null;
             this.negativeId = Identifier.of(Slabee.MOD_ID, "block/normal_slab");
+        } else if (negativeSlab.equals("non_opaque")) {
+            this.negativeSlab = null;
+            this.negativeId = null;
+        } else {
+            this.negativeSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, negativeSlab + "_slab"));
+            Identifier negativeId = Registries.BLOCK.getId(this.negativeSlab);
+            this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath());
         }
     }
 
@@ -108,12 +115,12 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        if (this.positiveSlab != null) {
+        if (this.positiveId != null) {
             UnbakedModel positiveUnbakedModel = baker.getOrLoadModel(this.positiveId);
             this.positiveBakedModel = positiveUnbakedModel.bake(baker, textureGetter, rotationContainer);
         }
 
-        if (this.negativeSlab != null) {
+        if (this.negativeId != null) {
             UnbakedModel negativeUnbakedModel = baker.getOrLoadModel(this.negativeId);
             this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, rotationContainer);
         }
@@ -122,21 +129,21 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        if (this.positiveSlab != null) {
+        if (this.positiveId != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return face != null && !shouldCullPositive(face, blockRenderView, blockPos);
+                return this.positiveSlab == null || face != null && !shouldCullPositive(face, blockRenderView, blockPos);
             });
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
         }
 
-        if (this.negativeSlab != null) {
+        if (this.negativeId != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return face != null && !shouldCullNegative(face, blockRenderView, blockPos);
+                return this.negativeSlab == null || face != null && !shouldCullNegative(face, blockRenderView, blockPos);
             });
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();

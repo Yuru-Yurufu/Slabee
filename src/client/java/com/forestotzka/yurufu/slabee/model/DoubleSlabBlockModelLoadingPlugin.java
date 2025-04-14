@@ -27,15 +27,15 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             if (i.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
-                Block positiveSlab = null;
-                Block negativeSlab = null;
+                String positiveSlab = "";
+                String negativeSlab = "";
 
                 for (String s : ss) {
                     String[] keyValue = s.split("=");
-                    if (keyValue[0].equals("positive_slab") && !keyValue[1].equals("normal") && !keyValue[1].equals("non_opaque")) {
-                        positiveSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, keyValue[1] + "_slab"));
-                    } else if (keyValue[0].equals("negative_slab") && !keyValue[1].equals("normal") && !keyValue[1].equals("non_opaque")) {
-                        negativeSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, keyValue[1] + "_slab"));
+                    if (keyValue[0].equals("positive_slab")) {
+                        positiveSlab = keyValue[1];
+                    } else if (keyValue[0].equals("negative_slab")) {
+                        negativeSlab = keyValue[1];
                     }
                 }
 
