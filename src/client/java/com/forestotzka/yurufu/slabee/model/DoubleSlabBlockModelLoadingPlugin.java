@@ -71,9 +71,13 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             Identifier i = id.id();
 
+            if (id.getVariant().equals("inventory")) {
+                return original;
+            }
+
             Block b = Registries.BLOCK.get(i);
             if (b instanceof TranslucentBlock) {
-                //return new
+                return new TranslucentBlockModel(b);
             } else if (b instanceof TranslucentSlabBlock) {
                 String[] ss = id.getVariant().split(",");
 
