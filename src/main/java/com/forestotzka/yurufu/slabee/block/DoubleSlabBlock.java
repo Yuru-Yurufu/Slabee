@@ -52,15 +52,4 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
             default -> VoxelShapes.empty();
         };
     }
-
-    /*protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
-        if (stateFrom.isOf(this)) {
-            if (direction == Direction.UP) {
-                return stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB);
-            } else if (direction == Direction.DOWN) {
-                return stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB);
-            }
-        }
-        return false;
-    }*/
 }

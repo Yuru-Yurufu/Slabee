@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.Slabee;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -3284,12 +3285,24 @@ public class ModBlocks {
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
             new DoubleSlabBlock(AbstractBlock.Settings.create()
                     .luminance(DoubleSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> state.get(DoubleSlabBlock.IS_EMISSIVE_LIGHTING))));
+                    .emissiveLighting((state, world, pos) -> {
+                        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+                            return SlabeeUtils.isEmissiveLightingSlabs(entity.getPositiveSlabState().getBlock(), entity.getNegativeSlabState().getBlock());
+                        }
+
+                        return false;
+                    })));
 
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
             new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()
                     .luminance(DoubleVerticalSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> state.get(DoubleVerticalSlabBlock.IS_EMISSIVE_LIGHTING))));
+                    .emissiveLighting((state, world, pos) -> {
+                        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                            return SlabeeUtils.isEmissiveLightingSlabs(entity.getPositiveSlabState().getBlock(), entity.getNegativeSlabState().getBlock());
+                        }
+
+                        return false;
+                    })));
 
 
 

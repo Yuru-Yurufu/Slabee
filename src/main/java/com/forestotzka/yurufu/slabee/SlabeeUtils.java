@@ -251,8 +251,7 @@ public class SlabeeUtils {
             return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
         }
 
-        return state.with(IS_EMISSIVE_LIGHTING, SlabeeUtils.isEmissiveLightingSlabs(p, n))
-                .with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
+        return state.with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
                 .with(POSITIVE_SLAB, DoubleSlabVariant.fromBlock(p))
                 .with(NEGATIVE_SLAB, DoubleSlabVariant.fromBlock(n));
     }

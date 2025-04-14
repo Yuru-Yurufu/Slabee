@@ -11,7 +11,6 @@ import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +22,6 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
-    public static final BooleanProperty IS_EMISSIVE_LIGHTING = ModProperties.IS_EMISSIVE_LIGHTING;
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
     public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
     public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
@@ -38,7 +36,6 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     protected AbstractDoubleSlabBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState()
-                .with(IS_EMISSIVE_LIGHTING, false)
                 .with(LIGHT_LEVEL, 0)
                 .with(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)
                 .with(NEGATIVE_SLAB, DoubleSlabVariant.NORMAL));
@@ -49,7 +46,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIGHT_LEVEL).add(IS_EMISSIVE_LIGHTING).add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
+        builder.add(LIGHT_LEVEL).add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
     }
 
     @Override
@@ -151,15 +148,4 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
             return ShapeType.NONE;
         }
     }
-
-    /*protected boolean areBothSlabsEqual(BlockState state, BlockState stateFrom) {
-        return arePositiveSlabsEqual(state, stateFrom) && areNegativeSlabsEqual(state, stateFrom);
-    }
-
-    protected boolean arePositiveSlabsEqual(BlockState state, BlockState stateFrom) {
-        return stateFrom.get(AbstractDoubleSlabBlock.POSITIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
-    }
-    protected boolean areNegativeSlabsEqual(BlockState state, BlockState stateFrom) {
-        return stateFrom.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB) == DoubleSlabVariant.fromBlock(state.getBlock());
-    }*/
 }
