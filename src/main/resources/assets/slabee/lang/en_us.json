@@ -493,5 +493,6 @@
     "block.slabee.pumpkin_vertical_slab": "Pumpkin Vertical Slab",
     "block.slabee.hay_vertical_slab": "Hay Vertical Slab",
     "block.slabee.honeycomb_vertical_slab": "Honeycomb Vertical Slab",
-    "block.slabee.sculk_vertical_slab": "Sculk Vertical Slab"
+    "block.slabee.sculk_vertical_slab": "Sculk Vertical Slab",
+    "block.slabee.bedrock_vertical_slab": "Bedrock Vertical Slab"
 }

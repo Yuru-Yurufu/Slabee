@@ -3284,6 +3284,14 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.SCULK)
                     .instrument(NoteBlockInstrument.BASS)));
 
+    public static final Block BEDROCK_VERTICAL_SLAB = registerBlock("bedrock_vertical_slab",
+            new VerticalSlabBlock(AbstractBlock.Settings.create()
+                    .mapColor(Blocks.BEDROCK.getDefaultMapColor())
+                    .strength(-1.0F, 3600000.0F)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)));
+
 
 
     ///////////////////////

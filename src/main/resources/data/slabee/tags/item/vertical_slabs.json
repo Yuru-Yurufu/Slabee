@@ -279,6 +279,7 @@
         "slabee:pumpkin_vertical_slab",
         "slabee:hay_vertical_slab",
         "slabee:honeycomb_vertical_slab",
-        "slabee:sculk_vertical_slab"
+        "slabee:sculk_vertical_slab",
+        "slabee:bedrock_vertical_slab"
     ]
 }

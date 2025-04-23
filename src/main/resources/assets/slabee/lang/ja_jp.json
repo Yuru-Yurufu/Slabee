@@ -493,5 +493,6 @@
     "block.slabee.pumpkin_vertical_slab": "カボチャの縦ハーフブロック",
     "block.slabee.hay_vertical_slab": "干草の俵の縦ハーフブロック",
     "block.slabee.honeycomb_vertical_slab": "ハニカムの縦ハーフブロック",
-    "block.slabee.sculk_vertical_slab": "スカルクの縦ハーフブロック"
+    "block.slabee.sculk_vertical_slab": "スカルクの縦ハーフブロック",
+    "block.slabee.bedrock_vertical_slab": "岩盤の縦ハーフブロック"
 }

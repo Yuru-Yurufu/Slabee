@@ -271,7 +271,7 @@
     "block.slabee.polished_deepslate_vertical_slab": "磨制深板岩竖直台阶",
     "block.slabee.deepslate_tile_vertical_slab": "深板岩瓦竖直台阶",
     "block.slabee.deepslate_brick_vertical_slab": "深板岩砖竖直台阶",
-    "block.slabee.waxed_weathered_cut_copper_vertical_slab": "	涂蜡的锈蚀切制铜竖直台阶",
+    "block.slabee.waxed_weathered_cut_copper_vertical_slab": "涂蜡的锈蚀切制铜竖直台阶",
     "block.slabee.waxed_exposed_cut_copper_vertical_slab": "涂蜡的斑驳切制铜竖直台阶",
     "block.slabee.waxed_cut_copper_vertical_slab": "涂蜡的切制铜竖直台阶",
     "block.slabee.oxidized_cut_copper_vertical_slab": "涂蜡的氧化切制铜竖直台阶",
@@ -493,5 +493,6 @@
     "block.slabee.pumpkin_vertical_slab": "南瓜竖直台阶",
     "block.slabee.hay_vertical_slab": "干草捆竖直台阶",
     "block.slabee.honeycomb_vertical_slab": "蜜脾块竖直台阶",
-    "block.slabee.sculk_vertical_slab": "幽匿块竖直台阶"
+    "block.slabee.sculk_vertical_slab": "幽匿块竖直台阶",
+    "block.slabee.bedrock_vertical_slab": "基岩竖直台阶"
 }
