@@ -38,6 +38,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
     private final boolean isX;
     private BakedModel positiveBakedModel;
     private BakedModel negativeBakedModel;
+    private BakedModel nullBakedModel;
 
     private final VerticalModelRotation Y0 = new VerticalModelRotation(ModelRotation.X0_Y0.getRotation(), true);
     private final VerticalModelRotation Y90 = new VerticalModelRotation(ModelRotation.X0_Y90.getRotation(), true);
@@ -58,11 +59,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_z");
             }
         } else {
-            if (isX) {
-                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-            } else {
-                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-            }
+            this.positiveId = null;
         }
 
         if (this.negativeSlab != null) {
@@ -74,11 +71,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath() + "_z");
             }
         } else {
-            if (isX) {
-                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-            } else {
-                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-            }
+            this.negativeId = null;
         }
     }
 
@@ -109,10 +102,12 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
     @Override
     public Sprite getParticleSprite() {
-        if (positiveSlab != null) {
+        if (positiveId != null) {
             return positiveBakedModel.getParticleSprite();
-        } else {
+        } else if (negativeId != null) {
             return negativeBakedModel.getParticleSprite();
+        } else {
+            return nullBakedModel.getParticleSprite();
         }
     }
 
@@ -138,7 +133,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        if (this.positiveSlab != null) {
+        if (this.positiveId != null) {
             UnbakedModel positiveUnbakedModel = baker.getOrLoadModel(this.positiveId);
             if (isX) {
                 this.positiveBakedModel = positiveUnbakedModel.bake(baker, textureGetter, Y180);
@@ -147,13 +142,15 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             }
         }
 
-        if (this.negativeSlab != null) {
+        if (this.negativeId != null) {
             UnbakedModel negativeUnbakedModel = baker.getOrLoadModel(this.negativeId);
             if (isX) {
                 this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, Y0);
             } else {
                 this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, Y90);
             }
+        } else if (this.positiveId == null) {
+            this.nullBakedModel = baker.getOrLoadModel(Identifier.of("slabee:null_slab")).bake(baker, textureGetter, rotationContainer);
         }
 
         return this;
@@ -161,22 +158,22 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        if (this.positiveSlab != null) {
+        if (this.positiveId != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return face != null && !shouldCullPositive(face, blockRenderView, blockPos);
+                return this.positiveSlab == null || face != null && !shouldCullPositive(face, blockRenderView, blockPos);
             });
 
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
         }
 
-        if (this.negativeSlab != null) {
+        if (this.negativeId != null) {
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return face != null && !shouldCullNegative(face, blockRenderView, blockPos);
+                return this.negativeSlab == null || face != null && !shouldCullNegative(face, blockRenderView, blockPos);
             });
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();

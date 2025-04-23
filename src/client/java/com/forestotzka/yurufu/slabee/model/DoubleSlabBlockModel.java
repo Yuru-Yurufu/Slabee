@@ -38,10 +38,7 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
     private BakedModel negativeBakedModel;
 
     public DoubleSlabBlockModel(String positiveSlab, String negativeSlab) {
-        if (positiveSlab.equals("normal")) {
-            this.positiveSlab = null;
-            this.positiveId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-        } else if (positiveSlab.equals("non_opaque")) {
+        if (positiveSlab.equals("normal") || positiveSlab.equals("non_opaque")) {
             this.positiveSlab = null;
             this.positiveId = null;
         } else {
@@ -50,10 +47,7 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
         }
 
-        if (negativeSlab.equals("normal")) {
-            this.negativeSlab = null;
-            this.negativeId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
-        } else if (negativeSlab.equals("non_opaque")) {
+        if (negativeSlab.equals("normal") || negativeSlab.equals("non_opaque")) {
             this.negativeSlab = null;
             this.negativeId = null;
         } else {
