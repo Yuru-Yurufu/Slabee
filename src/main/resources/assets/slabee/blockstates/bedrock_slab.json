@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/bedrock_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/bedrock"
+        },
+        "type=top": {
+            "model": "slabee:block/bedrock_slab_top"
+        }
+    }
+}

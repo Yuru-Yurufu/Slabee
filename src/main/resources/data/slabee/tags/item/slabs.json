@@ -218,6 +218,7 @@
         "slabee:pumpkin_slab",
         "slabee:hay_slab",
         "slabee:honeycomb_slab",
-        "slabee:sculk_slab"
+        "slabee:sculk_slab",
+        "slabee:bedrock_slab"
     ]
 }

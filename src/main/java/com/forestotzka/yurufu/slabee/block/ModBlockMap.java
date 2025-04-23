@@ -288,7 +288,8 @@ public class ModBlockMap {
             new BlockTriple(Blocks.PUMPKIN, ModBlocks.PUMPKIN_SLAB, ModBlocks.PUMPKIN_VERTICAL_SLAB),
             new BlockTriple(Blocks.HAY_BLOCK, ModBlocks.HAY_SLAB, ModBlocks.HAY_VERTICAL_SLAB),
             new BlockTriple(Blocks.HONEYCOMB_BLOCK, ModBlocks.HONEYCOMB_SLAB, ModBlocks.HONEYCOMB_VERTICAL_SLAB),
-            new BlockTriple(Blocks.SCULK, ModBlocks.SCULK_SLAB, ModBlocks.SCULK_VERTICAL_SLAB)
+            new BlockTriple(Blocks.SCULK, ModBlocks.SCULK_SLAB, ModBlocks.SCULK_VERTICAL_SLAB),
+            new BlockTriple(Blocks.BEDROCK, ModBlocks.BEDROCK_SLAB, null)
     );
 
     private static final Map<Block, BlockTriple> originalMap = new HashMap<>();
