@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.slabee.model;
 
-import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import net.fabricmc.api.EnvType;
