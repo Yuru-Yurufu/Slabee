@@ -59,9 +59,9 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             }
         } else {
             if (isX) {
-                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/normal_vertical_slab_x");
+                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
             } else {
-                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/normal_vertical_slab_z");
+                this.positiveId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
             }
         }
 
@@ -75,9 +75,9 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             }
         } else {
             if (isX) {
-                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/normal_vertical_slab_x");
+                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
             } else {
-                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/normal_vertical_slab_z");
+                this.negativeId = Identifier.of(Slabee.MOD_ID, "block/null_slab");
             }
         }
     }
