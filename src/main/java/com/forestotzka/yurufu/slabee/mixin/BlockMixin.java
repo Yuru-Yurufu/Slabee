@@ -63,83 +63,37 @@ public abstract class BlockMixin {
 
         if (block instanceof SlabBlock) {
             BlockState blockState = world.getBlockState(pos);
-            BlockState otherState = world.getBlockState(otherPos);
             SlabType slabType = state.get(Properties.SLAB_TYPE);
 
-            if (SlabeeUtils.isDoubleSlab(blockState)) {
+            if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
                 if (slabType == SlabType.BOTTOM) {
                     if (side == Direction.UP) {
                         cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
                         cir.cancel();
-                        return;
                     }
                 } else if (slabType == SlabType.TOP) {
                     if (side == Direction.DOWN) {
                         cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
                         cir.cancel();
-                        return;
                     }
                 }
             }
 
-            if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof AbstractDoubleSlabBlockEntity entity) {
-                if (side == Direction.UP) {
-                    cir.setReturnValue(!(slabType == SlabType.TOP && areNegativeSlabsEqual(state, entity)));
-                } else if (side == Direction.DOWN) {
-                    cir.setReturnValue(!(slabType == SlabType.BOTTOM && arePositiveSlabsEqual(state, entity)));
-                } else {
-                    if (slabType == SlabType.TOP) {
-                        cir.setReturnValue(!arePositiveSlabsEqual(state, entity));
-                    } else {
-                        cir.setReturnValue(!areNegativeSlabsEqual(state, entity));
-                    }
-                }
-
-                cir.cancel();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof AbstractDoubleSlabBlockEntity entity) {
-                if (side == Direction.UP || side == Direction.DOWN) {
-                    cir.setReturnValue(areBothSlabsEqual(state, entity));
-                } else if ((side == Direction.EAST || side == Direction.WEST) == ((DoubleVerticalSlabBlockEntity) entity).isX()) {
-                    if (side == Direction.EAST || side == Direction.SOUTH) {
-                        cir.setReturnValue(areNegativeSlabsEqual(state, entity));
-                    } else {
-                        cir.setReturnValue(arePositiveSlabsEqual(state, entity));
-                    }
-                } else {
-                    cir.setReturnValue(areBothSlabsEqual(state, entity));
-                }
-
-                cir.cancel();
-            }
         } else if (block instanceof VerticalSlabBlock) {
             BlockState blockState = world.getBlockState(pos);
 
-            if (SlabeeUtils.isDoubleSlab(blockState)) {
+            if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
                 Direction d = state.get(Properties.HORIZONTAL_FACING);
                 if (d.getOpposite() == side) {
                     if (d == Direction.EAST || d == Direction.SOUTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
+                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
                         cir.cancel();
                     } else if (d == Direction.WEST || d == Direction.NORTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
+                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
                         cir.cancel();
                     }
                 }
             }
         }
-    }
-
-    @Unique
-    private static boolean areBothSlabsEqual(BlockState state, AbstractDoubleSlabBlockEntity entity) {
-        return arePositiveSlabsEqual(state, entity) && areNegativeSlabsEqual(state, entity);
-    }
-
-    @Unique
-    private static boolean arePositiveSlabsEqual(BlockState state, AbstractDoubleSlabBlockEntity entity) {
-        return entity.getPositiveSlabState().getBlock() == state.getBlock();
-    }
-    @Unique
-    private static boolean areNegativeSlabsEqual(BlockState state, AbstractDoubleSlabBlockEntity entity) {
-        return entity.getNegativeSlabState().getBlock() == state.getBlock();
     }
 }
