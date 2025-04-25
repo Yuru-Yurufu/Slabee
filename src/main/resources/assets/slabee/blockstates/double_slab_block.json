@@ -1,3 +1,7 @@
 {
-    "multipart": []
+    "variants": {
+        "": {
+            "model": "minecraft:block/air"
+        }
+    }
 }
