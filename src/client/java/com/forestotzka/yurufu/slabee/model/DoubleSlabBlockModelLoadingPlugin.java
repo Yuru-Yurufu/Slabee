@@ -12,6 +12,7 @@ import net.minecraft.block.TranslucentBlock;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
@@ -28,22 +29,23 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             if (i.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
-                String positiveSlab = "";
-                String negativeSlab = "";
+                Block positiveSlab = null;
+                Block negativeSlab = null;
 
                 for (String s : ss) {
                     String[] keyValue = s.split("=");
                     if (keyValue[0].equals("positive_slab")) {
-                        positiveSlab = keyValue[1];
+                        positiveSlab = variantStrToSlab(keyValue[1]);
                     } else if (keyValue[0].equals("negative_slab")) {
-                        negativeSlab = keyValue[1];
+                        negativeSlab = variantStrToSlab(keyValue[1]);
                     }
                 }
 
                 if (ModConfig.INSTANCE.connectGlassTextures) {
                     return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
                 } else {
-                    return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                    //return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                    return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
                 }
             } else if (i.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
@@ -90,9 +92,17 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     String[] keyValue = s.split("=");
                     if (keyValue[0].equals("type")) {
                         if (keyValue[1].equals("top")) {
-                            return new TranslucentSlabBlockModel(b, true);
+                            if (ModConfig.INSTANCE.connectGlassTextures) {
+                                return new DoubleSlabBlockConnectGlassModel(b, null);
+                            } else {
+                                return new TranslucentSlabBlockModel(b, true);
+                            }
                         } else if (keyValue[1].equals("bottom")) {
-                            return new TranslucentSlabBlockModel(b, false);
+                            if (ModConfig.INSTANCE.connectGlassTextures) {
+                                return new DoubleSlabBlockConnectGlassModel(null, b);
+                            } else {
+                                return new TranslucentSlabBlockModel(b, false);
+                            }
                         }
 
                         break;
@@ -126,5 +136,21 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             return original;
         });
+    }
+
+    private @Nullable Block variantStrToSlab(String block) {
+        if (block.equals("normal") || block.equals("non_opaque")) {
+            return null;
+        } else {
+            return Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, block + "_slab"));
+        }
+    }
+
+    private @Nullable Block variantStrToVerticalSlab(String block) {
+        if (block.equals("normal") || block.equals("non_opaque")) {
+            return null;
+        } else {
+            return Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, block + "_vertical_slab"));
+        }
     }
 }
