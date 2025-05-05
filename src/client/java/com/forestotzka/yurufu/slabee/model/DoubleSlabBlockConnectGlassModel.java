@@ -195,7 +195,8 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             int eastBlockTop, int southBlockTop, int westBlockTop, int northBlockTop,
             int eastBlockBottom, int southBlockBottom, int westBlockBottom, int northBlockBottom,
             int topEastBlock, int topSouthBlock, int topWestBlock, int topNorthBlock,
-            int southEastBlock, int southWestBlock, int northWestBlock, int northEastBlock,
+            int southEastBlockTop, int southWestBlockTop, int northWestBlockTop, int northEastBlockTop,
+            int southEastBlockBottom, int southWestBlockBottom, int northWestBlockBottom, int northEastBlockBottom,
             int bottomEastBlock, int bottomSouthBlock, int bottomWestBlock, int bottomNorthBlock
     ) {}
 
@@ -399,7 +400,6 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
         NeighborState neighborState = neighborComparison(blockRenderView, blockPos);
-        System.out.println(neighborState);
 
         if (this.positiveId != null) {
             for (Direction face : Direction.values()) {
@@ -409,9 +409,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
 
                 EnumMap<Direction, Mesh> faceMeshes;
                 if (face == Direction.UP || face == Direction.DOWN) {
-                    //if (face == Direction.UP) System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + blockPos);
-                    for (int index : getEndPatternIndexes(face, neighborState)) {
-                        //if (face == Direction.UP) System.out.println(index);
+                    for (int index : getEndPatternIndexes(face, neighborState, true)) {
                         faceMeshes = endPositiveMeshMap.get(index);
                         if (faceMeshes == null) return;
 
@@ -447,7 +445,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
 
                 EnumMap<Direction, Mesh> faceMeshes;
                 if (face == Direction.UP || face == Direction.DOWN) {
-                    for (int index : getEndPatternIndexes(face, neighborState)) {
+                    for (int index : getEndPatternIndexes(face, neighborState, false)) {
                         faceMeshes = endNegativeMeshMap.get(index);
                         if (faceMeshes == null) return;
 
@@ -476,13 +474,18 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         }
     }
 
-    private List<Integer> getEndPatternIndexes(Direction face, NeighborState neighborState) {
-        List<Integer> indexes = determinePatternEnd(face, neighborState);
+    private List<Integer> getEndPatternIndexes(Direction face, NeighborState neighborState, boolean isPositive) {
+        List<Integer> indexes;
+        if (isPositive) {
+            indexes = determinePatternEndPositive(face, neighborState);
+        } else {
+            indexes = determinePatternEndNegative(face, neighborState);
+        }
 
         indexes.replaceAll(i -> i - (i / 6));
 
+        System.out.println("" + face + indexes);
         return indexes;
-        //return new ArrayList<>(List.of(0,5,10,15));
     }
 
     private int getSidePatternIndex(Direction face, NeighborState neighborState, boolean isPositive) {
@@ -493,7 +496,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             index = determinePatternNegative(face, neighborState);
         }
 
-        System.out.println("" + face + isPositive + index);
+        //System.out.println("" + face + isPositive + index);
         if (index >= 64) {
             index = GLASS_SLAB_INDEX_MAP.getOrDefault(index, 0);
         }
@@ -501,7 +504,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         return index;
     }
 
-    private List<Integer> determinePatternEnd(Direction face, NeighborState neighborState) {
+    private List<Integer> determinePatternEndPositive(Direction face, NeighborState neighborState) {
         boolean topLeft = false;
         boolean topRight = false;
         boolean rightTop = false;
@@ -510,6 +513,10 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         boolean bottomRight = false;
         boolean leftTop = false;
         boolean leftBottom = false;
+        boolean cornerTopRight = false;
+        boolean cornerBottomRight = false;
+        boolean cornerBottomLeft = false;
+        boolean cornerTopLeft = false;
 
         if (face == Direction.UP) {
             if (neighborState.eastBlockTop == FULL || neighborState.eastBlockTop == POSITIVE1) {
@@ -544,7 +551,112 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             } else if (neighborState.northBlockTop == NEGATIVE2) {
                 topLeft = true;
             }
+            if (topRight && rightTop) {
+                if (neighborState.northEastBlockTop == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                if (neighborState.southEastBlockTop == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                if (neighborState.southWestBlockTop == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                if (neighborState.northWestBlockTop == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
         } else if (face == Direction.DOWN) {
+            if (neighborState.eastBlockTop == FULL || neighborState.eastBlockTop == POSITIVE1) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (neighborState.eastBlockTop == POSITIVE2) {
+                rightBottom = true;
+            } else if (neighborState.eastBlockTop == NEGATIVE2) {
+                rightTop = true;
+            }
+            if (neighborState.southBlockTop == FULL || neighborState.southBlockTop == POSITIVE1) {
+                topLeft = true;
+                topRight = true;
+            } else if (neighborState.southBlockTop == POSITIVE2) {
+                topRight = true;
+            } else if (neighborState.southBlockTop == NEGATIVE2) {
+                topLeft = true;
+            }
+            if (neighborState.westBlockTop == FULL || neighborState.westBlockTop == POSITIVE1) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (neighborState.westBlockTop == POSITIVE2) {
+                leftTop = true;
+            } else if (neighborState.westBlockTop == NEGATIVE2) {
+                leftBottom = true;
+            }
+            if (neighborState.northBlockTop == FULL || neighborState.northBlockTop == POSITIVE1) {
+                bottomLeft = true;
+                bottomRight = true;
+            } else if (neighborState.northBlockTop == POSITIVE2) {
+                bottomLeft = true;
+            } else if (neighborState.northBlockTop == NEGATIVE2) {
+                bottomRight = true;
+            }
+            if (topRight && rightTop) {
+                if (neighborState.southEastBlockTop == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                if (neighborState.northEastBlockTop == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                if (neighborState.northWestBlockTop == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                if (neighborState.southWestBlockTop == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
+        }
+
+        return determineEndPatternIndexes(new ConnectionFlags(
+                topLeft,
+                topRight,
+                rightTop,
+                rightBottom,
+                bottomLeft,
+                bottomRight,
+                leftTop,
+                leftBottom,
+                cornerTopRight,
+                cornerBottomRight,
+                cornerBottomLeft,
+                cornerTopLeft
+        ));
+    }
+
+    private List<Integer> determinePatternEndNegative(Direction face, NeighborState neighborState) {
+        boolean topLeft = false;
+        boolean topRight = false;
+        boolean rightTop = false;
+        boolean rightBottom = false;
+        boolean bottomLeft = false;
+        boolean bottomRight = false;
+        boolean leftTop = false;
+        boolean leftBottom = false;
+        boolean cornerTopRight = false;
+        boolean cornerBottomRight = false;
+        boolean cornerBottomLeft = false;
+        boolean cornerTopLeft = false;
+
+        if (face == Direction.UP) {
             if (neighborState.eastBlockBottom == FULL || neighborState.eastBlockBottom == NEGATIVE1) {
                 rightTop = true;
                 rightBottom = true;
@@ -577,6 +689,79 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             } else if (neighborState.northBlockBottom == NEGATIVE2) {
                 topLeft = true;
             }
+            if (topRight && rightTop) {
+                if (neighborState.northEastBlockBottom == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                if (neighborState.southEastBlockBottom == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                if (neighborState.southWestBlockBottom == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                if (neighborState.northWestBlockBottom == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
+        } else if (face == Direction.DOWN) {
+            if (neighborState.eastBlockBottom == FULL || neighborState.eastBlockBottom == NEGATIVE1) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (neighborState.eastBlockBottom == POSITIVE2) {
+                rightBottom = true;
+            } else if (neighborState.eastBlockBottom == NEGATIVE2) {
+                rightTop = true;
+            }
+            if (neighborState.southBlockBottom == FULL || neighborState.southBlockBottom == NEGATIVE1) {
+                topLeft = true;
+                topRight = true;
+            } else if (neighborState.southBlockBottom == POSITIVE2) {
+                topRight = true;
+            } else if (neighborState.southBlockBottom == NEGATIVE2) {
+                topLeft = true;
+            }
+            if (neighborState.westBlockBottom == FULL || neighborState.westBlockBottom == NEGATIVE1) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (neighborState.westBlockBottom == POSITIVE2) {
+                leftTop = true;
+            } else if (neighborState.westBlockBottom == NEGATIVE2) {
+                leftBottom = true;
+            }
+            if (neighborState.northBlockBottom == FULL || neighborState.northBlockBottom == NEGATIVE1) {
+                bottomLeft = true;
+                bottomRight = true;
+            } else if (neighborState.northBlockBottom == POSITIVE2) {
+                bottomLeft = true;
+            } else if (neighborState.northBlockBottom == NEGATIVE2) {
+                bottomRight = true;
+            }
+            if (topRight && rightTop) {
+                if (neighborState.southEastBlockBottom == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                if (neighborState.northEastBlockBottom == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                if (neighborState.northWestBlockBottom == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                if (neighborState.southWestBlockBottom == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
         }
 
         return determineEndPatternIndexes(new ConnectionFlags(
@@ -588,10 +773,10 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 bottomRight,
                 leftTop,
                 leftBottom,
-                false,
-                false,
-                false,
-                false
+                cornerTopRight,
+                cornerBottomRight,
+                cornerBottomLeft,
+                cornerTopLeft
         ));
     }
 
@@ -657,6 +842,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 bottomLeft = true;
                 bottomRight = true;
             }
+            if (topRight && right) {
+                if (neighborState.topEastBlock == FULL || neighborState.topEastBlock == POSITIVE1) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.eastBlockTop == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.westBlockTop == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.topWestBlock == FULL || neighborState.topWestBlock == POSITIVE1) {
+                    cornerTopLeft = true;
+                }
+            }
         } else if (face == Direction.WEST) {
             if (neighborState.upBlock == FULL || neighborState.upBlock == NEGATIVE1) {
                 topLeft = true;
@@ -672,6 +877,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 bottomLeft = true;
                 bottomRight = true;
             }
+            if (topRight && right) {
+                if (neighborState.topSouthBlock == FULL || neighborState.topSouthBlock == POSITIVE1) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.southBlockTop == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.northBlockTop == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.topNorthBlock == FULL || neighborState.topNorthBlock == POSITIVE1) {
+                    cornerTopLeft = true;
+                }
+            }
         } else if (face == Direction.NORTH) {
             if (neighborState.upBlock == FULL || neighborState.upBlock == NEGATIVE2) {
                 topLeft = true;
@@ -686,6 +911,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             if (neighborState.isSameSlab) {
                 bottomLeft = true;
                 bottomRight = true;
+            }
+            if (topRight && right) {
+                if (neighborState.topWestBlock == FULL || neighborState.topWestBlock == POSITIVE1) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.westBlockTop == FULL) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.eastBlockTop == FULL) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.topEastBlock == FULL || neighborState.topEastBlock == POSITIVE1) {
+                    cornerTopLeft = true;
+                }
             }
         }
 
@@ -767,6 +1012,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             } else if (neighborState.downBlock == POSITIVE1) {
                 bottomRight = true;
             }
+            if (topRight && right) {
+                if (neighborState.eastBlockBottom == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.bottomEastBlock == FULL || neighborState.bottomEastBlock == POSITIVE1) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.bottomWestBlock == FULL || neighborState.bottomWestBlock == POSITIVE1) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.westBlockBottom == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
         } else if (face == Direction.WEST) {
             if (neighborState.isSameSlab) {
                 topLeft = true;
@@ -782,6 +1047,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             } else if (neighborState.downBlock == POSITIVE2) {
                 bottomRight = true;
             }
+            if (topRight && right) {
+                if (neighborState.southBlockBottom == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.bottomSouthBlock == FULL || neighborState.bottomSouthBlock == POSITIVE1) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.bottomNorthBlock == FULL || neighborState.bottomNorthBlock == POSITIVE1) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.northBlockBottom == FULL) {
+                    cornerTopLeft = true;
+                }
+            }
         } else if (face == Direction.NORTH) {
             if (neighborState.isSameSlab) {
                 topLeft = true;
@@ -796,6 +1081,26 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 bottomLeft = true;
             } else if (neighborState.downBlock == NEGATIVE1) {
                 bottomRight = true;
+            }
+            if (topRight && right) {
+                if (neighborState.westBlockBottom == FULL) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && right) {
+                if (neighborState.bottomWestBlock == FULL || neighborState.bottomWestBlock == POSITIVE1) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && left) {
+                if (neighborState.bottomEastBlock == FULL || neighborState.bottomEastBlock == POSITIVE1) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && left) {
+                if (neighborState.eastBlockBottom == FULL) {
+                    cornerTopLeft = true;
+                }
             }
         }
 
@@ -821,25 +1126,33 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         if (flags.topLeft) i += 1;
         if (flags.topRight) i += 2;
         if (flags.cornerTopRight) i += 2;
-        indexes.add(i);
+        if (i != 5) {
+            indexes.add(i);
+        }
 
         i = 6;
         if (flags.rightTop) i += 1;
         if (flags.rightBottom) i += 2;
         if (flags.cornerBottomRight) i += 2;
-        indexes.add(i);
+        if (i != 11) {
+            indexes.add(i);
+        }
 
         i = 12;
         if (flags.bottomRight) i += 1;
         if (flags.bottomLeft) i += 2;
         if (flags.cornerBottomLeft) i += 2;
-        indexes.add(i);
+        if (i != 17) {
+            indexes.add(i);
+        }
 
         i = 18;
         if (flags.leftBottom) i += 1;
         if (flags.leftTop) i += 2;
         if (flags.cornerTopLeft) i += 2;
-        indexes.add(i);
+        if (i != 23) {
+            indexes.add(i);
+        }
 
         return indexes;
     }
@@ -876,10 +1189,14 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         int topSouthBlock = OTHER;
         int topWestBlock = OTHER;
         int topNorthBlock = OTHER;
-        int southEastBlock = OTHER;
-        int southWestBlock = OTHER;
-        int northWestBlock = OTHER;
-        int northEastBlock = OTHER;
+        int southEastBlockTop = OTHER;
+        int southWestBlockTop = OTHER;
+        int northWestBlockTop = OTHER;
+        int northEastBlockTop = OTHER;
+        int southEastBlockBottom = OTHER;
+        int southWestBlockBottom = OTHER;
+        int northWestBlockBottom = OTHER;
+        int northEastBlockBottom = OTHER;
         int bottomEastBlock = OTHER;
         int bottomSouthBlock = OTHER;
         int bottomWestBlock = OTHER;
@@ -1120,43 +1437,285 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             }
         }
 
-        // SOUTH-EAST
-        /*if (southBlockTop != OTHER && southBlockTop != POSITIVE2 && northBlockTop != OTHER && northBlockTop != NEGATIVE1) {
-            otherPos = pos.up().north();
+        // SOUTH-EAST-TOP
+        if (southBlockTop != OTHER && southBlockTop != NEGATIVE1 && eastBlockTop != OTHER && eastBlockTop != NEGATIVE1) {
+            otherPos = pos.south().east();
             otherState = world.getBlockState(otherPos);
             otherBlock = otherState.getBlock();
             if (otherBlock instanceof SlabBlock) {
-                if (positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-                    topNorthBlock = FULL;
+                if (positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP) {
+                    southEastBlockTop = FULL;
                 }
             } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-                if (positiveSlab == entity.getNegativeSlabState().getBlock()) {
-                    topNorthBlock = FULL;
+                if (positiveSlab == entity.getPositiveSlabState().getBlock()) {
+                    southEastBlockTop = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (positiveSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.WEST || d == Direction.NORTH) {
+                        southEastBlockTop = FULL;
+                    }
                 }
             } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 Block b = ModBlockMap.slabToVerticalSlab(positiveSlab);
-                boolean bl1 = b == entity.getPositiveSlabState().getBlock();
-                boolean bl2 = b == entity.getNegativeSlabState().getBlock();
+                if (b == entity.getNegativeSlabState().getBlock()) {
+                    southEastBlockTop = FULL;
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
+                    southEastBlockTop = FULL;
+                }
+            }
+        }
 
-                if (!entity.isX()) {
-                    if (bl1) {
-                        topNorthBlock = FULL;
+        // SOUTH-EAST-BOTTOM
+        if (southBlockBottom != OTHER && southBlockBottom != POSITIVE1 && eastBlockBottom != OTHER && eastBlockBottom != POSITIVE1) {
+            otherPos = pos.south().east();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                    southEastBlockBottom = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (negativeSlab == entity.getNegativeSlabState().getBlock()) {
+                    southEastBlockBottom = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (negativeSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.WEST || d == Direction.NORTH) {
+                        southEastBlockBottom = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(negativeSlab);
+                if (b == entity.getNegativeSlabState().getBlock()) {
+                    southEastBlockBottom = FULL;
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(negativeSlab) == otherBlock) {
+                    southEastBlockBottom = FULL;
+                }
+            }
+        }
+
+        // SOUTH-WEST-TOP
+        if (southBlockTop != OTHER && southBlockTop != NEGATIVE1 && westBlockTop != OTHER && westBlockTop != NEGATIVE1) {
+            otherPos = pos.south().west();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP) {
+                    southWestBlockTop = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (positiveSlab == entity.getPositiveSlabState().getBlock()) {
+                    southWestBlockTop = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (positiveSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.EAST || d == Direction.NORTH) {
+                        southWestBlockTop = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(positiveSlab);
+                if (entity.isX()) {
+                    if (b == entity.getPositiveSlabState().getBlock()) {
+                        southWestBlockTop = FULL;
                     }
                 } else {
-                    if (bl1 && bl2) {
-                        topNorthBlock = FULL;
-                    } else if (bl1) {
-                        topNorthBlock = POSITIVE1;
-                    } else {
-                        topNorthBlock = NEGATIVE1;
+                    if (b == entity.getNegativeSlabState().getBlock()) {
+                        southWestBlockTop = FULL;
                     }
                 }
             } else {
                 if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
-                    topNorthBlock = FULL;
+                    southWestBlockTop = FULL;
                 }
             }
-        }*/
+        }
+
+        // SOUTH-WEST-BOTTOM
+        if (southBlockBottom != OTHER && southBlockBottom != POSITIVE1 && westBlockBottom != OTHER && westBlockBottom != POSITIVE1) {
+            otherPos = pos.south().west();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                    southWestBlockBottom = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (negativeSlab == entity.getNegativeSlabState().getBlock()) {
+                    southWestBlockBottom = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (negativeSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.EAST || d == Direction.NORTH) {
+                        southWestBlockBottom = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(negativeSlab);
+                if (entity.isX()) {
+                    if (b == entity.getPositiveSlabState().getBlock()) {
+                        southWestBlockBottom = FULL;
+                    }
+                } else {
+                    if (b == entity.getNegativeSlabState().getBlock()) {
+                        southWestBlockBottom = FULL;
+                    }
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(negativeSlab) == otherBlock) {
+                    southWestBlockBottom = FULL;
+                }
+            }
+        }
+
+        // NORTH-EAST-TOP
+        if (northBlockTop != OTHER && northBlockTop != NEGATIVE1 && eastBlockTop != OTHER && eastBlockTop != NEGATIVE1) {
+            otherPos = pos.north().east();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP) {
+                    northEastBlockTop = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (positiveSlab == entity.getPositiveSlabState().getBlock()) {
+                    northEastBlockTop = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (positiveSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.WEST || d == Direction.SOUTH) {
+                        northEastBlockTop = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(positiveSlab);
+                if (entity.isX()) {
+                    if (b == entity.getNegativeSlabState().getBlock()) {
+                        northEastBlockTop = FULL;
+                    }
+                } else {
+                    if (b == entity.getPositiveSlabState().getBlock()) {
+                        northEastBlockTop = FULL;
+                    }
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
+                    northEastBlockTop = FULL;
+                }
+            }
+        }
+
+        // NORTH-EAST-BOTTOM
+        if (northBlockBottom != OTHER && northBlockBottom != POSITIVE1 && eastBlockBottom != OTHER && eastBlockBottom != POSITIVE1) {
+            otherPos = pos.north().east();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                    northEastBlockBottom = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (negativeSlab == entity.getNegativeSlabState().getBlock()) {
+                    northEastBlockBottom = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (negativeSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.WEST || d == Direction.SOUTH) {
+                        northEastBlockBottom = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(negativeSlab);
+                if (entity.isX()) {
+                    if (b == entity.getNegativeSlabState().getBlock()) {
+                        northEastBlockBottom = FULL;
+                    }
+                } else {
+                    if (b == entity.getPositiveSlabState().getBlock()) {
+                        northEastBlockBottom = FULL;
+                    }
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(negativeSlab) == otherBlock) {
+                    northEastBlockBottom = FULL;
+                }
+            }
+        }
+
+        // NORTH-WEST-TOP
+        if (northBlockTop != OTHER && northBlockTop != NEGATIVE1 && westBlockTop != OTHER && westBlockTop != NEGATIVE1) {
+            otherPos = pos.north().west();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP) {
+                    northWestBlockTop = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (positiveSlab == entity.getPositiveSlabState().getBlock()) {
+                    northWestBlockTop = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (positiveSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.EAST || d == Direction.SOUTH) {
+                        northWestBlockTop = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(positiveSlab);
+                if (b == entity.getPositiveSlabState().getBlock()) {
+                    northWestBlockTop = FULL;
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
+                    northWestBlockTop = FULL;
+                }
+            }
+        }
+
+        // NORTH-WEST-BOTTOM
+        if (northBlockBottom != OTHER && northBlockBottom != POSITIVE1 && westBlockBottom != OTHER && westBlockBottom != POSITIVE1) {
+            otherPos = pos.north().west();
+            otherState = world.getBlockState(otherPos);
+            otherBlock = otherState.getBlock();
+            if (otherBlock instanceof SlabBlock) {
+                if (negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                    northWestBlockBottom = FULL;
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                if (negativeSlab == entity.getNegativeSlabState().getBlock()) {
+                    northWestBlockBottom = FULL;
+                }
+            } else if (otherBlock instanceof VerticalSlabBlock) {
+                if (negativeSlab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+                    Direction d = otherState.get(VerticalSlabBlock.FACING);
+                    if (d == Direction.EAST || d == Direction.SOUTH) {
+                        northWestBlockBottom = FULL;
+                    }
+                }
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                Block b = ModBlockMap.slabToVerticalSlab(negativeSlab);
+                if (b == entity.getPositiveSlabState().getBlock()) {
+                    northWestBlockBottom = FULL;
+                }
+            } else {
+                if (ModBlockMap.slabToOriginal(negativeSlab) == otherBlock) {
+                    northWestBlockBottom = FULL;
+                }
+            }
+        }
 
         // BOTTOM-EAST
         if (downBlock != OTHER && downBlock != NEGATIVE1 && eastBlockBottom != OTHER && eastBlockBottom != POSITIVE1) {
@@ -1316,7 +1875,8 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 eastBlockTop, southBlockTop, westBlockTop, northBlockTop,
                 eastBlockBottom, southBlockBottom, westBlockBottom, northBlockBottom,
                 topEastBlock, topSouthBlock, topWestBlock, topNorthBlock,
-                southEastBlock, southWestBlock, northWestBlock, northEastBlock,
+                southEastBlockTop, southWestBlockTop, northWestBlockTop, northEastBlockTop,
+                southEastBlockBottom, southWestBlockBottom, northWestBlockBottom, northEastBlockBottom,
                 bottomEastBlock, bottomSouthBlock, bottomWestBlock, bottomNorthBlock
         );
     }
