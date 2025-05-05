@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.model;
 
+import com.forestotzka.yurufu.slabee.ModConfig;
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.TranslucentSlabBlock;
 import com.forestotzka.yurufu.slabee.block.TranslucentVerticalSlabBlock;
@@ -39,7 +40,11 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     }
                 }
 
-                return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                if (ModConfig.INSTANCE.connectGlassTextures) {
+                    return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
+                } else {
+                    return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                }
             } else if (i.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
                 Block positiveSlab = null;

@@ -20,5 +20,6 @@ public class Slabee implements ModInitializer {
         ModCreativeTabs.registerItemGroups();
         ModBlockEntities.registerModBlockEntities();
         ModHandlers.register();
+        ModConfig.load();
     }
 }
