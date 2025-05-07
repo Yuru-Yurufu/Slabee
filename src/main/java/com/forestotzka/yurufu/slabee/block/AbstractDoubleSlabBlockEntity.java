@@ -73,7 +73,7 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     }
 
     public BlockState getNegativeSlabState() {
-        return negativeSlabState;
+        return this.negativeSlabState;
     }
 
     public Integer getPositiveRenderLayerType() {
