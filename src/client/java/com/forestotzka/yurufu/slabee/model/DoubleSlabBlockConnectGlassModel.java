@@ -1210,10 +1210,10 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         downBlock = bottomNeighborComparison(world, pos);
 
         // EAST,SOUTH,WEST,NORTH
-        eastBlockTop = eastNeighborComparison(world, pos, positiveSlab);
-        southBlockTop = southNeighborComparison(world, pos, positiveSlab);
-        westBlockTop = westNeighborComparison(world, pos, positiveSlab);
-        northBlockTop = northNeighborComparison(world, pos, positiveSlab);
+        eastBlockTop = checkHorizontalNeighborComparison(world, pos, Direction.EAST, positiveSlab);
+        southBlockTop = checkHorizontalNeighborComparison(world, pos, Direction.SOUTH, positiveSlab);
+        westBlockTop = checkHorizontalNeighborComparison(world, pos, Direction.WEST, positiveSlab);
+        northBlockTop = checkHorizontalNeighborComparison(world, pos, Direction.NORTH, positiveSlab);
 
         if (isSameSlab) {
             eastBlockBottom = eastBlockTop;
@@ -1221,10 +1221,10 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             westBlockBottom = westBlockTop;
             northBlockBottom = northBlockTop;
         } else {
-            eastBlockBottom = eastNeighborComparison(world, pos, negativeSlab);
-            southBlockBottom = southNeighborComparison(world, pos, negativeSlab);
-            westBlockBottom = westNeighborComparison(world, pos, negativeSlab);
-            northBlockBottom = northNeighborComparison(world, pos, negativeSlab);
+            eastBlockBottom = checkHorizontalNeighborComparison(world, pos, Direction.EAST, negativeSlab);
+            southBlockBottom = checkHorizontalNeighborComparison(world, pos, Direction.SOUTH, negativeSlab);
+            westBlockBottom = checkHorizontalNeighborComparison(world, pos, Direction.WEST, negativeSlab);
+            northBlockBottom = checkHorizontalNeighborComparison(world, pos, Direction.NORTH, negativeSlab);
         }
 
         // TOP-EAST
@@ -1352,17 +1352,17 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         return OTHER;
     }
 
-    private int eastNeighborComparison(BlockRenderView world, BlockPos pos, Block block) {
-        BlockPos otherPos = pos.east();
+    private int checkHorizontalNeighborComparison(BlockRenderView world, BlockPos pos, Direction dir, Block slab) {
+        BlockPos otherPos = pos.offset(dir);
         BlockState otherState = world.getBlockState(otherPos);
         Block otherBlock = otherState.getBlock();
         if (otherBlock instanceof SlabBlock) {
-            if (block == otherBlock) {
+            if (slab == otherBlock) {
                 return otherState.get(SlabBlock.TYPE) == SlabType.TOP ? POSITIVE1 : NEGATIVE1;
             }
         } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-            boolean bl1 = block == entity.getPositiveSlabState().getBlock();
-            boolean bl2 = block == entity.getNegativeSlabState().getBlock();
+            boolean bl1 = slab == entity.getPositiveSlabState().getBlock();
+            boolean bl2 = slab == entity.getNegativeSlabState().getBlock();
             if (bl1 && bl2) {
                 return FULL;
             } else if (bl1) {
@@ -1371,188 +1371,23 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 return NEGATIVE1;
             }
         } else if (otherBlock instanceof VerticalSlabBlock) {
-            if (block == ModBlockMap.verticalSlabToSlab(otherBlock)) {
+            if (slab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
-                if (d == Direction.SOUTH) {
+                if (d == dir.rotateYClockwise()) {
                     return POSITIVE2;
-                } else if (d == Direction.WEST) {
+                } else if (d == dir.getOpposite()) {
                     return FULL;
-                } else if (d == Direction.NORTH) {
+                } else if (d == dir.rotateYCounterclockwise()) {
                     return NEGATIVE2;
                 }
             }
         } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
-            if (entity.isX()) {
-                if (block == ModBlockMap.verticalSlabToSlab(entity.getNegativeSlabState().getBlock())) {
+            if ((dir == Direction.EAST || dir == Direction.WEST) == entity.isX()) {
+                if (slab == ModBlockMap.verticalSlabToSlab(entity.getPositiveSlabState().getBlock())) {
                     return FULL;
                 }
             } else {
-                Block b = ModBlockMap.slabToVerticalSlab(block);
-                boolean bl1 = b == entity.getPositiveSlabState().getBlock();
-                boolean bl2 = b == entity.getNegativeSlabState().getBlock();
-                if (bl1 && bl2) {
-                    return FULL;
-                } else if (bl1) {
-                    return POSITIVE2;
-                } else if (bl2) {
-                    return NEGATIVE2;
-                }
-            }
-        } else {
-            if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
-                return FULL;
-            }
-        }
-
-        return OTHER;
-    }
-
-    private int southNeighborComparison(BlockRenderView world, BlockPos pos, Block block) {
-        BlockPos otherPos = pos.south();
-        BlockState otherState = world.getBlockState(otherPos);
-        Block otherBlock = otherState.getBlock();
-        if (otherBlock instanceof SlabBlock) {
-            if (block == otherBlock) {
-                return otherState.get(SlabBlock.TYPE) == SlabType.TOP ? POSITIVE1 : NEGATIVE1;
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-            boolean bl1 = block == entity.getPositiveSlabState().getBlock();
-            boolean bl2 = block == entity.getNegativeSlabState().getBlock();
-            if (bl1 && bl2) {
-                return FULL;
-            } else if (bl1) {
-                return POSITIVE1;
-            } else if (bl2) {
-                return NEGATIVE1;
-            }
-        } else if (otherBlock instanceof VerticalSlabBlock) {
-            if (block == ModBlockMap.verticalSlabToSlab(otherBlock)) {
-                Direction d = otherState.get(VerticalSlabBlock.FACING);
-                if (d == Direction.EAST) {
-                    return POSITIVE2;
-                } else if (d == Direction.NORTH) {
-                    return FULL;
-                } else if (d == Direction.WEST) {
-                    return NEGATIVE2;
-                }
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
-            if (!entity.isX()) {
-                if (block == ModBlockMap.verticalSlabToSlab(entity.getNegativeSlabState().getBlock())) {
-                    return FULL;
-                }
-            } else {
-                Block b = ModBlockMap.slabToVerticalSlab(block);
-                boolean bl1 = b == entity.getPositiveSlabState().getBlock();
-                boolean bl2 = b == entity.getNegativeSlabState().getBlock();
-                if (bl1 && bl2) {
-                    return FULL;
-                } else if (bl1) {
-                    return POSITIVE2;
-                } else if (bl2) {
-                    return NEGATIVE2;
-                }
-            }
-        } else {
-            if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
-                return FULL;
-            }
-        }
-
-        return OTHER;
-    }
-
-    private int westNeighborComparison(BlockRenderView world, BlockPos pos, Block block) {
-        BlockPos otherPos = pos.west();
-        BlockState otherState = world.getBlockState(otherPos);
-        Block otherBlock = otherState.getBlock();
-        if (otherBlock instanceof SlabBlock) {
-            if (block == otherBlock) {
-                return otherState.get(SlabBlock.TYPE) == SlabType.TOP ? POSITIVE1 : NEGATIVE1;
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-            boolean bl1 = block == entity.getPositiveSlabState().getBlock();
-            boolean bl2 = block == entity.getNegativeSlabState().getBlock();
-            if (bl1 && bl2) {
-                return FULL;
-            } else if (bl1) {
-                return POSITIVE1;
-            } else if (bl2) {
-                return NEGATIVE1;
-            }
-        } else if (otherBlock instanceof VerticalSlabBlock) {
-            if (block == ModBlockMap.verticalSlabToSlab(otherBlock)) {
-                Direction d = otherState.get(VerticalSlabBlock.FACING);
-                if (d == Direction.SOUTH) {
-                    return POSITIVE2;
-                } else if (d == Direction.EAST) {
-                    return FULL;
-                } else if (d == Direction.NORTH) {
-                    return NEGATIVE2;
-                }
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
-            if (entity.isX()) {
-                if (block == ModBlockMap.verticalSlabToSlab(entity.getPositiveSlabState().getBlock())) {
-                    return FULL;
-                }
-            } else {
-                Block b = ModBlockMap.slabToVerticalSlab(block);
-                boolean bl1 = b == entity.getPositiveSlabState().getBlock();
-                boolean bl2 = b == entity.getNegativeSlabState().getBlock();
-                if (bl1 && bl2) {
-                    return FULL;
-                } else if (bl1) {
-                    return POSITIVE2;
-                } else if (bl2) {
-                    return NEGATIVE2;
-                }
-            }
-        } else {
-            if (ModBlockMap.slabToOriginal(positiveSlab) == otherBlock) {
-                return FULL;
-            }
-        }
-
-        return OTHER;
-    }
-
-    private int northNeighborComparison(BlockRenderView world, BlockPos pos, Block block) {
-        BlockPos otherPos = pos.north();
-        BlockState otherState = world.getBlockState(otherPos);
-        Block otherBlock = otherState.getBlock();
-        if (otherBlock instanceof SlabBlock) {
-            if (block == otherBlock) {
-                return otherState.get(SlabBlock.TYPE) == SlabType.TOP ? POSITIVE1 : NEGATIVE1;
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
-            boolean bl1 = block == entity.getPositiveSlabState().getBlock();
-            boolean bl2 = block == entity.getNegativeSlabState().getBlock();
-            if (bl1 && bl2) {
-                return FULL;
-            } else if (bl1) {
-                return POSITIVE1;
-            } else if (bl2) {
-                return NEGATIVE1;
-            }
-        } else if (otherBlock instanceof VerticalSlabBlock) {
-            if (block == ModBlockMap.verticalSlabToSlab(otherBlock)) {
-                Direction d = otherState.get(VerticalSlabBlock.FACING);
-                if (d == Direction.EAST) {
-                    return POSITIVE2;
-                } else if (d == Direction.SOUTH) {
-                    return FULL;
-                } else if (d == Direction.WEST) {
-                    return NEGATIVE2;
-                }
-            }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
-            if (!entity.isX()) {
-                if (block == ModBlockMap.verticalSlabToSlab(entity.getPositiveSlabState().getBlock())) {
-                    return FULL;
-                }
-            } else {
-                Block b = ModBlockMap.slabToVerticalSlab(block);
+                Block b = ModBlockMap.slabToVerticalSlab(slab);
                 boolean bl1 = b == entity.getPositiveSlabState().getBlock();
                 boolean bl2 = b == entity.getNegativeSlabState().getBlock();
                 if (bl1 && bl2) {
