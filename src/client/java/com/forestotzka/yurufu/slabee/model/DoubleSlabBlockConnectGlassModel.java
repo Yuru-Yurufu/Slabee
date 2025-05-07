@@ -49,7 +49,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     private final Map<Integer, EnumMap<Direction, Mesh>> endPositiveMeshMap = new HashMap<>();
     private final Map<Integer, EnumMap<Direction, Mesh>> endNegativeMeshMap = new HashMap<>();
 
-    public static final Map<Integer, Integer> GLASS_SLAB_INDEX_MAP = Map.<Integer, Integer>ofEntries(
+    public static final Map<Integer, Integer> SLAB_INDEX_MAP = Map.<Integer, Integer>ofEntries(
             Map.entry(70, 64),
             Map.entry(71, 65),
             Map.entry(78, 66),
@@ -158,27 +158,110 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     );
 
     private static final int GLASS_PATTERN_COUNT = 21;
-    private static final int GLASS_SLAB_PATTERN_COUNT = 169;
+    private static final int STAINED_GLASS_PATTERN_COUNT = 25;
+    private static final int SLAB_PATTERN_COUNT = 169;
 
-    private static final SpriteIdentifier[] GLASS_SPRITE_IDS = new SpriteIdentifier[GLASS_SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier[] GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[GLASS_SLAB_PATTERN_COUNT];
+    private boolean isGlassPositive = false;
+    private boolean isGlassNegative = false;
+
+    private static final SpriteIdentifier[] GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] WHITE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] WHITE_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIGHT_GRAY_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] GRAY_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] GRAY_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BLACK_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BLACK_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BROWN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BROWN_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] RED_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] RED_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] ORANGE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] ORANGE_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] YELLOW_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] YELLOW_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIME_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIME_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] GREEN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] GREEN_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] CYAN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] CYAN_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] LIGHT_BLUE_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BLUE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] BLUE_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] PURPLE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] PURPLE_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] MAGENTA_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] MAGENTA_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] PINK_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] PINK_STAINED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] TINTED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier[] TINTED_GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+
     static {
         for (int i = 0; i < GLASS_PATTERN_COUNT-1; i++) {
-            GLASS_SPRITE_IDS[i] = new SpriteIdentifier(
-                    PlayerScreenHandler.BLOCK_ATLAS_TEXTURE,
-                    Identifier.of(Slabee.MOD_ID, "block/glass/" + i)
-            );
+            GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass/" + i));
         }
-        GLASS_SPRITE_IDS[GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(
-                PlayerScreenHandler.BLOCK_ATLAS_TEXTURE,
-                Identifier.of(Slabee.MOD_ID, "block/glass/center")
-        );
+        for (int i = 0; i < STAINED_GLASS_PATTERN_COUNT-1; i++) {
+            WHITE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass/" + i));
+            LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass/" + i));
+            GRAY_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass/" + i));
+            BLACK_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass/" + i));
+            BROWN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass/" + i));
+            RED_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass/" + i));
+            ORANGE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass/" + i));
+            YELLOW_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass/" + i));
+            LIME_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass/" + i));
+            GREEN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass/" + i));
+            CYAN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass/" + i));
+            LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass/" + i));
+            BLUE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass/" + i));
+            PURPLE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass/" + i));
+            MAGENTA_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass/" + i));
+            PINK_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass/" + i));
+            TINTED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass/" + i));
+        }
+        GLASS_SPRITE_IDS[GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass/center"));
+        WHITE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass/center"));
+        LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass/center"));
+        GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass/center"));
+        BLACK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass/center"));
+        BROWN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass/center"));
+        RED_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass/center"));
+        ORANGE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass/center"));
+        YELLOW_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass/center"));
+        LIME_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass/center"));
+        GREEN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass/center"));
+        CYAN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass/center"));
+        LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass/center"));
+        BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass/center"));
+        PURPLE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass/center"));
+        MAGENTA_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass/center"));
+        PINK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass/center"));
+        TINTED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass/center"));
 
-        for (int i = 0; i < GLASS_SLAB_PATTERN_COUNT; i++) {
-            GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(
-                    PlayerScreenHandler.BLOCK_ATLAS_TEXTURE,
-                    Identifier.of(Slabee.MOD_ID, "block/glass_slab/" + i)
-            );
+        for (int i = 0; i < SLAB_PATTERN_COUNT; i++) {
+            GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass_slab/" + i));
+            WHITE_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass_slab/" + i));
+            LIGHT_GRAY_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass_slab/" + i));
+            GRAY_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass_slab/" + i));
+            BLACK_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass_slab/" + i));
+            BROWN_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass_slab/" + i));
+            RED_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass_slab/" + i));
+            ORANGE_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass_slab/" + i));
+            YELLOW_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass_slab/" + i));
+            LIME_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass_slab/" + i));
+            GREEN_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass_slab/" + i));
+            CYAN_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass_slab/" + i));
+            LIGHT_BLUE_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass_slab/" + i));
+            BLUE_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass_slab/" + i));
+            PURPLE_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass_slab/" + i));
+            MAGENTA_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass_slab/" + i));
+            PINK_STAINED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass_slab/" + i));
+            TINTED_GLASS_SLAB_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass_slab/" + i));
         }
     }
 
@@ -313,7 +396,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         if (renderer != null) {
-            for (int patternIndex = 0; patternIndex < GLASS_SLAB_PATTERN_COUNT; patternIndex++) {
+            for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
                 EnumMap<Direction, Mesh> positiveFaceMeshes = new EnumMap<>(Direction.class);
                 EnumMap<Direction, Mesh> negativeFaceMeshes = new EnumMap<>(Direction.class);
 
@@ -327,7 +410,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
                         emitter.square(dir, 0, 0.5f, 1, 1, 0);
-                        emitter.spriteBake(textureGetter.apply(GLASS_SLAB_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(getSlabSpriteIdentifier(patternIndex, true)), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
@@ -338,7 +421,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
                         emitter.square(dir, 0, 0, 1, 0.5f, 0);
-                        emitter.spriteBake(textureGetter.apply(GLASS_SLAB_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(getSlabSpriteIdentifier(patternIndex, false)), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
@@ -350,54 +433,57 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 negativeMeshMap.put(patternIndex, negativeFaceMeshes);
             }
 
-            for (int patternIndex = 0; patternIndex < GLASS_PATTERN_COUNT; patternIndex++) {
+            for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
                 EnumMap<Direction, Mesh> endPositiveFaceMeshes = new EnumMap<>(Direction.class);
-                EnumMap<Direction, Mesh> endNegativeFaceMeshes = new EnumMap<>(Direction.class);
 
                 for (Direction dir : Direction.values()) {
-                    {
-                        MeshBuilder meshBuilder = renderer.meshBuilder();
-                        QuadEmitter emitter = meshBuilder.getEmitter();
+                    MeshBuilder meshBuilder = renderer.meshBuilder();
+                    QuadEmitter emitter = meshBuilder.getEmitter();
 
-                        if (dir == Direction.UP) {
-                            emitter.square(dir, 0, 0, 1, 1, 0f);
-                            emitter.spriteBake(textureGetter.apply(GLASS_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
-                            emitter.color(-1, -1, -1, -1);
-                            emitter.emit();
+                    if (dir == Direction.UP) {
+                        emitter.square(dir, 0, 0, 1, 1, 0f);
+                        emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, true)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.color(-1, -1, -1, -1);
+                        emitter.emit();
 
-                            endPositiveFaceMeshes.put(dir, meshBuilder.build());
-                        } else if (dir == Direction.DOWN) {
-                            emitter.square(dir, 0, 0, 1, 1, 0.5f);
-                            emitter.spriteBake(textureGetter.apply(GLASS_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
-                            emitter.color(-1, -1, -1, -1);
-                            emitter.emit();
+                        endPositiveFaceMeshes.put(dir, meshBuilder.build());
+                    } else if (dir == Direction.DOWN) {
+                        emitter.square(dir, 0, 0, 1, 1, 0.5f);
+                        emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, true)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.color(-1, -1, -1, -1);
+                        emitter.emit();
 
-                            endPositiveFaceMeshes.put(dir, meshBuilder.build());
-                        }
-                    }
-                    {
-                        MeshBuilder meshBuilder = renderer.meshBuilder();
-                        QuadEmitter emitter = meshBuilder.getEmitter();
-
-                        if (dir == Direction.UP) {
-                            emitter.square(dir, 0, 0, 1, 1, 0.5f);
-                            emitter.spriteBake(textureGetter.apply(GLASS_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
-                            emitter.color(-1, -1, -1, -1);
-                            emitter.emit();
-
-                            endNegativeFaceMeshes.put(dir, meshBuilder.build());
-                        } else if (dir == Direction.DOWN) {
-                            emitter.square(dir, 0, 0, 1, 1, 0f);
-                            emitter.spriteBake(textureGetter.apply(GLASS_SPRITE_IDS[patternIndex]), MutableQuadView.BAKE_LOCK_UV);
-                            emitter.color(-1, -1, -1, -1);
-                            emitter.emit();
-
-                            endNegativeFaceMeshes.put(dir, meshBuilder.build());
-                        }
+                        endPositiveFaceMeshes.put(dir, meshBuilder.build());
                     }
                 }
 
                 endPositiveMeshMap.put(patternIndex, endPositiveFaceMeshes);
+            }
+
+            for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
+                EnumMap<Direction, Mesh> endNegativeFaceMeshes = new EnumMap<>(Direction.class);
+
+                for (Direction dir : Direction.values()) {
+                    MeshBuilder meshBuilder = renderer.meshBuilder();
+                    QuadEmitter emitter = meshBuilder.getEmitter();
+
+                    if (dir == Direction.UP) {
+                        emitter.square(dir, 0, 0, 1, 1, 0.5f);
+                        emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, false)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.color(-1, -1, -1, -1);
+                        emitter.emit();
+
+                        endNegativeFaceMeshes.put(dir, meshBuilder.build());
+                    } else if (dir == Direction.DOWN) {
+                        emitter.square(dir, 0, 0, 1, 1, 0f);
+                        emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, false)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.color(-1, -1, -1, -1);
+                        emitter.emit();
+
+                        endNegativeFaceMeshes.put(dir, meshBuilder.build());
+                    }
+                }
+
                 endNegativeMeshMap.put(patternIndex, endNegativeFaceMeshes);
             }
         }
@@ -415,6 +501,128 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         }
 
         return this;
+    }
+
+    private SpriteIdentifier getFullBlockSpriteIdentifier(int index, boolean isTop) {
+        Block b;
+        if (isTop && positiveId != null) {
+            b = positiveSlab;
+        } else if (negativeId != null) {
+            b = negativeSlab;
+        } else {
+            if (isTop) {
+                this.isGlassPositive = true;
+            } else {
+                this.isGlassNegative = true;
+            }
+
+            return GLASS_SPRITE_IDS[index];
+        }
+
+        if (b == ModBlocks.WHITE_STAINED_GLASS_SLAB) {
+            return WHITE_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB) {
+            return LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.GRAY_STAINED_GLASS_SLAB) {
+            return GRAY_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BLACK_STAINED_GLASS_SLAB) {
+            return BLACK_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BROWN_STAINED_GLASS_SLAB) {
+            return BROWN_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.RED_STAINED_GLASS_SLAB) {
+            return RED_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.ORANGE_STAINED_GLASS_SLAB) {
+            return ORANGE_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.YELLOW_STAINED_GLASS_SLAB) {
+            return YELLOW_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIME_STAINED_GLASS_SLAB) {
+            return LIME_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.GREEN_STAINED_GLASS_SLAB) {
+            return GREEN_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.CYAN_STAINED_GLASS_SLAB) {
+            return CYAN_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB) {
+            return LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BLUE_STAINED_GLASS_SLAB) {
+            return BLUE_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.PURPLE_STAINED_GLASS_SLAB) {
+            return PURPLE_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.MAGENTA_STAINED_GLASS_SLAB) {
+            return MAGENTA_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.PINK_STAINED_GLASS_SLAB) {
+            return PINK_STAINED_GLASS_SPRITE_IDS[index];
+        } else if (b == ModBlocks.TINTED_GLASS_SLAB) {
+            return TINTED_GLASS_SPRITE_IDS[index];
+        } else {
+            if (isTop) {
+                this.isGlassPositive = true;
+            } else {
+                this.isGlassNegative = true;
+            }
+
+            return GLASS_SPRITE_IDS[index];
+        }
+    }
+
+    private SpriteIdentifier getSlabSpriteIdentifier(int index, boolean isTop) {
+        Block b;
+        if (isTop && positiveId != null) {
+            b = positiveSlab;
+        } else if (negativeId != null) {
+            b = negativeSlab;
+        } else {
+            if (isTop) {
+                this.isGlassPositive = true;
+            } else {
+                this.isGlassNegative = true;
+            }
+
+            return GLASS_SLAB_SPRITE_IDS[index];
+        }
+
+        if (b == ModBlocks.WHITE_STAINED_GLASS_SLAB) {
+            return WHITE_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB) {
+            return LIGHT_GRAY_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.GRAY_STAINED_GLASS_SLAB) {
+            return GRAY_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BLACK_STAINED_GLASS_SLAB) {
+            return BLACK_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BROWN_STAINED_GLASS_SLAB) {
+            return BROWN_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.RED_STAINED_GLASS_SLAB) {
+            return RED_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.ORANGE_STAINED_GLASS_SLAB) {
+            return ORANGE_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.YELLOW_STAINED_GLASS_SLAB) {
+            return YELLOW_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIME_STAINED_GLASS_SLAB) {
+            return LIME_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.GREEN_STAINED_GLASS_SLAB) {
+            return GREEN_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.CYAN_STAINED_GLASS_SLAB) {
+            return CYAN_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB) {
+            return LIGHT_BLUE_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.BLUE_STAINED_GLASS_SLAB) {
+            return BLUE_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.PURPLE_STAINED_GLASS_SLAB) {
+            return PURPLE_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.MAGENTA_STAINED_GLASS_SLAB) {
+            return MAGENTA_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.PINK_STAINED_GLASS_SLAB) {
+            return PINK_STAINED_GLASS_SLAB_SPRITE_IDS[index];
+        } else if (b == ModBlocks.TINTED_GLASS_SLAB) {
+            return TINTED_GLASS_SLAB_SPRITE_IDS[index];
+        } else {
+            if (isTop) {
+                this.isGlassPositive = true;
+            } else {
+                this.isGlassNegative = true;
+            }
+
+            return GLASS_SLAB_SPRITE_IDS[index];
+        }
     }
 
     @Override
@@ -438,7 +646,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
-                    faceMeshes = endPositiveMeshMap.get(GLASS_PATTERN_COUNT-1);
+                    faceMeshes = endPositiveMeshMap.get((isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1);
                     if (faceMeshes == null) return;
 
                     Mesh mesh = faceMeshes.get(face);
@@ -474,7 +682,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
-                    faceMeshes = endNegativeMeshMap.get(GLASS_PATTERN_COUNT-1);
+                    faceMeshes = endNegativeMeshMap.get((isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1);
                     if (faceMeshes == null) return;
 
                     Mesh mesh = faceMeshes.get(face);
@@ -498,11 +706,11 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         List<Integer> indexes;
         if (isPositive) {
             indexes = determinePatternEndPositive(face, neighborState);
+            if (this.isGlassPositive) indexes.replaceAll(i -> i - (i / 6));
         } else {
             indexes = determinePatternEndNegative(face, neighborState);
+            if (this.isGlassNegative) indexes.replaceAll(i -> i - (i / 6));
         }
-
-        indexes.replaceAll(i -> i - (i / 6));
 
         return indexes;
     }
@@ -516,7 +724,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         }
 
         if (index >= 64) {
-            index = GLASS_SLAB_INDEX_MAP.getOrDefault(index, 0);
+            index = SLAB_INDEX_MAP.getOrDefault(index, 0);
         }
 
         return index;
@@ -657,7 +865,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 cornerBottomRight,
                 cornerBottomLeft,
                 cornerTopLeft
-        ));
+        ), this.isGlassPositive);
     }
 
     private List<Integer> determinePatternEndNegative(Direction face, NeighborState neighborState) {
@@ -795,7 +1003,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 cornerBottomRight,
                 cornerBottomLeft,
                 cornerTopLeft
-        ));
+        ), this.isGlassNegative);
     }
 
     private int determinePatternPositive(Direction face, NeighborState neighborState) {
@@ -1138,13 +1346,13 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         ));
     }
 
-    private List<Integer> determineEndPatternIndexes(ConnectionFlags flags) {
+    private List<Integer> determineEndPatternIndexes(ConnectionFlags flags, boolean isGlass) {
         List<Integer> indexes = new ArrayList<>();
         int i = 0;
         if (flags.topLeft) i += 1;
         if (flags.topRight) i += 2;
         if (flags.cornerTopRight) i += 2;
-        if (i != 5) {
+        if (!isGlass || i != 5) {
             indexes.add(i);
         }
 
@@ -1152,7 +1360,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         if (flags.rightTop) i += 1;
         if (flags.rightBottom) i += 2;
         if (flags.cornerBottomRight) i += 2;
-        if (i != 11) {
+        if (!isGlass || i != 11) {
             indexes.add(i);
         }
 
@@ -1160,7 +1368,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         if (flags.bottomRight) i += 1;
         if (flags.bottomLeft) i += 2;
         if (flags.cornerBottomLeft) i += 2;
-        if (i != 17) {
+        if (!isGlass || i != 17) {
             indexes.add(i);
         }
 
@@ -1168,7 +1376,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         if (flags.leftBottom) i += 1;
         if (flags.leftTop) i += 2;
         if (flags.cornerTopLeft) i += 2;
-        if (i != 23) {
+        if (!isGlass || i != 23) {
             indexes.add(i);
         }
 
