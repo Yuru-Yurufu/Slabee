@@ -1581,12 +1581,14 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
         } else if (otherBlock instanceof VerticalSlabBlock) {
             if (slab == ModBlockMap.verticalSlabToSlab(otherBlock)) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
-                if (d == dir.rotateYClockwise()) {
-                    return POSITIVE2;
-                } else if (d == dir.getOpposite()) {
+                if (d == dir.getOpposite()) {
                     return FULL;
-                } else if (d == dir.rotateYCounterclockwise()) {
-                    return NEGATIVE2;
+                } else if (d != dir) {
+                    if (d == Direction.EAST || d == Direction.SOUTH) {
+                        return POSITIVE2;
+                    } else {
+                        return NEGATIVE2;
+                    }
                 }
             }
         } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
