@@ -64,7 +64,15 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     }
                 }
 
-                return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
+                if (ModConfig.INSTANCE.connectGlassTextures) {
+                    if (isX) {
+                        return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
+                    } else {
+                        return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
+                    }
+                } else {
+                    return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
+                }
             }
 
             return original;
