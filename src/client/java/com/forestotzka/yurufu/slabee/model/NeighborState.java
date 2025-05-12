@@ -137,14 +137,6 @@ public class NeighborState {
     }
 
     private final boolean isSameSlab;
-    private ContactType upBlockPositive, downBlockPositive, eastBlockPositive, southBlockPositive, westBlockPositive, northBlockPositive;
-    private ContactType upBlockNegative, downBlockNegative, eastBlockNegative, southBlockNegative, westBlockNegative, northBlockNegative;
-    private ContactType topEastBlockPositive, topSouthBlockPositive, topWestBlockPositive, topNorthBlockPositive;
-    private ContactType topEastBlockNegative, topSouthBlockNegative, topWestBlockNegative, topNorthBlockNegative;
-    private ContactType southEastBlockPositive, southWestBlockPositive, northWestBlockPositive, northEastBlockPositive;
-    private ContactType southEastBlockNegative, southWestBlockNegative, northWestBlockNegative, northEastBlockNegative;
-    private ContactType bottomEastBlockPositive, bottomSouthBlockPositive, bottomWestBlockPositive, bottomNorthBlockPositive;
-    private ContactType bottomEastBlockNegative, bottomSouthBlockNegative, bottomWestBlockNegative, bottomNorthBlockNegative;
 
     public NeighborState(BlockRenderView world, BlockPos pos, @Nullable Block positiveSlab, @Nullable Block negativeSlab, DoubleSlabType type) {
         this.world = world;
@@ -182,47 +174,6 @@ public class NeighborState {
 
             contactTypeMap.put(dir, halfMap);
         }
-        /*Map<NeighborDirection,NeighborBlockInfo> map = new HashMap<>(26);
-        for (NeighborDirection nDir : NeighborDirection.values()) {
-            BlockPos nPos = pos.add(off);
-            int i;
-            if (type == DoubleSlabType.DOUBLE_VERTICAL_X) {
-                i = off.getX();
-            } else if (type == DoubleSlabType.DOUBLE_SLAB) {
-                i = off.getY();
-            } else {
-                i = off.getZ();
-            }
-
-            if (i > 0 && positiveSlab != null) {
-                map.put(new NeighborDirection(off, Half.POSITIVE),
-                        getBlockInfo(nPos, positiveSlab));
-            }
-            if (i < 0 && negativeSlab != null) {
-                map.put(new NeighborDirection(off, Half.NEGATIVE),
-                        getBlockInfo(nPos, negativeSlab));
-            }
-            if (i == 0) {
-                if (positiveSlab != null) {
-                    map.put(new NeighborDirection(off, Half.POSITIVE),
-                            getBlockInfo(nPos, positiveSlab));
-                }
-                if (negativeSlab != null) {
-                    map.put(new NeighborDirection(off, Half.NEGATIVE),
-                            getBlockInfo(nPos, negativeSlab));
-                }
-            }
-        }
-
-        Map<NeighborDirection, NeighborBlockInfo> neighborInfoMap = Collections.unmodifiableMap(map);
-
-        Map<NeighborDirection,ContactType> ctMap = new HashMap<>(neighborInfoMap.size());
-        for (var entry : neighborInfoMap.entrySet()) {
-            NeighborDirection direction = entry.getKey();
-            NeighborBlockInfo info = entry.getValue();
-            ctMap.put(direction, mapToContactType(direction, info));
-        }
-        this.contactTypeMap = Collections.unmodifiableMap(ctMap);*/
     }
 
     public boolean isSameSlab() {
@@ -324,6 +275,10 @@ public class NeighborState {
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, entity.isX() ? Direction.EAST : Direction.SOUTH);
             } else if (bl2) {
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, entity.isX() ? Direction.WEST : Direction.NORTH);
+            }
+        } else {
+            if (ModBlockMap.slabToOriginal(block) == otherBlock) {
+                return new NeighborBlockInfo(NeighborBlockType.DOUBLE, null);
             }
         }
 
