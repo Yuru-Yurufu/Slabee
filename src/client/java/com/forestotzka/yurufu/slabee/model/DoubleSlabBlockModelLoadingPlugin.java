@@ -68,7 +68,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     if (isX) {
                         return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
                     } else {
-                        return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
+                        return new DoubleVerticalSlabBlockConnectGlassModelZ(positiveSlab, negativeSlab);
                     }
                 } else {
                     return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);

@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.model;
 
-import com.forestotzka.yurufu.slabee.block.*;
+import com.forestotzka.yurufu.slabee.block.ModBlockMap;
+import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -30,12 +31,10 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
-import static com.forestotzka.yurufu.slabee.model.NeighborState.Half;
-import static com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
+import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 
 @Environment(EnvType.CLIENT)
-public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedModel, FabricBakedModel {
+public class DoubleVerticalSlabBlockConnectGlassModelZ implements UnbakedModel, BakedModel, FabricBakedModel {
     private final Identifier positiveId;
     private final Identifier negativeId;
     private final Block positiveSlab;
@@ -179,7 +178,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             boolean cornerTopLeft
     ) {}
 
-    public DoubleSlabBlockConnectGlassModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
+    public DoubleVerticalSlabBlockConnectGlassModelZ(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
         this.positiveSlab = positiveSlab;
         this.negativeSlab = negativeSlab;
 
@@ -188,8 +187,8 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             this.isGlassPositive = true;
         } else {
             Identifier positiveId = Registries.BLOCK.getId(this.positiveSlab);
-            this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
-            this.isGlassPositive = positiveSlab == ModBlocks.GLASS_SLAB;
+            this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_z");
+            this.isGlassPositive = positiveSlab == ModBlocks.GLASS_VERTICAL_SLAB;
         }
 
         if (this.negativeSlab == null) {
@@ -197,8 +196,8 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             this.isGlassNegative = true;
         } else {
             Identifier negativeId = Registries.BLOCK.getId(this.negativeSlab);
-            this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath());
-            this.isGlassNegative = negativeSlab == ModBlocks.GLASS_SLAB;
+            this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath() + "_z");
+            this.isGlassNegative = positiveSlab == ModBlocks.GLASS_VERTICAL_SLAB;
         }
     }
 
@@ -267,7 +266,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 EnumMap<Direction, Mesh> negativeFaceMeshes = new EnumMap<>(Direction.class);
 
                 for (Direction dir : Direction.values()) {
-                    if (dir.getAxis() == Direction.Axis.Y) {
+                    if (dir.getAxis() == Direction.Axis.Z) {
                         continue;
                     }
 
@@ -275,8 +274,25 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                         MeshBuilder meshBuilder = renderer.meshBuilder();
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
-                        emitter.square(dir, 0, 0.5f, 1, 1, 0);
-                        SpriteIdentifier spriteIdentifier = GlassSprites.getSlabSpriteIdentifier(patternIndex, positiveSlab);
+                        SpriteIdentifier spriteIdentifier = switch (dir) {
+                            case EAST -> {
+                                emitter.square(dir, 0, 0, 0.5f, 1, 0);
+                                yield GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab);
+                            }
+                            case WEST -> {
+                                emitter.square(dir, 0.5f, 0, 1, 1, 0);
+                                yield GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab);
+                            }
+                            case UP -> {
+                                emitter.square(dir, 0, 0, 1, 0.5f, 0);
+                                yield GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
+                            }
+                            default -> {
+                                emitter.square(dir, 0, 0.5f, 1, 1, 0);
+                                yield GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
+                            }
+                        };
+
                         emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
@@ -287,8 +303,25 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                         MeshBuilder meshBuilder = renderer.meshBuilder();
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
-                        emitter.square(dir, 0, 0, 1, 0.5f, 0);
-                        SpriteIdentifier spriteIdentifier = GlassSprites.getSlabSpriteIdentifier(patternIndex, negativeSlab);
+                        SpriteIdentifier spriteIdentifier = switch (dir) {
+                            case EAST -> {
+                                emitter.square(dir, 0.5f, 0, 1, 1, 0);
+                                yield GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab);
+                            }
+                            case WEST -> {
+                                emitter.square(dir, 0, 0, 0.5f, 1, 0);
+                                yield GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab);
+                            }
+                            case UP -> {
+                                emitter.square(dir, 0, 0.5f, 1, 1, 0);
+                                yield GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
+                            }
+                            default -> {
+                                emitter.square(dir, 0, 0, 1, 0.5f, 0);
+                                yield GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
+                            }
+                        };
+
                         emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
@@ -308,16 +341,16 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                     MeshBuilder meshBuilder = renderer.meshBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    if (dir == Direction.UP) {
+                    if (dir == Direction.SOUTH) {
                         emitter.square(dir, 0, 0, 1, 1, 0f);
-                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, positiveSlab)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab))), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
                         endPositiveFaceMeshes.put(dir, meshBuilder.build());
-                    } else if (dir == Direction.DOWN) {
+                    } else if (dir == Direction.NORTH) {
                         emitter.square(dir, 0, 0, 1, 1, 0.5f);
-                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, positiveSlab)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab))), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
@@ -335,16 +368,16 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                     MeshBuilder meshBuilder = renderer.meshBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    if (dir == Direction.UP) {
+                    if (dir == Direction.SOUTH) {
                         emitter.square(dir, 0, 0, 1, 1, 0.5f);
-                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, negativeSlab)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab))), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
                         endNegativeFaceMeshes.put(dir, meshBuilder.build());
-                    } else if (dir == Direction.DOWN) {
+                    } else if (dir == Direction.NORTH) {
                         emitter.square(dir, 0, 0, 1, 1, 0f);
-                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, negativeSlab)), MutableQuadView.BAKE_LOCK_UV);
+                        emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab))), MutableQuadView.BAKE_LOCK_UV);
                         emitter.color(-1, -1, -1, -1);
                         emitter.emit();
 
@@ -373,7 +406,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        NeighborState ns = new NeighborState(blockRenderView, blockPos, positiveSlab, negativeSlab, NeighborState.DoubleSlabType.DOUBLE_SLAB);
+        NeighborState ns = new NeighborState(blockRenderView, blockPos, positiveSlab, negativeSlab, DoubleSlabType.DOUBLE_VERTICAL_Z);
 
         if (this.positiveId != null) {
             for (Direction face : Direction.values()) {
@@ -382,7 +415,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 }
 
                 EnumMap<Direction, Mesh> faceMeshes;
-                if (face == Direction.UP || face == Direction.DOWN) {
+                if (face.getAxis() == Direction.Axis.Z) {
                     for (int index : getEndPatternIndexes(face, ns, true)) {
                         faceMeshes = endPositiveMeshMap.get(index);
                         if (faceMeshes == null) return;
@@ -418,7 +451,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 }
 
                 EnumMap<Direction, Mesh> faceMeshes;
-                if (face == Direction.UP || face == Direction.DOWN) {
+                if (face.getAxis() == Direction.Axis.Z) {
                     for (int index : getEndPatternIndexes(face, ns, false)) {
                         faceMeshes = endNegativeMeshMap.get(index);
                         if (faceMeshes == null) return;
@@ -1214,42 +1247,42 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     }
 
     private boolean shouldCullPositive(Direction face, NeighborState ns) {
-        if (face == Direction.UP) {
-            return ns.getContactType(NeighborDirection.UP) == ContactType.FULL;
-        } else if (face == Direction.DOWN) {
+        if (face == Direction.SOUTH) {
+            return ns.getContactType(NeighborDirection.SOUTH) == ContactType.FULL;
+        } else if (face == Direction.NORTH) {
             return ns.isSameSlab();
         } else if (face == Direction.EAST) {
             ContactType type = ns.getContactType(NeighborDirection.EAST, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
-        } else if (face == Direction.SOUTH) {
-            ContactType type = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
+        } else if (face == Direction.UP) {
+            ContactType type = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else if (face == Direction.WEST) {
             ContactType type = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else {
-            ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         }
     }
 
     private boolean shouldCullNegative(Direction face, NeighborState ns) {
-        if (face == Direction.UP) {
+        if (face == Direction.SOUTH) {
             return ns.isSameSlab();
-        } else if (face == Direction.DOWN) {
-            return ns.getContactType(NeighborDirection.DOWN) == ContactType.FULL;
+        } else if (face == Direction.NORTH) {
+            return ns.getContactType(NeighborDirection.NORTH) == ContactType.FULL;
         } else if (face == Direction.EAST) {
             ContactType type = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
-        } else if (face == Direction.SOUTH) {
-            ContactType type = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
+        } else if (face == Direction.UP) {
+            ContactType type = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else if (face == Direction.WEST) {
             ContactType type = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else {
-            ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         }
     }
 }
