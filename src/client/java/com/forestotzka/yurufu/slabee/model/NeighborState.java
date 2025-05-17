@@ -15,7 +15,6 @@ import java.util.*;
 
 public class NeighborState {
     private final BlockRenderView world;
-    private final BlockPos pos;
 
     public enum NeighborDirection {
         UP   ( 0,  1,  0),
@@ -140,7 +139,6 @@ public class NeighborState {
 
     public NeighborState(BlockRenderView world, BlockPos pos, @Nullable Block positiveSlab, @Nullable Block negativeSlab, DoubleSlabType type) {
         this.world = world;
-        this.pos = pos;
         isSameSlab = positiveSlab == negativeSlab;
 
         if (type != DoubleSlabType.DOUBLE_SLAB) {
@@ -217,7 +215,7 @@ public class NeighborState {
                 };
                 case SOUTH -> switch (offsetZ) {
                     case -1 -> ContactType.FULL;
-                    case 0 -> ContactType.POSITIVE2;
+                    case 0 -> (offsetX == 0 || offsetY == 0) ? ContactType.POSITIVE2 : ContactType.POSITIVE1;
                     default -> ContactType.NONE;
                 };
                 case WEST -> switch (offsetX) {
@@ -227,7 +225,7 @@ public class NeighborState {
                 };
                 case NORTH -> switch (offsetZ) {
                     case 1 -> ContactType.FULL;
-                    case 0 -> ContactType.NEGATIVE2;
+                    case 0 -> (offsetX == 0 || offsetY == 0) ? ContactType.NEGATIVE2 : ContactType.NEGATIVE1;
                     default -> ContactType.NONE;
                 };
             };
