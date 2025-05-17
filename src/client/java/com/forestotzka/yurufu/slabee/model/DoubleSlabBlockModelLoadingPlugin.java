@@ -2,10 +2,7 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.ModConfig;
 import com.forestotzka.yurufu.slabee.Slabee;
-import com.forestotzka.yurufu.slabee.block.ModBlocks;
-import com.forestotzka.yurufu.slabee.block.StainedGlassSlabBlock;
-import com.forestotzka.yurufu.slabee.block.TranslucentSlabBlock;
-import com.forestotzka.yurufu.slabee.block.TranslucentVerticalSlabBlock;
+import com.forestotzka.yurufu.slabee.block.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
@@ -180,6 +177,6 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
     }
 
     private boolean isGlassVerticalSlabFamily(Block block) {
-        return block == ModBlocks.GLASS_VERTICAL_SLAB || block instanceof StainedGlassSlabBlock || block == ModBlocks.TINTED_GLASS_VERTICAL_SLAB;
+        return block == ModBlocks.GLASS_VERTICAL_SLAB || block instanceof StainedGlassVerticalSlabBlock || block == ModBlocks.TINTED_GLASS_VERTICAL_SLAB;
     }
 }
