@@ -704,8 +704,8 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 topRight = true;
             }
             if (topRight && rightTop) {
-                ContactType bottomEastType = ns.getContactType(NeighborDirection.NORTH_EAST);
-                if (bottomEastType == ContactType.FULL || bottomEastType == ContactType.POSITIVE1) {
+                ContactType type = ns.getContactType(NeighborDirection.NORTH_EAST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopRight = true;
                 }
             }
@@ -720,8 +720,8 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 }
             }
             if (topLeft && leftTop) {
-                ContactType bottomWestType = ns.getContactType(NeighborDirection.NORTH_WEST);
-                if (bottomWestType == ContactType.FULL || bottomWestType == ContactType.POSITIVE1) {
+                ContactType type = ns.getContactType(NeighborDirection.NORTH_WEST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
             }

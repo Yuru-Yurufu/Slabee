@@ -106,124 +106,124 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
         boolean cornerBottomLeft = false;
         boolean cornerTopLeft = false;
 
-        if (face == Direction.SOUTH) {
-            ContactType eastTypePositive = ns.getContactType(NeighborDirection.EAST, Half.POSITIVE);
-            if (eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE2) {
-                rightTop = true;
-                rightBottom = true;
-            } else if (eastTypePositive == ContactType.POSITIVE1) {
-                rightTop = true;
-            } else if (eastTypePositive == ContactType.NEGATIVE1) {
-                rightBottom = true;
+        if (face == Direction.EAST) {
+            ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
+            if (southTypePositive == ContactType.FULL || southTypePositive == ContactType.POSITIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (southTypePositive == ContactType.POSITIVE1) {
+                leftTop = true;
+            } else if (southTypePositive == ContactType.NEGATIVE1) {
+                leftBottom = true;
             }
             ContactType upTypePositive = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
-            if (upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE2) {
+            if (upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (upTypePositive == ContactType.POSITIVE1) {
-                topRight = true;
-            } else if (upTypePositive == ContactType.NEGATIVE1) {
+            } else if (upTypePositive == ContactType.POSITIVE2) {
                 topLeft = true;
+            } else if (upTypePositive == ContactType.NEGATIVE2) {
+                topRight = true;
             }
-            ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
-            if (westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE2) {
-                leftTop = true;
-                leftBottom = true;
-            } else if (westTypePositive == ContactType.POSITIVE1) {
-                leftTop = true;
-            } else if (westTypePositive == ContactType.NEGATIVE1) {
-                leftBottom = true;
+            ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
+            if (northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (northTypePositive == ContactType.POSITIVE1) {
+                rightTop = true;
+            } else if (northTypePositive == ContactType.NEGATIVE1) {
+                rightBottom = true;
             }
             ContactType downTypePositive = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            if (downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE2) {
+            if (downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (downTypePositive == ContactType.POSITIVE1) {
-                bottomRight = true;
-            } else if (downTypePositive == ContactType.NEGATIVE1) {
+            } else if (downTypePositive == ContactType.POSITIVE2) {
                 bottomLeft = true;
+            } else if (downTypePositive == ContactType.NEGATIVE2) {
+                bottomRight = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_EAST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_NORTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_WEST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
             }
-        } else if (face == Direction.NORTH) {
-            ContactType eastTypePositive = ns.getContactType(NeighborDirection.EAST, Half.POSITIVE);
-            if (eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE2) {
-                leftTop = true;
-                leftBottom = true;
-            } else if (eastTypePositive == ContactType.POSITIVE1) {
-                leftTop = true;
-            } else if (eastTypePositive == ContactType.NEGATIVE1) {
-                leftBottom = true;
+        } else if (face == Direction.WEST) {
+            ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
+            if (southTypePositive == ContactType.FULL || southTypePositive == ContactType.POSITIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (southTypePositive == ContactType.POSITIVE1) {
+                rightTop = true;
+            } else if (southTypePositive == ContactType.NEGATIVE1) {
+                rightBottom = true;
             }
             ContactType upTypePositive = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
-            if (upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE2) {
+            if (upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (upTypePositive == ContactType.POSITIVE1) {
+            } else if (upTypePositive == ContactType.POSITIVE2) {
                 topLeft = true;
-            } else if (upTypePositive == ContactType.NEGATIVE1) {
+            } else if (upTypePositive == ContactType.NEGATIVE2) {
                 topRight = true;
             }
-            ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
-            if (westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE2) {
-                rightTop = true;
-                rightBottom = true;
-            } else if (westTypePositive == ContactType.POSITIVE1) {
-                rightTop = true;
-            } else if (westTypePositive == ContactType.NEGATIVE1) {
-                rightBottom = true;
+            ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
+            if (northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (northTypePositive == ContactType.POSITIVE1) {
+                leftTop = true;
+            } else if (northTypePositive == ContactType.NEGATIVE1) {
+                leftBottom = true;
             }
             ContactType downTypePositive = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            if (downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE2) {
+            if (downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (downTypePositive == ContactType.POSITIVE1) {
+            } else if (downTypePositive == ContactType.POSITIVE2) {
                 bottomLeft = true;
-            } else if (downTypePositive == ContactType.NEGATIVE1) {
+            } else if (downTypePositive == ContactType.NEGATIVE2) {
                 bottomRight = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_WEST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_EAST, Half.POSITIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_NORTH, Half.POSITIVE);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
@@ -261,124 +261,124 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
         boolean cornerBottomLeft = false;
         boolean cornerTopLeft = false;
 
-        if (face == Direction.SOUTH) {
-            ContactType eastTypeNegative = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
-            if (eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.NEGATIVE2) {
-                rightTop = true;
-                rightBottom = true;
-            } else if (eastTypeNegative == ContactType.POSITIVE1) {
-                rightTop = true;
-            } else if (eastTypeNegative == ContactType.NEGATIVE1) {
-                rightBottom = true;
+        if (face == Direction.EAST) {
+            ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
+            if (southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (southTypeNegative == ContactType.POSITIVE1) {
+                leftTop = true;
+            } else if (southTypeNegative == ContactType.NEGATIVE1) {
+                leftBottom = true;
             }
             ContactType upTypeNegative = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
-            if (upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE2) {
+            if (upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (upTypeNegative == ContactType.POSITIVE1) {
-                topRight = true;
-            } else if (upTypeNegative == ContactType.NEGATIVE1) {
+            } else if (upTypeNegative == ContactType.POSITIVE2) {
                 topLeft = true;
+            } else if (upTypeNegative == ContactType.NEGATIVE2) {
+                topRight = true;
             }
-            ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
-            if (westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.NEGATIVE2) {
-                leftTop = true;
-                leftBottom = true;
-            } else if (westTypeNegative == ContactType.POSITIVE1) {
-                leftTop = true;
-            } else if (westTypeNegative == ContactType.NEGATIVE1) {
-                leftBottom = true;
+            ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
+            if (northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.NEGATIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (northTypeNegative == ContactType.POSITIVE1) {
+                rightTop = true;
+            } else if (northTypeNegative == ContactType.NEGATIVE1) {
+                rightBottom = true;
             }
             ContactType downTypeNegative = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            if (downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE2) {
+            if (downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (downTypeNegative == ContactType.POSITIVE1) {
-                bottomRight = true;
-            } else if (downTypeNegative == ContactType.NEGATIVE1) {
+            } else if (downTypeNegative == ContactType.POSITIVE2) {
                 bottomLeft = true;
+            } else if (downTypeNegative == ContactType.NEGATIVE2) {
+                bottomRight = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_EAST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_NORTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_WEST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopLeft = true;
                 }
             }
-        } else if (face == Direction.NORTH) {
-            ContactType eastTypeNegative = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
-            if (eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.NEGATIVE2) {
-                leftTop = true;
-                leftBottom = true;
-            } else if (eastTypeNegative == ContactType.POSITIVE1) {
-                leftTop = true;
-            } else if (eastTypeNegative == ContactType.NEGATIVE1) {
-                leftBottom = true;
+        } else if (face == Direction.WEST) {
+            ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
+            if (southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (southTypeNegative == ContactType.POSITIVE1) {
+                rightTop = true;
+            } else if (southTypeNegative == ContactType.NEGATIVE1) {
+                rightBottom = true;
             }
             ContactType upTypeNegative = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
-            if (upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE2) {
+            if (upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (upTypeNegative == ContactType.POSITIVE1) {
-                topLeft = true;
-            } else if (upTypeNegative == ContactType.NEGATIVE1) {
+            } else if (upTypeNegative == ContactType.POSITIVE2) {
                 topRight = true;
+            } else if (upTypeNegative == ContactType.NEGATIVE2) {
+                topLeft = true;
             }
-            ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
-            if (westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.NEGATIVE2) {
-                rightTop = true;
-                rightBottom = true;
-            } else if (westTypeNegative == ContactType.POSITIVE1) {
-                rightTop = true;
-            } else if (westTypeNegative == ContactType.NEGATIVE1) {
-                rightBottom = true;
+            ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
+            if (northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.NEGATIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (northTypeNegative == ContactType.POSITIVE1) {
+                leftTop = true;
+            } else if (northTypeNegative == ContactType.NEGATIVE1) {
+                leftBottom = true;
             }
             ContactType downTypeNegative = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            if (downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE2) {
+            if (downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (downTypeNegative == ContactType.POSITIVE1) {
-                bottomLeft = true;
-            } else if (downTypeNegative == ContactType.NEGATIVE1) {
+            } else if (downTypeNegative == ContactType.POSITIVE2) {
                 bottomRight = true;
+            } else if (downTypeNegative == ContactType.NEGATIVE2) {
+                bottomLeft = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_WEST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_EAST, Half.NEGATIVE);
+                ContactType type = ns.getContactType(NeighborDirection.UP_NORTH, Half.NEGATIVE);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopLeft = true;
                 }
@@ -416,103 +416,61 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
         boolean cornerBottomLeft = false;
         boolean cornerTopLeft = false;
 
-        ContactType southType = ns.getContactType(NeighborDirection.SOUTH);
-        if (face == Direction.EAST) {
-            if (southType == ContactType.FULL || southType == ContactType.POSITIVE2) {
-                leftTop = true;
-                leftBottom = true;
-            } else if (southType == ContactType.POSITIVE1) {
-                leftTop = true;
-            } else if (southType == ContactType.NEGATIVE1) {
-                leftBottom = true;
+        ContactType eastType = ns.getContactType(NeighborDirection.EAST);
+        if (face == Direction.SOUTH) {
+            if (eastType == ContactType.FULL || eastType == ContactType.POSITIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (eastType == ContactType.POSITIVE1) {
+                rightTop = true;
+            } else if (eastType == ContactType.NEGATIVE1) {
+                rightBottom = true;
             }
             ContactType upTypePositive = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
             ContactType downTypePositive = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            topLeft = upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE1 || upTypePositive == ContactType.POSITIVE2;
-            bottomLeft = downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE1 || downTypePositive == ContactType.POSITIVE2;
-            topRight = topLeft;
-            bottomRight = bottomLeft;
+            topRight = upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE1 || upTypePositive == ContactType.POSITIVE2;
+            bottomRight = downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE1 || downTypePositive == ContactType.POSITIVE2;
+            topLeft = topRight;
+            bottomLeft = bottomRight;
             if (ns.isSameSlab()) {
-                rightTop = true;
-                rightBottom = true;
+                leftTop = true;
+                leftBottom = true;
             }
-            if (leftTop && topLeft) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
+            if (topLeft && leftTop) {
+                if (upTypePositive != ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
             }
-            if (topRight && rightTop) {
-                if (upTypePositive != ContactType.POSITIVE2) {
+            if (rightTop && topRight) {
+                ContactType type = ns.getContactType(NeighborDirection.UP_EAST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopRight = true;
                 }
             }
-            if (rightBottom && bottomRight) {
-                if (downTypePositive != ContactType.POSITIVE2) {
+            if (bottomRight && rightBottom) {
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomRight = true;
                 }
             }
-            if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
+            if (leftBottom && bottomLeft) {
+                if (downTypePositive != ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
         } else if (face == Direction.UP) {
-            if (southType == ContactType.FULL || southType == ContactType.POSITIVE1) {
-                bottomLeft = true;
-                bottomRight = true;
-            } else if (southType == ContactType.NEGATIVE2) {
-                bottomLeft = true;
-            } else if (southType == ContactType.POSITIVE2) {
-                bottomRight = true;
-            }
-            ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
-            ContactType eastTypePositive = ns.getContactType(NeighborDirection.EAST, Half.POSITIVE);
-            leftBottom = westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE1 || westTypePositive == ContactType.POSITIVE2;
-            rightBottom = eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE1 || eastTypePositive == ContactType.POSITIVE2;
-            leftTop = leftBottom;
-            rightTop = rightBottom;
-            if (ns.isSameSlab()) {
-                topLeft = true;
-                topRight = true;
-            }
-            if (topRight && rightTop) {
-                if (eastTypePositive != ContactType.POSITIVE2) {
-                    cornerTopRight = true;
-                }
-
-            }
-            if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.SOUTH_EAST);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
-                    cornerBottomRight = true;
-                }
-            }
-            if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
-                    cornerBottomLeft = true;
-                }
-            }
-            if (topLeft && leftTop) {
-                if (westTypePositive != ContactType.POSITIVE2) {
-                    cornerTopLeft = true;
-                }
-            }
-        } else if (face == Direction.WEST) {
-            if (southType == ContactType.FULL || southType == ContactType.NEGATIVE2) {
+            if (eastType == ContactType.FULL || eastType == ContactType.POSITIVE1) {
                 rightTop = true;
                 rightBottom = true;
-            } else if (southType == ContactType.NEGATIVE1) {
-                rightBottom = true;
-            } else if (southType == ContactType.POSITIVE1) {
+            } else if (eastType == ContactType.NEGATIVE2) {
                 rightTop = true;
+            } else if (eastType == ContactType.POSITIVE2) {
+                rightBottom = true;
             }
-            ContactType upTypePositive = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
-            ContactType downTypePositive = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            topRight = upTypePositive == ContactType.FULL || upTypePositive == ContactType.NEGATIVE1 || upTypePositive == ContactType.POSITIVE2;
-            bottomRight = downTypePositive == ContactType.FULL || downTypePositive == ContactType.NEGATIVE1 || downTypePositive == ContactType.POSITIVE2;
+            ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
+            ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
+            topRight = northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE1 || northTypePositive == ContactType.POSITIVE2;
+            bottomRight = southTypePositive == ContactType.FULL || southTypePositive == ContactType.POSITIVE1 || southTypePositive == ContactType.POSITIVE2;
             topLeft = topRight;
             bottomLeft = bottomRight;
             if (ns.isSameSlab()) {
@@ -520,45 +478,86 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 leftBottom = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_SOUTH);
-                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                ContactType type = ns.getContactType(NeighborDirection.NORTH_EAST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_SOUTH);
-                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                ContactType type = ns.getContactType(NeighborDirection.SOUTH_EAST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                if (downTypePositive != ContactType.POSITIVE2) {
+                if (southTypePositive != ContactType.POSITIVE2) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                if (upTypePositive != ContactType.POSITIVE2) {
+                if (northTypePositive != ContactType.POSITIVE2) {
+                    cornerTopLeft = true;
+                }
+            }
+        } else if (face == Direction.NORTH) {
+            if (eastType == ContactType.FULL || eastType == ContactType.POSITIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (eastType == ContactType.NEGATIVE1) {
+                leftBottom = true;
+            } else if (eastType == ContactType.POSITIVE1) {
+                leftTop = true;
+            }
+            ContactType upTypePositive = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
+            ContactType downTypePositive = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
+            topLeft = upTypePositive == ContactType.FULL || upTypePositive == ContactType.POSITIVE1 || upTypePositive == ContactType.NEGATIVE2;
+            bottomLeft = downTypePositive == ContactType.FULL || downTypePositive == ContactType.POSITIVE1 || downTypePositive == ContactType.NEGATIVE2;
+            topRight = topLeft;
+            bottomRight = bottomLeft;
+            if (ns.isSameSlab()) {
+                rightTop = true;
+                rightBottom = true;
+            }
+            if (topRight && rightTop) {
+                if (upTypePositive != ContactType.POSITIVE1) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                if (downTypePositive != ContactType.POSITIVE1) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_EAST);
+                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                ContactType type = ns.getContactType(NeighborDirection.UP_EAST);
+                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopLeft = true;
                 }
             }
         } else if (face == Direction.DOWN) {
-            if (southType == ContactType.FULL || southType == ContactType.NEGATIVE1) {
-                topLeft = true;
-                topRight = true;
-            } else if (southType == ContactType.POSITIVE2) {
-                topRight = true;
-            } else if (southType == ContactType.NEGATIVE2) {
-                topLeft = true;
+            if (eastType == ContactType.FULL || eastType == ContactType.NEGATIVE1) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (eastType == ContactType.NEGATIVE2) {
+                rightBottom = true;
+            } else if (eastType == ContactType.POSITIVE2) {
+                rightTop = true;
             }
-            ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
-            ContactType eastTypePositive = ns.getContactType(NeighborDirection.EAST, Half.POSITIVE);
-            leftTop = westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE2 || westTypePositive == ContactType.NEGATIVE1;
-            rightTop = eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE2 || eastTypePositive == ContactType.NEGATIVE1;
-            leftBottom = leftTop;
-            rightBottom = rightTop;
+            ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
+            ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
+            bottomRight = northTypePositive == ContactType.FULL || northTypePositive == ContactType.NEGATIVE1 || northTypePositive == ContactType.POSITIVE2;
+            topRight = southTypePositive == ContactType.FULL || southTypePositive == ContactType.NEGATIVE1 || southTypePositive == ContactType.POSITIVE2;
+            bottomLeft = bottomRight;
+            topLeft = topRight;
             if (ns.isSameSlab()) {
-                bottomLeft = true;
-                bottomRight = true;
+                leftTop = true;
+                leftBottom = true;
             }
             if (topRight && rightTop) {
                 ContactType type = ns.getContactType(NeighborDirection.SOUTH_EAST);
@@ -567,24 +566,24 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 }
             }
             if (bottomRight && rightBottom) {
-                if (eastTypePositive != ContactType.POSITIVE2) {
+                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
+                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                if (westTypePositive != ContactType.POSITIVE2) {
+                if (northTypePositive != ContactType.POSITIVE2) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
-                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                if (southTypePositive != ContactType.POSITIVE2) {
                     cornerTopLeft = true;
                 }
             }
         }
 
-        GlassSprites.ConnectionFlags flags = new GlassSprites.ConnectionFlags(
+        return determineVerticalSlabSidePatternIndex(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -597,12 +596,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 cornerBottomRight,
                 cornerBottomLeft,
                 cornerTopLeft
-        );
-        if (face.getAxis() == Direction.Axis.X) {
-            return determineVerticalSlabSidePatternIndex(flags);
-        } else {
-            return determineSlabSidePatternIndex(flags);
-        }
+        ));
     }
 
     @Override
@@ -620,156 +614,156 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
         boolean cornerBottomLeft = false;
         boolean cornerTopLeft = false;
 
-        ContactType northType = ns.getContactType(NeighborDirection.NORTH);
-        if (face == Direction.EAST) {
+        ContactType westType = ns.getContactType(NeighborDirection.WEST);
+        if (face == Direction.SOUTH) {
             if (ns.isSameSlab()) {
-                leftTop = true;
-                leftBottom = true;
+                rightTop = true;
+                rightBottom = true;
             }
             ContactType upTypeNegative = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
             ContactType downTypeNegative = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            topRight = upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE2 || upTypeNegative == ContactType.POSITIVE1;
-            bottomRight = downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE2 || downTypeNegative == ContactType.POSITIVE1;
-            topLeft = topRight;
-            bottomLeft = bottomRight;
-            if (northType == ContactType.FULL || northType == ContactType.POSITIVE2) {
-                rightTop = true;
-                rightBottom = true;
-            } else if (northType == ContactType.POSITIVE1) {
-                rightTop = true;
-            } else if (northType == ContactType.NEGATIVE1) {
-                rightBottom = true;
+            topLeft = upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.POSITIVE2 || upTypeNegative == ContactType.NEGATIVE1;
+            bottomLeft = downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.POSITIVE2 || downTypeNegative == ContactType.NEGATIVE1;
+            topRight = topLeft;
+            bottomRight = bottomLeft;
+            if (westType == ContactType.FULL || westType == ContactType.POSITIVE2) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (westType == ContactType.POSITIVE1) {
+                leftTop = true;
+            } else if (westType == ContactType.NEGATIVE1) {
+                leftBottom = true;
             }
             if (topRight && rightTop) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_NORTH);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
+                if (upTypeNegative != ContactType.NEGATIVE1) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH);
-                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
+                if (downTypeNegative != ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                if (downTypeNegative != ContactType.NEGATIVE2) {
+                ContactType type = ns.getContactType(NeighborDirection.UP_WEST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                if (upTypeNegative != ContactType.NEGATIVE2) {
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
             }
         } else if (face == Direction.UP) {
             if (ns.isSameSlab()) {
-                bottomLeft = true;
-                bottomRight = true;
-            }
-            ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
-            ContactType eastTypeNegative = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
-            leftTop = westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.POSITIVE1 || westTypeNegative == ContactType.NEGATIVE2;
-            rightTop = eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.POSITIVE1 || eastTypeNegative == ContactType.NEGATIVE2;
-            leftBottom = leftTop;
-            rightBottom = rightTop;
-            if (northType == ContactType.FULL || northType == ContactType.POSITIVE1) {
-                topLeft = true;
-                topRight = true;
-            } else if (northType == ContactType.NEGATIVE2) {
-                topLeft = true;
-            } else if (northType == ContactType.POSITIVE2) {
-                topRight = true;
-            }
-            if (topRight && rightTop) {
-                ContactType bottomEastType = ns.getContactType(NeighborDirection.NORTH_EAST);
-                if (bottomEastType == ContactType.FULL || bottomEastType == ContactType.POSITIVE1) {
-                    cornerTopRight = true;
-                }
-            }
-            if (bottomRight && rightBottom) {
-                if (eastTypeNegative != ContactType.NEGATIVE2) {
-                    cornerBottomRight = true;
-                }
-            }
-            if (bottomLeft && leftBottom) {
-                if (westTypeNegative != ContactType.NEGATIVE2) {
-                    cornerBottomLeft = true;
-                }
-            }
-            if (topLeft && leftTop) {
-                ContactType bottomWestType = ns.getContactType(NeighborDirection.NORTH_WEST);
-                if (bottomWestType == ContactType.FULL || bottomWestType == ContactType.POSITIVE1) {
-                    cornerTopLeft = true;
-                }
-            }
-        } else if (face == Direction.WEST) {
-            if (ns.isSameSlab()) {
                 rightTop = true;
                 rightBottom = true;
             }
-            ContactType upTypeNegative = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
-            ContactType downTypeNegative = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            topLeft = upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE1 || upTypeNegative == ContactType.NEGATIVE2;
-            bottomLeft = downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE1 || downTypeNegative == ContactType.NEGATIVE2;
+            ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
+            ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
+            topLeft = northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.POSITIVE1 || northTypeNegative == ContactType.NEGATIVE2;
+            bottomLeft = southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.POSITIVE1 || southTypeNegative == ContactType.NEGATIVE2;
             topRight = topLeft;
             bottomRight = bottomLeft;
-            if (northType == ContactType.FULL || northType == ContactType.NEGATIVE2) {
+            if (westType == ContactType.FULL || westType == ContactType.POSITIVE1) {
                 leftTop = true;
                 leftBottom = true;
-            } else if (northType == ContactType.NEGATIVE1) {
-                leftBottom = true;
-            } else if (northType == ContactType.POSITIVE1) {
+            } else if (westType == ContactType.NEGATIVE2) {
                 leftTop = true;
+            } else if (westType == ContactType.POSITIVE2) {
+                leftBottom = true;
             }
             if (topRight && rightTop) {
-                if (upTypeNegative != ContactType.NEGATIVE2) {
+                if (northTypeNegative != ContactType.NEGATIVE2) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                if (downTypeNegative != ContactType.NEGATIVE2) {
+                if (southTypeNegative != ContactType.NEGATIVE2) {
                     cornerBottomRight = true;
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH);
-                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
+                ContactType type = ns.getContactType(NeighborDirection.NORTH_WEST);
+                if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
+                    cornerTopLeft = true;
+                }
+            }
+        } else if (face == Direction.NORTH) {
+            if (ns.isSameSlab()) {
+                leftTop = true;
+                leftBottom = true;
+            }
+            ContactType upTypeNegative = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
+            ContactType downTypeNegative = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
+            topRight = upTypeNegative == ContactType.FULL || upTypeNegative == ContactType.NEGATIVE1 || upTypeNegative == ContactType.NEGATIVE2;
+            bottomRight = downTypeNegative == ContactType.FULL || downTypeNegative == ContactType.NEGATIVE1 || downTypeNegative == ContactType.NEGATIVE2;
+            topLeft = topRight;
+            bottomLeft = bottomRight;
+            if (westType == ContactType.FULL || westType == ContactType.NEGATIVE2) {
+                rightTop = true;
+                rightBottom = true;
+            } else if (westType == ContactType.NEGATIVE1) {
+                rightBottom = true;
+            } else if (westType == ContactType.POSITIVE1) {
+                rightTop = true;
+            }
+            if (topRight && rightTop) {
                 ContactType type = ns.getContactType(NeighborDirection.UP_NORTH);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                    cornerTopRight = true;
+                }
+            }
+            if (bottomRight && rightBottom) {
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_NORTH);
+                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                    cornerBottomRight = true;
+                }
+            }
+            if (bottomLeft && leftBottom) {
+                if (downTypeNegative != ContactType.NEGATIVE2) {
+                    cornerBottomLeft = true;
+                }
+            }
+            if (topLeft && leftTop) {
+                if (upTypeNegative != ContactType.NEGATIVE2) {
                     cornerTopLeft = true;
                 }
             }
         } else if (face == Direction.DOWN) {
             if (ns.isSameSlab()) {
-                topLeft = true;
-                topRight = true;
+                rightTop = true;
+                rightBottom = true;
             }
-            ContactType eastTypeNegative = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
-            ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
-            rightBottom = eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.NEGATIVE1 || eastTypeNegative == ContactType.NEGATIVE2;
-            leftBottom = westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.NEGATIVE1 || westTypeNegative == ContactType.NEGATIVE2;
-            rightTop = rightBottom;
-            leftTop = leftBottom;
-            if (northType == ContactType.FULL || northType == ContactType.NEGATIVE1) {
-                bottomLeft = true;
-                bottomRight = true;
-            } else if (northType == ContactType.POSITIVE2) {
-                bottomRight = true;
-            } else if (northType == ContactType.NEGATIVE2) {
-                bottomLeft = true;
+            ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
+            ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
+            bottomLeft = northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.NEGATIVE1 || northTypeNegative == ContactType.NEGATIVE2;
+            topLeft = southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE1 || southTypeNegative == ContactType.NEGATIVE2;
+            bottomRight = bottomLeft;
+            topRight = topLeft;
+            if (westType == ContactType.FULL || westType == ContactType.POSITIVE1) {
+                leftTop = true;
+                leftBottom = true;
+            } else if (westType == ContactType.NEGATIVE2) {
+                leftBottom = true;
+            } else if (westType == ContactType.POSITIVE2) {
+                leftTop = true;
             }
             if (topRight && rightTop) {
-                if (eastTypeNegative != ContactType.NEGATIVE2) {
+                if (southTypeNegative != ContactType.NEGATIVE2) {
                     cornerTopRight = true;
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.NORTH_EAST);
+                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
@@ -781,13 +775,13 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 }
             }
             if (topLeft && leftTop) {
-                if (westTypeNegative != ContactType.NEGATIVE2) {
+                if (northTypeNegative != ContactType.NEGATIVE2) {
                     cornerTopLeft = true;
                 }
             }
         }
 
-        GlassSprites.ConnectionFlags flags = new GlassSprites.ConnectionFlags(
+        return determineVerticalSlabSidePatternIndex(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -800,12 +794,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 cornerBottomRight,
                 cornerBottomLeft,
                 cornerTopLeft
-        );
-        if (face.getAxis() == Direction.Axis.X) {
-            return determineVerticalSlabSidePatternIndex(flags);
-        } else {
-            return determineSlabSidePatternIndex(flags);
-        }
+        ));
     }
 
     @Override
@@ -816,16 +805,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
             return ns.isSameSlab();
         } else if (face == Direction.SOUTH) {
             ContactType type = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else if (face == Direction.UP) {
             ContactType type = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else if (face == Direction.NORTH) {
             ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else {
             ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE1;
+            return type == ContactType.FULL || type == ContactType.POSITIVE2;
         }
     }
 
@@ -837,16 +826,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
             return ns.getContactType(NeighborDirection.WEST) == ContactType.FULL;
         } else if (face == Direction.SOUTH) {
             ContactType type = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else if (face == Direction.UP) {
             ContactType type = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else if (face == Direction.NORTH) {
             ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else {
             ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         }
     }
 }
