@@ -100,36 +100,36 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             if (eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE1) {
                 rightTop = true;
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (eastTypePositive == ContactType.POSITIVE2) {
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (eastTypePositive == ContactType.NEGATIVE2) {
                 rightTop = true;
             }
             ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
             if (southTypePositive == ContactType.FULL || southTypePositive == ContactType.POSITIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (southTypePositive == ContactType.POSITIVE2) {
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (southTypePositive == ContactType.NEGATIVE2) {
                 bottomLeft = true;
             }
             ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
             if (westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE1) {
                 leftTop = true;
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (westTypePositive == ContactType.POSITIVE2) {
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (westTypePositive == ContactType.NEGATIVE2) {
                 leftTop = true;
             }
             ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
             if (northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (northTypePositive == ContactType.POSITIVE2) {
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (northTypePositive == ContactType.NEGATIVE2) {
                 topLeft = true;
             }
             if (topRight && rightTop) {
@@ -161,36 +161,36 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             if (eastTypePositive == ContactType.FULL || eastTypePositive == ContactType.POSITIVE1) {
                 rightTop = true;
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (eastTypePositive == ContactType.POSITIVE2) {
                 rightTop = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (eastTypePositive == ContactType.NEGATIVE2) {
                 rightBottom = true;
             }
             ContactType southTypePositive = ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE);
             if (southTypePositive == ContactType.FULL || southTypePositive == ContactType.POSITIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (southTypePositive == ContactType.POSITIVE2) {
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (southTypePositive == ContactType.NEGATIVE2) {
                 topLeft = true;
             }
             ContactType westTypePositive = ns.getContactType(NeighborDirection.WEST, Half.POSITIVE);
             if (westTypePositive == ContactType.FULL || westTypePositive == ContactType.POSITIVE1) {
                 leftTop = true;
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (westTypePositive == ContactType.POSITIVE2) {
                 leftTop = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (westTypePositive == ContactType.NEGATIVE2) {
                 leftBottom = true;
             }
             ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
             if (northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE) == ContactType.POSITIVE2) {
+            } else if (northTypePositive == ContactType.POSITIVE2) {
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE) == ContactType.NEGATIVE2) {
+            } else if (northTypePositive == ContactType.NEGATIVE2) {
                 bottomLeft = true;
             }
             if (topRight && rightTop) {
@@ -255,36 +255,36 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             if (eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.NEGATIVE1) {
                 rightTop = true;
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (eastTypeNegative == ContactType.POSITIVE2) {
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (eastTypeNegative == ContactType.NEGATIVE2) {
                 rightTop = true;
             }
             ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
             if (southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (southTypeNegative == ContactType.POSITIVE2) {
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (southTypeNegative == ContactType.NEGATIVE2) {
                 bottomLeft = true;
             }
             ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
             if (westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.NEGATIVE1) {
                 leftTop = true;
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (westTypeNegative == ContactType.POSITIVE2) {
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (westTypeNegative == ContactType.NEGATIVE2) {
                 leftTop = true;
             }
             ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
             if (northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.NEGATIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (northTypeNegative == ContactType.POSITIVE2) {
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (northTypeNegative == ContactType.NEGATIVE2) {
                 topLeft = true;
             }
             if (topRight && rightTop) {
@@ -316,36 +316,36 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             if (eastTypeNegative == ContactType.FULL || eastTypeNegative == ContactType.NEGATIVE1) {
                 rightTop = true;
                 rightBottom = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (eastTypeNegative == ContactType.POSITIVE2) {
                 rightTop = true;
-            } else if (ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (eastTypeNegative == ContactType.NEGATIVE2) {
                 rightBottom = true;
             }
             ContactType southTypeNegative = ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE);
             if (southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE1) {
                 topLeft = true;
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (southTypeNegative == ContactType.POSITIVE2) {
                 topRight = true;
-            } else if (ns.getContactType(NeighborDirection.SOUTH, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (southTypeNegative == ContactType.NEGATIVE2) {
                 topLeft = true;
             }
             ContactType westTypeNegative = ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE);
             if (westTypeNegative == ContactType.FULL || westTypeNegative == ContactType.NEGATIVE1) {
                 leftTop = true;
                 leftBottom = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (westTypeNegative == ContactType.POSITIVE2) {
                 leftTop = true;
-            } else if (ns.getContactType(NeighborDirection.WEST, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (westTypeNegative == ContactType.NEGATIVE2) {
                 leftBottom = true;
             }
             ContactType northTypeNegative = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
             if (northTypeNegative == ContactType.FULL || northTypeNegative == ContactType.NEGATIVE1) {
                 bottomLeft = true;
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE) == ContactType.POSITIVE2) {
+            } else if (northTypeNegative == ContactType.POSITIVE2) {
                 bottomRight = true;
-            } else if (ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE) == ContactType.NEGATIVE2) {
+            } else if (northTypeNegative == ContactType.NEGATIVE2) {
                 bottomLeft = true;
             }
             if (topRight && rightTop) {

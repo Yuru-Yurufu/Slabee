@@ -32,6 +32,7 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     private final Identifier id;
     private final Block block;
     private BakedModel bakedModel;
+    protected BakedModel nullBakedModel;
 
     public TranslucentBlockModel(Block block) {
         this.block = block;
@@ -67,7 +68,11 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
 
     @Override
     public Sprite getParticleSprite() {
-        return bakedModel.getParticleSprite();
+        if (bakedModel != null) {
+            return bakedModel.getParticleSprite();
+        } else {
+            return nullBakedModel.getParticleSprite();
+        }
     }
 
     @Override

@@ -2,13 +2,14 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.ModConfig;
 import com.forestotzka.yurufu.slabee.Slabee;
+import com.forestotzka.yurufu.slabee.block.ModBlocks;
+import com.forestotzka.yurufu.slabee.block.StainedGlassSlabBlock;
 import com.forestotzka.yurufu.slabee.block.TranslucentSlabBlock;
 import com.forestotzka.yurufu.slabee.block.TranslucentVerticalSlabBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.minecraft.block.Block;
-import net.minecraft.block.TranslucentBlock;
+import net.minecraft.block.*;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -55,12 +56,10 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
                 for (String s : ss) {
                     String[] keyValue = s.split("=");
-                    if (keyValue[0].equals("positive_slab") && !keyValue[1].equals("normal") && !keyValue[1].equals("non_opaque")) {
-                        positiveSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, keyValue[1] + "_vertical_slab"));
-                    } else if (keyValue[0].equals("negative_slab") && !keyValue[1].equals("normal") && !keyValue[1].equals("non_opaque")) {
-                        negativeSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, keyValue[1] + "_vertical_slab"));
-                    } else if (keyValue[0].equals("axis")) {
-                        isX = keyValue[1].equals("x");
+                    switch (keyValue[0]) {
+                        case "positive_slab" -> positiveSlab = variantStrToVerticalSlab(keyValue[1]);
+                        case "negative_slab" -> negativeSlab = variantStrToVerticalSlab(keyValue[1]);
+                        case "axis" -> isX = keyValue[1].equals("x");
                     }
                 }
 
@@ -92,7 +91,9 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             Block b = Registries.BLOCK.get(i);
             if (b instanceof TranslucentBlock) {
-                return new TranslucentBlockModel(b);
+                return ModConfig.INSTANCE.connectGlassTextures && isGlassFamily(b)
+                        ? new TranslucentBlockConnectGlassModel(b)
+                        : new TranslucentBlockModel(b);
             } else if (b instanceof TranslucentSlabBlock) {
                 String[] ss = id.getVariant().split(",");
 
@@ -100,13 +101,13 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     String[] keyValue = s.split("=");
                     if (keyValue[0].equals("type")) {
                         if (keyValue[1].equals("top")) {
-                            if (ModConfig.INSTANCE.connectGlassTextures) {
+                            if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
                                 return new DoubleSlabBlockConnectGlassModel(b, null);
                             } else {
                                 return new TranslucentSlabBlockModel(b, true);
                             }
                         } else if (keyValue[1].equals("bottom")) {
-                            if (ModConfig.INSTANCE.connectGlassTextures) {
+                            if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
                                 return new DoubleSlabBlockConnectGlassModel(null, b);
                             } else {
                                 return new TranslucentSlabBlockModel(b, false);
@@ -124,22 +125,22 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     if (keyValue[0].equals("facing")) {
                         switch (keyValue[1]) {
                             case "east" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelX(b, null)
                                 : new DoubleVerticalSlabBlockModel(b, null, true);
                             }
                             case "south" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(b, null)
                                 : new DoubleVerticalSlabBlockModel(b, null, false);
                             }
                             case "west" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelX(null, b)
                                 : new DoubleVerticalSlabBlockModel(null, b, true);
                             }
                             case "north" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(null, b)
                                 : new DoubleVerticalSlabBlockModel(null, b, false);
                             }
@@ -168,5 +169,17 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
         } else {
             return Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, block + "_vertical_slab"));
         }
+    }
+
+    private boolean isGlassFamily(Block block) {
+        return block == Blocks.GLASS || block instanceof StainedGlassBlock || block == Blocks.TINTED_GLASS;
+    }
+
+    private boolean isGlassSlabFamily(Block block) {
+        return block == ModBlocks.GLASS_SLAB || block instanceof StainedGlassSlabBlock || block == ModBlocks.TINTED_GLASS_SLAB;
+    }
+
+    private boolean isGlassVerticalSlabFamily(Block block) {
+        return block == ModBlocks.GLASS_VERTICAL_SLAB || block instanceof StainedGlassSlabBlock || block == ModBlocks.TINTED_GLASS_VERTICAL_SLAB;
     }
 }

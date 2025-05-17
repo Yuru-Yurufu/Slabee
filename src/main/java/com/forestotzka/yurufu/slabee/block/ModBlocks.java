@@ -3333,7 +3333,7 @@ public class ModBlocks {
     }
 
     private static Block createStainedGlassSlab(DyeColor color) {
-        return new TransparentSlabBlock(AbstractBlock.Settings.create()
+        return new StainedGlassSlabBlock(AbstractBlock.Settings.create()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
@@ -3346,7 +3346,7 @@ public class ModBlocks {
     }
 
     private static Block createStainedGlassVerticalSlab(DyeColor color) {
-        return new TransparentVerticalSlabBlock(AbstractBlock.Settings.create()
+        return new StainedGlassVerticalSlabBlock(AbstractBlock.Settings.create()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
