@@ -1672,7 +1672,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX implements UnbakedModel, 
                 }
             }
         } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
-            if ((dir == Direction.EAST || dir == Direction.WEST) == entity.isX()) {
+            if ((dir.getAxis() == Direction.Axis.X) == entity.isX()) {
                 if (slab == ModBlockMap.verticalSlabToSlab(entity.getPositiveSlabState().getBlock())) {
                     return FULL;
                 }
@@ -1836,7 +1836,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX implements UnbakedModel, 
     }
 
     private int checkEdgeConnectionToDVS(boolean matchesPositive, boolean matchesNegative, boolean isX, Direction dir) {
-        if ((dir == Direction.EAST || dir == Direction.WEST) == isX) {
+        if ((dir.getAxis() == Direction.Axis.X) == isX) {
             if (dir == Direction.EAST || dir == Direction.SOUTH) {
                 if (matchesNegative) return FULL;
             } else {
@@ -2097,7 +2097,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX implements UnbakedModel, 
 
     private boolean isEnd(Direction dir) {
         if (this.isX) {
-            return dir == Direction.EAST || dir == Direction.WEST;
+            return dir.getAxis() == Direction.Axis.X;
         } else {
             return dir == Direction.SOUTH || dir == Direction.NORTH;
         }

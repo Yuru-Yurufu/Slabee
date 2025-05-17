@@ -146,7 +146,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 EnumMap<Direction, Mesh> negativeFaceMeshes = new EnumMap<>(Direction.class);
 
                 for (Direction dir : Direction.values()) {
-                    if (dir.getAxis() == Direction.Axis.Y) {
+                    if (dir.getAxis().isVertical()) {
                         continue;
                     }
 
@@ -261,7 +261,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 }
 
                 EnumMap<Direction, Mesh> faceMeshes;
-                if (face == Direction.UP || face == Direction.DOWN) {
+                if (face.getAxis().isVertical()) {
                     for (int index : getEndPatternIndexes(face, ns, true)) {
                         faceMeshes = endPositiveMeshMap.get(index);
                         if (faceMeshes == null) return;
@@ -297,7 +297,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 }
 
                 EnumMap<Direction, Mesh> faceMeshes;
-                if (face == Direction.UP || face == Direction.DOWN) {
+                if (face.getAxis().isVertical()) {
                     for (int index : getEndPatternIndexes(face, ns, false)) {
                         faceMeshes = endNegativeMeshMap.get(index);
                         if (faceMeshes == null) return;

@@ -110,7 +110,7 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
                 Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
                 Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
 
-                if (facing == Direction.EAST || facing == Direction.WEST) {
+                if (facing.getAxis() == Direction.Axis.X) {
                     axis = "x";
                 } else {
                     axis = "z";
