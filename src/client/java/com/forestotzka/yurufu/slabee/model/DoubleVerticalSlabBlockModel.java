@@ -4,12 +4,6 @@ import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
-import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
-import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
-import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.Block;
@@ -22,7 +16,6 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.registry.Registries;
-import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -45,17 +38,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
     private BakedModel positiveBakedModel;
     private BakedModel negativeBakedModel;
     private BakedModel nullBakedModel;
-    private Mesh positiveMesh;
-    private Mesh negativeMesh;
-    private Mesh nullMesh;
-    private Mesh mesh;
-
-    private Baker baker;
-    private Function<SpriteIdentifier, Sprite> textureGetter;
-    private ModelBakeSettings rotationContainer;
-
-    private static SpriteIdentifier[] positiveSpriteIds = new SpriteIdentifier[3];
-    private static SpriteIdentifier[] negativeSpriteIds = new SpriteIdentifier[3];
 
     private final VerticalModelRotation Y0 = new VerticalModelRotation(ModelRotation.X0_Y0.getRotation(), true);
     private final VerticalModelRotation Y90 = new VerticalModelRotation(ModelRotation.X0_Y90.getRotation(), true);
@@ -68,11 +50,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
         this.isX = isX;
 
         if (this.positiveSlab != null) {
-            positiveSpriteIds = new SpriteIdentifier[]{
-                    new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass")),
-                    new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass")),
-                    new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass"))
-            };
             Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
 
             if (isX) {
@@ -81,11 +58,6 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
                 this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_z");
             }
         } else {
-            positiveSpriteIds = new SpriteIdentifier[]{
-                new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass")),
-                        new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass")),
-                        new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass"))
-            };
             this.positiveId = null;
         }
 
@@ -160,36 +132,16 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        this.baker = baker;
-        this.textureGetter = textureGetter;
-        this.rotationContainer = rotationContainer;
-
-        Sprite glass;
-
-        Renderer renderer = RendererAccess.INSTANCE.getRenderer();
-        MeshBuilder builder = renderer.meshBuilder();
-        QuadEmitter emitter = builder.getEmitter();
-
-        emitter.square(Direction.EAST, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f);
-        emitter.spriteBake(textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of("minecraft:block/glass"))), MutableQuadView.BAKE_LOCK_UV);
-        emitter.color(-1, -1, -1, -1);
-        emitter.emit();
-        mesh = builder.build();
-
         if (this.positiveId != null) {
             UnbakedModel positiveUnbakedModel = baker.getOrLoadModel(this.positiveId);
             this.positiveBakedModel = positiveUnbakedModel.bake(baker, textureGetter, isX ? Y180 : Y270);
-            //this.positiveMesh = extractMesh(baked);
         }
 
         if (this.negativeId != null) {
             UnbakedModel negativeUnbakedModel = baker.getOrLoadModel(this.negativeId);
             this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, isX ? Y0 : Y90);
-            //this.negativeMesh = extractMesh(baked);
         } else if (this.positiveId == null) {
-            BakedModel baked = baker.getOrLoadModel(Identifier.of("minecraft:air"))
-                    .bake(baker, textureGetter, rotationContainer);
-            this.nullMesh = extractMesh(baked);
+            this.nullBakedModel = baker.getOrLoadModel(Identifier.of("minecraft:block/stone")).bake(baker, textureGetter, rotationContainer);
         }
 
         return this;
@@ -203,13 +155,8 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
                 return this.positiveSlab == null || face != null && !shouldCullPositive(face, blockRenderView, blockPos);
             });
-            //positiveMesh.outputTo(renderContext.getEmitter());
+
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
-
-            /*BakedModel ba = baker.getOrLoadModel(Identifier.of("minecraft:block/pink_stained_glass")).bake(baker, textureGetter, rotationContainer);
-            ba.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);*/
-            mesh.outputTo(renderContext.getEmitter());
-
             renderContext.popTransform();
         }
 
@@ -219,29 +166,10 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
 
                 return this.negativeSlab == null || face != null && !shouldCullNegative(face, blockRenderView, blockPos);
             });
+
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
-        } else if (nullMesh != null) {
-            renderContext.meshConsumer().accept(nullMesh);
         }
-    }
-
-    private Mesh extractMesh(BakedModel model) {
-        MeshBuilder builder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
-        QuadEmitter emitter = builder.getEmitter();
-
-        for (Direction direction : Direction.values()) {
-            for (BakedQuad quad : model.getQuads(null, direction, Random.create())) {
-                emitter.fromVanilla(quad, null, direction);
-                emitter.emit();
-            }
-        }
-        for (BakedQuad quad : model.getQuads(null, null, Random.create())) {
-            emitter.fromVanilla(quad, null, null);
-            emitter.emit();
-        }
-
-        return builder.build();
     }
 
     private boolean shouldCullPositive(Direction face, BlockRenderView world, BlockPos pos) {

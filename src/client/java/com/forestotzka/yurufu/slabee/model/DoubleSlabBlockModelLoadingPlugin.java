@@ -42,8 +42,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                 if (ModConfig.INSTANCE.connectGlassTextures) {
                     return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
                 } else {
-                    //return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
-                    return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
+                    return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
                 }
             } else if (i.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 String[] ss = id.getVariant().split(",");

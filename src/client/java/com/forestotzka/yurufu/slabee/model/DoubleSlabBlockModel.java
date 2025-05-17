@@ -1,6 +1,5 @@
 package com.forestotzka.yurufu.slabee.model;
 
-import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -36,22 +35,22 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
     private final Block negativeSlab;
     private BakedModel positiveBakedModel;
     private BakedModel negativeBakedModel;
+    protected BakedModel nullBakedModel;
 
-    public DoubleSlabBlockModel(String positiveSlab, String negativeSlab) {
-        if (positiveSlab.equals("normal") || positiveSlab.equals("non_opaque")) {
-            this.positiveSlab = null;
+    public DoubleSlabBlockModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
+        this.positiveSlab = positiveSlab;
+        this.negativeSlab = negativeSlab;
+
+        if (this.positiveSlab == null) {
             this.positiveId = null;
         } else {
-            this.positiveSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, positiveSlab + "_slab"));
             Identifier positiveId = Registries.BLOCK.getId(this.positiveSlab);
             this.positiveId = Identifier.of(positiveId.getNamespace(), "block/" + positiveId.getPath() + "_top");
         }
 
-        if (negativeSlab.equals("normal") || negativeSlab.equals("non_opaque")) {
-            this.negativeSlab = null;
+        if (this.negativeSlab == null) {
             this.negativeId = null;
         } else {
-            this.negativeSlab = Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, negativeSlab + "_slab"));
             Identifier negativeId = Registries.BLOCK.getId(this.negativeSlab);
             this.negativeId = Identifier.of(negativeId.getNamespace(), "block/" + negativeId.getPath());
         }
@@ -84,7 +83,13 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
     @Override
     public Sprite getParticleSprite() {
-        return null;
+        if (positiveId != null) {
+            return positiveBakedModel.getParticleSprite();
+        } else if (negativeId != null) {
+            return negativeBakedModel.getParticleSprite();
+        } else {
+            return nullBakedModel.getParticleSprite();
+        }
     }
 
     @Override
@@ -117,7 +122,10 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
         if (this.negativeId != null) {
             UnbakedModel negativeUnbakedModel = baker.getOrLoadModel(this.negativeId);
             this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, rotationContainer);
+        } else if (this.positiveId == null) {
+            this.nullBakedModel = baker.getOrLoadModel(Identifier.of("minecraft:block/stone")).bake(baker, textureGetter, rotationContainer);
         }
+
         return this;
     }
 
