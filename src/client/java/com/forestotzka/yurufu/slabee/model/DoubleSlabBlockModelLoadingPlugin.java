@@ -124,16 +124,24 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     if (keyValue[0].equals("facing")) {
                         switch (keyValue[1]) {
                             case "east" -> {
-                                return new DoubleVerticalSlabBlockModel(b, null, true);
+                                return ModConfig.INSTANCE.connectGlassTextures
+                                ? new DoubleVerticalSlabBlockConnectGlassModelX(b, null)
+                                : new DoubleVerticalSlabBlockModel(b, null, true);
                             }
                             case "south" -> {
-                                return new DoubleVerticalSlabBlockModel(b, null, false);
+                                return ModConfig.INSTANCE.connectGlassTextures
+                                ? new DoubleVerticalSlabBlockConnectGlassModelZ(b, null)
+                                : new DoubleVerticalSlabBlockModel(b, null, false);
                             }
                             case "west" -> {
-                                return new DoubleVerticalSlabBlockModel(null, b, true);
+                                return ModConfig.INSTANCE.connectGlassTextures
+                                ? new DoubleVerticalSlabBlockConnectGlassModelX(null, b)
+                                : new DoubleVerticalSlabBlockModel(null, b, true);
                             }
                             case "north" -> {
-                                return new DoubleVerticalSlabBlockModel(null, b, false);
+                                return ModConfig.INSTANCE.connectGlassTextures
+                                ? new DoubleVerticalSlabBlockConnectGlassModelZ(null, b)
+                                : new DoubleVerticalSlabBlockModel(null, b, false);
                             }
                         }
 

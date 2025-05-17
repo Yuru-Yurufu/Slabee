@@ -808,13 +808,13 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
             return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else if (face == Direction.UP) {
             ContactType type = ns.getContactType(NeighborDirection.UP, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE2;
+            return type == ContactType.FULL || type == ContactType.POSITIVE1;
         } else if (face == Direction.NORTH) {
             ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
             return type == ContactType.FULL || type == ContactType.POSITIVE2;
         } else {
             ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.POSITIVE);
-            return type == ContactType.FULL || type == ContactType.POSITIVE2;
+            return type == ContactType.FULL || type == ContactType.POSITIVE1;
         }
     }
 
@@ -829,13 +829,13 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
             return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else if (face == Direction.UP) {
             ContactType type = ns.getContactType(NeighborDirection.UP, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
         } else if (face == Direction.NORTH) {
             ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
             return type == ContactType.FULL || type == ContactType.NEGATIVE2;
         } else {
             ContactType type = ns.getContactType(NeighborDirection.DOWN, Half.NEGATIVE);
-            return type == ContactType.FULL || type == ContactType.NEGATIVE2;
+            return type == ContactType.FULL || type == ContactType.NEGATIVE1;
         }
     }
 }
