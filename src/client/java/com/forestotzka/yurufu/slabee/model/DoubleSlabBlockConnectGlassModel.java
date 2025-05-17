@@ -30,6 +30,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.forestotzka.yurufu.slabee.model.GlassSprites.determineEndPatternIndexes;
+import static com.forestotzka.yurufu.slabee.model.GlassSprites.determineSlabSidePatternIndex;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.Half;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
@@ -49,135 +51,12 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
     private final Map<Integer, EnumMap<Direction, Mesh>> endPositiveMeshMap = new HashMap<>();
     private final Map<Integer, EnumMap<Direction, Mesh>> endNegativeMeshMap = new HashMap<>();
 
-    public static final Map<Integer, Integer> SLAB_INDEX_MAP = Map.<Integer, Integer>ofEntries(
-            Map.entry(70, 64),
-            Map.entry(71, 65),
-            Map.entry(78, 66),
-            Map.entry(79, 67),
-            Map.entry(86, 68),
-            Map.entry(87, 69),
-            Map.entry(94, 70),
-            Map.entry(95, 71),
-            Map.entry(102, 72),
-            Map.entry(103, 73),
-            Map.entry(110, 74),
-            Map.entry(111, 75),
-            Map.entry(118, 76),
-            Map.entry(119, 77),
-            Map.entry(126, 78),
-            Map.entry(127, 79),
-            Map.entry(148, 80),
-            Map.entry(149, 81),
-            Map.entry(150, 82),
-            Map.entry(151, 83),
-            Map.entry(156, 84),
-            Map.entry(157, 85),
-            Map.entry(158, 86),
-            Map.entry(159, 87),
-            Map.entry(180, 88),
-            Map.entry(181, 89),
-            Map.entry(182, 90),
-            Map.entry(183, 91),
-            Map.entry(188, 92),
-            Map.entry(189, 93),
-            Map.entry(190, 94),
-            Map.entry(191, 95),
-            Map.entry(214, 96),
-            Map.entry(215, 97),
-            Map.entry(222, 98),
-            Map.entry(223, 99),
-            Map.entry(246, 100),
-            Map.entry(247, 101),
-            Map.entry(254, 102),
-            Map.entry(255, 103),
-            Map.entry(296, 104),
-            Map.entry(297, 105),
-            Map.entry(298, 106),
-            Map.entry(299, 107),
-            Map.entry(300, 108),
-            Map.entry(301, 109),
-            Map.entry(302, 110),
-            Map.entry(303, 111),
-            Map.entry(312, 112),
-            Map.entry(313, 113),
-            Map.entry(314, 114),
-            Map.entry(315, 115),
-            Map.entry(316, 116),
-            Map.entry(317, 117),
-            Map.entry(318, 118),
-            Map.entry(319, 119),
-            Map.entry(366, 120),
-            Map.entry(367, 121),
-            Map.entry(382, 122),
-            Map.entry(383, 123),
-            Map.entry(444, 124),
-            Map.entry(445, 125),
-            Map.entry(446, 126),
-            Map.entry(447, 127),
-            Map.entry(510, 128),
-            Map.entry(511, 129),
-            Map.entry(545, 130),
-            Map.entry(547, 131),
-            Map.entry(549, 132),
-            Map.entry(551, 133),
-            Map.entry(553, 134),
-            Map.entry(555, 135),
-            Map.entry(557, 136),
-            Map.entry(559, 137),
-            Map.entry(561, 138),
-            Map.entry(563, 139),
-            Map.entry(565, 140),
-            Map.entry(567, 141),
-            Map.entry(569, 142),
-            Map.entry(571, 143),
-            Map.entry(573, 144),
-            Map.entry(575, 145),
-            Map.entry(615, 146),
-            Map.entry(623, 147),
-            Map.entry(631, 148),
-            Map.entry(639, 149),
-            Map.entry(693, 150),
-            Map.entry(695, 151),
-            Map.entry(701, 152),
-            Map.entry(703, 153),
-            Map.entry(759, 154),
-            Map.entry(767, 155),
-            Map.entry(809, 156),
-            Map.entry(811, 157),
-            Map.entry(813, 158),
-            Map.entry(815, 159),
-            Map.entry(825, 160),
-            Map.entry(827, 161),
-            Map.entry(829, 162),
-            Map.entry(831, 163),
-            Map.entry(879, 164),
-            Map.entry(895, 165),
-            Map.entry(957, 166),
-            Map.entry(959, 167),
-            Map.entry(1023, 168)
-    );
-
     private static final int GLASS_PATTERN_COUNT = 21;
     private static final int STAINED_GLASS_PATTERN_COUNT = 25;
     private static final int SLAB_PATTERN_COUNT = 169;
 
     private final boolean isGlassPositive;
     private final boolean isGlassNegative;
-
-    private record ConnectionFlags(
-            boolean topLeft,
-            boolean topRight,
-            boolean rightTop,
-            boolean rightBottom,
-            boolean bottomRight,
-            boolean bottomLeft,
-            boolean leftBottom,
-            boolean leftTop,
-            boolean cornerTopRight,
-            boolean cornerBottomRight,
-            boolean cornerBottomLeft,
-            boolean cornerTopLeft
-    ) {}
 
     public DoubleSlabBlockConnectGlassModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
         this.positiveSlab = positiveSlab;
@@ -470,11 +349,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             index = determinePatternNegative(face, ns);
         }
 
-        if (index >= 64) {
-            index = SLAB_INDEX_MAP.getOrDefault(index, 0);
-        }
-
-        return index;
+        return GlassSprites.getMappedIndex(index);
         //return 0;
     }
 
@@ -616,7 +491,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             }
         }
 
-        return determineEndPatternIndexes(new ConnectionFlags(
+        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -770,7 +645,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             }
         }
 
-        return determineEndPatternIndexes(new ConnectionFlags(
+        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -957,7 +832,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             }
         }
 
-        return determineSidePatternIndex(new ConnectionFlags(
+        return determineSlabSidePatternIndex(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 right,
@@ -1144,7 +1019,7 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
             }
         }
 
-        return determineSidePatternIndex(new ConnectionFlags(
+        return determineSlabSidePatternIndex(new GlassSprites.ConnectionFlags(
                 topLeft,
                 topRight,
                 right,
@@ -1158,59 +1033,6 @@ public class DoubleSlabBlockConnectGlassModel implements UnbakedModel, BakedMode
                 cornerBottomLeft,
                 cornerTopLeft
         ));
-    }
-
-    private List<Integer> determineEndPatternIndexes(ConnectionFlags flags, boolean isGlass) {
-        List<Integer> indexes = new ArrayList<>();
-        int i = 0;
-        if (flags.topLeft) i += 1;
-        if (flags.topRight) i += 2;
-        if (flags.cornerTopRight) i += 2;
-        if (!isGlass || i != 5) {
-            indexes.add(i);
-        }
-
-        i = 6;
-        if (flags.rightTop) i += 1;
-        if (flags.rightBottom) i += 2;
-        if (flags.cornerBottomRight) i += 2;
-        if (!isGlass || i != 11) {
-            indexes.add(i);
-        }
-
-        i = 12;
-        if (flags.bottomRight) i += 1;
-        if (flags.bottomLeft) i += 2;
-        if (flags.cornerBottomLeft) i += 2;
-        if (!isGlass || i != 17) {
-            indexes.add(i);
-        }
-
-        i = 18;
-        if (flags.leftBottom) i += 1;
-        if (flags.leftTop) i += 2;
-        if (flags.cornerTopLeft) i += 2;
-        if (!isGlass || i != 23) {
-            indexes.add(i);
-        }
-
-        return indexes;
-    }
-
-    private int determineSidePatternIndex(ConnectionFlags flags) {
-        int patternIndex = 0;
-        if (flags.topLeft) patternIndex |= 1;
-        if (flags.topRight) patternIndex |= 1 << 1;
-        if (flags.rightTop) patternIndex |= 1 << 2;
-        if (flags.bottomLeft) patternIndex |= 1 << 3;
-        if (flags.bottomRight) patternIndex |= 1 << 4;
-        if (flags.leftTop) patternIndex |= 1 << 5;
-        if (flags.cornerTopRight) patternIndex |= 1 << 6;
-        if (flags.cornerBottomRight) patternIndex |= 1 << 7;
-        if (flags.cornerBottomLeft) patternIndex |= 1 << 8;
-        if (flags.cornerTopLeft) patternIndex |= 1 << 9;
-
-        return patternIndex;
     }
 
     private boolean shouldCullPositive(Direction face, NeighborState ns) {
