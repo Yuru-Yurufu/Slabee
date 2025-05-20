@@ -3,6 +3,9 @@ package com.forestotzka.yurufu.slabee.model;
 import com.forestotzka.yurufu.slabee.block.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.Block;
@@ -15,9 +18,11 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.registry.Registries;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +38,10 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     private final Block block;
     private BakedModel bakedModel;
     protected BakedModel nullBakedModel;
+
+    public static final SpriteIdentifier GLASS_SLAB_ATLAS =
+            new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE,
+                    Identifier.of("slabee", "block/glass_slab_"));
 
     public TranslucentBlockModel(Block block) {
         this.block = block;
@@ -95,23 +104,62 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
 
     }
 
+    private Sprite atlas;
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        UnbakedModel unbakedModel = baker.getOrLoadModel(this.id);
+        /*UnbakedModel unbakedModel = baker.getOrLoadModel(this.id);
         this.bakedModel = unbakedModel.bake(baker, textureGetter, rotationContainer);
 
+        return this;*/
+        this.atlas = textureGetter.apply(GLASS_SLAB_ATLAS); // ← ここでキャッシュ！
         return this;
     }
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
-        renderContext.pushTransform(quad -> {
+        /*renderContext.pushTransform(quad -> {
             Direction face = quad.cullFace();
 
             return face != null && !shouldCull(face, blockRenderView, blockPos);
         });
         bakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
-        renderContext.popTransform();
+        renderContext.popTransform();*/
+
+        Sprite sprite = this.atlas; // bake() で取得しておいたスプライト
+        System.out.println("sprite" + sprite.getMaxU() + ", " + sprite.getMinU() + ", " + sprite.getX());
+        System.out.println("U: " + sprite.getMinU() + " - " + sprite.getMaxU());
+        System.out.println("V: " + sprite.getMinV() + " - " + sprite.getMaxV());
+        System.out.println("X: " + sprite.getX() + ", Y: " + sprite.getY());
+        System.out.println("Sprite Width: " + sprite.getContents().getWidth());
+
+        int frameIndex = 5;
+        int cols = 8;
+        int x = frameIndex % cols;
+        int y = frameIndex / cols;
+        int z = 256 / cols;
+
+        float u0 = sprite.getFrameU(x * z);
+        float v0 = sprite.getFrameV(y * z);
+        float u1 = sprite.getFrameU((x + 1) * z);
+        float v1 = sprite.getFrameV((y + 1) * z);
+
+        QuadEmitter emitter = renderContext.getEmitter();
+
+        emitter.square(Direction.UP, 0, 0, 1, 1, 0);
+
+// 頂点順にUVを直接指定（spriteIndex = 0）
+        emitter.uv(0, u0, v0); // 左下
+        emitter.uv(1, u0, v1); // 右下
+        emitter.uv(2, u1, v1); // 右上
+        emitter.uv(3, u1, v0); // 左上
+
+// アトラスのスプライトに対応するようベイク
+        emitter.spriteBake(sprite, 0); // ← これが公式のやり方！
+
+// 色・マテリアルなども設定
+        emitter.color(-1, -1, -1, -1);
+        emitter.emit();
+
     }
 
     private boolean shouldCull(Direction face, BlockRenderView world, BlockPos pos) {

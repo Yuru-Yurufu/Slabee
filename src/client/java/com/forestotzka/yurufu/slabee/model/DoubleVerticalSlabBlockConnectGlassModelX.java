@@ -6,12 +6,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.block.Block;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static com.forestotzka.yurufu.slabee.model.GlassSprites.*;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
@@ -43,25 +45,45 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected SpriteIdentifier emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
         if (dir == Direction.NORTH) {
             emitter.square(dir, 0, 0, 0.5f, 1, 0);
         } else {
             emitter.square(dir, 0.5f, 0, 1, 1, 0);
         }
 
-        return GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab);
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+        int z = 8;
+
+        float u0 = sprite.getFrameU(x * z);
+        float v0 = sprite.getFrameV(y * z);
+        float u1 = sprite.getFrameU((x + 1) * z);
+        float v1 = sprite.getFrameV((y + 1) * z);
+
+        setUV(emitter, u0, u1, v0, v1, sprite);
     }
 
     @Override
-    protected SpriteIdentifier emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
         if (dir == Direction.NORTH) {
             emitter.square(dir, 0.5f, 0, 1, 1, 0);
         } else {
             emitter.square(dir, 0, 0, 0.5f, 1, 0);
         }
 
-        return GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab);
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+        int z = 8;
+
+        float u0 = sprite.getFrameU(x * z);
+        float v0 = sprite.getFrameV(y * z);
+        float u1 = sprite.getFrameU((x + 1) * z);
+        float v1 = sprite.getFrameV((y + 1) * z);
+
+        setUV(emitter, u0, u1, v0, v1, sprite);
     }
 
     @Override

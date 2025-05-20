@@ -1,0 +1,8 @@
+{
+    "sources": [
+        {
+            "type": "fabric:single",
+            "resource": "slabee:block/glass_slab_"
+        }
+    ]
+}
