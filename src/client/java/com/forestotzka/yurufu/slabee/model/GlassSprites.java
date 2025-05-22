@@ -266,7 +266,7 @@ public class GlassSprites {
         }
     }
 
-    public static SpriteIdentifier getSlabSpriteIdentifier(int index, Block slab) {
+    public static SpriteIdentifier getSlabSpriteIdentifier(Block slab) {
         if (slab == ModBlocks.WHITE_STAINED_GLASS_SLAB) {
             return WHITE_STAINED_GLASS_SLAB_SPRITE;
         } else if (slab == ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB) {
@@ -306,7 +306,7 @@ public class GlassSprites {
         }
     }
 
-    public static SpriteIdentifier getVerticalSlabSpriteIdentifier(int index, Block verticalSlab) {
+    public static SpriteIdentifier getVerticalSlabSpriteIdentifier(Block verticalSlab) {
         if (verticalSlab == ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB) {
             return WHITE_STAINED_GLASS_VERTICAL_SLAB_SPRITE;
         } else if (verticalSlab == ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB) {

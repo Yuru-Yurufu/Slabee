@@ -45,7 +45,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
     @Override
     protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, positiveSlab));
+        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(positiveSlab));
         emitter.square(dir, 0, 0.5f, 1, 1, 0);
 
         int x = patternIndex % SLAB_COLS;
@@ -56,12 +56,11 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
     @Override
     protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, negativeSlab));
+        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(negativeSlab));
         emitter.square(dir, 0, 0, 1, 0.5f, 0);
 
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
-        int z = 8;
 
         setUV(emitter, x, x+1, y+0.5f, y+1, sprite);
     }

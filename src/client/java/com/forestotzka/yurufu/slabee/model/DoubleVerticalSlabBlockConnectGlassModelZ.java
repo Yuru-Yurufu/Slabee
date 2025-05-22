@@ -57,7 +57,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
 
         switch (dir) {
             case EAST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
+                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(positiveSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
                 u0 = x;
                 u1 = x + 0.5f;
@@ -65,7 +65,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case WEST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
+                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(positiveSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
                 u0 = x + 0.5f;
                 u1 = x + 1f;
@@ -73,7 +73,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case UP -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab)));
+                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -81,7 +81,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 0.5f;
             }
             default -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab)));
+                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -106,7 +106,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
 
         switch (dir) {
             case EAST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
+                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(negativeSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
                 u0 = x + 0.5f;
                 u1 = x + 1f;
@@ -114,7 +114,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case WEST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
+                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(negativeSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
                 u0 = x;
                 u1 = x + 0.5f;
@@ -122,7 +122,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case UP -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab)));
+                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -130,7 +130,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1f;
             }
             default -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab)));
+                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
                 u0 = x;
                 u1 = x + 1f;
