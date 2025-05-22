@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/jungle_log_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/jungle_log"
+        },
+        "type=top": {
+            "model": "slabee:block/jungle_log_slab_top"
+        }
+    }
+}

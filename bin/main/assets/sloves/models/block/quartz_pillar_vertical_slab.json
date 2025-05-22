@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/quartz_pillar",
+        "east": "minecraft:block/quartz_pillar",
+        "west": "minecraft:block/quartz_pillar"
+    }
+}

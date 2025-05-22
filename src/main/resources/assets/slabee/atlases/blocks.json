@@ -1,0 +1,10 @@
+{
+    "replace": false,
+    "sources": [
+        {
+            "type": "single",
+            "namespace": "slabee",
+            "path": "block/glass_slab_atlas"
+        }
+    ]
+}

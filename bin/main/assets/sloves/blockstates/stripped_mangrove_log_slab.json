@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/stripped_mangrove_log_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/stripped_mangrove_log"
+        },
+        "type=top": {
+            "model": "slabee:block/stripped_mangrove_log_slab_top"
+        }
+    }
+}

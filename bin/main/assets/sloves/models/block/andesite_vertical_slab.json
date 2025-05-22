@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/andesite",
+        "east": "minecraft:block/andesite",
+        "west": "minecraft:block/andesite"
+    }
+}

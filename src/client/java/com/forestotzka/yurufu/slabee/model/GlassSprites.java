@@ -125,6 +125,8 @@ public class GlassSprites {
     private static final int SLAB_PATTERN_COUNT = 169;
 
     private static final SpriteIdentifier[] GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
+    private static final SpriteIdentifier GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass_slab_atlas"));
+    private static final SpriteIdentifier GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass_vertical_slab_atlas"));
     private static final SpriteIdentifier[] GLASS_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
     private static final SpriteIdentifier[] GLASS_VERTICAL_SLAB_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
     private static final SpriteIdentifier[] WHITE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
@@ -353,7 +355,7 @@ public class GlassSprites {
         } else if (slab == ModBlocks.TINTED_GLASS_SLAB) {
             return TINTED_GLASS_SLAB_SPRITE_IDS[index];
         } else {
-            return GLASS_SLAB_SPRITE_IDS[index];
+            return GLASS_SLAB_SPRITE;
         }
     }
 
@@ -393,7 +395,7 @@ public class GlassSprites {
         } else if (verticalSlab == ModBlocks.TINTED_GLASS_VERTICAL_SLAB) {
             return TINTED_GLASS_VERTICAL_SLAB_SPRITE_IDS[index];
         } else {
-            return GLASS_VERTICAL_SLAB_SPRITE_IDS[index];
+            return GLASS_VERTICAL_SLAB_SPRITE;
         }
     }
 

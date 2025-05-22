@@ -5,12 +5,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.block.Block;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static com.forestotzka.yurufu.slabee.model.GlassSprites.*;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
@@ -42,15 +44,40 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected SpriteIdentifier emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, positiveSlab));
         emitter.square(dir, 0, 0.5f, 1, 1, 0);
-        return GlassSprites.getSlabSpriteIdentifier(patternIndex, positiveSlab);
+
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+        int tileSize = 16;
+
+        float u0 = sprite.getFrameU(x * tileSize);
+        float u1 = sprite.getFrameU((x + 1) * tileSize);
+        float v0 = sprite.getFrameV(y * tileSize);
+        float v1 = sprite.getFrameV((y + 0.5f) * tileSize);
+
+        /*System.out.println("atlas size: " + sprite.getContents().getWidth());
+        System.out.println("x = " + x + ", u0 = " + u0 + ", u1 = " + u1);
+        System.out.println("y = " + y + ", v0 = " + v0 + ", v1 = " + v1);*/
+
+        setUV(emitter, u0, u1, v0, v1, sprite);
     }
 
     @Override
-    protected SpriteIdentifier emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, negativeSlab));
         emitter.square(dir, 0, 0, 1, 0.5f, 0);
-        return GlassSprites.getSlabSpriteIdentifier(patternIndex, negativeSlab);
+
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+
+        float u0 = (float)x;
+        float u1 = x+1;
+        float v0 = y+0.5f;
+        float v1 = y+1;
+
+        setUV(emitter, u0, u1, v0, v1, sprite);
     }
 
     @Override

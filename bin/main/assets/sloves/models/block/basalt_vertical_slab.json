@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/basalt",
+        "east": "minecraft:block/basalt",
+        "west": "minecraft:block/basalt"
+    }
+}

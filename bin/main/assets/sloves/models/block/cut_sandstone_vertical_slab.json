@@ -1,0 +1,8 @@
+{
+    "parent": "slabee:block/vertical_slab",
+    "textures": {
+        "side": "minecraft:block/cut_sandstone",
+        "east": "minecraft:block/cut_sandstone",
+        "west": "minecraft:block/cut_sandstone"
+    }
+}

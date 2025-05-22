@@ -37,6 +37,8 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-rendering-v1:${project.fabric_version}"
 }
 
 processResources {

@@ -49,6 +49,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
     protected static final int GLASS_PATTERN_COUNT = 21;
     protected static final int STAINED_GLASS_PATTERN_COUNT = 25;
     protected static final int SLAB_PATTERN_COUNT = 169;
+    protected static final int SLAB_COLS = 16;
 
     protected final boolean isGlassPositive;
     protected final boolean isGlassNegative;
@@ -82,10 +83,21 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
     protected abstract boolean isEndFace(Direction face);
 
-    protected abstract SpriteIdentifier emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
-    protected abstract SpriteIdentifier emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
-    protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
-    protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
+    protected abstract void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
+    protected abstract void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
+    protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex/*, Function<SpriteIdentifier, Sprite> textureGetter*/);
+    protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex/*, Function<SpriteIdentifier, Sprite> textureGetter*/);
+
+    protected void setUV(QuadEmitter emitter, float u0, float u1, float v0, float v1, Sprite sprite) {
+        emitter.uv(0, u0, v0);
+        emitter.uv(1, u0, v1);
+        emitter.uv(2, u1, v1);
+        emitter.uv(3, u1, v0);
+
+        emitter.spriteBake(sprite, 0);
+        emitter.color(-1, -1, -1, -1);
+        emitter.emit();
+    }
 
     protected abstract DoubleSlabType getDoubleSlabType();
 
@@ -162,10 +174,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
                         MeshBuilder meshBuilder = renderer.meshBuilder();
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
-                        SpriteIdentifier spriteIdentifier = emitSidePositiveQuad(emitter, dir, patternIndex);
-                        emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                        emitter.color(-1, -1, -1, -1);
-                        emitter.emit();
+                        emitSidePositiveQuad(emitter, dir, patternIndex, textureGetter);
 
                         positiveFaceMeshes.put(dir, meshBuilder.build());
                     }
@@ -173,10 +182,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
                         MeshBuilder meshBuilder = renderer.meshBuilder();
                         QuadEmitter emitter = meshBuilder.getEmitter();
 
-                        SpriteIdentifier spriteIdentifier = emitSideNegativeQuad(emitter, dir, patternIndex);
-                        emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                        emitter.color(-1, -1, -1, -1);
-                        emitter.emit();
+                        emitSideNegativeQuad(emitter, dir, patternIndex, textureGetter);
 
                         negativeFaceMeshes.put(dir, meshBuilder.build());
                     }

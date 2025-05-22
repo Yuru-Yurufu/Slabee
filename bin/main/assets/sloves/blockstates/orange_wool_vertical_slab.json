@@ -1,0 +1,20 @@
+{
+    "multipart": [
+        {
+            "when": { "facing": "south" },
+            "apply": { "model": "slabee:block/orange_wool_vertical_slab", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "facing": "east" },
+            "apply": { "model": "slabee:block/orange_wool_vertical_slab", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "facing": "north" },
+            "apply": { "model": "slabee:block/orange_wool_vertical_slab", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "facing": "west" },
+            "apply": { "model": "slabee:block/orange_wool_vertical_slab", "uvlock": true }
+        }
+    ]
+}

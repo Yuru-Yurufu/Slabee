@@ -1,0 +1,34 @@
+{
+    "schemaVersion": 1,
+    "id": "slabee",
+    "version": "${version}",
+    "name": "slabee",
+    "description": "this is test mod.",
+    "authors": [
+        "Yurufu"
+    ],
+    "contact": {},
+    "license": "MIT",
+    "icon": "assets/slabee/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "com.forestotzka.yurufu.slabee.client.slabeeClient"
+        ],
+        "main": [
+            "com.forestotzka.yurufu.slabee.slabee"
+        ]
+    },
+    "mixins": [
+        "slabee.mixins.json",
+        {
+            "config": "slabee.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+        "minecraft": "${minecraft_version}"
+    }
+}

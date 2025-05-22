@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "slabee:block/dark_oak_wood_slab"
+        },
+        "type=double": {
+            "model": "minecraft:block/dark_oak_wood"
+        },
+        "type=top": {
+            "model": "slabee:block/dark_oak_wood_slab_top"
+        }
+    }
+}
