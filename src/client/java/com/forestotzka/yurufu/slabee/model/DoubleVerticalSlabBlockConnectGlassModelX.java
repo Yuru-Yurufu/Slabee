@@ -47,43 +47,43 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     @Override
     protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
         Sprite sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
-        if (dir == Direction.NORTH) {
-            emitter.square(dir, 0, 0, 0.5f, 1, 0);
-        } else {
-            emitter.square(dir, 0.5f, 0, 1, 1, 0);
-        }
-
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
-        int z = 8;
 
-        float u0 = sprite.getFrameU(x * z);
-        float v0 = sprite.getFrameV(y * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v1 = sprite.getFrameV((y + 1) * z);
+        float u0;
+        float u1;
 
-        setUV(emitter, u0, u1, v0, v1, sprite);
+        if (dir == Direction.NORTH) {
+            emitter.square(dir, 0, 0, 0.5f, 1, 0);
+            u0 = x;
+        } else {
+            emitter.square(dir, 0.5f, 0, 1, 1, 0);
+            u0 = x + 0.5f;
+        }
+        u1 = u0 + 0.5f;
+
+        setUV(emitter, u0, u1, y, y+1, sprite);
     }
 
     @Override
     protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
         Sprite sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
-        if (dir == Direction.NORTH) {
-            emitter.square(dir, 0.5f, 0, 1, 1, 0);
-        } else {
-            emitter.square(dir, 0, 0, 0.5f, 1, 0);
-        }
-
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
-        int z = 8;
 
-        float u0 = sprite.getFrameU(x * z);
-        float v0 = sprite.getFrameV(y * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v1 = sprite.getFrameV((y + 1) * z);
+        float u0;
+        float u1;
 
-        setUV(emitter, u0, u1, v0, v1, sprite);
+        if (dir == Direction.NORTH) {
+            emitter.square(dir, 0.5f, 0, 1, 1, 0);
+            u0 = x + 0.5f;
+        } else {
+            emitter.square(dir, 0, 0, 0.5f, 1, 0);
+            u0 = x;
+        }
+        u1 = u0 + 0.5f;
+
+        setUV(emitter, u0, u1, y, y+1, sprite);
     }
 
     @Override

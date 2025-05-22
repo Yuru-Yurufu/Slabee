@@ -47,33 +47,48 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     @Override
     protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
         Sprite sprite;
-
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
-        int z = 8;
+
+        float u0;
+        float v0;
+        float u1;
+        float v1;
+
         switch (dir) {
             case EAST -> {
                 sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
+                u0 = x;
+                u1 = x + 0.5f;
+                v0 = y;
+                v1 = y + 1;
             }
             case WEST -> {
                 sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, positiveSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
+                u0 = x + 0.5f;
+                u1 = x + 1f;
+                v0 = y;
+                v1 = y + 1;
             }
             case UP -> {
                 sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
+                u0 = x;
+                u1 = x + 1f;
+                v0 = y;
+                v1 = y + 0.5f;
             }
             default -> {
                 sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
+                u0 = x;
+                u1 = x + 1f;
+                v0 = y + 0.5f;
+                v1 = y + 1f;
             }
         }
-
-        float u0 = sprite.getFrameU(x * z);
-        float v0 = sprite.getFrameV(y * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v1 = sprite.getFrameV((y + 1) * z);
 
         setUV(emitter, u0, u1, v0, v1, sprite);
     }
@@ -81,33 +96,48 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     @Override
     protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
         Sprite sprite;
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+
+        float u0;
+        float v0;
+        float u1;
+        float v1;
+
         switch (dir) {
             case EAST -> {
                 sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
+                u0 = x + 0.5f;
+                u1 = x + 1f;
+                v0 = y;
+                v1 = y + 1;
             }
             case WEST -> {
                 sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(patternIndex, negativeSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
+                u0 = x;
+                u1 = x + 0.5f;
+                v0 = y;
+                v1 = y + 1;
             }
             case UP -> {
                 sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
+                u0 = x;
+                u1 = x + 1f;
+                v0 = y + 0.5f;
+                v1 = y + 1f;
             }
             default -> {
                 sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
+                u0 = x;
+                u1 = x + 1f;
+                v0 = y;
+                v1 = y + 0.5f;
             }
         }
-
-        int x = patternIndex % SLAB_COLS;
-        int y = patternIndex / SLAB_COLS;
-        int z = 8;
-
-        float u0 = sprite.getFrameU(x * z);
-        float v0 = sprite.getFrameV(y * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v1 = sprite.getFrameV((y + 1) * z);
 
         setUV(emitter, u0, u1, v0, v1, sprite);
     }

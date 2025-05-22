@@ -60,12 +60,11 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                 }
 
                 if (ModConfig.INSTANCE.connectGlassTextures) {
-                    /*if (isX) {
+                    if (isX) {
                         return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
                     } else {
                         return new DoubleVerticalSlabBlockConnectGlassModelZ(positiveSlab, negativeSlab);
-                    }*/
-                    return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
+                    }
                 } else {
                     return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
                 }
@@ -122,24 +121,24 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     if (keyValue[0].equals("facing")) {
                         switch (keyValue[1]) {
                             case "east" -> {
-                                return /*ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelX(b, null)
-                                : */new DoubleVerticalSlabBlockModel(b, null, true);
+                                : new DoubleVerticalSlabBlockModel(b, null, true);
                             }
                             case "south" -> {
-                                return /*ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(b, null)
-                                : */new DoubleVerticalSlabBlockModel(b, null, false);
+                                : new DoubleVerticalSlabBlockModel(b, null, false);
                             }
                             case "west" -> {
-                                return /*ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelX(null, b)
-                                : */new DoubleVerticalSlabBlockModel(null, b, true);
+                                : new DoubleVerticalSlabBlockModel(null, b, true);
                             }
                             case "north" -> {
-                                return /*ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(null, b)
-                                : */new DoubleVerticalSlabBlockModel(null, b, false);
+                                : new DoubleVerticalSlabBlockModel(null, b, false);
                             }
                         }
 

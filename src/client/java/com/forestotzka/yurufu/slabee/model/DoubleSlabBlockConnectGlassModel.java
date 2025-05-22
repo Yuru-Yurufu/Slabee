@@ -50,18 +50,8 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
-        int z = 8;
 
-        float u0 = sprite.getFrameU(x * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v0 = sprite.getFrameV(y * z);
-        float v1 = sprite.getFrameV((y + 0.5f) * z);
-
-        /*System.out.println("atlas size: " + sprite.getContents().getWidth());
-        System.out.println("x = " + x + ", u0 = " + u0 + ", u1 = " + u1);
-        System.out.println("y = " + y + ", v0 = " + v0 + ", v1 = " + v1);*/
-
-        setUV(emitter, u0, u1, v0, v1, sprite);
+        setUV(emitter, x, x+1, y, y+0.5f, sprite);
     }
 
     @Override
@@ -73,12 +63,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
         int y = patternIndex / SLAB_COLS;
         int z = 8;
 
-        float u0 = sprite.getFrameU(x * z);
-        float u1 = sprite.getFrameU((x + 1) * z);
-        float v0 = sprite.getFrameV((y + 0.5f) * z);
-        float v1 = sprite.getFrameV((y + 1) * z);
-
-        setUV(emitter, u0, u1, v0, v1, sprite);
+        setUV(emitter, x, x+1, y+0.5f, y+1, sprite);
     }
 
     @Override
