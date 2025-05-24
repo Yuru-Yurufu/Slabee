@@ -20,7 +20,7 @@ import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 @Environment(EnvType.CLIENT)
 public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectGlassModel {
     public DoubleSlabBlockConnectGlassModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
-        super(positiveSlab, negativeSlab);
+        super(positiveSlab, negativeSlab, 0);
     }
 
     @Override
@@ -818,5 +818,10 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             ContactType type = ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE);
             return type == ContactType.FULL || type == ContactType.NEGATIVE1;
         }
+    }
+
+    @Override
+    protected int getVariantIndex(Block block) {
+        return super.getVariantIndex(ModBlockMap.slabToVerticalSlab(block));
     }
 }

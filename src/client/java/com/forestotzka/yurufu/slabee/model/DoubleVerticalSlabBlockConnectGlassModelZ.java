@@ -21,7 +21,7 @@ import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 @Environment(EnvType.CLIENT)
 public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSlabConnectGlassModel {
     public DoubleVerticalSlabBlockConnectGlassModelZ(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
-        super(positiveSlab, negativeSlab);
+        super(positiveSlab, negativeSlab, 2);
     }
 
     @Override

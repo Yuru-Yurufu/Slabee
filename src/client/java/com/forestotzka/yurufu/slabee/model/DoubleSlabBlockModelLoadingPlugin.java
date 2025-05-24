@@ -22,20 +22,11 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
     private static final Map<SlabVariantKey, UnbakedModel> MODEL_CACHE = new ConcurrentHashMap<>();
 
-    private static boolean isInitLoad = true;
-
-    public static void markReloading() {
-        isInitLoad = true;
-    }
-    public static void clearReloadingFlag() {
-        isInitLoad = false;
-    }
-
     @Override
     public void onInitializeModelLoader(Context context) {
         context.modifyModelOnLoad().register((original, ctx) -> {
             final ModelIdentifier id = ctx.topLevelId();
-            if (/*!isInitLoad || */id == null) {
+            if (id == null) {
                 return original;
             }
 
@@ -104,7 +95,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
         context.modifyModelBeforeBake().register((original, ctx) -> {
             final ModelIdentifier id = ctx.topLevelId();
-            if (/*!isInitLoad || */id == null) {
+            if (id == null) {
                 return original;
             }
 

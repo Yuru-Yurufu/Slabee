@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.model;
 
+import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -40,23 +41,32 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
     protected final Block negativeSlab;
     private Sprite particleSprite;
 
+    protected static final int VARIANT_COUNT = 18;
     protected static final int GLASS_PATTERN_COUNT = 21;
     protected static final int STAINED_GLASS_PATTERN_COUNT = 25;
     protected static final int SLAB_PATTERN_COUNT = 169;
     protected static final int SLAB_COLS = 16;
     private static final int DIRECTION_COUNT = Direction.values().length;
+    private static final int AXIS_COUNT = 3;
 
-    protected final Mesh[][] positiveMeshes = new Mesh[SLAB_PATTERN_COUNT][DIRECTION_COUNT];
-    protected final Mesh[][] negativeMeshes = new Mesh[SLAB_PATTERN_COUNT][DIRECTION_COUNT];
-    protected final Mesh[][] endPositiveMeshes = new Mesh[STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
-    protected final Mesh[][] endNegativeMeshes = new Mesh[STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
+    protected static final Mesh[][][][] SIDE_POSITIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT];
+    protected static final Mesh[][][][] SIDE_NEGATIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT];
+    protected static final Mesh[][][][] END_POSITIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
+    protected static final Mesh[][][][] END_NEGATIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
+
+    private static final SpriteIdentifier nullSpriteIdentifier = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone"));
 
     protected final boolean isGlassPositive;
     protected final boolean isGlassNegative;
 
-    protected AbstractDoubleSlabConnectGlassModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab) {
+    protected final int positiveVariantIndex;
+    protected final int negativeVariantIndex;
+    protected final int axis;
+
+    protected AbstractDoubleSlabConnectGlassModel(@Nullable Block positiveSlab, @Nullable Block negativeSlab, int axis) {
         this.positiveSlab = positiveSlab;
         this.negativeSlab = negativeSlab;
+        this.axis = axis;
 
         if (this.positiveSlab == null) {
             this.positiveId = null;
@@ -67,6 +77,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
             this.isGlassPositive = setIsGlass(positiveSlab);
         }
 
+        this.positiveVariantIndex = getVariantIndex(this.positiveSlab);
+
         if (this.negativeSlab == null) {
             this.negativeId = null;
             this.isGlassNegative = true;
@@ -75,6 +87,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
             this.negativeId = setNegativeId(negativeId);
             this.isGlassNegative = setIsGlass(negativeSlab);
         }
+
+        this.negativeVariantIndex = getVariantIndex(this.negativeSlab);
     }
 
     protected abstract Identifier setPositiveId(Identifier id);
@@ -174,16 +188,15 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
-            Mesh[] sidePositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
-            Mesh[] sideNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
+        if (this.positiveId != null && SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
+            for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
+                Mesh[] sidePositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
 
-            for (Direction dir : Direction.values()) {
-                if (isEndFace(dir)) {
-                    continue;
-                }
+                for (Direction dir : Direction.values()) {
+                    if (isEndFace(dir)) {
+                        continue;
+                    }
 
-                {
                     MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
@@ -191,7 +204,20 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
                     sidePositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
                 }
-                {
+
+                SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex] = sidePositiveFaceMeshes;
+            }
+        }
+
+        if (this.negativeId != null && SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
+            for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
+                Mesh[] sideNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
+
+                for (Direction dir : Direction.values()) {
+                    if (isEndFace(dir)) {
+                        continue;
+                    }
+
                     MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
@@ -199,65 +225,68 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
                     sideNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
                 }
-            }
 
-            positiveMeshes[patternIndex] = sidePositiveFaceMeshes;
-            negativeMeshes[patternIndex] = sideNegativeFaceMeshes;
+                SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex] = sideNegativeFaceMeshes;
+            }
         }
 
-        for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-            Mesh[] endPositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
+        if (this.positiveId != null && END_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
+            for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
+                Mesh[] endPositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
 
-            for (Direction dir : Direction.values()) {
-                if (!isEndFace(dir)) {
-                    continue;
+                for (Direction dir : Direction.values()) {
+                    if (!isEndFace(dir)) {
+                        continue;
+                    }
+
+                    MeshBuilder meshBuilder = getBuilder();
+                    QuadEmitter emitter = meshBuilder.getEmitter();
+
+                    SpriteIdentifier spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
+                    emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
+                    emitter.color(-1, -1, -1, -1);
+                    emitter.emit();
+
+                    endPositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
                 }
 
-                MeshBuilder meshBuilder = getBuilder();
-                QuadEmitter emitter = meshBuilder.getEmitter();
-
-                SpriteIdentifier spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
-                emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                emitter.color(-1, -1, -1, -1);
-                emitter.emit();
-
-                endPositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                END_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex] = endPositiveFaceMeshes;
             }
-
-            endPositiveMeshes[patternIndex] = endPositiveFaceMeshes;
         }
 
-        for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-            Mesh[] endNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
+        if (this.negativeId != null && END_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
+            for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
+                Mesh[] endNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
 
-            for (Direction dir : Direction.values()) {
-                if (!isEndFace(dir)) {
-                    continue;
+                for (Direction dir : Direction.values()) {
+                    if (!isEndFace(dir)) {
+                        continue;
+                    }
+
+                    MeshBuilder meshBuilder = getBuilder();
+                    QuadEmitter emitter = meshBuilder.getEmitter();
+
+                    SpriteIdentifier spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
+                    emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
+                    emitter.color(-1, -1, -1, -1);
+                    emitter.emit();
+
+                    endNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
                 }
 
-                MeshBuilder meshBuilder = getBuilder();
-                QuadEmitter emitter = meshBuilder.getEmitter();
-
-                SpriteIdentifier spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
-                emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                emitter.color(-1, -1, -1, -1);
-                emitter.emit();
-
-                endNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                END_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex] = endNegativeFaceMeshes;
             }
-
-            endNegativeMeshes[patternIndex] = endNegativeFaceMeshes;
         }
 
         if ((this.positiveId == null) == (this.negativeId == null)) {
-            this.particleSprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone")));
+            this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
         } else {
             BakedModel bakedModel = baker.getOrLoadModel(Objects.requireNonNullElse(this.positiveId, this.negativeId)).bake(baker, textureGetter, rotationContainer);
 
             if (bakedModel != null) {
                 this.particleSprite = bakedModel.getParticleSprite();
             } else {
-                this.particleSprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone")));
+                this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
             }
         }
 
@@ -276,18 +305,18 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
                 if (isEndFace(face)) {
                     for (int index : getEndPatternIndexes(face, ns, true)) {
-                        Mesh mesh = endPositiveMeshes[index][face.ordinal()];
+                        Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][index][face.ordinal()];
                         if (mesh != null) {
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
 
-                    Mesh mesh = endPositiveMeshes[(isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
+                    Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][(isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
                 } else {
-                    Mesh mesh = positiveMeshes[getSidePatternIndex(face, ns, true)][face.ordinal()];
+                    Mesh mesh = SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][getSidePatternIndex(face, ns, true)][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
@@ -303,18 +332,18 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
                 if (isEndFace(face)) {
                     for (int index : getEndPatternIndexes(face, ns, false)) {
-                        Mesh mesh = endNegativeMeshes[index][face.ordinal()];
+                        Mesh mesh = END_NEGATIVE_MESHES[axis][negativeVariantIndex][index][face.ordinal()];
                         if (mesh != null) {
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
 
-                    Mesh mesh = endNegativeMeshes[(isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
+                    Mesh mesh = END_NEGATIVE_MESHES[axis][negativeVariantIndex][(isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
                 } else {
-                    Mesh mesh = negativeMeshes[getSidePatternIndex(face, ns, false)][face.ordinal()];
+                    Mesh mesh = SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][getSidePatternIndex(face, ns, false)][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
@@ -334,7 +363,6 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
         }
 
         return indexes;
-        //return new ArrayList<>(List.of(0,5,10,15));
     }
 
     private int getSidePatternIndex(Direction face, NeighborState ns, boolean isPositive) {
@@ -346,7 +374,6 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
         }
 
         return GlassSprites.getMappedIndex(index);
-        //return 0;
     }
 
     protected abstract List<Integer> determinePatternEndPositive(Direction face, NeighborState ns);
@@ -355,4 +382,44 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
     protected abstract int determinePatternNegative(Direction face, NeighborState ns);
     protected abstract boolean shouldCullPositive(Direction face, NeighborState ns);
     protected abstract boolean shouldCullNegative(Direction face, NeighborState ns);
+
+    protected int getVariantIndex(Block block) {
+        if (block == ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB) {
+            return 1;
+        } else if (block == ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB) {
+            return 2;
+        } else if (block == ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB) {
+            return 3;
+        } else if (block == ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB) {
+            return 4;
+        } else if (block == ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB) {
+            return 5;
+        } else if (block == ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB) {
+            return 6;
+        } else if (block == ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB) {
+            return 7;
+        } else if (block == ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB) {
+            return 8;
+        } else if (block == ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB) {
+            return 9;
+        } else if (block == ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB) {
+            return 10;
+        } else if (block == ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB) {
+            return 11;
+        } else if (block == ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB) {
+            return 12;
+        } else if (block == ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB) {
+            return 13;
+        } else if (block == ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB) {
+            return 14;
+        } else if (block == ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB) {
+            return 15;
+        } else if (block == ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB) {
+            return 16;
+        } else if (block == ModBlocks.TINTED_GLASS_VERTICAL_SLAB) {
+            return 17;
+        } else {
+            return 0;
+        }
+    }
 }

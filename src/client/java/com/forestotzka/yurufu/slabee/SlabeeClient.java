@@ -92,7 +92,6 @@ public class SlabeeClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        //DoubleSlabBlockModelLoadingPlugin.clearReloadingFlag();
         ModClientListeners.register();
         ModClientHandlers.register();
         ModModelLoaders.register();
