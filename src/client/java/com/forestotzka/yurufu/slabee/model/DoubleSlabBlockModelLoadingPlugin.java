@@ -7,19 +7,35 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.block.*;
+import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Environment(EnvType.CLIENT)
 public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
+    record SlabVariantKey(Block positiveSlab, Block negativeSlab, int axis) {}
+
+    private static final Map<SlabVariantKey, UnbakedModel> MODEL_CACHE = new ConcurrentHashMap<>();
+
+    private static boolean isInitLoad = true;
+
+    public static void markReloading() {
+        isInitLoad = true;
+    }
+    public static void clearReloadingFlag() {
+        isInitLoad = false;
+    }
 
     @Override
     public void onInitializeModelLoader(Context context) {
         context.modifyModelOnLoad().register((original, ctx) -> {
             final ModelIdentifier id = ctx.topLevelId();
-            if (id == null) {
+            if (/*!isInitLoad || */id == null) {
                 return original;
             }
 
@@ -27,47 +43,60 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
             if (i.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
-                Block positiveSlab = null;
-                Block negativeSlab = null;
+                Block parsedPositiveSlab = null;
+                Block parsedNegativeSlab = null;
 
                 for (String s : ss) {
                     String[] keyValue = s.split("=");
                     if (keyValue[0].equals("positive_slab")) {
-                        positiveSlab = variantStrToSlab(keyValue[1]);
+                        parsedPositiveSlab = variantStrToSlab(keyValue[1]);
                     } else if (keyValue[0].equals("negative_slab")) {
-                        negativeSlab = variantStrToSlab(keyValue[1]);
+                        parsedNegativeSlab = variantStrToSlab(keyValue[1]);
                     }
                 }
 
-                if (ModConfig.INSTANCE.connectGlassTextures) {
-                    return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
-                } else {
-                    return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
-                }
+                final Block positiveSlab = parsedPositiveSlab;
+                final Block negativeSlab = parsedNegativeSlab;
+
+                SlabVariantKey key = new SlabVariantKey(positiveSlab, negativeSlab, 0);
+                return MODEL_CACHE.computeIfAbsent(key, k -> {
+                    if (ModConfig.INSTANCE.connectGlassTextures) {
+                        return new DoubleSlabBlockConnectGlassModel(positiveSlab, negativeSlab);
+                    } else {
+                        return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
+                    }
+                });
             } else if (i.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
-                Block positiveSlab = null;
-                Block negativeSlab = null;
-                boolean isX = false;
+                Block parsedPositiveSlab = null;
+                Block parsedNegativeSlab = null;
+                boolean parsedIsX = false;
 
                 for (String s : ss) {
                     String[] keyValue = s.split("=");
                     switch (keyValue[0]) {
-                        case "positive_slab" -> positiveSlab = variantStrToVerticalSlab(keyValue[1]);
-                        case "negative_slab" -> negativeSlab = variantStrToVerticalSlab(keyValue[1]);
-                        case "axis" -> isX = keyValue[1].equals("x");
+                        case "positive_slab" -> parsedPositiveSlab = variantStrToVerticalSlab(keyValue[1]);
+                        case "negative_slab" -> parsedNegativeSlab = variantStrToVerticalSlab(keyValue[1]);
+                        case "axis" -> parsedIsX = keyValue[1].equals("x");
                     }
                 }
 
-                if (ModConfig.INSTANCE.connectGlassTextures) {
-                    if (isX) {
-                        return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
+                final Block positiveSlab = parsedPositiveSlab;
+                final Block negativeSlab = parsedNegativeSlab;
+                final boolean isX = parsedIsX;
+
+                SlabVariantKey key = new SlabVariantKey(positiveSlab, negativeSlab, isX ? 1 : 2);
+                return MODEL_CACHE.computeIfAbsent(key, k -> {
+                    if (ModConfig.INSTANCE.connectGlassTextures) {
+                        if (isX) {
+                            return new DoubleVerticalSlabBlockConnectGlassModelX(positiveSlab, negativeSlab);
+                        } else {
+                            return new DoubleVerticalSlabBlockConnectGlassModelZ(positiveSlab, negativeSlab);
+                        }
                     } else {
-                        return new DoubleVerticalSlabBlockConnectGlassModelZ(positiveSlab, negativeSlab);
+                        return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
                     }
-                } else {
-                    return new DoubleVerticalSlabBlockModel(positiveSlab, negativeSlab, isX);
-                }
+                });
             }
 
             return original;
@@ -75,7 +104,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
         context.modifyModelBeforeBake().register((original, ctx) -> {
             final ModelIdentifier id = ctx.topLevelId();
-            if (id == null) {
+            if (/*!isInitLoad || */id == null) {
                 return original;
             }
 
@@ -97,17 +126,23 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     String[] keyValue = s.split("=");
                     if (keyValue[0].equals("type")) {
                         if (keyValue[1].equals("top")) {
-                            if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
-                                return new DoubleSlabBlockConnectGlassModel(b, null);
-                            } else {
-                                return new TranslucentSlabBlockModel(b, true);
-                            }
+                            SlabVariantKey key = new SlabVariantKey(b, null, 0);
+                            return MODEL_CACHE.computeIfAbsent(key, k -> {
+                                if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
+                                    return new DoubleSlabBlockConnectGlassModel(b, null);
+                                } else {
+                                    return new TranslucentSlabBlockModel(b, true);
+                                }
+                            });
                         } else if (keyValue[1].equals("bottom")) {
-                            if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
-                                return new DoubleSlabBlockConnectGlassModel(null, b);
-                            } else {
-                                return new TranslucentSlabBlockModel(b, false);
-                            }
+                            SlabVariantKey key = new SlabVariantKey(null, b, 0);
+                            return MODEL_CACHE.computeIfAbsent(key, k -> {
+                                if (ModConfig.INSTANCE.connectGlassTextures && isGlassSlabFamily(b)) {
+                                    return new DoubleSlabBlockConnectGlassModel(null, b);
+                                } else {
+                                    return new TranslucentSlabBlockModel(b, false);
+                                }
+                            });
                         }
 
                         break;
@@ -121,24 +156,32 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                     if (keyValue[0].equals("facing")) {
                         switch (keyValue[1]) {
                             case "east" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
-                                ? new DoubleVerticalSlabBlockConnectGlassModelX(b, null)
-                                : new DoubleVerticalSlabBlockModel(b, null, true);
+                                SlabVariantKey key = new SlabVariantKey(b, null, 1);
+                                return MODEL_CACHE.computeIfAbsent(key, k ->
+                                        ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                        ? new DoubleVerticalSlabBlockConnectGlassModelX(b, null)
+                                        : new DoubleVerticalSlabBlockModel(b, null, true));
                             }
                             case "south" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                SlabVariantKey key = new SlabVariantKey(b, null, 2);
+                                return MODEL_CACHE.computeIfAbsent(key, k ->
+                                ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(b, null)
-                                : new DoubleVerticalSlabBlockModel(b, null, false);
+                                : new DoubleVerticalSlabBlockModel(b, null, false));
                             }
                             case "west" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                SlabVariantKey key = new SlabVariantKey(null, b, 1);
+                                return MODEL_CACHE.computeIfAbsent(key, k ->
+                                ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelX(null, b)
-                                : new DoubleVerticalSlabBlockModel(null, b, true);
+                                : new DoubleVerticalSlabBlockModel(null, b, true));
                             }
                             case "north" -> {
-                                return ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
+                                SlabVariantKey key = new SlabVariantKey(null, b, 2);
+                                return MODEL_CACHE.computeIfAbsent(key, k ->
+                                ModConfig.INSTANCE.connectGlassTextures && isGlassVerticalSlabFamily(b)
                                 ? new DoubleVerticalSlabBlockConnectGlassModelZ(null, b)
-                                : new DoubleVerticalSlabBlockModel(null, b, false);
+                                : new DoubleVerticalSlabBlockModel(null, b, false));
                             }
                         }
 

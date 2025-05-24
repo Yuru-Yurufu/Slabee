@@ -5,6 +5,7 @@ import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntityRenderer;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntityRenderer;
 import com.forestotzka.yurufu.slabee.handler.ModClientHandlers;
+import com.forestotzka.yurufu.slabee.listener.ModClientListeners;
 import com.forestotzka.yurufu.slabee.model.ModModelLoaders;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -91,6 +92,8 @@ public class SlabeeClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        //DoubleSlabBlockModelLoadingPlugin.clearReloadingFlag();
+        ModClientListeners.register();
         ModClientHandlers.register();
         ModModelLoaders.register();
 

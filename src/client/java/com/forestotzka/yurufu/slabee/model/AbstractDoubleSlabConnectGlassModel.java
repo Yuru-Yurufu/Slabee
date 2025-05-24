@@ -18,6 +18,7 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.registry.Registries;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -37,19 +38,18 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
     protected final Identifier negativeId;
     protected final Block positiveSlab;
     protected final Block negativeSlab;
-    protected BakedModel positiveBakedModel;
-    protected BakedModel negativeBakedModel;
-    protected BakedModel nullBakedModel;
-
-    protected final Map<Integer, EnumMap<Direction, Mesh>> positiveMeshMap = new HashMap<>();
-    protected final Map<Integer, EnumMap<Direction, Mesh>> negativeMeshMap = new HashMap<>();
-    protected final Map<Integer, EnumMap<Direction, Mesh>> endPositiveMeshMap = new HashMap<>();
-    protected final Map<Integer, EnumMap<Direction, Mesh>> endNegativeMeshMap = new HashMap<>();
+    private Sprite particleSprite;
 
     protected static final int GLASS_PATTERN_COUNT = 21;
     protected static final int STAINED_GLASS_PATTERN_COUNT = 25;
     protected static final int SLAB_PATTERN_COUNT = 169;
     protected static final int SLAB_COLS = 16;
+    private static final int DIRECTION_COUNT = Direction.values().length;
+
+    protected final Mesh[][] positiveMeshes = new Mesh[SLAB_PATTERN_COUNT][DIRECTION_COUNT];
+    protected final Mesh[][] negativeMeshes = new Mesh[SLAB_PATTERN_COUNT][DIRECTION_COUNT];
+    protected final Mesh[][] endPositiveMeshes = new Mesh[STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
+    protected final Mesh[][] endNegativeMeshes = new Mesh[STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
 
     protected final boolean isGlassPositive;
     protected final boolean isGlassNegative;
@@ -128,13 +128,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
     @Override
     public Sprite getParticleSprite() {
-        if (positiveId != null) {
-            return positiveBakedModel.getParticleSprite();
-        } else if (negativeId != null) {
-            return negativeBakedModel.getParticleSprite();
-        } else {
-            return nullBakedModel.getParticleSprite();
-        }
+        return this.particleSprite;
     }
 
     @Override
@@ -157,96 +151,114 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
 
     }
 
+    private static final ThreadLocal<MeshBuilder> BUILDER_POOL = ThreadLocal.withInitial(() -> {
+        Renderer renderer = RendererAccess.INSTANCE.getRenderer();
+        if (renderer == null) {
+            throw new IllegalStateException("Renderer not yet available");
+        }
+        // １度だけ new MeshBuilderImpl() が呼ばれる
+        return renderer.meshBuilder();
+    });
+
+    // 利用前に、もし前回のデータが残っているなら build() でリセット
+    private static MeshBuilder getBuilder() {
+        MeshBuilder builder = BUILDER_POOL.get();
+        // 呼び出し直後は index==0 だが、ループ２回目以降で必要なら build() しておく
+        builder.build(); // これで内部 index が 0 にリセットされる
+        return builder;
+    }
+
+    public static void clearBuilderPool() {
+        BUILDER_POOL.remove();
+    }
+
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        Renderer renderer = RendererAccess.INSTANCE.getRenderer();
-        if (renderer != null) {
-            for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
-                EnumMap<Direction, Mesh> positiveFaceMeshes = new EnumMap<>(Direction.class);
-                EnumMap<Direction, Mesh> negativeFaceMeshes = new EnumMap<>(Direction.class);
+        for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
+            Mesh[] sidePositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
+            Mesh[] sideNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
 
-                for (Direction dir : Direction.values()) {
-                    if (isEndFace(dir)) {
-                        continue;
-                    }
-
-                    {
-                        MeshBuilder meshBuilder = renderer.meshBuilder();
-                        QuadEmitter emitter = meshBuilder.getEmitter();
-
-                        emitSidePositiveQuad(emitter, dir, patternIndex, textureGetter);
-
-                        positiveFaceMeshes.put(dir, meshBuilder.build());
-                    }
-                    {
-                        MeshBuilder meshBuilder = renderer.meshBuilder();
-                        QuadEmitter emitter = meshBuilder.getEmitter();
-
-                        emitSideNegativeQuad(emitter, dir, patternIndex, textureGetter);
-
-                        negativeFaceMeshes.put(dir, meshBuilder.build());
-                    }
+            for (Direction dir : Direction.values()) {
+                if (isEndFace(dir)) {
+                    continue;
                 }
 
-                positiveMeshMap.put(patternIndex, positiveFaceMeshes);
-                negativeMeshMap.put(patternIndex, negativeFaceMeshes);
-            }
-
-            for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-                EnumMap<Direction, Mesh> endPositiveFaceMeshes = new EnumMap<>(Direction.class);
-
-                for (Direction dir : Direction.values()) {
-                    if (!isEndFace(dir)) {
-                        continue;
-                    }
-
-                    MeshBuilder meshBuilder = renderer.meshBuilder();
+                {
+                    MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    SpriteIdentifier spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
-                    emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                    emitter.color(-1, -1, -1, -1);
-                    emitter.emit();
+                    emitSidePositiveQuad(emitter, dir, patternIndex, textureGetter);
 
-                    endPositiveFaceMeshes.put(dir, meshBuilder.build());
+                    sidePositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
                 }
-
-                endPositiveMeshMap.put(patternIndex, endPositiveFaceMeshes);
-            }
-
-            for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-                EnumMap<Direction, Mesh> endNegativeFaceMeshes = new EnumMap<>(Direction.class);
-
-                for (Direction dir : Direction.values()) {
-                    if (!isEndFace(dir)) {
-                        continue;
-                    }
-
-                    MeshBuilder meshBuilder = renderer.meshBuilder();
+                {
+                    MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    SpriteIdentifier spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
-                    emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
-                    emitter.color(-1, -1, -1, -1);
-                    emitter.emit();
+                    emitSideNegativeQuad(emitter, dir, patternIndex, textureGetter);
 
-                    endNegativeFaceMeshes.put(dir, meshBuilder.build());
+                    sideNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                }
+            }
+
+            positiveMeshes[patternIndex] = sidePositiveFaceMeshes;
+            negativeMeshes[patternIndex] = sideNegativeFaceMeshes;
+        }
+
+        for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
+            Mesh[] endPositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
+
+            for (Direction dir : Direction.values()) {
+                if (!isEndFace(dir)) {
+                    continue;
                 }
 
-                endNegativeMeshMap.put(patternIndex, endNegativeFaceMeshes);
+                MeshBuilder meshBuilder = getBuilder();
+                QuadEmitter emitter = meshBuilder.getEmitter();
+
+                SpriteIdentifier spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
+                emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
+                emitter.color(-1, -1, -1, -1);
+                emitter.emit();
+
+                endPositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
             }
+
+            endPositiveMeshes[patternIndex] = endPositiveFaceMeshes;
         }
 
-        if (this.positiveId != null) {
-            UnbakedModel positiveUnbakedModel = baker.getOrLoadModel(this.positiveId);
-            this.positiveBakedModel = positiveUnbakedModel.bake(baker, textureGetter, rotationContainer);
+        for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
+            Mesh[] endNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
+
+            for (Direction dir : Direction.values()) {
+                if (!isEndFace(dir)) {
+                    continue;
+                }
+
+                MeshBuilder meshBuilder = getBuilder();
+                QuadEmitter emitter = meshBuilder.getEmitter();
+
+                SpriteIdentifier spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
+                emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
+                emitter.color(-1, -1, -1, -1);
+                emitter.emit();
+
+                endNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
+            }
+
+            endNegativeMeshes[patternIndex] = endNegativeFaceMeshes;
         }
 
-        if (this.negativeId != null) {
-            UnbakedModel negativeUnbakedModel = baker.getOrLoadModel(this.negativeId);
-            this.negativeBakedModel = negativeUnbakedModel.bake(baker, textureGetter, rotationContainer);
-        } else if (this.positiveId == null) {
-            this.nullBakedModel = baker.getOrLoadModel(Identifier.of("minecraft:block/stone")).bake(baker, textureGetter, rotationContainer);
+        if ((this.positiveId == null) == (this.negativeId == null)) {
+            this.particleSprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone")));
+        } else {
+            BakedModel bakedModel = baker.getOrLoadModel(Objects.requireNonNullElse(this.positiveId, this.negativeId)).bake(baker, textureGetter, rotationContainer);
+
+            if (bakedModel != null) {
+                this.particleSprite = bakedModel.getParticleSprite();
+            } else {
+                this.particleSprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone")));
+            }
         }
 
         return this;
@@ -262,29 +274,20 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
                     continue;
                 }
 
-                EnumMap<Direction, Mesh> faceMeshes;
                 if (isEndFace(face)) {
                     for (int index : getEndPatternIndexes(face, ns, true)) {
-                        faceMeshes = endPositiveMeshMap.get(index);
-                        if (faceMeshes == null) return;
-
-                        Mesh mesh = faceMeshes.get(face);
+                        Mesh mesh = endPositiveMeshes[index][face.ordinal()];
                         if (mesh != null) {
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
-                    faceMeshes = endPositiveMeshMap.get((isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1);
-                    if (faceMeshes == null) return;
 
-                    Mesh mesh = faceMeshes.get(face);
+                    Mesh mesh = endPositiveMeshes[(isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
                 } else {
-                    faceMeshes = positiveMeshMap.get(getSidePatternIndex(face, ns, true));
-                    if (faceMeshes == null) return;
-
-                    Mesh mesh = faceMeshes.get(face);
+                    Mesh mesh = positiveMeshes[getSidePatternIndex(face, ns, true)][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
@@ -298,29 +301,20 @@ public abstract class AbstractDoubleSlabConnectGlassModel implements UnbakedMode
                     continue;
                 }
 
-                EnumMap<Direction, Mesh> faceMeshes;
                 if (isEndFace(face)) {
                     for (int index : getEndPatternIndexes(face, ns, false)) {
-                        faceMeshes = endNegativeMeshMap.get(index);
-                        if (faceMeshes == null) return;
-
-                        Mesh mesh = faceMeshes.get(face);
+                        Mesh mesh = endNegativeMeshes[index][face.ordinal()];
                         if (mesh != null) {
                             mesh.outputTo(renderContext.getEmitter());
                         }
                     }
-                    faceMeshes = endNegativeMeshMap.get((isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1);
-                    if (faceMeshes == null) return;
 
-                    Mesh mesh = faceMeshes.get(face);
+                    Mesh mesh = endNegativeMeshes[(isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT)-1][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
                 } else {
-                    faceMeshes = negativeMeshMap.get(getSidePatternIndex(face, ns, false));
-                    if (faceMeshes == null) return;
-
-                    Mesh mesh = faceMeshes.get(face);
+                    Mesh mesh = negativeMeshes[getSidePatternIndex(face, ns, false)][face.ordinal()];
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }

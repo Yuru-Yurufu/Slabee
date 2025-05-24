@@ -7,7 +7,7 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class ModClientHandlers {
     public static void register() {
-        Slabee.LOGGER.info("Registering Mod Client Events for " + Slabee.MOD_ID);
+        Slabee.LOGGER.info("Registering Mod Client Handlers for " + Slabee.MOD_ID);
 
         ParticleRenderHandler.register();
     }
