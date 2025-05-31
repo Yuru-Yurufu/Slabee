@@ -1,7 +1,7 @@
 package com.forestotzka.yurufu.slabee.listener;
 
 import com.forestotzka.yurufu.slabee.Slabee;
-import com.forestotzka.yurufu.slabee.model.AbstractDoubleSlabConnectGlassModel;
+import com.forestotzka.yurufu.slabee.model.AbstractConnectGlassModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -22,7 +22,7 @@ public class ResourceReloadListener implements SimpleSynchronousResourceReloadLi
     @Override
     public void reload(ResourceManager manager) {
         // ThreadLocal プールをクリア → 別スレッド生成分も捨てる
-        AbstractDoubleSlabConnectGlassModel.clearBuilderPool();
+        AbstractConnectGlassModel.clearBuilderPool();
     }
 
     public static void register() {

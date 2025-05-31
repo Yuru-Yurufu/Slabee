@@ -178,6 +178,17 @@ public class NeighborState {
         return isSameSlab;
     }
 
+    public static NeighborDirection asNeighborDirection(Direction direction) {
+        return switch (direction) {
+            case UP -> NeighborDirection.UP;
+            case DOWN -> NeighborDirection.DOWN;
+            case EAST -> NeighborDirection.EAST;
+            case WEST -> NeighborDirection.WEST;
+            case SOUTH -> NeighborDirection.SOUTH;
+            case NORTH -> NeighborDirection.NORTH;
+        };
+    }
+
     public ContactType getContactType(NeighborDirection direction) {
         EnumMap<Half, ContactType> halfMap = this.contactTypeMap.get(direction);
         return halfMap.get(Half.POSITIVE);
