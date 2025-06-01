@@ -23,6 +23,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.forestotzka.yurufu.slabee.model.GlassSprites.*;
+import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
+
 public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, FabricBakedModel {
     protected Sprite particleSprite;
 
@@ -119,6 +122,59 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
         return this;
     }
 
+    protected Mesh getHalfEndMesh(NeighborState ns, ContactType contactType, Direction face, int variantIndex) {
+        switch (face.getAxis()) {
+            case X -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                    }
+                    case NEGATIVE1 -> {
+                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                    }
+                    case POSITIVE2 -> {
+                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                    }
+                    default -> {
+                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                    }
+                }
+            }
+            case Y -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                    }
+                    case NEGATIVE1 -> {
+                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                    }
+                    case POSITIVE2 -> {
+                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                    }
+                    default -> {
+                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                    }
+                }
+            }
+            default -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                    }
+                    case NEGATIVE1 -> {
+                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                    }
+                    case POSITIVE2 -> {
+                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                    }
+                    default -> {
+                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                    }
+                }
+            }
+        }
+    }
+
     protected int getVariantIndex(Block block) {
         if (block == ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB) {
             return 1;
@@ -157,9 +213,5 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
         } else {
             return 0;
         }
-    }
-
-    protected boolean isPositiveDir(Direction direction) {
-        return (direction == Direction.UP) || (direction == Direction.EAST) || (direction == Direction.SOUTH);
     }
 }

@@ -55,7 +55,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
     @Override
     protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(positiveSlab));
+        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
         emitter.square(dir, 0, 0.5f, 1, 1, 0);
 
         int x = patternIndex % SLAB_COLS;
@@ -66,7 +66,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
     @Override
     protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(negativeSlab));
+        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(negativeSlab));
         emitter.square(dir, 0, 0, 1, 0.5f, 0);
 
         int x = patternIndex % SLAB_COLS;
@@ -83,7 +83,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             emitter.square(dir, 0, 0, 1, 1, 0.5f);
         }
 
-        return GlassSprites.getFullBlockSpriteIdentifier(patternIndex, positiveSlab);
+        return getFullBlockSpriteIdentifier(patternIndex, positiveSlab);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             emitter.square(dir, 0, 0, 1, 1, 0f);
         }
 
-        return GlassSprites.getFullBlockSpriteIdentifier(patternIndex, negativeSlab);
+        return getFullBlockSpriteIdentifier(patternIndex, negativeSlab);
     }
 
     @Override
@@ -107,16 +107,16 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
         Direction face = Direction.UP;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[2][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[2][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[2][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[2][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
             }
         }
     }
@@ -126,16 +126,16 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
         Direction face = Direction.DOWN;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[1][negativeVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][negativeVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[1][negativeVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][negativeVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[2][negativeVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[2][negativeVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[2][negativeVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[2][negativeVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
             }
         }
     }
@@ -279,7 +279,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             }
         }
 
-        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
+        return determineEndPatternIndexes(new ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -434,7 +434,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
             }
         }
 
-        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
+        return determineEndPatternIndexes(new ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,

@@ -209,12 +209,14 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
         if (this.positiveId != null) {
             for (Direction face : Direction.values()) {
-                if (this.positiveSlab == null || shouldCullPositive(face, ns)) {
+                if (this.positiveSlab == null) {
                     continue;
                 }
 
+                ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
                 if (isEndFace(face)) {
-                    ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
+                    if (shouldCullPositive(face, ns)) continue;
+
                     if (contactType == ContactType.NONE || !isEndPositiveFace(face)) {
                         for (int index : getEndPatternIndexes(face, ns, true)) {
                             Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][index][face.ordinal()];
@@ -234,7 +236,13 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                         }
                     }
                 } else {
-                    Mesh mesh = SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][getSidePatternIndex(face, ns, true)][face.ordinal()];
+                    Mesh mesh;
+                    if (ns.isSameSlab() && contactType != ContactType.NONE && contactType != ContactType.FULL) {
+                        mesh = getHalfEndMesh(ns, contactType, face, positiveVariantIndex);
+                    } else {
+                        if (shouldCullPositive(face, ns)) continue;
+                        mesh = SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][getSidePatternIndex(face, ns, true)][face.ordinal()];
+                    }
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
                     }
@@ -248,8 +256,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     continue;
                 }
 
+                ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
                 if (isEndFace(face)) {
-                    ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
                     if (contactType == ContactType.NONE || !isEndNegativeFace(face)) {
                         for (int index : getEndPatternIndexes(face, ns, false)) {
                             Mesh mesh = END_NEGATIVE_MESHES[axis][negativeVariantIndex][index][face.ordinal()];
@@ -269,9 +277,11 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                         }
                     }
                 } else {
-                    Mesh mesh = SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][getSidePatternIndex(face, ns, false)][face.ordinal()];
-                    if (mesh != null) {
-                        mesh.outputTo(renderContext.getEmitter());
+                    if (!ns.isSameSlab() || contactType == ContactType.NONE) {
+                        Mesh mesh = SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][getSidePatternIndex(face, ns, false)][face.ordinal()];
+                        if (mesh != null) {
+                            mesh.outputTo(renderContext.getEmitter());
+                        }
                     }
                 }
             }

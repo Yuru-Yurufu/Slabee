@@ -68,7 +68,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
 
         switch (dir) {
             case EAST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(positiveSlab));
+                sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(positiveSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
                 u0 = x;
                 u1 = x + 0.5f;
@@ -76,7 +76,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case WEST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(positiveSlab));
+                sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(positiveSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
                 u0 = x + 0.5f;
                 u1 = x + 1f;
@@ -84,7 +84,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case UP -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
+                sprite = textureGetter.apply(getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -92,7 +92,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1f;
             }
             default -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
+                sprite = textureGetter.apply(getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(positiveSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -117,7 +117,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
 
         switch (dir) {
             case EAST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(negativeSlab));
+                sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(negativeSlab));
                 emitter.square(dir, 0.5f, 0, 1, 1, 0);
                 u0 = x + 0.5f;
                 u1 = x + 1f;
@@ -125,7 +125,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case WEST -> {
-                sprite = textureGetter.apply(GlassSprites.getVerticalSlabSpriteIdentifier(negativeSlab));
+                sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(negativeSlab));
                 emitter.square(dir, 0, 0, 0.5f, 1, 0);
                 u0 = x;
                 u1 = x + 0.5f;
@@ -133,7 +133,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 1;
             }
             case UP -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
+                sprite = textureGetter.apply(getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0.5f, 1, 1, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -141,7 +141,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
                 v1 = y + 0.5f;
             }
             default -> {
-                sprite = textureGetter.apply(GlassSprites.getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
+                sprite = textureGetter.apply(getSlabSpriteIdentifier(ModBlockMap.verticalSlabToSlab(negativeSlab)));
                 emitter.square(dir, 0, 0, 1, 0.5f, 0);
                 u0 = x;
                 u1 = x + 1f;
@@ -161,7 +161,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
             emitter.square(dir, 0, 0, 1, 1, 0.5f);
         }
 
-        return GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
+        return getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
     }
 
     @Override
@@ -172,7 +172,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
             emitter.square(dir, 0, 0, 1, 1, 0f);
         }
 
-        return GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab));
+        return getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab));
     }
 
     @Override
@@ -185,16 +185,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
         Direction face = Direction.SOUTH;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
             }
         }
     }
@@ -204,16 +204,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
         Direction face = Direction.NORTH;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
             }
         }
     }
@@ -357,7 +357,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
             }
         }
 
-        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
+        return determineEndPatternIndexes(new ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,
@@ -512,7 +512,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
             }
         }
 
-        return determineEndPatternIndexes(new GlassSprites.ConnectionFlags(
+        return determineEndPatternIndexes(new ConnectionFlags(
                 topLeft,
                 topRight,
                 rightTop,

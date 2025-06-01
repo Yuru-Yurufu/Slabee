@@ -60,7 +60,7 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
                 QuadEmitter emitter = meshBuilder.getEmitter();
 
                 emitter.square(dir, 0, 0, 1, 1, 0);
-                emitter.spriteBake(textureGetter.apply(GlassSprites.getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.originalToSlab(block))), MutableQuadView.BAKE_LOCK_UV);
+                emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.originalToSlab(block))), MutableQuadView.BAKE_LOCK_UV);
                 emitter.color(-1, -1, -1, -1);
                 emitter.emit();
 
@@ -101,7 +101,7 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
                     continue;
                 }
 
-                ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
+                ContactType contactType = ns.getContactType(asNeighborDirection(face));
                 if (contactType == ContactType.NONE) {
                     for (int index : getPatternIndexes(face, ns)) {
                         Mesh mesh = END_MESHES[variantIndex][index][face.ordinal()];
@@ -115,67 +115,14 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
                         mesh.outputTo(renderContext.getEmitter());
                     }
                 } else {
-                    /*Mesh mesh = getHalfEndMesh(ns, contactType, face);
+                    Mesh mesh = getHalfEndMesh(ns, contactType, face, variantIndex);
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
-                    }*/
+                    }
                 }
             }
         }
     }
-
-    /*private Mesh getHalfEndMesh(NeighborState ns, ContactType contactType, Direction face) {
-        switch (face.getAxis()) {
-            case X -> {
-                switch (contactType) {
-                    case POSITIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
-                    }
-                    case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
-                    }
-                    case POSITIVE2 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
-                    }
-                    default -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
-                    }
-                }
-            }
-            case Y -> {
-                switch (contactType) {
-                    case POSITIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
-                    }
-                    case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
-                    }
-                    case POSITIVE2 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
-                    }
-                    default -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
-                    }
-                }
-            }
-            default -> {
-                switch (contactType) {
-                    case POSITIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
-                    }
-                    case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
-                    }
-                    case POSITIVE2 -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
-                    }
-                    default -> {
-                        return SIDE_POSITIVE_MESHES[variantIndex][GlassSprites.getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
-                    }
-                }
-            }
-        }
-    }*/
 
     private List<Integer> getPatternIndexes(Direction face, NeighborState ns) {
         List<Integer> indexes;
