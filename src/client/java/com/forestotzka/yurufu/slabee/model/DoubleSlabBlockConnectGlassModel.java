@@ -4,8 +4,12 @@ import com.forestotzka.yurufu.slabee.block.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.block.Block;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.Baker;
+import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
@@ -97,9 +101,84 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
         return getFullBlockSpriteIdentifier(patternIndex, negativeSlab);
     }
 
+    private void emitSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
+
+        emitQuarterQuad(emitter, dir, patternIndex, quarterIndex, sprite);
+    }
+
+    private void emitVerticalSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
+        Sprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(ModBlockMap.slabToVerticalSlab(positiveSlab)));
+
+        emitQuarterQuad(emitter, dir, patternIndex, quarterIndex, sprite);
+    }
+
     @Override
     protected DoubleSlabType getDoubleSlabType() {
         return DoubleSlabType.DOUBLE_SLAB;
+    }
+
+    @Override
+    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
+        if (this.positiveId != null && QUARTER_MESHES[positiveVariantIndex][0][0][0][0] == null) {
+            for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
+                for (Direction dir : Direction.values()) {
+                    for (int quarterIndex = 0; quarterIndex < QUARTER_COUNT; quarterIndex++) {
+                        {
+                            MeshBuilder meshBuilder = getBuilder();
+                            QuadEmitter emitter = meshBuilder.getEmitter();
+
+                            emitSlabQuarterQuad(emitter, dir, patternIndex, quarterIndex, textureGetter);
+
+                            QUARTER_MESHES[positiveVariantIndex][patternIndex][dir.ordinal()][quarterIndex][0] = meshBuilder.build();
+                        }
+                        {
+                            MeshBuilder meshBuilder = getBuilder();
+                            QuadEmitter emitter = meshBuilder.getEmitter();
+
+                            emitVerticalSlabQuarterQuad(emitter, dir, patternIndex, quarterIndex, textureGetter);
+
+                            QUARTER_MESHES[positiveVariantIndex][patternIndex][dir.ordinal()][quarterIndex][1] = meshBuilder.build();
+                        }
+                    }
+                }
+            }
+        }
+
+        super.bake(baker,textureGetter, rotationContainer);
+
+        return this;
+    }
+
+    @Override
+    protected Mesh getSideMesh(Direction face, NeighborState ns, ContactType contactType, boolean isPositive) {
+        int variantIndex = isPositive ? positiveVariantIndex : negativeVariantIndex;
+        int patternIndex = getSidePatternIndex(face, ns, isPositive);
+
+        switch (face) {
+            case EAST, NORTH -> {
+                switch (contactType) {
+                    case POSITIVE2 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 1 : 2][0];
+                    }
+                    case NEGATIVE2 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 0 : 3][0];
+                    }
+                }
+            }
+            case WEST, SOUTH -> {
+                switch (contactType) {
+                    case POSITIVE2 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 0 : 3][0];
+                    }
+                    case NEGATIVE2 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 1 : 2][0];
+                    }
+                }
+            }
+        }
+
+        return isPositive ? SIDE_POSITIVE_MESHES[axis][variantIndex][patternIndex][face.ordinal()] : SIDE_NEGATIVE_MESHES[axis][variantIndex][patternIndex][face.ordinal()];
     }
 
     @Override

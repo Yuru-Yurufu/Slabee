@@ -34,13 +34,16 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     protected static final int STAINED_GLASS_PATTERN_COUNT = 25;
     protected static final int SLAB_PATTERN_COUNT = 169;
     protected static final int DIRECTION_COUNT = Direction.values().length;
-    private static final int AXIS_COUNT = 3;
+    protected static final int AXIS_COUNT = 3;
+    protected static final int QUARTER_COUNT = 4;
+    protected static final int UV_AXIS_COUNT = 2;
 
     protected static final Mesh[][][][] SIDE_POSITIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT];
     protected static final Mesh[][][][] SIDE_NEGATIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT];
     protected static final Mesh[][][][] END_POSITIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
     protected static final Mesh[][][][] END_NEGATIVE_MESHES = new Mesh[AXIS_COUNT][VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
     protected static final Mesh[][][] END_MESHES = new Mesh[VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
+    protected static final Mesh[][][][][] QUARTER_MESHES = new Mesh[VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT][QUARTER_COUNT][UV_AXIS_COUNT];
 
     protected static final SpriteIdentifier nullSpriteIdentifier = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone"));
 

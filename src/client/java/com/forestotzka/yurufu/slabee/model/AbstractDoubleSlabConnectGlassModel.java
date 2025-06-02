@@ -80,8 +80,32 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
     protected abstract void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
     protected abstract void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
-    protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex/*, Function<SpriteIdentifier, Sprite> textureGetter*/);
-    protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex/*, Function<SpriteIdentifier, Sprite> textureGetter*/);
+    protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
+    protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
+
+    protected void emitQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Sprite sprite) {
+        int x = patternIndex % SLAB_COLS;
+        int y = patternIndex / SLAB_COLS;
+
+        switch (quarterIndex) {
+            case 0 /* 左上 */ -> {
+                emitter.square(dir, 0, 0.5f, 0.5f, 1, 0);
+                setUV(emitter, x, x+0.5f, y, y+0.5f, sprite);
+            }
+            case 1 /* 右上 */ -> {
+                emitter.square(dir, 0.5f, 0.5f, 1, 1, 0);
+                setUV(emitter, x+0.5f, x+1, y, y+0.5f, sprite);
+            }
+            case 2 /* 右下 */ -> {
+                emitter.square(dir, 0.5f, 0, 1, 0.5f, 0);
+                setUV(emitter, x+0.5f, x+1, y+0.5f, y+1, sprite);
+            }
+            case 3 /* 左下 */ -> {
+                emitter.square(dir, 0, 0, 0.5f, 0.5f, 0);
+                setUV(emitter, x, x+0.5f, y+0.5f, y+1, sprite);
+            }
+        }
+    }
 
     protected void setUV(QuadEmitter emitter, float u0, float u1, float v0, float v1, Sprite sprite) {
         emitter.uv(0, u0, v0);
@@ -100,8 +124,6 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
         if (this.positiveId != null && SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
-                Mesh[] sidePositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
-
                 for (Direction dir : Direction.values()) {
                     if (isEndFace(dir)) {
                         continue;
@@ -112,17 +134,13 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
                     emitSidePositiveQuad(emitter, dir, patternIndex, textureGetter);
 
-                    sidePositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                    SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex][dir.ordinal()] = meshBuilder.build();
                 }
-
-                SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex] = sidePositiveFaceMeshes;
             }
         }
 
         if (this.negativeId != null && SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
-                Mesh[] sideNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
-
                 for (Direction dir : Direction.values()) {
                     if (isEndFace(dir)) {
                         continue;
@@ -133,17 +151,13 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
                     emitSideNegativeQuad(emitter, dir, patternIndex, textureGetter);
 
-                    sideNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                    SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex][dir.ordinal()] = meshBuilder.build();
                 }
-
-                SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex] = sideNegativeFaceMeshes;
             }
         }
 
         if (this.positiveId != null && END_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
             for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-                Mesh[] endPositiveFaceMeshes = new Mesh[DIRECTION_COUNT];
-
                 for (Direction dir : Direction.values()) {
                     if (!isEndFace(dir)) {
                         continue;
@@ -157,17 +171,13 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     emitter.color(-1, -1, -1, -1);
                     emitter.emit();
 
-                    endPositiveFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                    END_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex][dir.ordinal()] = meshBuilder.build();
                 }
-
-                END_POSITIVE_MESHES[axis][positiveVariantIndex][patternIndex] = endPositiveFaceMeshes;
             }
         }
 
         if (this.negativeId != null && END_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
             for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
-                Mesh[] endNegativeFaceMeshes = new Mesh[DIRECTION_COUNT];
-
                 for (Direction dir : Direction.values()) {
                     if (!isEndFace(dir)) {
                         continue;
@@ -181,10 +191,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     emitter.color(-1, -1, -1, -1);
                     emitter.emit();
 
-                    endNegativeFaceMeshes[dir.ordinal()] = meshBuilder.build();
+                    END_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex][dir.ordinal()] = meshBuilder.build();
                 }
-
-                END_NEGATIVE_MESHES[axis][negativeVariantIndex][patternIndex] = endNegativeFaceMeshes;
             }
         }
 
@@ -213,7 +221,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     continue;
                 }
 
-                ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
+                ContactType contactType = ns.getContactType(asNeighborDirection(face), Half.POSITIVE);
                 if (isEndFace(face)) {
                     if (shouldCullPositive(face, ns)) continue;
 
@@ -237,11 +245,16 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     }
                 } else {
                     Mesh mesh;
-                    if (ns.isSameSlab() && contactType != ContactType.NONE && contactType != ContactType.FULL) {
-                        mesh = getHalfEndMesh(ns, contactType, face, positiveVariantIndex);
+                    if (ns.isSameSlab()) {
+                        if (contactType != ContactType.NONE && contactType != ContactType.FULL) {
+                            mesh = getHalfEndMesh(ns, contactType, face, positiveVariantIndex);
+                        } else {
+                            if (shouldCullPositive(face, ns)) continue;
+                            mesh = SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][getSidePatternIndex(face, ns, true)][face.ordinal()];
+                        }
                     } else {
                         if (shouldCullPositive(face, ns)) continue;
-                        mesh = SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][getSidePatternIndex(face, ns, true)][face.ordinal()];
+                        mesh = getSideMesh(face, ns, contactType, true);
                     }
                     if (mesh != null) {
                         mesh.outputTo(renderContext.getEmitter());
@@ -256,7 +269,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     continue;
                 }
 
-                ContactType contactType = ns.getContactType(NeighborState.asNeighborDirection(face));
+                ContactType contactType = ns.getContactType(asNeighborDirection(face), Half.NEGATIVE);
                 if (isEndFace(face)) {
                     if (contactType == ContactType.NONE || !isEndNegativeFace(face)) {
                         for (int index : getEndPatternIndexes(face, ns, false)) {
@@ -278,7 +291,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     }
                 } else {
                     if (!ns.isSameSlab() || contactType == ContactType.NONE) {
-                        Mesh mesh = SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][getSidePatternIndex(face, ns, false)][face.ordinal()];
+                        Mesh mesh = getSideMesh(face, ns, contactType, false);
                         if (mesh != null) {
                             mesh.outputTo(renderContext.getEmitter());
                         }
@@ -312,6 +325,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
         return GlassSprites.getMappedIndex(index);
     }
 
+    protected abstract Mesh getSideMesh(Direction face, NeighborState ns, ContactType contactType, boolean isPositive);
     protected abstract Mesh getHalfEndMeshPositive(NeighborState ns, ContactType contactType);
     protected abstract Mesh getHalfEndMeshNegative(NeighborState ns, ContactType contactType);
     protected abstract List<Integer> determinePatternEndPositive(Direction face, NeighborState ns);

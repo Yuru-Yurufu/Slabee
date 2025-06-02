@@ -181,6 +181,57 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     }
 
     @Override
+    protected Mesh getSideMesh(Direction face, NeighborState ns, ContactType contactType, boolean isPositive) {
+        int variantIndex = isPositive ? positiveVariantIndex : negativeVariantIndex;
+        int patternIndex = getSidePatternIndex(face, ns, isPositive);
+
+        switch (face) {
+            case UP -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 3 : 0][0];
+                    }
+                    case NEGATIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 2 : 1][0];
+                    }
+                }
+            }
+            case DOWN -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 0 : 3][0];
+                    }
+                    case NEGATIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 1 : 2][0];
+                    }
+                }
+            }
+            case EAST -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 3 : 2][1];
+                    }
+                    case NEGATIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 0 : 1][1];
+                    }
+                }
+            }
+            case WEST -> {
+                switch (contactType) {
+                    case POSITIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 2 : 3][1];
+                    }
+                    case NEGATIVE1 -> {
+                        return QUARTER_MESHES[variantIndex][patternIndex][face.ordinal()][isPositive ? 1 : 0][1];
+                    }
+                }
+            }
+        }
+
+        return isPositive ? SIDE_POSITIVE_MESHES[axis][variantIndex][patternIndex][face.ordinal()] : SIDE_NEGATIVE_MESHES[axis][variantIndex][patternIndex][face.ordinal()];
+    }
+
+    @Override
     protected Mesh getHalfEndMeshPositive(NeighborState ns, ContactType contactType) {
         Direction face = Direction.SOUTH;
         switch (contactType) {
