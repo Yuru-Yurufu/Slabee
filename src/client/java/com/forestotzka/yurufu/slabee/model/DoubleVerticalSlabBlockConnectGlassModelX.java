@@ -253,9 +253,9 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
                 topLeft = true;
                 topRight = true;
             } else if (upTypePositive == ContactType.POSITIVE2) {
-                topLeft = true;
-            } else if (upTypePositive == ContactType.NEGATIVE2) {
                 topRight = true;
+            } else if (upTypePositive == ContactType.NEGATIVE2) {
+                topLeft = true;
             }
             ContactType northTypePositive = ns.getContactType(NeighborDirection.NORTH, Half.POSITIVE);
             if (northTypePositive == ContactType.FULL || northTypePositive == ContactType.POSITIVE2) {

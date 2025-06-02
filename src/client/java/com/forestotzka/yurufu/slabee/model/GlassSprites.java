@@ -625,7 +625,7 @@ public class GlassSprites {
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
+                ContactType type = ns.getContactType(NeighborDirection.NORTH_EAST);
                 if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerBottomRight = true;
                 }
@@ -703,13 +703,13 @@ public class GlassSprites {
                 }
             }
             if (bottomLeft && leftBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.UP_WEST);
+                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                ContactType type = ns.getContactType(NeighborDirection.DOWN_WEST);
+                ContactType type = ns.getContactType(NeighborDirection.UP_WEST);
                 if (type == ContactType.FULL || type == ContactType.POSITIVE1) {
                     cornerTopLeft = true;
                 }
@@ -787,12 +787,12 @@ public class GlassSprites {
                 }
             }
             if (bottomLeft && leftBottom) {
-                if (downTypeNegative != ContactType.NEGATIVE2) {
+                if (downTypeNegative != ContactType.NEGATIVE1) {
                     cornerBottomLeft = true;
                 }
             }
             if (topLeft && leftTop) {
-                if (upTypeNegative != ContactType.NEGATIVE2) {
+                if (upTypeNegative != ContactType.NEGATIVE1) {
                     cornerTopLeft = true;
                 }
             }
@@ -807,7 +807,7 @@ public class GlassSprites {
             topLeft = southTypeNegative == ContactType.FULL || southTypeNegative == ContactType.NEGATIVE1 || southTypeNegative == ContactType.NEGATIVE2;
             bottomRight = bottomLeft;
             topRight = topLeft;
-            if (westType == ContactType.FULL || westType == ContactType.POSITIVE1) {
+            if (westType == ContactType.FULL || westType == ContactType.NEGATIVE1) {
                 leftTop = true;
                 leftBottom = true;
             } else if (westType == ContactType.NEGATIVE2) {
@@ -821,8 +821,7 @@ public class GlassSprites {
                 }
             }
             if (bottomRight && rightBottom) {
-                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
-                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
+                if (northTypeNegative != ContactType.NEGATIVE2) {
                     cornerBottomRight = true;
                 }
             }
@@ -833,7 +832,8 @@ public class GlassSprites {
                 }
             }
             if (topLeft && leftTop) {
-                if (northTypeNegative != ContactType.NEGATIVE2) {
+                ContactType type = ns.getContactType(NeighborDirection.SOUTH_WEST);
+                if (type == ContactType.FULL || type == ContactType.NEGATIVE1) {
                     cornerTopLeft = true;
                 }
             }
