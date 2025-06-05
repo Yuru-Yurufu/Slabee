@@ -130,48 +130,48 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
             case X -> {
                 switch (contactType) {
                     case POSITIVE1 -> {
-                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case POSITIVE2 -> {
-                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     default -> {
-                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                 }
             }
             case Y -> {
                 switch (contactType) {
                     case POSITIVE1 -> {
-                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case POSITIVE2 -> {
-                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeZ(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     default -> {
-                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[2][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveZ(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                 }
             }
             default -> {
                 switch (contactType) {
                     case POSITIVE1 -> {
-                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case NEGATIVE1 -> {
-                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[0][variantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     case POSITIVE2 -> {
-                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                        return SIDE_NEGATIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                     default -> {
-                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                        return SIDE_POSITIVE_MESHES[1][variantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
                     }
                 }
             }

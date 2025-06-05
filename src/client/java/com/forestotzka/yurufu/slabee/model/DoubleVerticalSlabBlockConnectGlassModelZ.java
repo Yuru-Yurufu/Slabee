@@ -236,16 +236,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
         Direction face = Direction.SOUTH;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true, Half.POSITIVE)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true, Half.POSITIVE)))][face.ordinal()];
             }
         }
     }
@@ -255,16 +255,16 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
         Direction face = Direction.NORTH;
         switch (contactType) {
             case POSITIVE1 -> {
-                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsNegativeY(face, ns, true, Half.NEGATIVE)))][face.ordinal()];
             }
             case NEGATIVE1 -> {
-                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[0][positiveVariantIndex][getMappedIndex(determineSlabSidePatternIndex(getSideConnectionFlagsPositiveY(face, ns, true, Half.NEGATIVE)))][face.ordinal()];
             }
             case POSITIVE2 -> {
-                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true)))][face.ordinal()];
+                return SIDE_NEGATIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsNegativeX(face, ns, true, Half.NEGATIVE)))][face.ordinal()];
             }
             default -> {
-                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true)))][face.ordinal()];
+                return SIDE_POSITIVE_MESHES[1][positiveVariantIndex][getMappedIndex(determineVerticalSlabSidePatternIndex(getSideConnectionFlagsPositiveX(face, ns, true, Half.NEGATIVE)))][face.ordinal()];
             }
         }
     }
@@ -600,7 +600,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     @Override
     protected boolean shouldCullPositive(Direction face, NeighborState ns) {
         if (face == Direction.SOUTH) {
-            return ns.getContactType(NeighborDirection.SOUTH) == ContactType.FULL;
+            return ns.getContactType(NeighborDirection.SOUTH, Half.POSITIVE) == ContactType.FULL;
         } else if (face == Direction.NORTH) {
             return ns.isSameSlab();
         } else if (face == Direction.EAST) {
@@ -623,7 +623,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
         if (face == Direction.SOUTH) {
             return ns.isSameSlab();
         } else if (face == Direction.NORTH) {
-            return ns.getContactType(NeighborDirection.NORTH) == ContactType.FULL;
+            return ns.getContactType(NeighborDirection.NORTH, Half.NEGATIVE) == ContactType.FULL;
         } else if (face == Direction.EAST) {
             ContactType type = ns.getContactType(NeighborDirection.EAST, Half.NEGATIVE);
             return type == ContactType.FULL || type == ContactType.NEGATIVE2;

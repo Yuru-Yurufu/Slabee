@@ -58,44 +58,6 @@ public class NeighborState {
         public int getZ() {
             return this.dz;
         }
-
-        public boolean validFor(DoubleSlabType type) {
-            if (type == DoubleSlabType.DOUBLE_SLAB) {
-                return switch (this) {
-                    case EAST, SOUTH, WEST, NORTH, SOUTH_EAST, SOUTH_WEST, NORTH_WEST, NORTH_EAST -> true;
-                    default -> false;
-                };
-            } else if (type == DoubleSlabType.DOUBLE_VERTICAL_X) {
-                return switch (this) {
-                    case UP, DOWN, SOUTH, NORTH, UP_SOUTH, UP_NORTH, DOWN_SOUTH, DOWN_NORTH -> true;
-                    default -> false;
-                };
-            } else {
-                return switch (this) {
-                    case UP, DOWN, EAST, WEST, UP_EAST, UP_WEST, DOWN_EAST, DOWN_WEST -> true;
-                    default -> false;
-                };
-            }
-        }
-
-        private boolean isPositiveSide(DoubleSlabType type) {
-            if (type == DoubleSlabType.DOUBLE_SLAB) {
-                return switch (this) {
-                    case UP, UP_EAST, UP_SOUTH, UP_WEST, UP_NORTH -> true;
-                    default -> false;
-                };
-            } else if (type == DoubleSlabType.DOUBLE_VERTICAL_X) {
-                return switch (this) {
-                    case EAST, UP_EAST, DOWN_EAST, SOUTH_EAST, NORTH_EAST -> true;
-                    default -> false;
-                };
-            } else {
-                return switch (this) {
-                    case SOUTH, UP_SOUTH, DOWN_SOUTH, SOUTH_EAST, SOUTH_WEST -> true;
-                    default -> false;
-                };
-            }
-        }
     }
 
     public enum Half {
@@ -155,19 +117,8 @@ public class NeighborState {
                 halfMap.put(Half.POSITIVE, contactType);
                 halfMap.put(Half.NEGATIVE, contactType);
             } else {
-                if (dir.validFor(type)) {
-                    halfMap.put(Half.POSITIVE, mapToContactType(dir, getBlockInfo(nPos, positiveSlab)));
-                    halfMap.put(Half.NEGATIVE, mapToContactType(dir, getBlockInfo(nPos, negativeSlab)));
-                } else {
-                    ContactType contactType;
-                    if (dir.isPositiveSide(type)) {
-                        contactType = mapToContactType(dir, getBlockInfo(nPos, positiveSlab));
-                    } else {
-                        contactType = mapToContactType(dir, getBlockInfo(nPos, negativeSlab));
-                    }
-                    halfMap.put(Half.POSITIVE, contactType);
-                    halfMap.put(Half.NEGATIVE, contactType);
-                }
+                halfMap.put(Half.POSITIVE, mapToContactType(dir, getBlockInfo(nPos, positiveSlab)));
+                halfMap.put(Half.NEGATIVE, mapToContactType(dir, getBlockInfo(nPos, negativeSlab)));
             }
 
             contactTypeMap.put(dir, halfMap);
