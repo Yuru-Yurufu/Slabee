@@ -559,7 +559,7 @@ public class GlassSprites {
                 }
             }
         } else if (face == Direction.NORTH) {
-            if (eastType == ContactType.FULL || eastType == ContactType.POSITIVE2) {
+            if (eastType == ContactType.FULL || eastType == ContactType.NEGATIVE2) {
                 leftTop = true;
                 leftBottom = true;
             } else if (eastType == ContactType.NEGATIVE1) {
