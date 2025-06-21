@@ -4,10 +4,13 @@ import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
@@ -50,5 +53,17 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
             case NEGATIVE -> DOWN_OPAQUE_SHAPE;
             default -> VoxelShapes.empty();
         };
+    }
+
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (blockEntity instanceof AbstractDoubleSlabBlockEntity doubleSlabBlockEntity && !entity.bypassesSteppingEffects() && entity instanceof LivingEntity) {
+            if (doubleSlabBlockEntity.getPositiveSlabState().isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
+                entity.damage(world.getDamageSources().hotFloor(), 1.0F);
+            }
+        }
+
+        super.onSteppedOn(world, pos, state, entity);
     }
 }

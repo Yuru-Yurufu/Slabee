@@ -1143,7 +1143,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.DRIPSTONE_BLOCK)));
 
     public static final Block MAGMA_BLOCK_SLAB = registerBlock("magma_block_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new MagmaSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_RED)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
@@ -2977,7 +2977,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.DRIPSTONE_BLOCK)));
 
     public static final Block MAGMA_BLOCK_VERTICAL_SLAB = registerBlock("magma_block_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new MagmaVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.DARK_RED)
                     .strength(0.5F)
                     .requiresTool()

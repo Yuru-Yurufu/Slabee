@@ -5,12 +5,15 @@ import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
@@ -91,5 +94,26 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
             default:
                 return VoxelShapes.empty();
         }
+    }
+
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (blockEntity instanceof AbstractDoubleSlabBlockEntity doubleSlabBlockEntity && !entity.bypassesSteppingEffects() && entity instanceof LivingEntity) {
+            boolean isPositiveSide;
+            if (state.get(AXIS) == VerticalSlabAxis.X) {
+                isPositiveSide = (entity.getX() - pos.getX()) > 0.5;
+            } else {
+                isPositiveSide = (entity.getZ() - pos.getZ()) > 0.5;
+            }
+
+            if (isPositiveSide && doubleSlabBlockEntity.getPositiveSlabState().isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
+                entity.damage(world.getDamageSources().hotFloor(), 1.0F);
+            } else if (!isPositiveSide && doubleSlabBlockEntity.getNegativeSlabState().isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
+                entity.damage(world.getDamageSources().hotFloor(), 1.0F);
+            }
+        }
+
+        super.onSteppedOn(world, pos, state, entity);
     }
 }

@@ -6,6 +6,8 @@
     "mixins": [
         "BlockItemMixin",
         "BlockMixin",
+        "BubbleColumnBlockInvoker",
+        "BubbleColumnBlockMixin",
         "ChunkLightProviderMixin",
         "EntityMixin",
         "LivingEntityMixin",
