@@ -1179,10 +1179,11 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.NYLIUM)));
 
     public static final Block SOUL_SAND_SLAB = registerBlock("soul_sand_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new SoulSandSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.SOUL_SAND.getDefaultMapColor())
                     .instrument(NoteBlockInstrument.COW_BELL)
                     .strength(0.5F)
+                    .velocityMultiplier(0.4F)
                     .sounds(BlockSoundGroup.SOUL_SAND)));
 
     public static final Block SOUL_SOIL_SLAB = registerBlock("soul_soil_slab",
@@ -3016,9 +3017,10 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.NYLIUM)));
 
     public static final Block SOUL_SAND_VERTICAL_SLAB = registerBlock("soul_sand_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new SoulSandVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.SOUL_SAND.getDefaultMapColor())
                     .strength(0.5F)
+                    .velocityMultiplier(0.4F)
                     .sounds(BlockSoundGroup.SOUL_SAND)
                     .instrument(NoteBlockInstrument.COW_BELL)));
 

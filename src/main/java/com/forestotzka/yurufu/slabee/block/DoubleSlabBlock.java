@@ -55,6 +55,16 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
         };
     }
 
+    protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.SOUL_SAND_SLAB)) {
+                return SOUL_SAND_COLLISION_SHAPE;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
 

@@ -32,8 +32,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 import static com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock.AXIS;
 
 public class VerticalSlabBlock extends Block implements Waterloggable {
@@ -71,11 +69,11 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
         if (state.get(IS_DOUBLE)) {
             return VoxelShapes.fullCube();
         } else {
-            if (Objects.requireNonNull(state.get(FACING)) == Direction.SOUTH) {
+            if (state.get(FACING) == Direction.SOUTH) {
                 return SOUTH;
-            } else if (Objects.requireNonNull(state.get(FACING)) == Direction.EAST) {
+            } else if (state.get(FACING) == Direction.EAST) {
                 return EAST;
-            } else if (Objects.requireNonNull(state.get(FACING)) == Direction.NORTH) {
+            } else if (state.get(FACING) == Direction.NORTH) {
                 return NORTH;
             } else {
                 return WEST;
@@ -166,14 +164,14 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
             boolean blEast = context.getHitPos().x - (double)context.getBlockPos().getX() > 0.5;
             boolean blSouth = context.getHitPos().z - (double)context.getBlockPos().getZ() > 0.5;
             Direction direction = context.getSide();
-            if (Objects.requireNonNull(state.get(FACING)) == Direction.SOUTH && (direction == Direction.NORTH || (!blSouth && direction.getAxis().isVertical()))) {
+            if (state.get(FACING) == Direction.SOUTH && (direction == Direction.NORTH || (!blSouth && direction.getAxis().isVertical()))) {
                 return true;
-            } else if (Objects.requireNonNull(state.get(FACING)) == Direction.EAST && (direction == Direction.WEST || (!blEast && direction.getAxis().isVertical()))) {
+            } else if (state.get(FACING) == Direction.EAST && (direction == Direction.WEST || (!blEast && direction.getAxis().isVertical()))) {
                 return true;
-            } else if (Objects.requireNonNull(state.get(FACING)) == Direction.NORTH && (direction == Direction.SOUTH || (blSouth && direction.getAxis().isVertical()))) {
+            } else if (state.get(FACING) == Direction.NORTH && (direction == Direction.SOUTH || (blSouth && direction.getAxis().isVertical()))) {
                 return true;
             } else {
-                return Objects.requireNonNull(state.get(FACING)) == Direction.WEST && (direction == Direction.EAST || (blEast && direction.getAxis().isVertical()));
+                return state.get(FACING) == Direction.WEST && (direction == Direction.EAST || (blEast && direction.getAxis().isVertical()));
             }
         } else {
             return true;

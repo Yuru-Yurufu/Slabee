@@ -5,9 +5,12 @@ import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
+import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -262,5 +265,17 @@ public class SlabeeUtils {
 
     public static boolean isDoubleSlab(Block block) {
         return block instanceof AbstractDoubleSlabBlock;
+    }
+
+    public static boolean isPositiveSide(Entity entity, VerticalSlabAxis axis, BlockPos pos) {
+        return isPositiveSide(entity, axis == VerticalSlabAxis.X, pos);
+    }
+
+    public static boolean isPositiveSide(Entity entity, boolean isX, BlockPos pos) {
+        if (isX) {
+            return (entity.getX() - pos.getX()) > 0.5;
+        } else {
+            return (entity.getZ() - pos.getZ()) > 0.5;
+        }
     }
 }

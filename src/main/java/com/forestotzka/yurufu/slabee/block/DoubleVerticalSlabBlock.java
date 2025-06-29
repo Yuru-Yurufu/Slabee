@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.LookingPositionTracker;
+import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -23,6 +24,11 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
     protected static final VoxelShape WEST_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 8.0001, 16.0, 16.0);
     protected static final VoxelShape SOUTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 7.9999, 16.0, 16.0, 16.0);
     protected static final VoxelShape NORTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0001);
+
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_EAST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 14.0, 0.0, 8.0, 16.0, 16.0));
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_WEST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 14.0, 16.0), Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0));
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_SOUTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0));
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_NORTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 8.0), Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0));
 
     public DoubleVerticalSlabBlock(Settings settings) {
         super(settings);
@@ -96,16 +102,31 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
         }
     }
 
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            boolean isSoulSandPositive = entity.getPositiveSlabState().isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
+            boolean isSoulSandNegative = entity.getNegativeSlabState().isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
+
+            if (isSoulSandPositive && isSoulSandNegative) {
+                return SOUL_SAND_COLLISION_SHAPE;
+            } else if (isSoulSandPositive) {
+                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_EAST : SOUL_SAND_COLLISION_SHAPE_SOUTH;
+            } else if (isSoulSandNegative) {
+                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_WEST : SOUL_SAND_COLLISION_SHAPE_NORTH;
+            } else {
+                return VoxelShapes.fullCube();
+            }
+        }
+
+        return SOUL_SAND_COLLISION_SHAPE;
+    }
+
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
         if (blockEntity instanceof AbstractDoubleSlabBlockEntity doubleSlabBlockEntity && !entity.bypassesSteppingEffects() && entity instanceof LivingEntity) {
-            boolean isPositiveSide;
-            if (state.get(AXIS) == VerticalSlabAxis.X) {
-                isPositiveSide = (entity.getX() - pos.getX()) > 0.5;
-            } else {
-                isPositiveSide = (entity.getZ() - pos.getZ()) > 0.5;
-            }
+            boolean isPositiveSide = SlabeeUtils.isPositiveSide(entity, state.get(AXIS), pos);
 
             if (isPositiveSide && doubleSlabBlockEntity.getPositiveSlabState().isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
                 entity.damage(world.getDamageSources().hotFloor(), 1.0F);

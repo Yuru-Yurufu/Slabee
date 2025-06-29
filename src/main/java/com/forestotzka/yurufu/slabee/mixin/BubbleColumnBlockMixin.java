@@ -68,9 +68,9 @@ public abstract class BubbleColumnBlockMixin {
             }
         } else if (state.isOf(Blocks.BUBBLE_COLUMN)) {
             return state;
-        } else if (state.isOf(Blocks.SOUL_SAND) || state.isOf(ModBlocks.SOUL_SAND_SLAB)) {
+        } else if (state.isOf(Blocks.SOUL_SAND) || state.isOf(ModBlocks.SOUL_SAND_SLAB) || state.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB)) {
             return Blocks.BUBBLE_COLUMN.getDefaultState().with(DRAG, false);
-        } else if (state.isOf(Blocks.MAGMA_BLOCK) || state.isOf(ModBlocks.MAGMA_BLOCK_SLAB)) {
+        } else if (state.isOf(Blocks.MAGMA_BLOCK) || state.isOf(ModBlocks.MAGMA_BLOCK_SLAB) || state.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
             return Blocks.BUBBLE_COLUMN.getDefaultState().with(DRAG, true);
         } else {
             return Blocks.WATER.getDefaultState();

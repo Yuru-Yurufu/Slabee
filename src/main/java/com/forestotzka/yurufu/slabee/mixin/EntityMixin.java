@@ -2,7 +2,9 @@ package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -16,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -29,6 +32,8 @@ public abstract class EntityMixin {
 
     @Shadow private World world;
 
+    @Shadow private BlockPos blockPos;
+
     @Shadow
     public abstract World getWorld();
 
@@ -37,6 +42,24 @@ public abstract class EntityMixin {
 
     @Unique
     private final Random random = new Random();
+
+    @Redirect(method = "getVelocityMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getVelocityMultiplier()F", ordinal = 0))
+    private float modifyVelocityMultiplier(Block block) {
+        if (SlabeeUtils.isDoubleSlab(block)) {
+            BlockEntity blockEntity = world.getBlockEntity(blockPos);
+
+            if (blockEntity instanceof DoubleSlabBlockEntity entity) {
+                return entity.getPositiveSlabState().getBlock().getVelocityMultiplier();
+            } else if (blockEntity instanceof DoubleVerticalSlabBlockEntity entity) {
+                boolean isPositiveSide = SlabeeUtils.isPositiveSide((Entity)(Object)this, entity.isX(), blockPos);
+                BlockState state = isPositiveSide ? entity.getPositiveSlabState() : entity.getNegativeSlabState();
+
+                return state.getBlock().getVelocityMultiplier();
+            }
+        }
+
+        return block.getVelocityMultiplier();
+    }
 
     @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
     private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {

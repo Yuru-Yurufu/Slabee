@@ -29,6 +29,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
     public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
     public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
 
     protected enum ShapeType {
         FULL,
@@ -115,14 +116,13 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         if (positiveSeeThrough || negativeSeeThrough) {
             return 1.0f;
         } else {
-            return 0.0f;
+            float f = 0.0f;
+            if (world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity) {
+                if (ModBlockMap.toSlab(entity.getPositiveSlabState().getBlock()) == ModBlocks.SOUL_SAND_SLAB) f += 0.1f;
+                if (ModBlockMap.toSlab(entity.getNegativeSlabState().getBlock()) == ModBlocks.SOUL_SAND_SLAB) f += 0.1f;
+            }
+            return f;
         }
-    }
-
-
-    @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.fullCube();
     }
 
     protected ShapeType calcCullingShapeType(BlockState state) {
@@ -169,5 +169,13 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         world.scheduleBlockTick(pos, this, SCHEDULED_TICK_DELAY);
+    }
+
+    protected VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
+        return VoxelShapes.fullCube();
+    }
+
+    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.fullCube();
     }
 }
