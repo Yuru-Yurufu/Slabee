@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.client.render.model.*;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -35,9 +37,16 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     protected BakedModel nullBakedModel;
 
     public TranslucentBlockModel(Block block) {
-        this.block = block;
+        Map<Block, Block> removeWaxMap = Map.of(
+                Blocks.WAXED_COPPER_GRATE, Blocks.COPPER_GRATE,
+                Blocks.WAXED_EXPOSED_COPPER_GRATE, Blocks.EXPOSED_COPPER_GRATE,
+                Blocks.WAXED_OXIDIZED_COPPER_GRATE, Blocks.OXIDIZED_COPPER_GRATE,
+                Blocks.WAXED_WEATHERED_COPPER_GRATE, Blocks.WEATHERED_COPPER_GRATE
+        );
 
-        Identifier id = Registries.BLOCK.getId(block);
+        this.block = removeWaxMap.getOrDefault(block, block);
+
+        Identifier id = Registries.BLOCK.getId(this.block);
 
         this.id = Identifier.of(id.getNamespace(), "block/" + id.getPath());
     }
