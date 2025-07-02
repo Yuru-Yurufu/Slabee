@@ -101,29 +101,11 @@ public class NeighborState {
 
     public NeighborState(BlockRenderView world, BlockPos pos, @Nullable Block positiveSlab, @Nullable Block negativeSlab, DoubleSlabType type) {
         this.world = world;
+        isSameSlab = positiveSlab == negativeSlab;
 
         if (type != DoubleSlabType.DOUBLE_SLAB) {
             positiveSlab = ModBlockMap.verticalSlabToSlab(positiveSlab);
             negativeSlab = ModBlockMap.verticalSlabToSlab(negativeSlab);
-        }
-
-        // BlockEntityRendererを使っている方は個別にレンダリングされるのでその対策
-        if (positiveSlab == ModBlocks.GLASS_SLAB && negativeSlab == null) {
-            if (world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity && ModBlockMap.toSlab(entity.getNegativeSlabState().getBlock()) == ModBlocks.GLASS_SLAB) {
-                isSameSlab = true;
-                negativeSlab = positiveSlab;
-            } else {
-                isSameSlab = false;
-            }
-        } else if (positiveSlab == null && negativeSlab == ModBlocks.GLASS_SLAB) {
-            if (world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity && ModBlockMap.toSlab(entity.getPositiveSlabState().getBlock()) == ModBlocks.GLASS_SLAB) {
-                isSameSlab = true;
-                positiveSlab = negativeSlab;
-            } else {
-                isSameSlab = false;
-            }
-        } else {
-            isSameSlab = positiveSlab == negativeSlab;
         }
 
         contactTypeMap = new EnumMap<>(NeighborDirection.class);

@@ -76,24 +76,20 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         return this.negativeSlabState;
     }
 
-    public Integer getPositiveRenderLayerType() {
+    public int getPositiveRenderLayerType() {
         Block block = Registries.BLOCK.get(this.positiveSlabId);
-        if (SlabeeUtils.isCutoutSlabs(block)) {
-            return 1;
-        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
-            return 2;
-        } else if (SlabeeUtils.isTranslucentSlabs(block)) {
-            return 3;
-        } else {
-            return 0;
-        }
+        return getRenderLayerType(block);
     }
 
-    public Integer getNegativeRenderLayerType() {
+    public int getNegativeRenderLayerType() {
         Block block = Registries.BLOCK.get(this.negativeSlabId);
-        if (SlabeeUtils.isCutoutSlabs(block)) {
+        return getRenderLayerType(block);
+    }
+
+    public int getRenderLayerType(Block block) {
+        if (SlabeeUtils.isCutoutMippedSlabs(block)) {
             return 1;
-        } else if (SlabeeUtils.isCutoutMippedSlabs(block)) {
+        } else if (ModBlockMap.toSlab(block) == ModBlocks.GLASS_SLAB) {
             return 2;
         } else if (SlabeeUtils.isTranslucentSlabs(block)) {
             return 3;
