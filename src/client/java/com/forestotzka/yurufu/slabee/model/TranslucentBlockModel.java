@@ -105,6 +105,11 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     }
 
     @Override
+    public boolean isVanillaAdapter() {
+        return false;
+    }
+
+    @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
         UnbakedModel unbakedModel = baker.getOrLoadModel(this.id);
         this.bakedModel = unbakedModel.bake(baker, textureGetter, rotationContainer);

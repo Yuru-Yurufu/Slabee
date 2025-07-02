@@ -119,6 +119,11 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     }
 
     @Override
+    public boolean isVanillaAdapter() {
+        return false;
+    }
+
+    @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
         this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
 
