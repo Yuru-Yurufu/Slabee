@@ -37,14 +37,7 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     protected BakedModel nullBakedModel;
 
     public TranslucentBlockModel(Block block) {
-        Map<Block, Block> removeWaxMap = Map.of(
-                Blocks.WAXED_COPPER_GRATE, Blocks.COPPER_GRATE,
-                Blocks.WAXED_EXPOSED_COPPER_GRATE, Blocks.EXPOSED_COPPER_GRATE,
-                Blocks.WAXED_OXIDIZED_COPPER_GRATE, Blocks.OXIDIZED_COPPER_GRATE,
-                Blocks.WAXED_WEATHERED_COPPER_GRATE, Blocks.WEATHERED_COPPER_GRATE
-        );
-
-        this.block = removeWaxMap.getOrDefault(block, block);
+        this.block = block;
 
         Identifier id = Registries.BLOCK.getId(this.block);
 

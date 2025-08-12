@@ -106,8 +106,8 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
             }
 
             Block b = Registries.BLOCK.get(i);
-            if (b instanceof TranslucentBlock) {
-                return ModConfig.INSTANCE.connectGlassTextures && isGlassFamily(b)
+            if (isGlassFamily(b)) {
+                return ModConfig.INSTANCE.connectGlassTextures
                         ? new TranslucentBlockConnectGlassModel(b)
                         : new TranslucentBlockModel(b);
             } else if (b instanceof TranslucentSlabBlock) {
