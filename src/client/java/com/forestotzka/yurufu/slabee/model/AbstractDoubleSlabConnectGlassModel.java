@@ -83,6 +83,22 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
     protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
     protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
 
+    protected void squareEndQuadPositive(QuadEmitter emitter, Direction dir, int patternIndex, float depth) {
+        if (this.isGlassPositive) {
+            squareEndQuad(emitter, dir, patternIndex / 5, depth);
+        } else {
+            squareEndQuad(emitter, dir, patternIndex / 6, depth);
+        }
+    }
+
+    protected void squareEndQuadNegative(QuadEmitter emitter, Direction dir, int patternIndex, float depth) {
+        if (this.isGlassNegative) {
+            squareEndQuad(emitter, dir, patternIndex / 5, depth);
+        } else {
+            squareEndQuad(emitter, dir, patternIndex / 6, depth);
+        }
+    }
+
     protected void emitQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Sprite sprite) {
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
@@ -226,16 +242,18 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     if (shouldCullPositive(face, ns)) continue;
 
                     if (contactType == ContactType.NONE || !isEndPositiveFace(face)) {
-                        for (int index : getEndPatternIndexes(face, ns, true)) {
-                            Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][index][face.ordinal()];
+                        {
+                            Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][(isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT) - 1][face.ordinal()];
                             if (mesh != null) {
                                 mesh.outputTo(renderContext.getEmitter());
                             }
                         }
 
-                        Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][(isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT) - 1][face.ordinal()];
-                        if (mesh != null) {
-                            mesh.outputTo(renderContext.getEmitter());
+                        for (int index : getEndPatternIndexes(face, ns, true)) {
+                            Mesh mesh = END_POSITIVE_MESHES[axis][positiveVariantIndex][index][face.ordinal()];
+                            if (mesh != null) {
+                                mesh.outputTo(renderContext.getEmitter());
+                            }
                         }
                     } else {
                         Mesh mesh = getHalfEndMeshPositive(ns, contactType);

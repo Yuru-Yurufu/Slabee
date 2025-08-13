@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -121,6 +122,16 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     @Override
     public boolean isVanillaAdapter() {
         return false;
+    }
+
+    protected void squareEndQuad(QuadEmitter emitter, Direction dir, int index, float depth) {
+        switch (index) {
+            case 0 -> emitter.square(dir, 0.0625f, 0.9375f, 1, 1, depth);
+            case 1 -> emitter.square(dir, 0.9375f, 0, 1, 0.9375f, depth);
+            case 2 -> emitter.square(dir, 0, 0, 0.9375f, 0.0625f, depth);
+            case 3 -> emitter.square(dir, 0, 0.0625f, 0.0625f, 1, depth);
+            default -> emitter.square(dir, 0.0625f, 0.0625f, 0.9375f, 0.9375f, depth);
+        }
     }
 
     @Override

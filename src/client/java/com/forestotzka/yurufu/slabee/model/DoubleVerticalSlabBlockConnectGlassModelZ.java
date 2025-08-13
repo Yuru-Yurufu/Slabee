@@ -156,9 +156,9 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     @Override
     protected SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.SOUTH) {
-            emitter.square(dir, 0, 0, 1, 1, 0f);
+            squareEndQuadPositive(emitter, dir, patternIndex, 0f);
         } else {
-            emitter.square(dir, 0, 0, 1, 1, 0.5f);
+            squareEndQuadPositive(emitter, dir, patternIndex, 0.5f);
         }
 
         return getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(positiveSlab));
@@ -167,9 +167,9 @@ public class DoubleVerticalSlabBlockConnectGlassModelZ extends AbstractDoubleSla
     @Override
     protected SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.SOUTH) {
-            emitter.square(dir, 0, 0, 1, 1, 0.5f);
+            squareEndQuadNegative(emitter, dir, patternIndex, 0.5f);
         } else {
-            emitter.square(dir, 0, 0, 1, 1, 0f);
+            squareEndQuadNegative(emitter, dir, patternIndex, 0f);
         }
 
         return getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.verticalSlabToSlab(negativeSlab));

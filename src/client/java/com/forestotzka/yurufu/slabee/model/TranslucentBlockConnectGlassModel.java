@@ -59,7 +59,11 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
                 MeshBuilder meshBuilder = getBuilder();
                 QuadEmitter emitter = meshBuilder.getEmitter();
 
-                emitter.square(dir, 0, 0, 1, 1, 0);
+                if (isGlass) {
+                    squareEndQuad(emitter, dir, patternIndex / 5, 0f);
+                } else {
+                    squareEndQuad(emitter, dir, patternIndex / 6, 0f);
+                }
                 emitter.spriteBake(textureGetter.apply(getFullBlockSpriteIdentifier(patternIndex, ModBlockMap.originalToSlab(block))), MutableQuadView.BAKE_LOCK_UV);
                 emitter.color(-1, -1, -1, -1);
                 emitter.emit();
