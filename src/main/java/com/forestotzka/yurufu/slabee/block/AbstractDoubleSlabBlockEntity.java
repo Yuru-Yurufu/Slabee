@@ -55,7 +55,7 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     public void setPositiveSlabId(Identifier id) {
         this.positiveSlabId = id;
         updatePositiveSlabState();
-        markDirty();
+        updateBlockProperties();
     }
 
     public Identifier getNegativeSlabId() {
@@ -65,7 +65,7 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     public void setNegativeSlabId(Identifier id) {
         this.negativeSlabId = id;
         updateNegativeSlabState();
-        markDirty();
+        updateBlockProperties();
     }
 
     public BlockState getPositiveSlabState() {

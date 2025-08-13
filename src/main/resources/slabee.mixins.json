@@ -12,6 +12,7 @@
         "EntityMixin",
         "LivingEntityMixin",
         "ServerPlayerInteractionManagerMixin",
+        "ShovelItemMixin",
         "SlabBlockMixin"
     ],
     "injectors": {
