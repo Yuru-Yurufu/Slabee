@@ -1,6 +1,7 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
+import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
@@ -20,6 +21,8 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -57,7 +60,7 @@ public abstract class SlabBlockMixin extends BlockMixin {
 
                 newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
 
-                if (DoubleSlabUtils.canPlace(ctx, newState)) {
+                if (DoubleSlabUtils.canPlace(ctx, getCollisionShape(ctx.getStack(), oldState))) {
                     world.setBlockState(pos, newState, 3);
 
                     DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
@@ -65,12 +68,27 @@ public abstract class SlabBlockMixin extends BlockMixin {
                         blockEntity.setPositiveSlabId(positiveId);
                         blockEntity.setNegativeSlabId(negativeId);
                     }
-                }
 
-                cir.setReturnValue(newState);
-                cir.cancel();
+                    cir.setReturnValue(newState);
+                    cir.cancel();
+                    return;
+                }
             }
+
+            cir.setReturnValue(oldState);
+            cir.cancel();
         }
+    }
+
+    @Unique
+    private static VoxelShape getCollisionShape(ItemStack itemStack, BlockState oldState) {
+        if (oldState.get(TYPE) == SlabType.BOTTOM) {
+            if (itemStack.isOf(ModBlocks.SOUL_SAND_SLAB.asItem())) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+        } else {
+            if (oldState.isOf(ModBlocks.SOUL_SAND_SLAB)) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+        }
+
+        return VoxelShapes.fullCube();
     }
 
     @Inject(

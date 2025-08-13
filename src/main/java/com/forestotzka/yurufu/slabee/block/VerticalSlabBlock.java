@@ -116,7 +116,7 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
 
                 newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(AXIS, VerticalSlabAxis.fromString(axis)));
 
-                if (DoubleSlabUtils.canPlace(ctx, newState)) {
+                if (DoubleSlabUtils.canPlace(ctx, getCollisionShape(ctx.getStack(), oldState))) {
                     world.setBlockState(pos, newState, 3);
 
                     DoubleVerticalSlabBlockEntity blockEntity = (DoubleVerticalSlabBlockEntity) world.getBlockEntity(pos);
@@ -125,9 +125,9 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
                         blockEntity.setPositiveSlabId(positiveId);
                         blockEntity.setNegativeSlabId(negativeId);
                     }
-                }
 
-                return newState;
+                    return newState;
+                }
             }
 
             return oldState;
@@ -152,6 +152,39 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
                     .with(IS_DOUBLE, Boolean.FALSE)
                     .with(FACING, direction)
                     .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+        }
+    }
+
+    private static VoxelShape getCollisionShape(ItemStack itemStack, BlockState oldState) {
+        boolean bl1 = oldState.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
+        boolean bl2 = itemStack.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB.asItem());
+
+        if (bl1 && bl2) {
+            return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+        } else if (!bl1 && !bl2) {
+            return VoxelShapes.fullCube();
+        } else {
+            switch (oldState.get(FACING)) {
+                case EAST -> {
+                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
+                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
+                }
+                case WEST -> {
+                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
+                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
+                }
+                case SOUTH -> {
+                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
+                }
+                case NORTH -> {
+                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
+                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                }
+                default -> {
+                    return VoxelShapes.fullCube();
+                }
+            }
         }
     }
 

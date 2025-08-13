@@ -178,4 +178,8 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.fullCube();
     }
+
+    public static VoxelShape getSoulSandCollisionShape() {
+        return SOUL_SAND_COLLISION_SHAPE;
+    }
 }
