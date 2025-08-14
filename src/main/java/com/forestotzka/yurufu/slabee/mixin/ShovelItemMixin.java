@@ -1,7 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.Slabee;
-import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
@@ -53,9 +52,8 @@ public class ShovelItemMixin {
         } else if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleSlabBlockEntity entity) {
             if (entity.getPositiveSlabState().isIn(DIRT_SLABS)) {
                 entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_SLAB));
+                return world.getBlockState(blockPos);
             }
-
-            return world.getBlockState(blockPos);
         } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleVerticalSlabBlockEntity entity) {
             BlockState positiveSlabState = entity.getPositiveSlabState();
             BlockState negativeSlabState = entity.getNegativeSlabState();
@@ -65,13 +63,14 @@ public class ShovelItemMixin {
             if (bl1 && bl2) {
                 entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_VERTICAL_SLAB));
                 entity.setNegativeSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_VERTICAL_SLAB));
+                return world.getBlockState(blockPos);
             } else if (bl1) {
                 entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_VERTICAL_SLAB));
+                return world.getBlockState(blockPos);
             } else if (bl2) {
                 entity.setNegativeSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_VERTICAL_SLAB));
+                return world.getBlockState(blockPos);
             }
-
-            return world.getBlockState(blockPos);
         }
 
         return original.call(map, key);
