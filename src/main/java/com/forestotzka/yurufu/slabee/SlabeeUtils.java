@@ -1,9 +1,6 @@
 package com.forestotzka.yurufu.slabee;
 
-import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
-import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
-import com.forestotzka.yurufu.slabee.block.ModBlocks;
-import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
+import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import net.minecraft.block.Block;
@@ -11,6 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -277,5 +276,37 @@ public class SlabeeUtils {
         } else {
             return (entity.getZ() - pos.getZ()) > 0.5;
         }
+    }
+
+    public static float getSlipperiness(World world, Vec3d pos, BlockPos blockPos, float original) {
+        BlockState blockState = world.getBlockState(blockPos);
+        float f;
+        if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleSlabBlockEntity e) {
+            f = Math.max(e.getPositiveSlabState().getBlock().getSlipperiness(), e.getNegativeSlabState().getBlock().getSlipperiness());
+        } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleVerticalSlabBlockEntity e) {
+            f = getBlockState(pos, blockPos, e).getBlock().getSlipperiness();
+        } else {
+            f = world.getBlockState(blockPos).getBlock().getSlipperiness();
+        }
+
+        return Math.max(original, f);
+    }
+
+    private static BlockState getBlockState(Vec3d pos, BlockPos blockPos, DoubleVerticalSlabBlockEntity entity) {
+        BlockState state;
+        if (entity.isX()) {
+            if ((pos.getX() - 0.5) > blockPos.getX()) {
+                state = entity.getPositiveSlabState();
+            } else {
+                state = entity.getNegativeSlabState();
+            }
+        } else {
+            if ((pos.getZ() - 0.5) > blockPos.getZ()) {
+                state = entity.getPositiveSlabState();
+            } else {
+                state = entity.getNegativeSlabState();
+            }
+        }
+        return state;
     }
 }
