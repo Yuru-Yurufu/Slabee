@@ -31,7 +31,7 @@ public class ChunkLightProviderMixin {
     )
     private static VoxelShape getLightingShape(BlockState state, BlockView blockView, BlockPos pos, Direction direction) {
         if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-            return VoxelShapes.extrudeFace(DoubleSlabBlock.getLightingShape(state), direction);
+            return VoxelShapes.extrudeFace(DoubleSlabBlock.getLightingShape(state, blockView, pos), direction);
         } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             return VoxelShapes.extrudeFace(DoubleVerticalSlabBlock.getLightingShape(state), direction);
         }

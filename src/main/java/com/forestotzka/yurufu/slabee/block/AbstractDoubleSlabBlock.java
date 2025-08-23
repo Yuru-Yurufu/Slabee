@@ -30,6 +30,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
     public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
     protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 16.0);
 
     protected enum ShapeType {
         FULL,
@@ -181,5 +182,9 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     public static VoxelShape getSoulSandCollisionShape() {
         return SOUL_SAND_COLLISION_SHAPE;
+    }
+
+    public static VoxelShape getDirtPathCollisionShape() {
+        return DIRT_PATH_COLLISION_SHAPE;
     }
 }

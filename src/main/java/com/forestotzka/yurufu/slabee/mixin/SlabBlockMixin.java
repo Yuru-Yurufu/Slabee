@@ -84,8 +84,10 @@ public abstract class SlabBlockMixin extends BlockMixin {
     private static VoxelShape getCollisionShape(ItemStack itemStack, BlockState oldState) {
         if (oldState.get(TYPE) == SlabType.BOTTOM) {
             if (itemStack.isOf(ModBlocks.SOUL_SAND_SLAB.asItem())) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+            else if (itemStack.isOf(ModBlocks.DIRT_PATH_SLAB.asItem())) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
         } else {
             if (oldState.isOf(ModBlocks.SOUL_SAND_SLAB)) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+            else if (oldState.isOf(ModBlocks.DIRT_PATH_SLAB)) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
         }
 
         return VoxelShapes.fullCube();

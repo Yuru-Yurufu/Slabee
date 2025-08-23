@@ -25,10 +25,20 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
     protected static final VoxelShape SOUTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 7.9999, 16.0, 16.0, 16.0);
     protected static final VoxelShape NORTH_OPAQUE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0001);
 
-    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_EAST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 14.0, 0.0, 8.0, 16.0, 16.0));
-    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_WEST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 14.0, 16.0), Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0));
-    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_SOUTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0));
-    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_NORTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 8.0), Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0));
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_EAST = VoxelShapes.union(Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 16.0, 16.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_WEST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 14.0, 16.0), Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_SOUTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE_NORTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 8.0), Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0)).simplify();
+
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE_EAST = VoxelShapes.union(Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 15.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 16.0, 16.0)).simplify();
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE_WEST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 15.0, 16.0), Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0)).simplify();
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE_SOUTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 15.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0)).simplify();
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE_NORTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 8.0), Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0)).simplify();
+
+    protected static final VoxelShape SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST = VoxelShapes.union(Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 15.0, 16.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 14.0, 16.0), Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 15.0, 16.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 14.0, 16.0), Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 8.0)).simplify();
+    protected static final VoxelShape SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH = VoxelShapes.union(Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 8.0), Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 15.0, 16.0)).simplify();
 
     public DoubleVerticalSlabBlock(Settings settings) {
         super(settings);
@@ -107,13 +117,29 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
         if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
             boolean isSoulSandPositive = entity.getPositiveSlabState().isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
             boolean isSoulSandNegative = entity.getNegativeSlabState().isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
+            boolean isDirtPathPositive = entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            boolean isDirtPathNegative = entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
 
             if (isSoulSandPositive && isSoulSandNegative) {
                 return SOUL_SAND_COLLISION_SHAPE;
+            } else if (isDirtPathPositive && isDirtPathNegative) {
+                return DIRT_PATH_COLLISION_SHAPE;
             } else if (isSoulSandPositive) {
-                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_EAST : SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                if (isDirtPathNegative) {
+                    return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH;
+                } else {
+                    return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_EAST : SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                }
             } else if (isSoulSandNegative) {
-                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_WEST : SOUL_SAND_COLLISION_SHAPE_NORTH;
+                if (isDirtPathPositive) {
+                    return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH;
+                } else {
+                    return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_WEST : SOUL_SAND_COLLISION_SHAPE_NORTH;
+                }
+            } else if (isDirtPathPositive) {
+                return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_EAST : DIRT_PATH_COLLISION_SHAPE_SOUTH;
+            } else if (isDirtPathNegative) {
+                return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_WEST : DIRT_PATH_COLLISION_SHAPE_NORTH;
             } else {
                 return VoxelShapes.fullCube();
             }

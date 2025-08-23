@@ -156,30 +156,58 @@ public class VerticalSlabBlock extends Block implements Waterloggable {
     }
 
     private static VoxelShape getCollisionShape(ItemStack itemStack, BlockState oldState) {
-        boolean bl1 = oldState.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
-        boolean bl2 = itemStack.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB.asItem());
+        boolean bls1 = oldState.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
+        boolean bls2 = itemStack.isOf(ModBlocks.SOUL_SAND_VERTICAL_SLAB.asItem());
+        boolean bld1 = oldState.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+        boolean bld2 = itemStack.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB.asItem());
 
-        if (bl1 && bl2) {
+        if (bls1 && bls2) {
             return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
-        } else if (!bl1 && !bl2) {
+        } else if (bld1 && bld2) {
+            return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
+        } else if ((!bls1 && !bls2) || (!bld1 && !bld2)) {
             return VoxelShapes.fullCube();
         } else {
             switch (oldState.get(FACING)) {
                 case EAST -> {
-                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
-                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
+                    if (bls1) {
+                        if (bld2) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
+                    }
+                    else {
+                        if (bld1) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
+                    }
                 }
                 case WEST -> {
-                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
-                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
+                    if (bls1) {
+                        if (bld2) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_WEST;
+                    }
+                    else {
+                        if (bld1) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_EAST;
+                    }
                 }
                 case SOUTH -> {
-                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
-                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
+                    if (bls1) {
+                        if (bld2) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                    }
+                    else {
+                        if (bld1) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
+                    }
                 }
                 case NORTH -> {
-                    if (bl1) return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
-                    else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                    if (bls1) {
+                        if (bld2) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_NORTH;
+                    }
+                    else {
+                        if (bld1) return DoubleVerticalSlabBlock.SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH;
+                        else return DoubleVerticalSlabBlock.SOUL_SAND_COLLISION_SHAPE_SOUTH;
+                    }
                 }
                 default -> {
                     return VoxelShapes.fullCube();

@@ -1054,7 +1054,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.GRAVEL)));
 
     public static final Block DIRT_PATH_SLAB = registerBlock("dirt_path_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new DirtPathSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
                     .strength(0.65F)
                     .nonOpaque()
@@ -1109,18 +1109,21 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.ICE.getDefaultMapColor())
                     .strength(0.5F)
+                    .slipperiness(0.98F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block PACKED_ICE_SLAB = registerBlock("packed_ice_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.PACKED_ICE.getDefaultMapColor())
                     .strength(0.5F)
+                    .slipperiness(0.98F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block BLUE_ICE_SLAB = registerBlock("blue_ice_slab",
             new SlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.BLUE_ICE.getDefaultMapColor())
                     .strength(2.8F)
+                    .slipperiness(0.989F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block MOSS_SLAB = registerBlock("moss_slab",
@@ -2889,7 +2892,7 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.GRAVEL)));
 
     public static final Block DIRT_PATH_VERTICAL_SLAB = registerBlock("dirt_path_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new DirtPathVerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
                     .strength(0.65F)
                     .nonOpaque()
@@ -2944,18 +2947,21 @@ public class ModBlocks {
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.ICE.getDefaultMapColor())
                     .strength(0.5F)
+                    .slipperiness(0.98F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block PACKED_ICE_VERTICAL_SLAB = registerBlock("packed_ice_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.PACKED_ICE.getDefaultMapColor())
                     .strength(0.5F)
+                    .slipperiness(0.98F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block BLUE_ICE_VERTICAL_SLAB = registerBlock("blue_ice_vertical_slab",
             new VerticalSlabBlock(AbstractBlock.Settings.create()
                     .mapColor(Blocks.BLUE_ICE.getDefaultMapColor())
                     .strength(2.8F)
+                    .slipperiness(0.989F)
                     .sounds(BlockSoundGroup.GLASS)));
 
     public static final Block MOSS_VERTICAL_SLAB = registerBlock("moss_vertical_slab",

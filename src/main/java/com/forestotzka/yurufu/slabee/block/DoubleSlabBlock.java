@@ -40,25 +40,59 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
     protected VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
         return switch (calcCullingShapeType(state)) {
             case FULL -> VoxelShapes.fullCube();
-            case POSITIVE -> UP_OPAQUE_SHAPE;
-            case NEGATIVE -> DOWN_OPAQUE_SHAPE;
+            case POSITIVE -> (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity e && e.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) ? DirtPathSlabBlock.TOP_SHAPE : UP_OPAQUE_SHAPE;
+            case NEGATIVE -> (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity e && e.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) ? DirtPathSlabBlock.BOTTOM_SHAPE : DOWN_OPAQUE_SHAPE;
             default -> VoxelShapes.empty();
         };
     }
 
-    public static VoxelShape getLightingShape(BlockState state) {
+    public static VoxelShape getLightingShape(BlockState state, BlockView world, BlockPos pos) {
         return switch (calcLightingShapeType(state)) {
             case FULL -> VoxelShapes.fullCube();
-            case POSITIVE -> UP_OPAQUE_SHAPE;
-            case NEGATIVE -> DOWN_OPAQUE_SHAPE;
+            case POSITIVE -> (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity e && e.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) ? DirtPathSlabBlock.TOP_SHAPE : UP_OPAQUE_SHAPE;
+            case NEGATIVE -> (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity e && e.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) ? DirtPathSlabBlock.BOTTOM_SHAPE : DOWN_OPAQUE_SHAPE;
             default -> VoxelShapes.empty();
         };
     }
 
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
-            if (entity.getPositiveSlabState().isOf(ModBlocks.SOUL_SAND_SLAB)) {
+            BlockState blockState = entity.getPositiveSlabState();
+            if (blockState.isOf(ModBlocks.SOUL_SAND_SLAB)) {
                 return SOUL_SAND_COLLISION_SHAPE;
+            } else if (blockState.isOf(ModBlocks.DIRT_PATH_SLAB)) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    protected VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    @Override
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) {
+                return DIRT_PATH_COLLISION_SHAPE;
             }
         }
 
