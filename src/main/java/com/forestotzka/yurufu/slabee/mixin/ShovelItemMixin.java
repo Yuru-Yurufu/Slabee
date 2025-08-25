@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
+import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -10,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.enums.SlabType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.registry.Registries;
@@ -48,15 +50,37 @@ public class ShovelItemMixin {
             Direction facing = blockState.get(VerticalSlabBlock.FACING);
             return ModBlocks.DIRT_PATH_VERTICAL_SLAB.getDefaultState().with(VerticalSlabBlock.FACING, facing);
         } else if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleSlabBlockEntity entity) {
-            if (entity.getPositiveSlabState().isIn(DIRT_SLABS) && DoubleSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()))) {
-                entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_SLAB));
-                return world.getBlockState(blockPos);
+            PlayerEntity player = context.getPlayer();
+            if (player != null && player.isSneaking()) {
+                if (LookingPositionTracker.lookingAtUpperHalf) {
+                    if (entity.getPositiveSlabState().isIn(DIRT_SLABS) && DoubleSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()))) {
+                        entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_SLAB));
+                        return world.getBlockState(blockPos);
+                    }
+                }
+            } else {
+                if (entity.getPositiveSlabState().isIn(DIRT_SLABS) && DoubleSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()))) {
+                    entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_SLAB));
+                    return world.getBlockState(blockPos);
+                }
             }
+
         } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            PlayerEntity player = context.getPlayer();
+            boolean lookingPositive = true;
+            boolean lookingNegative = true;
+            if (player != null && player.isSneaking()) {
+                if (entity.isX()) {
+                    lookingPositive = LookingPositionTracker.lookingAtEasternHalf;
+                } else {
+                    lookingPositive = LookingPositionTracker.lookingAtSouthernHalf;
+                }
+                lookingNegative = !lookingPositive;
+            }
             BlockState positiveSlabState = entity.getPositiveSlabState();
             BlockState negativeSlabState = entity.getNegativeSlabState();
-            boolean bl1 = positiveSlabState.isIn(DIRT_VERTICAL_SLABS) && DoubleVerticalSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()), positiveSlabState.get(VerticalSlabBlock.FACING));
-            boolean bl2 = negativeSlabState.isIn(DIRT_VERTICAL_SLABS) && DoubleVerticalSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()), negativeSlabState.get(VerticalSlabBlock.FACING));
+            boolean bl1 = positiveSlabState.isIn(DIRT_VERTICAL_SLABS) && DoubleVerticalSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()), positiveSlabState.get(VerticalSlabBlock.FACING)) && lookingPositive;
+            boolean bl2 = negativeSlabState.isIn(DIRT_VERTICAL_SLABS) && DoubleVerticalSlabBlock.canPlaceAt(world.getBlockState(blockPos.up()), negativeSlabState.get(VerticalSlabBlock.FACING)) && lookingNegative;
 
             if (bl1 && bl2) {
                 entity.setPositiveSlabId(Registries.BLOCK.getId(ModBlocks.DIRT_PATH_VERTICAL_SLAB));
