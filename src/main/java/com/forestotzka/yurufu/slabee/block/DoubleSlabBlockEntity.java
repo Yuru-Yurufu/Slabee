@@ -1,5 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.Slabee;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.nbt.NbtCompound;
@@ -9,6 +11,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 
 public class DoubleSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
     private Direction positiveSlabFacing = Direction.SOUTH;
@@ -55,7 +58,7 @@ public class DoubleSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
         if (nbt.contains("negative_slab")) {
             NbtCompound negativeSlabData = nbt.getCompound("negative_slab");
             Identifier i = Identifier.of(negativeSlabData.getString("id"));
-            this.negativeSlabId = isTrueSlabId(i) ? i : defaultNegativeSlabId;
+            this.negativeSlabId = isTrueSlabId(i) ? (i.equals(Identifier.of(Slabee.MOD_ID, "dirt_path_slab")) ? Identifier.of(Slabee.MOD_ID, "dirt_slab") : i) : defaultNegativeSlabId;
             Direction d = Direction.byName(negativeSlabData.getString("facing"));
             this.negativeSlabFacing = (d != null) ? d : Direction.SOUTH;
         } else {
@@ -73,5 +76,26 @@ public class DoubleSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
 
     protected void updateNegativeSlabState() {
         this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState();
+    }
+
+    @Override
+    public VoxelShape getPositiveOutlineShape() {
+        if (this.positiveSlabState.isOf(ModBlocks.DIRT_PATH_SLAB)) {
+            return DirtPathSlabBlock.TOP_SHAPE;
+        } else {
+            return Block.createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0);
+        }
+    }
+
+    @Override
+    public VoxelShape getNegativeOutlineShape() {
+        return Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
+    }
+
+    @Override
+    protected void convertToDirt(boolean isPositive) {
+        if (isPositive) {
+            setPositiveSlabId(Identifier.of(Slabee.MOD_ID, "dirt_slab"));
+        }
     }
 }

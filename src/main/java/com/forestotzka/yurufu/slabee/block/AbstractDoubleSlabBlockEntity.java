@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,6 +15,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.World;
 
 import java.util.function.ToIntFunction;
 
@@ -33,6 +36,10 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
 
     private boolean init = true;
+
+    private ConversionRequest pendingPositive = null;
+    private ConversionRequest pendingNegative = null;
+    private boolean queued = false;
 
     public AbstractDoubleSlabBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Identifier defaultPositiveSlabId, Identifier defaultNegativeSlabId) {
         super(type, pos, state);
@@ -63,7 +70,11 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     }
 
     public void setNegativeSlabId(Identifier id) {
-        this.negativeSlabId = id;
+        if (id.equals(Identifier.of(Slabee.MOD_ID, "dirt_path_slab"))) {
+            this.negativeSlabId = Identifier.of(Slabee.MOD_ID, "dirt_slab");
+        } else {
+            this.negativeSlabId = id;
+        }
         updateNegativeSlabState();
         updateBlockProperties();
     }
@@ -123,10 +134,26 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         }
     }
 
-    public void serverTick() {
+    public void serverTick(World world, BlockPos pos, BlockState state) {
         if (init) {
             updateBlockProperties();
             init = false;
+        }
+
+        if (!world.isClient && queued) {
+            if (pendingPositive != null) {
+                pendingPositive.delayTicks--;
+                if (pendingPositive.delayTicks <= 0) {
+                    convert(pendingPositive, true);
+                }
+            }
+
+            if (pendingNegative != null) {
+                pendingNegative.delayTicks--;
+                if (pendingNegative.delayTicks <= 0) {
+                    convert(pendingNegative, false);
+                }
+            }
         }
     }
 
@@ -146,4 +173,64 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         Block block = Registries.BLOCK.get(i);
         return DoubleSlabUtils.isTrueSlabId(i) && (block instanceof SlabBlock || block instanceof VerticalSlabBlock);
     }
+
+    public abstract VoxelShape getPositiveOutlineShape();
+    public abstract VoxelShape getNegativeOutlineShape();
+
+    public enum Conversion {
+        NONE,
+        TO_DIRT,
+        TO_GRASS,
+        TO_SOMETHING
+    }
+
+    public static class ConversionRequest {
+        public Conversion conversion;
+        public int delayTicks;
+        public int priority;
+
+        public ConversionRequest(Conversion conversion, int delayTicks, int priority) {
+            this.conversion = conversion;
+            this.delayTicks = Math.max(1, delayTicks);
+            this.priority = priority;
+        }
+
+        public static ConversionRequest mergeOrCreate(ConversionRequest first, Conversion conversion, int delayTicks, int priority) {
+            if (first == null) return new ConversionRequest(conversion, delayTicks, priority);
+            if (priority >= first.priority) {
+                first.conversion = conversion;
+                first.delayTicks = delayTicks;
+                first.priority = priority;
+            }
+            return first;
+        }
+    }
+
+    public void requestConversion(Conversion conversion, boolean isPositive, int delayTicks, int priority) {
+        if (world == null || world.isClient || conversion == null) return;
+
+        if (isPositive) {
+            pendingPositive = ConversionRequest.mergeOrCreate(pendingPositive, conversion, delayTicks, priority);
+        } else {
+            pendingNegative = ConversionRequest.mergeOrCreate(pendingNegative, conversion, delayTicks, priority);
+        }
+
+        this.queued = true;
+    }
+
+    private void convert(ConversionRequest req, boolean isPositive) {
+        // 実行
+        switch (req.conversion) {
+            case TO_DIRT -> convertToDirt(isPositive);
+            default -> {
+            }
+        }
+
+        // リセット
+        req.conversion = Conversion.NONE;
+        req.delayTicks = 0;
+        queued = false;
+    }
+
+    protected abstract void convertToDirt(boolean isPositive);
 }

@@ -1,5 +1,6 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.forestotzka.yurufu.slabee.Slabee;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
@@ -8,6 +9,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 
 public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
     private boolean isX = true;
@@ -98,6 +100,49 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
             this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST);
         } else {
             this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);
+        }
+    }
+
+    @Override
+    public VoxelShape getPositiveOutlineShape() {
+        if (this.positiveSlabState.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+            if (this.isX) {
+                return DirtPathVerticalSlabBlock.EAST;
+            } else {
+                return DirtPathVerticalSlabBlock.SOUTH;
+            }
+        } else {
+            if (this.isX) {
+                return VerticalSlabBlock.EAST;
+            } else {
+                return VerticalSlabBlock.SOUTH;
+            }
+        }
+    }
+
+    @Override
+    public VoxelShape getNegativeOutlineShape() {
+        if (this.negativeSlabState.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+            if (this.isX) {
+                return DirtPathVerticalSlabBlock.WEST;
+            } else {
+                return DirtPathVerticalSlabBlock.NORTH;
+            }
+        } else {
+            if (this.isX) {
+                return VerticalSlabBlock.WEST;
+            } else {
+                return VerticalSlabBlock.NORTH;
+            }
+        }
+    }
+
+    @Override
+    protected void convertToDirt(boolean isPositive) {
+        if (isPositive) {
+            setPositiveSlabId(Identifier.of(Slabee.MOD_ID, "dirt_vertical_slab"));
+        } else {
+            setNegativeSlabId(Identifier.of(Slabee.MOD_ID, "dirt_vertical_slab"));
         }
     }
 }

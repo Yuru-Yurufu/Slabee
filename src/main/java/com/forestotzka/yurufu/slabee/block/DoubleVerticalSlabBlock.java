@@ -11,10 +11,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
@@ -146,6 +148,86 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
         }
 
         return SOUL_SAND_COLLISION_SHAPE;
+    }
+
+    protected VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            boolean bl1 = entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            boolean bl2 = entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            if (bl1 && bl2) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            } else if (bl1) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_EAST;
+                else return DIRT_PATH_COLLISION_SHAPE_SOUTH;
+            } else if (bl2) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_WEST;
+                else return DIRT_PATH_COLLISION_SHAPE_NORTH;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            boolean bl1 = entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            boolean bl2 = entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            if (bl1 && bl2) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            } else if (bl1) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_EAST;
+                else return DIRT_PATH_COLLISION_SHAPE_SOUTH;
+            } else if (bl2) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_WEST;
+                else return DIRT_PATH_COLLISION_SHAPE_NORTH;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    @Override
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            boolean bl1 = entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            boolean bl2 = entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
+            if (bl1 && bl2) {
+                return DIRT_PATH_COLLISION_SHAPE;
+            } else if (bl1) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_EAST;
+                else return DIRT_PATH_COLLISION_SHAPE_SOUTH;
+            } else if (bl2) {
+                if (entity.isX()) return DIRT_PATH_COLLISION_SHAPE_WEST;
+                else return DIRT_PATH_COLLISION_SHAPE_NORTH;
+            }
+        }
+
+        return VoxelShapes.fullCube();
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.UP && !state.canPlaceAt(world, pos)) {
+            world.scheduleBlockTick(pos, this, 1);
+        }
+        if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+                if (direction == Direction.UP && !canPlaceAt(world.getBlockState(pos.up()), entity.getPositiveSlabState().get(VerticalSlabBlock.FACING))) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+                }
+            }
+            if (entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+                if (direction == Direction.UP && !canPlaceAt(world.getBlockState(pos.up()), entity.getNegativeSlabState().get(VerticalSlabBlock.FACING))) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, false, 1, 1);
+                }
+            }
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    public static boolean canPlaceAt(BlockState state, Direction facing) {
+        return !state.isSolid() || state.getBlock() instanceof FenceGateBlock|| (state.getBlock() instanceof VerticalSlabBlock && state.get(VerticalSlabBlock.FACING).getOpposite() == facing);
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {

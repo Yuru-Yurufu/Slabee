@@ -62,7 +62,7 @@ public class DirtPathVerticalSlabBlock extends VerticalSlabBlock {
     @Override
     protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos.up());
-        return !blockState.isSolid() || blockState.getBlock() instanceof FenceGateBlock;
+        return !blockState.isSolid() || blockState.getBlock() instanceof FenceGateBlock || (blockState.getBlock() instanceof VerticalSlabBlock && blockState.get(VerticalSlabBlock.FACING).getOpposite() == state.get(VerticalSlabBlock.FACING));
     }
 
     public static void setToDirtVerticalSlab(@Nullable Entity entity, BlockState state, World world, BlockPos pos) {

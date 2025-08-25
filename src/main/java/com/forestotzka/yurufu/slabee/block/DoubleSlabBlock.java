@@ -7,10 +7,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
@@ -97,6 +99,23 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
         }
 
         return VoxelShapes.fullCube();
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_SLAB)) {
+                if (direction == Direction.UP && !canPlaceAt(world.getBlockState(pos.up()))) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+                }
+            }
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    public static boolean canPlaceAt(BlockState state) {
+        return !state.isSolid() || state.getBlock() instanceof FenceGateBlock;
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {

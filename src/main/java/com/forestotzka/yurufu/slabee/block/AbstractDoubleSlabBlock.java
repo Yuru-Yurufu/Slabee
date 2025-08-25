@@ -62,7 +62,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return world.isClient ? null : (world1, pos, blockState, blockEntity) -> {
             if (blockEntity instanceof AbstractDoubleSlabBlockEntity entity) {
-                entity.serverTick();
+                entity.serverTick(world1, pos, blockState);
             }
         };
     }

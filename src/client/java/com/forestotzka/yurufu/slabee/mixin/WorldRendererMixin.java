@@ -4,7 +4,6 @@ import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlockEntity;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -38,24 +37,24 @@ public abstract class WorldRendererMixin {
         if (player != null && player.isSneaking() && SlabeeUtils.isDoubleSlab(state) && world != null) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             VoxelShape shape;
-            if (blockEntity instanceof DoubleSlabBlockEntity) {
+            if (blockEntity instanceof DoubleSlabBlockEntity e) {
                 if (LookingPositionTracker.lookingAtUpperHalf) {
-                    shape = Block.createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0);
+                    shape = e.getPositiveOutlineShape();
                 } else {
-                    shape = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
+                    shape = e.getNegativeOutlineShape();
                 }
             } else if (blockEntity instanceof DoubleVerticalSlabBlockEntity e) {
                 if (e.isX()) {
                     if (LookingPositionTracker.lookingAtEasternHalf) {
-                        shape = Block.createCuboidShape(8.0, 0.0, 0.0, 16.0, 16.0, 16.0);
+                        shape = e.getPositiveOutlineShape();
                     } else {
-                        shape = Block.createCuboidShape(0.0, 0.0, 0.0, 8.0, 16.0, 16.0);
+                        shape = e.getNegativeOutlineShape();
                     }
                 } else {
                     if (LookingPositionTracker.lookingAtSouthernHalf) {
-                        shape = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
+                        shape = e.getPositiveOutlineShape();
                     } else {
-                        shape = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 8.0);
+                        shape = e.getNegativeOutlineShape();
                     }
                 }
             } else {
