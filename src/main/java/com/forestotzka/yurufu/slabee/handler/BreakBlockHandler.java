@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
@@ -74,6 +75,10 @@ public class BreakBlockHandler {
                         breakBlock(world, player, pos, x, y, z, brokenState);
                     }
                     world.syncWorldEvent(2001, pos, Block.getRawIdFromState(brokenState));
+
+                    if (stayState.getBlock() instanceof SnowySlabBlock) {
+                        stayState = stayState.with(SnowySlabBlock.SNOWY, world.getBlockState(pos.up()).isIn(BlockTags.SNOW));
+                    }
 
                     world.setBlockState(pos, stayState, 3);
                 } else {

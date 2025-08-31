@@ -122,32 +122,36 @@ public class DoubleVerticalSlabBlock extends AbstractDoubleSlabBlock {
             boolean isDirtPathPositive = entity.getPositiveSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
             boolean isDirtPathNegative = entity.getNegativeSlabState().isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB);
 
-            if (isSoulSandPositive && isSoulSandNegative) {
-                return SOUL_SAND_COLLISION_SHAPE;
-            } else if (isDirtPathPositive && isDirtPathNegative) {
-                return DIRT_PATH_COLLISION_SHAPE;
-            } else if (isSoulSandPositive) {
-                if (isDirtPathNegative) {
-                    return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH;
-                } else {
-                    return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_EAST : SOUL_SAND_COLLISION_SHAPE_SOUTH;
-                }
-            } else if (isSoulSandNegative) {
-                if (isDirtPathPositive) {
-                    return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH;
-                } else {
-                    return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_WEST : SOUL_SAND_COLLISION_SHAPE_NORTH;
-                }
-            } else if (isDirtPathPositive) {
-                return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_EAST : DIRT_PATH_COLLISION_SHAPE_SOUTH;
-            } else if (isDirtPathNegative) {
-                return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_WEST : DIRT_PATH_COLLISION_SHAPE_NORTH;
-            } else {
-                return VoxelShapes.fullCube();
-            }
+            return getCollisionShapeFromPart(entity, isSoulSandPositive, isSoulSandNegative, isDirtPathPositive, isDirtPathNegative);
         }
 
         return SOUL_SAND_COLLISION_SHAPE;
+    }
+
+    public static VoxelShape getCollisionShapeFromPart(DoubleVerticalSlabBlockEntity entity, boolean isSoulSandPositive, boolean isSoulSandNegative, boolean isDirtPathPositive, boolean isDirtPathNegative) {
+        if (isSoulSandPositive && isSoulSandNegative) {
+            return SOUL_SAND_COLLISION_SHAPE;
+        } else if (isDirtPathPositive && isDirtPathNegative) {
+            return DIRT_PATH_COLLISION_SHAPE;
+        } else if (isSoulSandPositive) {
+            if (isDirtPathNegative) {
+                return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_EAST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_SOUTH;
+            } else {
+                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_EAST : SOUL_SAND_COLLISION_SHAPE_SOUTH;
+            }
+        } else if (isSoulSandNegative) {
+            if (isDirtPathPositive) {
+                return entity.isX() ? SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_WEST : SOUL_SAND_DIRT_PATH_COLLISION_SHAPE_NORTH;
+            } else {
+                return entity.isX() ? SOUL_SAND_COLLISION_SHAPE_WEST : SOUL_SAND_COLLISION_SHAPE_NORTH;
+            }
+        } else if (isDirtPathPositive) {
+            return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_EAST : DIRT_PATH_COLLISION_SHAPE_SOUTH;
+        } else if (isDirtPathNegative) {
+            return entity.isX() ? DIRT_PATH_COLLISION_SHAPE_WEST : DIRT_PATH_COLLISION_SHAPE_NORTH;
+        } else {
+            return VoxelShapes.fullCube();
+        }
     }
 
     protected VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {

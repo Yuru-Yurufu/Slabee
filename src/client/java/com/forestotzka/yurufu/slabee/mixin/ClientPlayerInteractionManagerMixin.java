@@ -17,6 +17,7 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -160,6 +161,10 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                     }
                 } else {
                     stayState = Blocks.STONE_SLAB.getDefaultState();
+                }
+
+                if (stayState.getBlock() instanceof SnowySlabBlock) {
+                    stayState = stayState.with(SnowySlabBlock.SNOWY, world.getBlockState(pos.up()).isIn(BlockTags.SNOW));
                 }
 
                 boolean bl = world.setBlockState(pos, stayState, 11);

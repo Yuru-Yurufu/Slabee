@@ -17,7 +17,8 @@
         "LivingEntityMixin",
         "ServerPlayerInteractionManagerMixin",
         "ShovelItemMixin",
-        "SlabBlockMixin"
+        "SlabBlockMixin",
+        "SnowBlockMixin"
     ],
     "injectors": {
         "defaultRequire": 1

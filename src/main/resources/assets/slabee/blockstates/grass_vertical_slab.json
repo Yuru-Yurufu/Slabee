@@ -1,20 +1,36 @@
 {
     "multipart": [
         {
-            "when": { "facing": "south" },
+            "when": { "facing": "south", "snowy": "false" },
             "apply": { "model": "slabee:block/grass_vertical_slab", "uvlock": true, "y": 270 }
         },
         {
-            "when": { "facing": "east" },
+            "when": { "facing": "east", "snowy": "false" },
             "apply": { "model": "slabee:block/grass_vertical_slab", "uvlock": true, "y": 180 }
         },
         {
-            "when": { "facing": "north" },
+            "when": { "facing": "north", "snowy": "false" },
             "apply": { "model": "slabee:block/grass_vertical_slab", "uvlock": true, "y": 90 }
         },
         {
-            "when": { "facing": "west" },
+            "when": { "facing": "west", "snowy": "false" },
             "apply": { "model": "slabee:block/grass_vertical_slab", "uvlock": true }
+        },
+        {
+            "when": { "facing": "south", "snowy": "true" },
+            "apply": { "model": "slabee:block/grass_snow_vertical_slab", "uvlock": true, "y": 270 }
+        },
+        {
+            "when": { "facing": "east", "snowy": "true" },
+            "apply": { "model": "slabee:block/grass_snow_vertical_slab", "uvlock": true, "y": 180 }
+        },
+        {
+            "when": { "facing": "north", "snowy": "true" },
+            "apply": { "model": "slabee:block/grass_snow_vertical_slab", "uvlock": true, "y": 90 }
+        },
+        {
+            "when": { "facing": "west", "snowy": "true" },
+            "apply": { "model": "slabee:block/grass_snow_vertical_slab", "uvlock": true }
         }
     ]
 }
