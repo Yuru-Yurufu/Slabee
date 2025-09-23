@@ -18,7 +18,8 @@
         "ServerPlayerInteractionManagerMixin",
         "ShovelItemMixin",
         "SlabBlockMixin",
-        "SnowBlockMixin"
+        "SnowBlockMixin",
+        "SpreadableBlockMixin"
     ],
     "injectors": {
         "defaultRequire": 1

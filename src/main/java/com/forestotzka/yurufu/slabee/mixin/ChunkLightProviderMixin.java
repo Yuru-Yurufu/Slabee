@@ -4,6 +4,8 @@ import com.forestotzka.yurufu.slabee.block.DoubleSlabBlock;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.enums.SlabType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -12,6 +14,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.chunk.light.ChunkLightProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ChunkLightProvider.class)
@@ -36,5 +39,14 @@ public class ChunkLightProviderMixin {
             return VoxelShapes.extrudeFace(DoubleVerticalSlabBlock.getLightingShape(state), direction);
         }
         return state.getCullingFace(blockView, pos, direction);
+    }
+
+    @ModifyVariable(method = "getRealisticOpacity", at = @At("STORE"), ordinal = 0)
+    private static boolean modifyIsTrivialForLighting(boolean bl, BlockView world, BlockState state1, BlockPos pos1, BlockState state2, BlockPos pos2, Direction direction, int opacity2) {
+        if (direction == Direction.UP && state1.getBlock() instanceof SlabBlock && state1.get(SlabBlock.TYPE) != SlabType.BOTTOM) {
+            return true;
+        }
+
+        return bl;
     }
 }

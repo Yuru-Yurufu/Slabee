@@ -2,18 +2,28 @@ package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
+import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
+import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.chunk.light.ChunkLightProvider;
 
 public class DoubleSlabUtils {
     private DoubleSlabUtils() {}
@@ -111,5 +121,139 @@ public class DoubleSlabUtils {
             return (mainhandItem.isOf(Items.DIAMOND_PICKAXE) || mainhandItem.isOf(Items.NETHERITE_PICKAXE));
         }
         return (player.canHarvest(state)) || (mainhandItem.isOf(Items.SHEARS) && state.isIn(ModBlockTags.MINEABLE_SHEARS));
+    }
+
+    public static void toDirt(ServerWorld world, BlockState state, BlockPos pos1, BlockState sourceState) {
+        if (state.isOf(Blocks.DIRT) && canSurviveSpreadableBlock(state, world, pos1)) {
+            world.setBlockState(pos1, getSpreadableBlock(world, pos1, state, sourceState));
+        } else if (state.isOf(ModBlocks.DIRT_SLAB) && canSurviveSpreadableSlabBlock(state, world, pos1)) {
+            world.setBlockState(pos1, getSpreadableSlabBlock(world, pos1, state, sourceState));
+        } else if (state.isOf(ModBlocks.DIRT_VERTICAL_SLAB) && canSurviveSpreadableVerticalSlabBlock(state, world, pos1)) {
+            world.setBlockState(pos1, getSpreadableVerticalSlabBlock(world, pos1, state, sourceState));
+        }
+    }
+
+    public static BlockState getSpreadableBlock(World world, BlockPos pos, BlockState thisState, BlockState sourceState) {
+        sourceState = ModBlockMap.toOriginal(sourceState.getBlock()).getDefaultState();
+        return sourceState.with(SnowyBlock.SNOWY, world.getBlockState(pos.up()).isOf(Blocks.SNOW));
+    }
+
+    public static BlockState getSpreadableSlabBlock(World world, BlockPos pos, BlockState thisState, BlockState sourceState) {
+        sourceState = ModBlockMap.toSlab(sourceState.getBlock()).getDefaultState();
+        return sourceState
+                .with(SnowySlabBlock.SNOWY, world.getBlockState(pos.up()).isOf(Blocks.SNOW))
+                .with(SlabBlock.TYPE, thisState.get(SlabBlock.TYPE))
+                .with(SlabBlock.WATERLOGGED, thisState.get(SlabBlock.WATERLOGGED));
+    }
+
+    public static BlockState getSpreadableVerticalSlabBlock(World world, BlockPos pos, BlockState thisState, BlockState sourceState) {
+        sourceState = ModBlockMap.toVerticalSlab(sourceState.getBlock()).getDefaultState();
+        return sourceState
+                .with(SnowyVerticalSlabBlock.SNOWY, world.getBlockState(pos.up()).isOf(Blocks.SNOW))
+                .with(VerticalSlabBlock.FACING, thisState.get(VerticalSlabBlock.FACING))
+                .with(VerticalSlabBlock.IS_DOUBLE, thisState.get(VerticalSlabBlock.IS_DOUBLE))
+                .with(VerticalSlabBlock.WATERLOGGED, thisState.get(VerticalSlabBlock.WATERLOGGED));
+    }
+
+    public static boolean canSurviveSpreadableBlock(BlockState state, WorldView world, BlockPos pos) {
+        if (world.getFluidState(pos.up()).isIn(FluidTags.WATER)) return false;
+
+        BlockPos blockPos = pos.up();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {
+            return true;
+        } else if (blockState.getFluidState().getLevel() == 8) {
+            return false;
+        } else {
+            int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
+            return i < world.getMaxLightLevel();
+        }
+    }
+
+    public static boolean canSurviveSpreadableSlabBlock(BlockState state, WorldView world, BlockPos pos) {
+        if (world.getFluidState(pos.up()).isIn(FluidTags.WATER)) return false;
+
+        BlockPos blockPos = pos.up();
+        BlockState blockState = world.getBlockState(blockPos);
+        SlabType type = state.get(SlabBlock.TYPE);
+        boolean isBottom = type == SlabType.BOTTOM;
+
+        if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {
+            return true;
+        } else if (isBottom) {
+            return !state.get(SlabBlock.WATERLOGGED);
+        } else if (blockState.getFluidState().getLevel() == 8) {
+            return false;
+        } else {
+            int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
+            return i < world.getMaxLightLevel();
+        }
+    }
+
+    public static boolean canSurviveSpreadableVerticalSlabBlock(BlockState state, WorldView world, BlockPos pos) {
+        if (world.getFluidState(pos.up()).isIn(FluidTags.WATER)) return false;
+
+        //System.out.println("canSurvive");
+        BlockPos blockPos = pos.up();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {
+            return true;
+        } else if (blockState.getFluidState().getLevel() == 8) {
+            return false;
+        } else {
+            int i = getRealisticOpacity(world, state, pos, blockState, blockPos, blockState.getOpacity(world, blockPos));
+            /*System.out.println("pos: " + pos);
+            System.out.println("state: " + state);
+            System.out.println("blockState: " + blockState);
+            System.out.println("i: " + i);*/
+            return i < world.getMaxLightLevel();
+        }
+    }
+
+    private static int getRealisticOpacity(BlockView world, BlockState state1, BlockPos pos1, BlockState state2, BlockPos pos2, int opacity2) {
+        boolean bl2 = !state2.isOpaque() || !state2.hasSidedTransparency();
+
+        if (bl2) {
+            return opacity2;
+        } else {
+            if (state1.getBlock() instanceof VerticalSlabBlock) {
+                if (state2.getBlock() instanceof VerticalSlabBlock) {
+                    return state1.get(VerticalSlabBlock.FACING) == state2.get(VerticalSlabBlock.FACING) ? 16 : opacity2;
+                } else if (state2.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
+                    Direction facing = state1.get(VerticalSlabBlock.FACING);
+                    boolean isX = state2.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X;
+
+                    if ((facing == Direction.EAST && isX) || (facing == Direction.SOUTH && !isX)) {
+                        return DoubleSlabUtils.isPositiveOpaque(state2) ? 16 : opacity2;
+                    } else if ((facing == Direction.WEST && isX) || (facing == Direction.NORTH && !isX)) {
+                        return DoubleSlabUtils.isNegativeOpaque(state2) ? 16 : opacity2;
+                    } else {
+                        return DoubleSlabUtils.isPositiveOpaque(state2) || DoubleSlabUtils.isNegativeOpaque(state2) ? 16 : opacity2;
+                    }
+                }
+            }
+
+            return VoxelShapes.adjacentSidesCoverSquare(state1.getCullingShape(world, pos1), state2.getCullingShape(world, pos2), Direction.UP) ? 16 : opacity2;
+        }
+    }
+
+    public static boolean isFullyCoveredUp(BlockView world, BlockState lowerState, BlockPos lowerPos, BlockState upperState, BlockPos upperPos) {
+        VoxelShape lowerShape = lowerState.getCullingShape(world, lowerPos);
+        VoxelShape upperShape = upperState.getCullingShape(world, upperPos);
+
+        if (lowerShape.isEmpty()) return true;
+        if (upperShape.isEmpty()) return false;
+
+        double yTop = lowerShape.getMax(Direction.Axis.Y);
+        double yBottom = upperShape.getMin(Direction.Axis.Y);
+
+        final double eps = 1.0e-7;
+        VoxelShape clipLowerTop  = VoxelShapes.cuboid(0.0, Math.max(0.0, yTop - eps), 0.0, 1.0, Math.min(1.0, yTop), 1.0);
+        VoxelShape clipUpperBottom = VoxelShapes.cuboid(0.0, Math.max(0.0, yBottom), 0.0, 1.0, Math.min(1.0, yBottom + eps), 1.0);
+
+        VoxelShape lowerTopFace  = VoxelShapes.combine(lowerShape, clipLowerTop, BooleanBiFunction.AND);
+        VoxelShape upperBotFace  = VoxelShapes.combine(upperShape, clipUpperBottom, BooleanBiFunction.AND);
+
+        return !VoxelShapes.matchesAnywhere(lowerTopFace, upperBotFace, BooleanBiFunction.ONLY_FIRST);
     }
 }
