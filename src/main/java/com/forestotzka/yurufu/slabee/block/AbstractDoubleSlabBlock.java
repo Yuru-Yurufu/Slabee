@@ -40,7 +40,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     protected AbstractDoubleSlabBlock(Settings settings) {
-        super(settings.dynamicBounds());
+        super(settings.dynamicBounds().ticksRandomly());
         this.setDefaultState(this.getDefaultState()
                 .with(LIGHT_LEVEL, 0)
                 .with(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)

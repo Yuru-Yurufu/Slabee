@@ -6,8 +6,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -112,6 +114,33 @@ public class DoubleSlabBlock extends AbstractDoubleSlabBlock {
         }
 
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        System.out.println("called: " + pos);
+        if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+            System.out.println("entity");
+            BlockState positiveState = entity.getPositiveSlabState();
+            if (positiveState.getBlock() instanceof SpreadableSlabBlock) {
+                System.out.println("spreadable - top");
+                if (!DoubleSlabUtils.canSurviveSpreadableSlabBlock(positiveState, world, pos)) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+                } else {
+                    if (world.getLightLevel(pos.up()) >= 9) {
+                        for (int i = 0; i < 4; i++) {
+                            BlockPos blockPos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                            DoubleSlabUtils.toDirt(world, world.getBlockState(blockPos), blockPos, positiveState);
+                        }
+                    }
+                }
+            }
+
+            if (entity.getNegativeSlabState().getBlock() instanceof SpreadableSlabBlock) {
+                System.out.println("spreadable - bottom");
+                entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, false, 1, 1);
+            }
+        }
     }
 
     public static boolean canPlaceAt(BlockState state) {

@@ -130,6 +130,30 @@ public class DoubleSlabUtils {
             world.setBlockState(pos1, getSpreadableSlabBlock(world, pos1, state, sourceState));
         } else if (state.isOf(ModBlocks.DIRT_VERTICAL_SLAB) && canSurviveSpreadableVerticalSlabBlock(state, world, pos1)) {
             world.setBlockState(pos1, getSpreadableVerticalSlabBlock(world, pos1, state, sourceState));
+        } else if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(pos1) instanceof DoubleSlabBlockEntity entity) {
+            if (entity.getPositiveSlabState().isOf(ModBlocks.DIRT_SLAB) && canSurviveSpreadableBlock(state, world, pos1)) {
+                entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+            }
+        } else if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(pos1) instanceof DoubleVerticalSlabBlockEntity entity) {
+            BlockState positiveState = entity.getPositiveSlabState();
+            BlockState negativeState = entity.getNegativeSlabState();
+            boolean bl1 = positiveState.isOf(ModBlocks.DIRT_VERTICAL_SLAB);
+            boolean bl2 = negativeState.isOf(ModBlocks.DIRT_VERTICAL_SLAB);
+
+            if (bl1 && bl2) {
+                if (canSurviveSpreadableBlock(state, world, pos1)) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, false, 1, 1);
+                }
+            } else if (bl1) {
+                if (canSurviveSpreadableVerticalSlabBlock(positiveState, world, pos1)) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, true, 1, 1);
+                }
+            } else if (bl2) {
+                if (canSurviveSpreadableVerticalSlabBlock(negativeState, world, pos1)) {
+                    entity.requestConversion(AbstractDoubleSlabBlockEntity.Conversion.TO_DIRT, false, 1, 1);
+                }
+            }
         }
     }
 
@@ -193,7 +217,6 @@ public class DoubleSlabUtils {
     public static boolean canSurviveSpreadableVerticalSlabBlock(BlockState state, WorldView world, BlockPos pos) {
         if (world.getFluidState(pos.up()).isIn(FluidTags.WATER)) return false;
 
-        //System.out.println("canSurvive");
         BlockPos blockPos = pos.up();
         BlockState blockState = world.getBlockState(blockPos);
         if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {
@@ -202,10 +225,6 @@ public class DoubleSlabUtils {
             return false;
         } else {
             int i = getRealisticOpacity(world, state, pos, blockState, blockPos, blockState.getOpacity(world, blockPos));
-            /*System.out.println("pos: " + pos);
-            System.out.println("state: " + state);
-            System.out.println("blockState: " + blockState);
-            System.out.println("i: " + i);*/
             return i < world.getMaxLightLevel();
         }
     }
@@ -235,25 +254,5 @@ public class DoubleSlabUtils {
 
             return VoxelShapes.adjacentSidesCoverSquare(state1.getCullingShape(world, pos1), state2.getCullingShape(world, pos2), Direction.UP) ? 16 : opacity2;
         }
-    }
-
-    public static boolean isFullyCoveredUp(BlockView world, BlockState lowerState, BlockPos lowerPos, BlockState upperState, BlockPos upperPos) {
-        VoxelShape lowerShape = lowerState.getCullingShape(world, lowerPos);
-        VoxelShape upperShape = upperState.getCullingShape(world, upperPos);
-
-        if (lowerShape.isEmpty()) return true;
-        if (upperShape.isEmpty()) return false;
-
-        double yTop = lowerShape.getMax(Direction.Axis.Y);
-        double yBottom = upperShape.getMin(Direction.Axis.Y);
-
-        final double eps = 1.0e-7;
-        VoxelShape clipLowerTop  = VoxelShapes.cuboid(0.0, Math.max(0.0, yTop - eps), 0.0, 1.0, Math.min(1.0, yTop), 1.0);
-        VoxelShape clipUpperBottom = VoxelShapes.cuboid(0.0, Math.max(0.0, yBottom), 0.0, 1.0, Math.min(1.0, yBottom + eps), 1.0);
-
-        VoxelShape lowerTopFace  = VoxelShapes.combine(lowerShape, clipLowerTop, BooleanBiFunction.AND);
-        VoxelShape upperBotFace  = VoxelShapes.combine(upperShape, clipUpperBottom, BooleanBiFunction.AND);
-
-        return !VoxelShapes.matchesAnywhere(lowerTopFace, upperBotFace, BooleanBiFunction.ONLY_FIRST);
     }
 }
