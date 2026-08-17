@@ -90,7 +90,8 @@ validation or legacy migration data, not an independent component property.
 
 #### 3. State recalculated from the environment
 
-Properties such as `SNOWY` describe the current surroundings. They should be
+Properties such as `SNOWY` and leaf `DISTANCE` describe the current surroundings.
+They should be
 recalculated after placement, component replacement, component removal,
 neighbor updates, and chunk loading. They should not be treated as durable
 component history.
@@ -104,8 +105,8 @@ component may cover only part of a face.
 Properties whose values cannot be reconstructed without changing gameplay must
 be stored with the component. Examples include:
 
-- leaf `DISTANCE`;
 - leaf `PERSISTENT` and other player-placed/natural distinctions;
+- huge-mushroom directional face states;
 - material-specific age or stage values when beta.4 adds a mapped behavior; and
 - any future property explicitly classified as component-owned.
 
@@ -211,8 +212,21 @@ When a behavior can represent a half independently, only the target component
 should move. Falling sand is the beta.4 reference implementation: it is removed
 from the pair, the partner is singleized, and the falling operation must preserve
 enough data to restore the component's Slab/VerticalSlab geometry and persisted
-state. The payload mechanism is not yet selected; the candidates and owner-facing
-decision are recorded only in the owner guide.
+state.
+
+The accepted B1 mechanism extends vanilla `FallingBlockEntity` with a Slabee
+namespaced payload. It stores a schema version, component BlockState, container
+kind, slot, and vertical axis. Beta.4 does not register a custom falling entity or
+use Fabric Data Attachment for this payload. A non-Slabee block is accepted only
+through an explicit adapter registration.
+
+This approved mechanism has readiness `Pending feasibility spike`. Before
+production falling work, the independent spike must prove save/reload while
+airborne, exact source-partner
+retention, landing as a Single and recombination, no duplication or loss,
+representative Concrete Powder hardening, spawn-failure rollback, and chunk-boundary
+behavior. Failure of any conservation or rollback case stops the feature PR rather
+than silently selecting another transport.
 
 Minecraft piston movement is cell-based. Beta.4 does not implement movement of
 only one component; that is owner-approved future research and is not implied by
@@ -309,12 +323,56 @@ The following decisions are part of the current beta.4 target.
   water column.
 - A vertical soul-sand or magma component should affect only the half-column above
   its component footprint, at vanilla strength for entities in that half.
-- If soul sand and magma share a `DoubleVerticalSlab`, the effect is selected from
-  the entity's position: the soul-sand half pushes up and the magma half pulls
-  down.
-- Because the bubble-column block state is cell-wide, visual bubble state and
-  entity force may need separate approximations. The chosen split must be tested
-  at both sides and on the center plane.
+- If soul sand and magma share a `DoubleVerticalSlab`, the soul-sand half pushes up
+  and the magma half pulls down. In the primary target, each entity uses the
+  proportion of its AABB's horizontal projection intersecting each component half
+  as the weights for composing the contacted forces; a center-coordinate tie-break
+  is not used.
+- The primary visual target shows the two bubble directions over their respective
+  component halves. Physical direction, bubble direction, and bubble presence must
+  agree.
+- The approved bubble Decision has readiness `Pending feasibility spike`. Because
+  vanilla `BubbleColumnBlock.DRAG` is cell-wide, an independent spike must
+  verify the area-weighted force, left/right rendering or particles, asymmetric
+  vanilla velocity changes and caps, near-zero results, multiple entities, both
+  axes, client prediction, and Player/Mob/Item/Boat behavior before production code.
+- An incomplete spike or an isolated failing test does not authorize fallback.
+  Fallback becomes a candidate only when recorded evidence shows that Minecraft
+  1.21.1 expressiveness, compatibility, stability, or the B4 performance criteria
+  prevent a safe primary implementation. The spike record must list failed
+  conditions, attempted approaches, measured performance, and remaining constraints.
+  Before fallback is adopted, those results must be reported to the owner in Japanese
+  and receive explicit approval. Codex must not select fallback automatically.
+- After that explicit approval, only the cell-wide fixed-area fallback described
+  here may be implemented. This fallback never uses an entity AABB. It computes
+  one force for the cell as
+  `sum(exposed-top-area fraction of component × corresponding vanilla bubble force)`
+  and applies that same result to every entity in the cell.
+- The fixed exposed-top-area fractions are: 1.0 for a horizontal Slab; 0.5 for a
+  VerticalSlab; 0.5 for each `DoubleVerticalSlab` component; and 1.0 for only the
+  water-contacting upper component of a horizontal Double, with 0 for its covered
+  lower component. A non-bubble-source component contributes 0.
+- Two same-type vertical components therefore sum to one vanilla full-block force.
+  A Soul/Magma vertical pair composes 0.5 of the vanilla upward force with 0.5 of
+  the vanilla downward force. Entity position and entity count never change this
+  fallback force or direction.
+- The feasibility spike fixes the fallback's zero/near-zero threshold, whether
+  particles appear at that threshold, and the exact order for applying the composed
+  force to asymmetric vanilla velocity changes and caps.
+
+Primary acceptance requires the calculated per-entity AABB-overlap force to match
+observed force for Player, Mob, Item, and Boat across both axes, slots, center
+boundaries, multiple-entity cases, and client/server behavior. Its left/right
+bubbles must match physical direction and presence, and compatibility, stability,
+and B4 performance checks must pass.
+
+Fallback acceptance is evaluated separately and only after owner approval. The
+fixed-area formula must produce one entity-position-independent and entity-count-
+independent vector, apply it identically to every entity in the cell, keep physical
+direction, bubble direction, and bubble presence consistent under the finalized
+threshold and velocity-cap order, and pass fallback stability, compatibility, and
+B4 performance checks. If fallback fails, implementation stops for owner review;
+it must not proceed automatically to another approximation.
 
 ### Fire
 
@@ -323,9 +381,16 @@ fire can contact both halves, in which case ignition and burn-out are evaluated
 independently using each source block's vanilla flammability rules. After one
 component is consumed, the other is singleized. If both are consumed in the same
 update, both eligibility and random outcomes are calculated from the unchanged
-pre-transaction snapshot and committed together. The final air/fire state and
-evaluation ordering remain candidate designs until the owner answers the canonical
-question in the owner guide.
+pre-transaction snapshot and committed together. Evaluation order must not alter
+either slot's result.
+
+There is no half-cell fire. If one component burns, the surviving component is
+singleized and the occupied cell contains no fire. Only when both components burn
+and the cell is fully cleared may the implementation evaluate vanilla placement,
+survival, rain, and fluid conditions once. It places normal Fire or Soul Fire when
+those conditions and the approved type-selection rule allow it; otherwise it
+leaves air. The transaction exposes no intermediate Single state to neighbor
+updates.
 
 Soul Fire selection is already an owner-approved beta.4 requirement:
 
@@ -344,6 +409,15 @@ Soul Fire selection is already an owner-approved beta.4 requirement:
 Water reaches a component through its exposed faces, but water removal and
 creation remain cell-wide. A component may change independently because of that
 contact even though the source water cannot be represented as half a cell.
+
+### Ice melting
+
+Only normal Ice uses the melt path; Packed Ice and Blue Ice do not. When one Ice
+component melts and the partner can be waterlogged, the partner is singleized with
+`WATERLOGGED=true`. When the partner cannot be waterlogged, it remains dry and the
+melt creates no water. When all Ice in the cell melts, normal dimensions create
+source water and ultrawarm dimensions create air. Slabee never pushes melt water
+into an adjacent cell to preserve volume.
 
 ### Concrete powder hardening
 
@@ -426,13 +500,52 @@ for the component actually broken or removed:
 - creative removal and any other `MutationCause` whose policy produces no loot
   remain drop-free.
 
-The exact Fortune probability transformation, rounding, and whether two matching
-components use independent rolls or one combined evaluation are technical details,
-not unresolved product scope. Before implementation, a leaf-loot Decision Record
-must select an algorithm and statistical acceptance method that satisfy the totals
-above without duplicate evaluation. The feature's scope is **Required**; its
-readiness is **Blocked by the leaf-loot Decision Record** until that record and its
-test plan are accepted.
+The accepted B3 algorithm evaluates the mapped vanilla leaf loot once for each
+removed component, passing the original tool and Fortune context. Each ordinary
+`ItemStack` produced by that evaluation receives its own independent 50% keep/drop
+roll. The algorithm does not apply one 50% roll to the loot result as a whole and
+does not change the `count` inside a retained stack. The roll stream must be
+reproducible from a fixed seed. Shears and Silk Touch bypass thinning and produce
+their exact one matching Leaf Slab result. Creative, Fire, and other no-loot
+mutation causes produce nothing. A mixed Double evaluates only the removed
+component's leaf species.
+
+This transform is required to match expected values, not the exact full-block loot
+distribution. This section is the single source of truth for the formal suite's
+seed literals and trial-count representation:
+
+- `LEAF_LOOT_FORMAL_SEEDS = [0x534C414245453031L, 0x534C414245453032L, 0x534C414245453033L]`;
+- `LEAF_LOOT_FORMAL_TRIALS_PER_CONDITION = 1_000_000`.
+
+For each of the three fixed seeds and every probabilistic loot condition, execute
+`n = LEAF_LOOT_FORMAL_TRIALS_PER_CONDITION` paired trials. For each target item in
+trial `i`, define:
+
+- `V_i`: item count produced by one mapped vanilla leaf block;
+- `S_i`: total item count produced by two same-species Slabee leaf components; and
+- `D_i = S_i - V_i`.
+
+Let `mean_D` be the sample mean of the `D_i` values and let `s_D` be their sample
+standard deviation, calculated with denominator `n - 1`. Calculate
+`SE_D = s_D / sqrt(n)`. A seed/condition/item passes only when
+`abs(mean_D) <= 5 * SE_D`. Treat the trials as paired observations and calculate
+the standard error directly from `D_i`; do not add the vanilla-side and Slabee-side
+sample variances as if the samples were independent. If `s_D = 0`, pass only when
+`mean_D = 0`; otherwise fail. Every fixed seed, every probabilistic condition, and
+every target item must pass. This is an expected-value test and does not require
+identical distributions.
+
+Shears, Silk Touch, Creative, Fire, and other deterministic outcomes use exact
+equality assertions instead of the statistical criterion. Normal CI contains only
+short deterministic unit tests and fixtures, including fixed-seed reproducibility,
+duplicate vanilla-loot evaluation, partner leakage, whole-result thinning, and
+stack-count modification checks. The separate formal statistical task runs at
+Stage 12 completion and is rerun unchanged by Stage 14 before beta.4 release, not
+on every CI run.
+
+The B3 Decision has no remaining feasibility gate, but it waits for the common
+component/loot foundation and ordered Leaves Stage work, so its readiness is
+`Pending dependency`, not an unanswered design decision.
 
 ## Event and performance policy
 
@@ -454,12 +567,39 @@ save when required.
 
 Before behavior changes, the project must record a repeatable baseline for idle
 Double containers, random-tick-heavy scenes, neighbor-update bursts, bubble
-columns, and chunk save/load. The GameTest/baseline PR must approve and record the
-exact hardware/runtime controls, repetitions, statistical comparison, and pass/fail
-thresholds. Later PRs and the release gate refer to that versioned procedure and
-its thresholds rather than inventing new criteria. A performance optimization is
-accepted only when it fixes a measured regression or bottleneck and preserves
-component semantics.
+columns, falling, fire, sponge, client rendering, and chunk save/load. Measure 0,
+1,000, and 10,000 Double fixtures where applicable. Reports include server MSPT and
+client frame-time p50/p95/p99, JFR evidence, matching vanilla and Single Slab
+controls, and time per 1,000 events. An unimplemented-main result is an
+absence-of-work baseline and cannot be the only percentage comparison for a new
+feature.
+
+The initial full procedure uses a fixed Java 21/hardware/runtime configuration,
+10-minute warm-up, 15-minute measurement, and five fresh-JVM trials unless the pilot
+versions a justified change. For each declared comparison of a time metric, define
+`delta_ms = candidate_ms - baseline_ms` using candidate and baseline values of that
+same metric. The provisional thresholds are
+`idle_threshold_ms = max(0.05 * baseline_ms, 3 * MAD_ms, 0.5 ms)` and
+`burst_threshold_ms = max(0.10 * baseline_ms, 3 * MAD_ms, 2 ms)`, with
+`regression = (delta_ms > corresponding_threshold_ms)`. The percentage term is
+therefore converted to milliseconds before `max`; no dimensionless percentage is
+compared directly with milliseconds.
+
+Server MSPT and client frame time are calculated separately with their own baseline,
+MAD, delta, and threshold. Client pass/fail uses frame time in milliseconds rather
+than FPS; FPS may remain informational. For a non-time metric such as allocations,
+convert the percentage and MAD terms to that metric's own unit and use
+`max(rate * baseline_metric, 3 * MAD_metric)` without either millisecond absolute
+floor. Mandatory investigation whenever server p99 remains above 50 ms is unchanged.
+These provisional values are not final release limits until the B4 pilot records
+its evidence and versions the result.
+
+Normal feature PRs run shortened affected scenarios. Stage completion and the
+beta.4 release candidate run the full fixed-environment suite. GitHub Actions shared
+runners may run correctness tests but never determine performance pass/fail. Later
+PRs and the release gate refer to the versioned procedure rather than inventing new
+criteria. A performance optimization is accepted only when it fixes a measured
+regression or bottleneck and preserves component semantics.
 
 ## Persistence and legacy NBT compatibility
 
@@ -475,12 +615,12 @@ The current keys and meanings are compatibility inputs:
 
 Persistence is a prerequisite for stateful component features. During the early
 GameTest/foundation stage, a small technical spike must verify the exact Minecraft
-1.21.1 API and produce an accepted Decision Record before any persistence-dependent
-implementation stage begins. The first candidate is Minecraft's standard
-BlockState-to-NBT serialization path, including the available
-`NbtHelper.fromBlockState` and `NbtHelper.toBlockState` APIs; the spike must confirm
-their registry-lookup, error, and round-trip behavior rather than assuming an API
-contract from method names.
+1.21.1 behavior before any persistence-dependent implementation stage begins. B2
+accepts an additive versioned schema using validated
+`NbtHelper.fromBlockState` and `NbtHelper.toBlockState`. The first PR is limited to
+the codec/registry spike, fixtures, malformed input, and round-trip tests and must
+not change gameplay behavior. The B2 Decision is answered; its readiness is
+`Pending feasibility spike`, not `Blocked by design decision`.
 
 The Decision Record must fix these rules:
 
@@ -488,13 +628,15 @@ The Decision Record must fix these rules:
   mapping and the expected horizontal/vertical shape family;
 - persist only properties classified as component-owned for that mapped block;
 - never treat serialized slot-derived `TYPE` or `FACING` as authoritative;
-- never treat environment-derived values such as `SNOWY` as authoritative;
+- never treat environment-derived values such as `SNOWY` or leaf `DISTANCE` as
+  authoritative;
 - persist the container-owned DoubleVertical `AXIS` explicitly under the
   container rule, not as a component property;
 - continue reading the legacy block-ID NBT layout;
-- use a documented per-component safe fallback for unknown blocks, unknown or
-  disallowed properties, and invalid property values without discarding a valid
-  partner; and
+- use the known block's default value when only a property is invalid;
+- treat an invalid, removed, unknown, or unsupported block ID as a lost component,
+  singleize a valid partner, and use air when neither component restores;
+- rate-limit diagnostics without hiding the first actionable failure; and
 - record the versioned schema, property filter, exact API, diagnostics, fallback,
   and round-trip fixtures before the full Stage 6 implementation.
 
@@ -506,9 +648,11 @@ The state-persistence PR must use an additive, versioned schema. Its reader must
 1. recognize the current unversioned layout;
 2. map legacy IDs through the existing Slab/VerticalSlab registry mapping;
 3. preserve slot identity and the X/Z axis;
-4. synthesize missing component-owned properties from safe defaults;
+4. synthesize missing or invalid component-owned properties from that block's
+   default state;
 5. ignore unknown additive fields without discarding known data;
-6. fall back per component rather than replacing the entire pair; and
+6. treat an invalid/removed/unsupported block as a lost component, retaining a valid
+   partner as a Single or using air when both are lost;
 7. write the new format only after a successful read and world update.
 
 ### Runtime and migration sources of truth
@@ -557,10 +701,45 @@ An approximation is acceptable only when it:
 - is covered by automated tests and a player-visible manual test; and
 - is recorded in the beta.4 checklist.
 
+## Gate traceability
+
+The roadmap's [Named gate traceability](../roadmap/beta4.md#named-gate-traceability)
+table is authoritative for gate-to-work ownership. No gate creates a new PR or
+feature scope:
+
+| Retained gate | Existing work unit | Required evidence |
+| --- | --- | --- |
+| B2 persistence feasibility | Stage 1 B2 persistence spike PR | Reviewed schema/API/property-filter and legacy/malformed/round-trip fixture results. |
+| B4 baseline pilot | Stage 1 B4 baseline PR and pilot | Versioned procedure, fixed fixture/configuration, raw/JFR data, comparison report, and pilot-versioned thresholds. |
+| A1 bubble feasibility | Stage 9 bubble feasibility spike task | Approach/failure/performance/constraint report and primary acceptance evidence; the conditional fallback uses this same report plus Japanese owner reporting and explicit approval. |
+| Huge-mushroom asset/UV feasibility | Stage 11 steps 1–2 | Existing-asset/UV sufficiency record or exact owner-facing gap report; no separate PR. |
+| B3 formal leaf-loot evidence | Stage 12 formal task, rerun unchanged by Stage 14 before release | Deterministic exact assertions and paired-difference report for every fixed seed, condition, and target item. |
+| B1 falling-payload feasibility | Stage 13 opening spike | Reviewed conservation, persistence, landing/recombination, hardening, rollback, and chunk-boundary artifact. |
+
+Soul Fire and combustion are Stage 10 work, ice melt is Stage 9 work, and the
+additional Planned parity rows are Stage 14 work. They have no independent
+feasibility gate. A Stage exit condition is evidence from that Stage, not another
+gate under a different name.
+
 ## Decision registry
 
-The canonical and non-duplicated list of owner decisions is
+The canonical and non-duplicated list of owner decisions, approved technical
+Decisions, and remaining spike gates is
 [`beta4-owner-guide.ja.md`](../roadmap/beta4-owner-guide.ja.md). This English design
-document deliberately does not maintain a second Open Questions list. Until an
-answer is recorded there, affected behavior in this document and the roadmap is a
-candidate, not an approved specification.
+document deliberately does not maintain a second Open Questions list. Stage 1 A1
+through A5 and B1 through B4 have recorded answers. B1/B2 implementation readiness,
+A1 bubble feasibility, the Stage 11 huge-mushroom asset/UV task, and B4 final
+thresholds remain gated by the work units in the traceability table; a failed gate
+must return to owner review rather than silently changing the approved behavior or
+transport. B3 formal evidence is produced by the same task at Stage 12 completion
+and Stage 14 pre-release, not by a second feasibility gate.
+
+Roadmap readiness terms have distinct meanings: `Blocked by design decision` is
+reserved for an unanswered Owner Decision or Technical Decision. `Pending
+feasibility spike` means the Decision is approved but a named independent spike
+gates production work. `Pending dependency` means the Decision is approved but a
+preceding PR, common foundation, or another Stage is incomplete. `Not started`
+means all Decisions and mandatory dependencies are complete and work can begin
+immediately. `In progress` means work is active. `Complete` requires implementation
+and all mandatory validation. `Deferred` means outside beta.4. Ordinary Stage/PR
+ordering is a dependency, never a design-decision blocker.
