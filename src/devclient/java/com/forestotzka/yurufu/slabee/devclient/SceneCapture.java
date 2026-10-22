@@ -110,6 +110,11 @@ public class SceneCapture implements ClientModInitializer {
                     outDir = new File(client.runDirectory, WORLD_NAME);
                     deleteRecursively(outDir.toPath());
                     deleteRecursively(client.runDirectory.toPath().resolve("saves").resolve(WORLD_NAME));
+                    try {
+                        Files.createDirectories(outDir.toPath().resolve("screenshots"));
+                    } catch (IOException e) {
+                        LOGGER.error("Could not create screenshot directory", e);
+                    }
                     createWorld(client);
                     setPhase(Phase.WAIT_WORLD);
                 }
