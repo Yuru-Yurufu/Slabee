@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.renderer.v1.material.MaterialFinder;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -38,6 +39,7 @@ import java.util.function.Supplier;
  * - 描画レイヤー（不透明／カットアウト）はハーフ単体のレイヤー
  * - 色付け（草・葉など）はハーフ単体の色
  * - 雪が上にあるときの見た目（SNOWY）
+ * - 陰影（AO）の有無はハーフ単体が光るかどうか
  */
 @Environment(EnvType.CLIENT)
 public class BakedHalvesModel extends ForwardingBakedModel {
@@ -66,10 +68,10 @@ public class BakedHalvesModel extends ForwardingBakedModel {
         boolean snowAbove = blockView.getBlockState(pos.up()).isIn(BlockTags.SNOW);
 
         if (isBakedHalf(positive)) {
-            emitHalf(blockView, pos, withSnowy(positive, snowAbove, true), randomSupplier, context);
+            emitHalf(blockView, state, pos, withSnowy(positive, snowAbove, true), randomSupplier, context);
         }
         if (isBakedHalf(negative)) {
-            emitHalf(blockView, pos, withSnowy(negative, snowAbove, vertical), randomSupplier, context);
+            emitHalf(blockView, state, pos, withSnowy(negative, snowAbove, vertical), randomSupplier, context);
         }
     }
 
@@ -92,25 +94,31 @@ public class BakedHalvesModel extends ForwardingBakedModel {
         return half;
     }
 
-    private static void emitHalf(BlockRenderView blockView, BlockPos pos, BlockState half, Supplier<Random> randomSupplier, RenderContext context) {
+    private static void emitHalf(BlockRenderView blockView, BlockState doubleState, BlockPos pos, BlockState half, Supplier<Random> randomSupplier, RenderContext context) {
         MinecraftClient client = MinecraftClient.getInstance();
         BakedModel model = client.getBlockRenderManager().getModel(half);
         BlockColors colors = client.getBlockColors();
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
         BlendMode blendMode = BlendMode.fromRenderLayer(RenderLayers.getBlockLayer(half));
         MaterialFinder finder = renderer.materialFinder();
+        // 陰影（AO）は、ダブルハーフ全体ではなくハーフ単体が光るかどうかで決める（バニラの BlockModelRenderer と同じ）
+        TriState ao = (half.getLuminance() == 0 && model.useAmbientOcclusion()) ? TriState.TRUE : TriState.FALSE;
 
         context.pushTransform(quad -> {
             Direction cullFace = quad.cullFace();
             if (cullFace != null) {
-                if (!Block.shouldDrawSide(half, blockView, pos, cullFace, pos.offset(cullFace))) {
+                BlockPos otherPos = pos.offset(cullFace);
+                if (!Block.shouldDrawSide(half, blockView, pos, cullFace, otherPos)) {
                     return false;
                 }
-                // ダブルハーフ全体の状態で省略されないよう、省略の判断はここで済ませる
-                quad.cullFace(null);
+                // 面の明るさは隣のマスから取るため、cullFace はなるべく残す。
+                // ただしダブルハーフ全体の状態だと省略されてしまう面だけは、省略されないよう外す。
+                if (!Block.shouldDrawSide(doubleState, blockView, pos, cullFace, otherPos)) {
+                    quad.cullFace(null);
+                }
             }
 
-            RenderMaterial material = finder.clear().copyFrom(quad.material()).blendMode(blendMode).find();
+            RenderMaterial material = finder.clear().copyFrom(quad.material()).blendMode(blendMode).ambientOcclusion(ao).find();
             quad.material(material);
 
             int colorIndex = quad.colorIndex();
