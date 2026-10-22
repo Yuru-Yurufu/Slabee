@@ -46,6 +46,31 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     protected static final Mesh[][][] END_MESHES = new Mesh[VARIANT_COUNT][STAINED_GLASS_PATTERN_COUNT][DIRECTION_COUNT];
     protected static final Mesh[][][][][] QUARTER_MESHES = new Mesh[VARIANT_COUNT][SLAB_PATTERN_COUNT][DIRECTION_COUNT][QUARTER_COUNT][UV_AXIS_COUNT];
 
+    // 生成済みかどうか。メッシュ配列の特定の要素が null かどうかで判定すると、その面を
+    // そもそも生成しない場合（例：横のハーフの上下の面）に毎回作り直してしまうため、別に持つ。
+    protected static final boolean[][] SIDE_POSITIVE_BUILT = new boolean[AXIS_COUNT][VARIANT_COUNT];
+    protected static final boolean[][] SIDE_NEGATIVE_BUILT = new boolean[AXIS_COUNT][VARIANT_COUNT];
+    protected static final boolean[][] END_POSITIVE_BUILT = new boolean[AXIS_COUNT][VARIANT_COUNT];
+    protected static final boolean[][] END_NEGATIVE_BUILT = new boolean[AXIS_COUNT][VARIANT_COUNT];
+    protected static final boolean[] QUARTER_BUILT = new boolean[VARIANT_COUNT];
+
+    /**
+     * 作り置きのメッシュをすべて捨てる。メッシュはテクスチャの貼り付け位置（UV）を焼き込んでいるため、
+     * リソースの再読み込み（リソースパックの変更など）でテクスチャの配置が変わったら作り直す必要がある。
+     * モデルの読み込みのたびに呼ぶ。
+     */
+    public static synchronized void clearMeshCaches() {
+        for (Mesh[][][][] a : new Mesh[][][][][]{SIDE_POSITIVE_MESHES, SIDE_NEGATIVE_MESHES, END_POSITIVE_MESHES, END_NEGATIVE_MESHES}) {
+            for (Mesh[][][] b : a) for (Mesh[][] c : b) for (Mesh[] d : c) java.util.Arrays.fill(d, null);
+        }
+        for (Mesh[][] b : END_MESHES) for (Mesh[] c : b) java.util.Arrays.fill(c, null);
+        for (Mesh[][][][] b : QUARTER_MESHES) for (Mesh[][][] c : b) for (Mesh[][] d : c) for (Mesh[] e : d) java.util.Arrays.fill(e, null);
+        for (boolean[][] f : new boolean[][][]{SIDE_POSITIVE_BUILT, SIDE_NEGATIVE_BUILT, END_POSITIVE_BUILT, END_NEGATIVE_BUILT}) {
+            for (boolean[] g : f) java.util.Arrays.fill(g, false);
+        }
+        java.util.Arrays.fill(QUARTER_BUILT, false);
+    }
+
     protected static final SpriteIdentifier nullSpriteIdentifier = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone"));
 
     @Override

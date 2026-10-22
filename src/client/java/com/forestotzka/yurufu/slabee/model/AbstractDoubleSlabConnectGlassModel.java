@@ -138,7 +138,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        if (this.positiveId != null && SIDE_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
+        if (this.positiveId != null && !SIDE_POSITIVE_BUILT[axis][positiveVariantIndex]) {
+            SIDE_POSITIVE_BUILT[axis][positiveVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
                 for (Direction dir : Direction.values()) {
                     if (isEndFace(dir)) {
@@ -155,7 +156,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
             }
         }
 
-        if (this.negativeId != null && SIDE_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
+        if (this.negativeId != null && !SIDE_NEGATIVE_BUILT[axis][negativeVariantIndex]) {
+            SIDE_NEGATIVE_BUILT[axis][negativeVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
                 for (Direction dir : Direction.values()) {
                     if (isEndFace(dir)) {
@@ -172,7 +174,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
             }
         }
 
-        if (this.positiveId != null && END_POSITIVE_MESHES[axis][positiveVariantIndex][0][0] == null) {
+        if (this.positiveId != null && !END_POSITIVE_BUILT[axis][positiveVariantIndex]) {
+            END_POSITIVE_BUILT[axis][positiveVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < (isGlassPositive ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
                 for (Direction dir : Direction.values()) {
                     if (!isEndFace(dir)) {
@@ -192,7 +195,8 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
             }
         }
 
-        if (this.negativeId != null && END_NEGATIVE_MESHES[axis][negativeVariantIndex][0][0] == null) {
+        if (this.negativeId != null && !END_NEGATIVE_BUILT[axis][negativeVariantIndex]) {
+            END_NEGATIVE_BUILT[axis][negativeVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < (isGlassNegative ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
                 for (Direction dir : Direction.values()) {
                     if (!isEndFace(dir)) {
@@ -229,6 +233,11 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
+        // 描くガラスのハーフがない（両側とも普通のハーフ）なら、周りのガラスを調べる必要はない
+        if (this.positiveId == null && this.negativeId == null) {
+            return;
+        }
+
         NeighborState ns = new NeighborState(blockRenderView, blockPos, positiveSlab, negativeSlab, getDoubleSlabType());
 
         if (this.positiveId != null) {
