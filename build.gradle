@@ -10,6 +10,14 @@ base {
     archivesName = project.archives_base_name
 }
 
+// GameTest用のソースセット（テスト専用のコード。配布するjarには含まれない）
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+}
+
 loom {
     splitEnvironmentSourceSets()
 
@@ -17,6 +25,21 @@ loom {
         "slabee" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
+        }
+        "slabee-gametest" {
+            sourceSet sourceSets.gametest
+        }
+    }
+
+    runs {
+        // ./gradlew runGametest : 画面なしのサーバーを起動し、GameTestを全部実行して終了する
+        gametest {
+            server()
+            name "Game Test"
+            source sourceSets.gametest
+            vmArg "-Dfabric-api.gametest"
+            vmArg "-Dfabric-api.gametest.report-file=${project.layout.buildDirectory.get()}/gametest/report.xml"
+            runDir "build/gametest"
         }
     }
 }

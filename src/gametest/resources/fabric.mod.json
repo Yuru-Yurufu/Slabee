@@ -1,0 +1,19 @@
+{
+    "schemaVersion": 1,
+    "id": "slabee-gametest",
+    "version": "1.0.0",
+    "name": "Slabee GameTests",
+    "description": "Slabee の自動テスト（開発用。配布しない）",
+    "environment": "*",
+    "entrypoints": {
+        "fabric-gametest": [
+            "com.forestotzka.yurufu.slabee.gametest.StackingGameTests",
+            "com.forestotzka.yurufu.slabee.gametest.HalfBreakGameTests",
+            "com.forestotzka.yurufu.slabee.gametest.MixinGameTests"
+        ]
+    },
+    "depends": {
+        "slabee": "*",
+        "fabric-gametest-api-v1": "*"
+    }
+}
