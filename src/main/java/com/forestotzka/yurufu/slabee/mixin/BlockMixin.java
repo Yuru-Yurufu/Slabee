@@ -1,5 +1,7 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
+import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlockEntity;
+
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
@@ -57,39 +59,27 @@ public abstract class BlockMixin {
 
     @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
     private static void onShouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> cir) {
+        // ダブルハーフの中の片方のハーフについて、もう片方に接している内側の面を描くかどうか
+        BlockState here = world.getBlockState(pos);
+        if (!(world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity)) {
+            return;
+        }
+
         Block block = state.getBlock();
-
-        if (block instanceof SlabBlock) {
-            BlockState blockState = world.getBlockState(pos);
+        if (block instanceof SlabBlock && here.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
             SlabType slabType = state.get(Properties.SLAB_TYPE);
-
-            if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
-                if (slabType == SlabType.BOTTOM) {
-                    if (side == Direction.UP) {
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
-                        cir.cancel();
-                    }
-                } else if (slabType == SlabType.TOP) {
-                    if (side == Direction.DOWN) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
-                        cir.cancel();
-                    }
-                }
+            if (slabType == SlabType.BOTTOM && side == Direction.UP) {
+                cir.setReturnValue(DoubleSlabUtils.shouldDrawInnerFace(state, entity.getPositiveSlabState(), side));
+            } else if (slabType == SlabType.TOP && side == Direction.DOWN) {
+                cir.setReturnValue(DoubleSlabUtils.shouldDrawInnerFace(state, entity.getNegativeSlabState(), side));
             }
-
-        } else if (block instanceof VerticalSlabBlock) {
-            BlockState blockState = world.getBlockState(pos);
-
-            if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
-                Direction d = state.get(Properties.HORIZONTAL_FACING);
-                if (d.getOpposite() == side) {
-                    if (d == Direction.EAST || d == Direction.SOUTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isNegativeSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
-                        cir.cancel();
-                    } else if (d == Direction.WEST || d == Direction.NORTH) {
-                        cir.setReturnValue(DoubleSlabUtils.isPositiveSeeThrough(blockState) && DoubleSlabVariant.fromBlock(state.getBlock()) != blockState.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
-                        cir.cancel();
-                    }
+        } else if (block instanceof VerticalSlabBlock && here.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
+            Direction d = state.get(Properties.HORIZONTAL_FACING);
+            if (d.getOpposite() == side) {
+                if (d == Direction.EAST || d == Direction.SOUTH) {
+                    cir.setReturnValue(DoubleSlabUtils.shouldDrawInnerFace(state, entity.getNegativeSlabState(), side));
+                } else {
+                    cir.setReturnValue(DoubleSlabUtils.shouldDrawInnerFace(state, entity.getPositiveSlabState(), side));
                 }
             }
         }
