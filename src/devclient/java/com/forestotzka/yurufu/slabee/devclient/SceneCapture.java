@@ -56,7 +56,7 @@ import java.util.stream.Stream;
 public class SceneCapture implements ClientModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("SlabeeScene");
     private static final String WORLD_NAME = "slabee-scene";
-    private static final int GROUP_SIZE = 10;
+    private static final int GROUP_SIZE = 6;
     private static final int MAX_TOTAL_TICKS = 20 * 60 * 45;
 
     private enum Phase { WAIT_TITLE, WAIT_WORLD, SHOTS, PERF, FINISH, DONE }
@@ -213,8 +213,8 @@ public class SceneCapture implements ClientModInitializer {
             int last = Math.min(slabs.size(), first + GROUP_SIZE) - 1;
             double centerX = (first + last) / 2.0 * SceneBuilder.COLUMN_STEP + 0.5;
             String note = idsOf(slabs.subList(first, last + 1));
-            shots.add(new View(String.format("catalog_%02d_south", g), centerX, baseY + 9, -9, 0f, 35f, note));
-            shots.add(new View(String.format("catalog_%02d_north", g), centerX, baseY + 9, rowsDepth + 10, 180f, 35f, note));
+            shots.add(new View(String.format("catalog_%02d_south", g), centerX, baseY + 7, -5, 0f, 42f, note));
+            shots.add(new View(String.format("catalog_%02d_north", g), centerX, baseY + 7, rowsDepth + 6, 180f, 42f, note));
         }
 
         int glassGroup = 4;

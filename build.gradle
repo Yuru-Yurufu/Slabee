@@ -53,6 +53,7 @@ loom {
             name "Scene Capture"
             source sourceSets.devclient
             vmArg "-Dslabee.scene=true"
+            programArgs "--width", "1280", "--height", "720"
             runDir "build/scene"
         }
     }
