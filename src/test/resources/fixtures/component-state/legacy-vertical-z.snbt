@@ -1,0 +1,9 @@
+{
+  positive_slab: {
+    id: "slabee:stone_vertical_slab"
+  },
+  negative_slab: {
+    id: "slabee:cobblestone_vertical_slab"
+  },
+  axis: "Z"
+}

@@ -1,0 +1,10 @@
+{
+  positive_slab: {
+    id: "minecraft:oak_slab",
+    facing: "north"
+  },
+  negative_slab: {
+    id: "minecraft:stone_slab",
+    facing: "south"
+  }
+}

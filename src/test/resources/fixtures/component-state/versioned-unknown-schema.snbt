@@ -1,0 +1,16 @@
+{
+  "slabee:component_state": {
+    schema_version: 999,
+    container_kind: "horizontal",
+    positive: {
+      block_state: {
+        Name: "minecraft:oak_slab"
+      }
+    },
+    negative: {
+      block_state: {
+        Name: "minecraft:stone_slab"
+      }
+    }
+  }
+}

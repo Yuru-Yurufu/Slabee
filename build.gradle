@@ -21,6 +21,13 @@ loom {
     }
 }
 
+sourceSets {
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.compileClasspath
+    }
+}
+
 repositories {
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
@@ -37,6 +44,14 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
+    testRuntimeOnly "net.fabricmc:fabric-loader-junit:${project.loader_version}"
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+    systemProperty "fabric.side", "server"
 }
 
 processResources {

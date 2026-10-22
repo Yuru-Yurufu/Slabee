@@ -1,0 +1,20 @@
+{
+  "slabee:component_state": {
+    schema_version: 1,
+    container_kind: "horizontal",
+    future_container_field: {
+      ignored: 1b
+    },
+    positive: {
+      future_component_field: "ignored",
+      block_state: {
+        Name: "minecraft:oak_slab"
+      }
+    },
+    negative: {
+      block_state: {
+        Name: "minecraft:stone_slab"
+      }
+    }
+  }
+}
