@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 1,
+    "id": "slabee-devclient",
+    "version": "1.0.0",
+    "name": "Slabee Scene Capture",
+    "description": "Slabee の見た目の撮影と重さの測定（開発用。配布しない）",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "com.forestotzka.yurufu.slabee.devclient.SceneCapture"
+        ]
+    },
+    "depends": {
+        "slabee": "*"
+    }
+}

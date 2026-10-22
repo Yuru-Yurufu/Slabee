@@ -16,6 +16,8 @@ sourceSets {
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
         runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
     }
+    // 見た目の撮影と重さの測定用（開発専用。配布するjarには含まれない）
+    devclient {}
 }
 
 loom {
@@ -29,6 +31,9 @@ loom {
         "slabee-gametest" {
             sourceSet sourceSets.gametest
         }
+        "slabee-devclient" {
+            sourceSet sourceSets.devclient
+        }
     }
 
     runs {
@@ -41,7 +46,22 @@ loom {
             vmArg "-Dfabric-api.gametest.report-file=${project.layout.buildDirectory.get()}/gametest/report.xml"
             runDir "build/gametest"
         }
+        // ./gradlew runScene : クライアントを起動し、テスト用ワールドを作って決まった視点から撮影し、
+        // 重さを測って終了する。結果は build/scene/slabee-scene/ に出る。
+        scene {
+            client()
+            name "Scene Capture"
+            source sourceSets.devclient
+            vmArg "-Dslabee.scene=true"
+            runDir "build/scene"
+        }
     }
+}
+
+// devclient は client ソースセット（loom の splitEnvironmentSourceSets で作られる）に依存するので、loom の後で設定する
+sourceSets.devclient {
+    compileClasspath += sourceSets.client.compileClasspath + sourceSets.client.output + sourceSets.main.output
+    runtimeClasspath += sourceSets.client.runtimeClasspath + sourceSets.client.output + sourceSets.main.output
 }
 
 repositories {
