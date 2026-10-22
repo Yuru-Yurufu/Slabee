@@ -9,7 +9,8 @@
         "fabric-gametest": [
             "com.forestotzka.yurufu.slabee.gametest.StackingGameTests",
             "com.forestotzka.yurufu.slabee.gametest.HalfBreakGameTests",
-            "com.forestotzka.yurufu.slabee.gametest.MixinGameTests"
+            "com.forestotzka.yurufu.slabee.gametest.MixinGameTests",
+            "com.forestotzka.yurufu.slabee.gametest.LightingGameTests"
         ]
     },
     "depends": {

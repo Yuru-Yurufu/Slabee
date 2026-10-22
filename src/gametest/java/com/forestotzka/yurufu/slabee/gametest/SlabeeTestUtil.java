@@ -39,6 +39,18 @@ final class SlabeeTestUtil {
         stack.useOnBlock(new ItemUsageContext(player, Hand.MAIN_HAND, hitResult));
     }
 
+    /** 重ね置きと同じ手順で、ダブルハーフ（横）を直接置く */
+    static void placeDouble(TestContext context, BlockPos relPos, Block top, Block bottom) {
+        BlockPos abs = context.getAbsolutePos(relPos);
+        BlockState state = com.forestotzka.yurufu.slabee.SlabeeUtils.getAbstractState(top, bottom,
+                com.forestotzka.yurufu.slabee.block.ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
+        context.getWorld().setBlockState(abs, state, 3);
+        if (context.getWorld().getBlockEntity(abs) instanceof AbstractDoubleSlabBlockEntity entity) {
+            entity.setPositiveSlabId(Registries.BLOCK.getId(top));
+            entity.setNegativeSlabId(Registries.BLOCK.getId(bottom));
+        }
+    }
+
     static AbstractDoubleSlabBlockEntity expectDouble(TestContext context, BlockPos relPos, Block expectedOuter) {
         context.expectBlock(expectedOuter, relPos);
         BlockEntity blockEntity = context.getBlockEntity(relPos);
