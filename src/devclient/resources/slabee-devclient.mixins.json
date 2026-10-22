@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.forestotzka.yurufu.slabee.devclient.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "TextureManagerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
