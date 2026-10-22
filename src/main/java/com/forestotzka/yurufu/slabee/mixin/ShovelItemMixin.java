@@ -110,7 +110,7 @@ public class ShovelItemMixin {
         BlockState upState = world.getBlockState(pos.up());
         if (state.getBlock() instanceof AbstractDoubleSlabBlock) {
             return true;
-        } else if (upState.isIn(DIRT_VERTICAL_SLABS)) {
+        } else if (state.isIn(DIRT_VERTICAL_SLABS) && upState.isIn(DIRT_VERTICAL_SLABS)) {
             return upState.get(VerticalSlabBlock.FACING).getOpposite() == state.get(VerticalSlabBlock.FACING);
         }
         return original;
