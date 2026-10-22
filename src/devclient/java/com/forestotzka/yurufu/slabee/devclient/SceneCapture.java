@@ -156,9 +156,9 @@ public class SceneCapture implements ClientModInitializer {
         options.pauseOnLostFocus = false;
         options.getViewDistance().setValue(8);
         options.getSimulationDistance().setValue(8);
-        // -Dslabee.scene.maxFps=60 のように指定すると、フレーム数の上限を固定して測れる
+        // 環境変数 SLABEE_SCENE_MAX_FPS=60（または -Dslabee.scene.maxFps=60）で、フレーム数の上限を固定して測れる
         // （描画が速くなるとフレーム数が増えてCPUを多く使い、同じマシンのサーバー側の測定に影響するため）
-        options.getMaxFps().setValue(Integer.getInteger("slabee.scene.maxFps", 260));
+        options.getMaxFps().setValue(maxFps());
         options.getEnableVsync().setValue(false);
         options.getCloudRenderMode().setValue(CloudRenderMode.OFF);
         options.getBobView().setValue(false);
@@ -166,6 +166,17 @@ public class SceneCapture implements ClientModInitializer {
         options.getFov().setValue(70);
         options.getGraphicsMode().setValue(GraphicsMode.FANCY);
         options.getAo().setValue(true);
+    }
+
+    private static int maxFps() {
+        String env = System.getenv("SLABEE_SCENE_MAX_FPS");
+        if (env != null) {
+            try {
+                return Integer.parseInt(env.trim());
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return Integer.getInteger("slabee.scene.maxFps", 260);
     }
 
     private static void createWorld(MinecraftClient client) {
