@@ -2,15 +2,20 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.block.ModBlockMap;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
+import com.forestotzka.yurufu.slabee.model.GlassSprites.ConnectionFlags;
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.DoubleSlabType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.Half;
+import com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.minecraft.block.Block;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -26,13 +31,13 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected Identifier setPositiveId(Identifier id) {
-        return Identifier.of(id.getNamespace(), "block/" + id.getPath() + "_x");
+    protected ResourceLocation setPositiveId(ResourceLocation id) {
+        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath() + "_x");
     }
 
     @Override
-    protected Identifier setNegativeId(Identifier id) {
-        return Identifier.of(id.getNamespace(), "block/" + id.getPath() + "_x");
+    protected ResourceLocation setNegativeId(ResourceLocation id) {
+        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath() + "_x");
     }
 
     @Override
@@ -56,8 +61,8 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(positiveSlab));
+    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(positiveSlab));
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
 
@@ -77,8 +82,8 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(negativeSlab));
+    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(negativeSlab));
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
 
@@ -98,7 +103,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected Material emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.EAST) {
             squareEndQuadPositive(emitter, dir, patternIndex, 0f);
         } else {
@@ -109,7 +114,7 @@ public class DoubleVerticalSlabBlockConnectGlassModelX extends AbstractDoubleSla
     }
 
     @Override
-    protected SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected Material emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.EAST) {
             squareEndQuadNegative(emitter, dir, patternIndex, 0.5f);
         } else {

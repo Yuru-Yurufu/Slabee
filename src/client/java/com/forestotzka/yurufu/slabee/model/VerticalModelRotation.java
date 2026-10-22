@@ -1,19 +1,19 @@
 package com.forestotzka.yurufu.slabee.model;
 
-import net.minecraft.client.render.model.ModelBakeSettings;
-import net.minecraft.util.math.AffineTransformation;
+import com.mojang.math.Transformation;
+import net.minecraft.client.resources.model.ModelState;
 
-public class VerticalModelRotation implements ModelBakeSettings {
-    private final AffineTransformation rotation;
+public class VerticalModelRotation implements ModelState {
+    private final Transformation rotation;
     private final boolean uvLocked;
 
-    public VerticalModelRotation(AffineTransformation rotation, boolean uvLocked) {
+    public VerticalModelRotation(Transformation rotation, boolean uvLocked) {
         this.rotation = rotation;
         this.uvLocked = uvLocked;
     }
 
     @Override
-    public AffineTransformation getRotation() {
+    public Transformation getRotation() {
         return rotation;
     }
 

@@ -3,15 +3,6 @@ package com.forestotzka.yurufu.slabee.mixin;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,49 +14,58 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
-    public LivingEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    public LivingEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);
     }
 
     @Shadow
-    private Optional<BlockPos> climbingPos;
+    private Optional<BlockPos> lastClimbablePos;
 
     @Unique
     private final Random random = new Random();
 
     @Unique
-    private World world;
+    private Level world;
 
     @Inject(
-            method = "fall",
+            method = "checkFallDamage",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"
+                    target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"
             ),
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    private void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci, ServerWorld serverWorld, double d, double e, double f, double g, BlockPos blockPos, float k, double l, int m) {
+    private void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci, ServerLevel serverWorld, double d, double e, double f, double g, BlockPos blockPos, float k, double l, int m) {
         if (SlabeeUtils.isDoubleSlab(state)) {
             LivingEntity entity = (LivingEntity) (Object) this;
-            world = entity.getWorld();
+            world = entity.level();
             BlockState particleState;
 
-            if (state.isOf(ModBlocks.DOUBLE_SLAB_BLOCK)) {
+            if (state.is(ModBlocks.DOUBLE_SLAB_BLOCK)) {
                 particleState = getTopSlabState(landedPosition);
             } else {
                 particleState = getRandomVerticalSlabState(landedPosition);
             }
 
-            ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, particleState), e, f, g, m, 0.0, 0.0, 0.0, 0.15000000596046448);
+            ((ServerLevel) world).sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, particleState), e, f, g, m, 0.0, 0.0, 0.0, 0.15000000596046448);
 
-            super.fall(heightDifference, onGround, particleState, landedPosition);
+            super.checkFallDamage(heightDifference, onGround, particleState, landedPosition);
             if (onGround) {
-                this.climbingPos = Optional.empty();
+                this.lastClimbablePos = Optional.empty();
             }
 
             ci.cancel();
@@ -97,10 +97,10 @@ public abstract class LivingEntityMixin extends Entity {
             method = "travel",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;getSlipperiness()F"
+                    target = "Lnet/minecraft/world/level/block/Block;getFriction()F"
             )
     )
     private float wrapSlipperiness(float original) {
-        return SlabeeUtils.getSlipperiness(this.getWorld(), this.getPos(), this.getPosWithYOffset(0.5F), original);
+        return SlabeeUtils.getSlipperiness(this.level(), this.position(), this.getOnPos(0.5F), original);
     }
 }

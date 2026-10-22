@@ -1,58 +1,58 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class SnowySlabBlock extends SlabBlock {
-    public static final MapCodec<SnowySlabBlock> CODEC = createCodec(SnowySlabBlock::new);
-    public static final BooleanProperty SNOWY = Properties.SNOWY;
+    public static final MapCodec<SnowySlabBlock> CODEC = simpleCodec(SnowySlabBlock::new);
+    public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
     @Override
-    public MapCodec<? extends SnowySlabBlock> getCodec() {
+    public MapCodec<? extends SnowySlabBlock> codec() {
         return CODEC;
     }
 
-    public SnowySlabBlock(Settings settings) {
+    public SnowySlabBlock(Properties settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(SNOWY, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(SNOWY, false));
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.UP) {
-            state = state.with(SNOWY, isSnow(neighborState));
+            state = state.setValue(SNOWY, isSnow(neighborState));
         }
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos().up());
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos().above());
 
-        BlockState slabState = super.getPlacementState(ctx);
-        if (slabState == null || !slabState.contains(SNOWY)) {
+        BlockState slabState = super.getStateForPlacement(ctx);
+        if (slabState == null || !slabState.hasProperty(SNOWY)) {
             return slabState;
         }
-        return slabState.with(SNOWY, isSnow(blockState));
+        return slabState.setValue(SNOWY, isSnow(blockState));
     }
 
     private static boolean isSnow(BlockState state) {
-        return state.isIn(BlockTags.SNOW);
+        return state.is(BlockTags.SNOW);
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(SNOWY);
     }
 }

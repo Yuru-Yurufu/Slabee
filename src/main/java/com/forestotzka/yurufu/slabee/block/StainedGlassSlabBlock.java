@@ -1,7 +1,7 @@
 package com.forestotzka.yurufu.slabee.block;
 
 public class StainedGlassSlabBlock extends TransparentSlabBlock {
-    public StainedGlassSlabBlock(Settings settings) {
+    public StainedGlassSlabBlock(Properties settings) {
         super(settings);
     }
 }

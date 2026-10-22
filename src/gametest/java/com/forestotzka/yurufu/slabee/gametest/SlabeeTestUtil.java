@@ -1,21 +1,21 @@
 package com.forestotzka.yurufu.slabee.gametest;
 
 import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlockEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.registry.Registries;
-import net.minecraft.test.GameTestException;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameMode;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.gametest.framework.GameTestAssertException;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * テスト共通の操作。実際のプレイヤー操作と同じ経路（アイテムをブロックに使う）でブロックを置く。
@@ -27,40 +27,40 @@ final class SlabeeTestUtil {
      * プレイヤーが {@code block} のアイテムを持って、{@code relPos} のブロックの {@code side} 面の
      * {@code hitOffset}（ブロック内の相対座標 0〜1）をクリックしたときと同じ設置処理を行う。
      */
-    static void placeItemOn(TestContext context, Block block, BlockPos relPos, Direction side, Vec3d hitOffset) {
-        PlayerEntity player = context.createMockPlayer(GameMode.CREATIVE);
+    static void placeItemOn(GameTestHelper context, Block block, BlockPos relPos, Direction side, Vec3 hitOffset) {
+        Player player = context.makeMockPlayer(GameType.CREATIVE);
         ItemStack stack = new ItemStack(block.asItem());
-        player.setStackInHand(Hand.MAIN_HAND, stack);
+        player.setItemInHand(InteractionHand.MAIN_HAND, stack);
 
-        BlockPos absPos = context.getAbsolutePos(relPos);
-        Vec3d hit = Vec3d.of(absPos).add(hitOffset);
+        BlockPos absPos = context.absolutePos(relPos);
+        Vec3 hit = Vec3.atLowerCornerOf(absPos).add(hitOffset);
         BlockHitResult hitResult = new BlockHitResult(hit, side, absPos, false);
 
-        stack.useOnBlock(new ItemUsageContext(player, Hand.MAIN_HAND, hitResult));
+        stack.useOn(new UseOnContext(player, InteractionHand.MAIN_HAND, hitResult));
     }
 
     /** 重ね置きと同じ手順で、ダブルハーフ（横）を直接置く */
-    static void placeDouble(TestContext context, BlockPos relPos, Block top, Block bottom) {
-        BlockPos abs = context.getAbsolutePos(relPos);
+    static void placeDouble(GameTestHelper context, BlockPos relPos, Block top, Block bottom) {
+        BlockPos abs = context.absolutePos(relPos);
         BlockState state = com.forestotzka.yurufu.slabee.SlabeeUtils.getAbstractState(top, bottom,
-                com.forestotzka.yurufu.slabee.block.ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
-        context.getWorld().setBlockState(abs, state, 3);
-        if (context.getWorld().getBlockEntity(abs) instanceof AbstractDoubleSlabBlockEntity entity) {
-            entity.setPositiveSlabId(Registries.BLOCK.getId(top));
-            entity.setNegativeSlabId(Registries.BLOCK.getId(bottom));
+                com.forestotzka.yurufu.slabee.block.ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState());
+        context.getLevel().setBlock(abs, state, 3);
+        if (context.getLevel().getBlockEntity(abs) instanceof AbstractDoubleSlabBlockEntity entity) {
+            entity.setPositiveSlabId(BuiltInRegistries.BLOCK.getKey(top));
+            entity.setNegativeSlabId(BuiltInRegistries.BLOCK.getKey(bottom));
         }
     }
 
-    static AbstractDoubleSlabBlockEntity expectDouble(TestContext context, BlockPos relPos, Block expectedOuter) {
-        context.expectBlock(expectedOuter, relPos);
+    static AbstractDoubleSlabBlockEntity expectDouble(GameTestHelper context, BlockPos relPos, Block expectedOuter) {
+        context.assertBlockPresent(expectedOuter, relPos);
         BlockEntity blockEntity = context.getBlockEntity(relPos);
         if (!(blockEntity instanceof AbstractDoubleSlabBlockEntity entity)) {
-            throw new GameTestException("ダブルハーフのBlock Entityがない: " + blockEntity);
+            throw new GameTestAssertException("ダブルハーフのBlock Entityがない: " + blockEntity);
         }
         return entity;
     }
 
-    static void expectHalves(TestContext context, AbstractDoubleSlabBlockEntity entity, Block expectedPositive, Block expectedNegative) {
+    static void expectHalves(GameTestHelper context, AbstractDoubleSlabBlockEntity entity, Block expectedPositive, Block expectedNegative) {
         Block positive = entity.getPositiveSlabState().getBlock();
         Block negative = entity.getNegativeSlabState().getBlock();
         context.assertTrue(positive == expectedPositive,
@@ -69,12 +69,12 @@ final class SlabeeTestUtil {
                 "negative側が違う: 期待=" + id(expectedNegative) + " 実際=" + id(negative));
     }
 
-    static void expectState(TestContext context, BlockPos relPos, BlockState expected) {
+    static void expectState(GameTestHelper context, BlockPos relPos, BlockState expected) {
         BlockState actual = context.getBlockState(relPos);
         context.assertTrue(actual.equals(expected), "ブロックの状態が違う: 期待=" + expected + " 実際=" + actual);
     }
 
     static String id(Block block) {
-        return Registries.BLOCK.getId(block).toString();
+        return BuiltInRegistries.BLOCK.getKey(block).toString();
     }
 }

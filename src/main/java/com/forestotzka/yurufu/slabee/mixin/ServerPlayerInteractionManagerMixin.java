@@ -1,13 +1,13 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.server.level.ServerPlayerGameMode;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,29 +15,29 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ServerPlayerInteractionManager.class)
+@Mixin(ServerPlayerGameMode.class)
 public class ServerPlayerInteractionManagerMixin {
 
     @Unique
-    private PlayerActionC2SPacket.Action currentAction = null;
+    private ServerboundPlayerActionPacket.Action currentAction = null;
 
-    @Inject(method = "processBlockBreakingAction", at = @At("HEAD"))
-    private void captureAction(BlockPos pos, PlayerActionC2SPacket.Action action, Direction direction, int worldHeight, int sequence, CallbackInfo ci) {
+    @Inject(method = "handleBlockBreakAction", at = @At("HEAD"))
+    private void captureAction(BlockPos pos, ServerboundPlayerActionPacket.Action action, Direction direction, int worldHeight, int sequence, CallbackInfo ci) {
         this.currentAction = action;
     }
 
     @Redirect(
-            method = "processBlockBreakingAction",
+            method = "handleBlockBreakAction",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/BlockState;calcBlockBreakingDelta(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)F"
+                    target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroyProgress(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"
             )
     )
-    private float redirectCalcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
-        if (this.currentAction == PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK && SlabeeUtils.isDoubleSlab(state)) {
+    private float redirectCalcBlockBreakingDelta(BlockState state, Player player, BlockGetter world, BlockPos pos) {
+        if (this.currentAction == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK && SlabeeUtils.isDoubleSlab(state)) {
             return 1.0F;
         } else {
-            return state.calcBlockBreakingDelta(player, world, pos);
+            return state.getDestroyProgress(player, world, pos);
         }
     }
 }

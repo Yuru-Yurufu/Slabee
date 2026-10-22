@@ -2,38 +2,37 @@ package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.World;
-
 import java.util.function.ToIntFunction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.LIGHT_LEVEL;
 
 public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
-    protected final Identifier defaultPositiveSlabId;
-    protected final Identifier defaultNegativeSlabId;
+    protected final ResourceLocation defaultPositiveSlabId;
+    protected final ResourceLocation defaultNegativeSlabId;
     protected final BlockState defaultPositiveSlabState;
     protected final BlockState defaultNegativeSlabState;
-    protected Identifier positiveSlabId;
-    protected Identifier negativeSlabId;
+    protected ResourceLocation positiveSlabId;
+    protected ResourceLocation negativeSlabId;
     protected BlockState positiveSlabState;
     protected BlockState negativeSlabState;
-    protected final BlockState defaultBlockState = this.getCachedState();
+    protected final BlockState defaultBlockState = this.getBlockState();
     protected BlockState blockState = defaultBlockState;
-    public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.get(LIGHT_LEVEL);
+    public static ToIntFunction<BlockState> LUMINANCE = (state) -> (Integer)state.getValue(LIGHT_LEVEL);
 
     private boolean init = true;
 
@@ -41,13 +40,13 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     private ConversionRequest pendingNegative = null;
     private boolean queued = false;
 
-    public AbstractDoubleSlabBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Identifier defaultPositiveSlabId, Identifier defaultNegativeSlabId) {
+    public AbstractDoubleSlabBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ResourceLocation defaultPositiveSlabId, ResourceLocation defaultNegativeSlabId) {
         super(type, pos, state);
 
         this.defaultPositiveSlabId = defaultPositiveSlabId;
         this.defaultNegativeSlabId = defaultNegativeSlabId;
-        this.defaultPositiveSlabState = Registries.BLOCK.get(defaultPositiveSlabId).getDefaultState();
-        this.defaultNegativeSlabState = Registries.BLOCK.get(defaultNegativeSlabId).getDefaultState();
+        this.defaultPositiveSlabState = BuiltInRegistries.BLOCK.get(defaultPositiveSlabId).defaultBlockState();
+        this.defaultNegativeSlabState = BuiltInRegistries.BLOCK.get(defaultNegativeSlabId).defaultBlockState();
 
         this.positiveSlabId = this.defaultPositiveSlabId;
         this.negativeSlabId = this.defaultNegativeSlabId;
@@ -55,23 +54,23 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         this.negativeSlabState = this.defaultNegativeSlabState;
     }
 
-    public Identifier getPositiveSlabId() {
+    public ResourceLocation getPositiveSlabId() {
         return positiveSlabId;
     }
 
-    public void setPositiveSlabId(Identifier id) {
+    public void setPositiveSlabId(ResourceLocation id) {
         this.positiveSlabId = id;
         updatePositiveSlabState();
         updateBlockProperties();
     }
 
-    public Identifier getNegativeSlabId() {
+    public ResourceLocation getNegativeSlabId() {
         return negativeSlabId;
     }
 
-    public void setNegativeSlabId(Identifier id) {
-        if (id.equals(Identifier.of(Slabee.MOD_ID, "dirt_path_slab"))) {
-            this.negativeSlabId = Identifier.of(Slabee.MOD_ID, "dirt_slab");
+    public void setNegativeSlabId(ResourceLocation id) {
+        if (id.equals(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "dirt_path_slab"))) {
+            this.negativeSlabId = ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "dirt_slab");
         } else {
             this.negativeSlabId = id;
         }
@@ -93,12 +92,12 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     }
 
     public int getPositiveRenderLayerType() {
-        Block block = Registries.BLOCK.get(this.positiveSlabId);
+        Block block = BuiltInRegistries.BLOCK.get(this.positiveSlabId);
         return getRenderLayerType(block);
     }
 
     public int getNegativeRenderLayerType() {
-        Block block = Registries.BLOCK.get(this.negativeSlabId);
+        Block block = BuiltInRegistries.BLOCK.get(this.negativeSlabId);
         return getRenderLayerType(block);
     }
 
@@ -115,40 +114,40 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-        return this.createComponentlessNbt(registryLookup);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
+        return this.saveCustomOnly(registryLookup);
     }
 
     public void updateBlockProperties() {
-        if (world != null) {
-            if (!this.world.isClient()) {
+        if (level != null) {
+            if (!this.level.isClientSide()) {
                 Block positiveSlab = positiveSlabState.getBlock();
                 Block negativeSlab = negativeSlabState.getBlock();
 
-                this.blockState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, world.getBlockState(pos));
-                world.setBlockState(pos, this.blockState, 3);
-                this.markDirty();
-                world.updateListeners(this.pos, this.getCachedState(), this.blockState, 3);
+                this.blockState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, level.getBlockState(worldPosition));
+                level.setBlock(worldPosition, this.blockState, 3);
+                this.setChanged();
+                level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.blockState, 3);
             } else {
                 // クライアント：両側のハーフが変わったら、チャンクの描画を組み立て直す
-                world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
+                level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
             }
         } else {
             this.blockState = this.defaultBlockState;
         }
     }
 
-    public void serverTick(World world, BlockPos pos, BlockState state) {
+    public void serverTick(Level world, BlockPos pos, BlockState state) {
         if (init) {
             updateBlockProperties();
             init = false;
         }
 
-        if (!world.isClient && queued) {
+        if (!world.isClientSide && queued) {
             if (pendingPositive != null) {
                 pendingPositive.delayTicks--;
                 if (pendingPositive.delayTicks <= 0) {
@@ -165,7 +164,7 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         }
     }
 
-    public BlockState getBlockState() {
+    public BlockState getCombinedBlockState() {
         return this.blockState;
     }
 
@@ -177,8 +176,8 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     protected abstract void updatePositiveSlabState();
     protected abstract void updateNegativeSlabState();
 
-    protected boolean isTrueSlabId(Identifier i) {
-        Block block = Registries.BLOCK.get(i);
+    protected boolean isTrueSlabId(ResourceLocation i) {
+        Block block = BuiltInRegistries.BLOCK.get(i);
         return DoubleSlabUtils.isTrueSlabId(i) && (block instanceof SlabBlock || block instanceof VerticalSlabBlock);
     }
 
@@ -215,7 +214,7 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
     }
 
     public void requestConversion(Conversion conversion, boolean isPositive, int delayTicks, int priority) {
-        if (world == null || world.isClient || conversion == null) return;
+        if (level == null || level.isClientSide || conversion == null) return;
 
         if (isPositive) {
             pendingPositive = ConversionRequest.mergeOrCreate(pendingPositive, conversion, delayTicks, priority);

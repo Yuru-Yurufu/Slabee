@@ -2,15 +2,17 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
-
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.Half;
+import com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.block.Block;
 
 import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 
@@ -127,102 +129,102 @@ public class GlassSprites {
     private static final int STAINED_GLASS_PATTERN_COUNT = 25;
     private static final int SLAB_PATTERN_COUNT = 169;
 
-    private static final SpriteIdentifier[] GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass_slab_atlas"));
-    private static final SpriteIdentifier GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] WHITE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier WHITE_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier WHITE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier LIGHT_GRAY_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] GRAY_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier GRAY_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier GRAY_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] BLACK_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier BLACK_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier BLACK_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] BROWN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier BROWN_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier BROWN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] RED_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier RED_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier RED_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] ORANGE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier ORANGE_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier ORANGE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] YELLOW_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier YELLOW_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier YELLOW_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] LIME_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier LIME_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier LIME_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] GREEN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier GREEN_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier GREEN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] CYAN_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier CYAN_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier CYAN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier LIGHT_BLUE_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] BLUE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier BLUE_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier BLUE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] PURPLE_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier PURPLE_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier PURPLE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] MAGENTA_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier MAGENTA_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier MAGENTA_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] PINK_STAINED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier PINK_STAINED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass_slab_atlas"));
-    private static final SpriteIdentifier PINK_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass_vertical_slab_atlas"));
-    private static final SpriteIdentifier[] TINTED_GLASS_SPRITE_IDS = new SpriteIdentifier[SLAB_PATTERN_COUNT];
-    private static final SpriteIdentifier TINTED_GLASS_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass_slab_atlas"));
-    private static final SpriteIdentifier TINTED_GLASS_VERTICAL_SLAB_SPRITE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass_vertical_slab_atlas"));
+    private static final Material[] GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/glass_slab_atlas"));
+    private static final Material GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/glass_vertical_slab_atlas"));
+    private static final Material[] WHITE_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material WHITE_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/white_stained_glass_slab_atlas"));
+    private static final Material WHITE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/white_stained_glass_vertical_slab_atlas"));
+    private static final Material[] LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material LIGHT_GRAY_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_gray_stained_glass_slab_atlas"));
+    private static final Material LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_gray_stained_glass_vertical_slab_atlas"));
+    private static final Material[] GRAY_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material GRAY_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/gray_stained_glass_slab_atlas"));
+    private static final Material GRAY_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/gray_stained_glass_vertical_slab_atlas"));
+    private static final Material[] BLACK_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material BLACK_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/black_stained_glass_slab_atlas"));
+    private static final Material BLACK_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/black_stained_glass_vertical_slab_atlas"));
+    private static final Material[] BROWN_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material BROWN_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/brown_stained_glass_slab_atlas"));
+    private static final Material BROWN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/brown_stained_glass_vertical_slab_atlas"));
+    private static final Material[] RED_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material RED_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/red_stained_glass_slab_atlas"));
+    private static final Material RED_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/red_stained_glass_vertical_slab_atlas"));
+    private static final Material[] ORANGE_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material ORANGE_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/orange_stained_glass_slab_atlas"));
+    private static final Material ORANGE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/orange_stained_glass_vertical_slab_atlas"));
+    private static final Material[] YELLOW_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material YELLOW_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/yellow_stained_glass_slab_atlas"));
+    private static final Material YELLOW_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/yellow_stained_glass_vertical_slab_atlas"));
+    private static final Material[] LIME_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material LIME_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/lime_stained_glass_slab_atlas"));
+    private static final Material LIME_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/lime_stained_glass_vertical_slab_atlas"));
+    private static final Material[] GREEN_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material GREEN_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/green_stained_glass_slab_atlas"));
+    private static final Material GREEN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/green_stained_glass_vertical_slab_atlas"));
+    private static final Material[] CYAN_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material CYAN_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/cyan_stained_glass_slab_atlas"));
+    private static final Material CYAN_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/cyan_stained_glass_vertical_slab_atlas"));
+    private static final Material[] LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material LIGHT_BLUE_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_blue_stained_glass_slab_atlas"));
+    private static final Material LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_blue_stained_glass_vertical_slab_atlas"));
+    private static final Material[] BLUE_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material BLUE_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/blue_stained_glass_slab_atlas"));
+    private static final Material BLUE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/blue_stained_glass_vertical_slab_atlas"));
+    private static final Material[] PURPLE_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material PURPLE_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/purple_stained_glass_slab_atlas"));
+    private static final Material PURPLE_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/purple_stained_glass_vertical_slab_atlas"));
+    private static final Material[] MAGENTA_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material MAGENTA_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/magenta_stained_glass_slab_atlas"));
+    private static final Material MAGENTA_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/magenta_stained_glass_vertical_slab_atlas"));
+    private static final Material[] PINK_STAINED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material PINK_STAINED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/pink_stained_glass_slab_atlas"));
+    private static final Material PINK_STAINED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/pink_stained_glass_vertical_slab_atlas"));
+    private static final Material[] TINTED_GLASS_SPRITE_IDS = new Material[SLAB_PATTERN_COUNT];
+    private static final Material TINTED_GLASS_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/tinted_glass_slab_atlas"));
+    private static final Material TINTED_GLASS_VERTICAL_SLAB_SPRITE = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/tinted_glass_vertical_slab_atlas"));
 
     static {
         for (int i = 0; i < GLASS_PATTERN_COUNT-1; i++) {
-            GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass/" + i));
+            GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/glass/" + i));
         }
         for (int i = 0; i < STAINED_GLASS_PATTERN_COUNT-1; i++) {
-            WHITE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass/" + i));
-            LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass/" + i));
-            GRAY_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass/" + i));
-            BLACK_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass/" + i));
-            BROWN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass/" + i));
-            RED_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass/" + i));
-            ORANGE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass/" + i));
-            YELLOW_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass/" + i));
-            LIME_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass/" + i));
-            GREEN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass/" + i));
-            CYAN_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass/" + i));
-            LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass/" + i));
-            BLUE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass/" + i));
-            PURPLE_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass/" + i));
-            MAGENTA_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass/" + i));
-            PINK_STAINED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass/" + i));
-            TINTED_GLASS_SPRITE_IDS[i] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass/" + i));
+            WHITE_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/white_stained_glass/" + i));
+            LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_gray_stained_glass/" + i));
+            GRAY_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/gray_stained_glass/" + i));
+            BLACK_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/black_stained_glass/" + i));
+            BROWN_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/brown_stained_glass/" + i));
+            RED_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/red_stained_glass/" + i));
+            ORANGE_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/orange_stained_glass/" + i));
+            YELLOW_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/yellow_stained_glass/" + i));
+            LIME_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/lime_stained_glass/" + i));
+            GREEN_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/green_stained_glass/" + i));
+            CYAN_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/cyan_stained_glass/" + i));
+            LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_blue_stained_glass/" + i));
+            BLUE_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/blue_stained_glass/" + i));
+            PURPLE_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/purple_stained_glass/" + i));
+            MAGENTA_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/magenta_stained_glass/" + i));
+            PINK_STAINED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/pink_stained_glass/" + i));
+            TINTED_GLASS_SPRITE_IDS[i] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/tinted_glass/" + i));
         }
-        GLASS_SPRITE_IDS[GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/glass/center"));
-        WHITE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/white_stained_glass/center"));
-        LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_gray_stained_glass/center"));
-        GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/gray_stained_glass/center"));
-        BLACK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/black_stained_glass/center"));
-        BROWN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/brown_stained_glass/center"));
-        RED_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/red_stained_glass/center"));
-        ORANGE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/orange_stained_glass/center"));
-        YELLOW_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/yellow_stained_glass/center"));
-        LIME_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/lime_stained_glass/center"));
-        GREEN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/green_stained_glass/center"));
-        CYAN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/cyan_stained_glass/center"));
-        LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/light_blue_stained_glass/center"));
-        BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/blue_stained_glass/center"));
-        PURPLE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/purple_stained_glass/center"));
-        MAGENTA_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/magenta_stained_glass/center"));
-        PINK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/pink_stained_glass/center"));
-        TINTED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.of(Slabee.MOD_ID, "block/tinted_glass/center"));
+        GLASS_SPRITE_IDS[GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/glass/center"));
+        WHITE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/white_stained_glass/center"));
+        LIGHT_GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_gray_stained_glass/center"));
+        GRAY_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/gray_stained_glass/center"));
+        BLACK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/black_stained_glass/center"));
+        BROWN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/brown_stained_glass/center"));
+        RED_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/red_stained_glass/center"));
+        ORANGE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/orange_stained_glass/center"));
+        YELLOW_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/yellow_stained_glass/center"));
+        LIME_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/lime_stained_glass/center"));
+        GREEN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/green_stained_glass/center"));
+        CYAN_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/cyan_stained_glass/center"));
+        LIGHT_BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/light_blue_stained_glass/center"));
+        BLUE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/blue_stained_glass/center"));
+        PURPLE_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/purple_stained_glass/center"));
+        MAGENTA_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/magenta_stained_glass/center"));
+        PINK_STAINED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/pink_stained_glass/center"));
+        TINTED_GLASS_SPRITE_IDS[STAINED_GLASS_PATTERN_COUNT-1] = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "block/tinted_glass/center"));
     }
 
     public record ConnectionFlags(
@@ -240,7 +242,7 @@ public class GlassSprites {
             boolean cornerTopLeft
     ) {}
 
-    public static SpriteIdentifier getFullBlockSpriteIdentifier(int index, Block slab) {
+    public static Material getFullBlockSpriteIdentifier(int index, Block slab) {
         if (slab == ModBlocks.WHITE_STAINED_GLASS_SLAB) {
             return WHITE_STAINED_GLASS_SPRITE_IDS[index];
         } else if (slab == ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB) {
@@ -280,7 +282,7 @@ public class GlassSprites {
         }
     }
 
-    public static SpriteIdentifier getSlabSpriteIdentifier(Block slab) {
+    public static Material getSlabSpriteIdentifier(Block slab) {
         if (slab == ModBlocks.WHITE_STAINED_GLASS_SLAB) {
             return WHITE_STAINED_GLASS_SLAB_SPRITE;
         } else if (slab == ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB) {
@@ -320,7 +322,7 @@ public class GlassSprites {
         }
     }
 
-    public static SpriteIdentifier getVerticalSlabSpriteIdentifier(Block verticalSlab) {
+    public static Material getVerticalSlabSpriteIdentifier(Block verticalSlab) {
         if (verticalSlab == ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB) {
             return WHITE_STAINED_GLASS_VERTICAL_SLAB_SPRITE;
         } else if (verticalSlab == ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB) {

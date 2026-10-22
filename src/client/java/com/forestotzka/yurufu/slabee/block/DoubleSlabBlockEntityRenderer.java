@@ -1,26 +1,26 @@
 package com.forestotzka.yurufu.slabee.block;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Environment(EnvType.CLIENT)
 public class DoubleSlabBlockEntityRenderer extends AbstractDoubleSlabBlockEntityRenderer<DoubleSlabBlockEntity> {
-    public DoubleSlabBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+    public DoubleSlabBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    protected void renderPositive(int renderLayerType, BlockState slabState, BlockPos pos, BlockRenderView world, MatrixStack matrices, VertexConsumerProvider vertexConsumers, Random random) {
+    protected void renderPositive(int renderLayerType, BlockState slabState, BlockPos pos, BlockAndTintGetter world, PoseStack matrices, MultiBufferSource vertexConsumers, RandomSource random) {
         if (slabState.getBlock() instanceof SnowySlabBlock) {
-            slabState = slabState.with(SnowySlabBlock.SNOWY, world.getBlockState(pos.up()).isIn(BlockTags.SNOW));
+            slabState = slabState.setValue(SnowySlabBlock.SNOWY, world.getBlockState(pos.above()).is(BlockTags.SNOW));
         }
 
         super.renderPositive(renderLayerType, slabState, pos, world, matrices, vertexConsumers, random);

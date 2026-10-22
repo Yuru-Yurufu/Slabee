@@ -3,34 +3,34 @@ package com.forestotzka.yurufu.slabee.mixin;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.entity.vehicle.VehicleEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(BoatEntity.class)
+@Mixin(Boat.class)
 public abstract class BoatEntityMixin extends VehicleEntity {
-    public BoatEntityMixin(EntityType<?> entityType, World world) {
+    public BoatEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
     }
 
     @Redirect(
-            method = "getNearbySlipperiness",
+            method = "getGroundFriction",
             at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/block/BlockState;getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/shape/VoxelShape;")
+                    target = "Lnet/minecraft/world/level/block/state/BlockState;getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;")
     )
-    private VoxelShape redirectGetCollisionShape(BlockState state, BlockView world, BlockPos pos) {
-        if (state.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
+    private VoxelShape redirectGetCollisionShape(BlockState state, BlockGetter world, BlockPos pos) {
+        if (state.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK)) {
             // ボートの slipperiness 判定用にだけ fullCube を返す
-            return VoxelShapes.fullCube();
+            return Shapes.block();
         }
         return state.getCollisionShape(world, pos);
     }
@@ -40,13 +40,13 @@ public abstract class BoatEntityMixin extends VehicleEntity {
      * 氷の下付きハーフブロックなどでも滑るように2箇所の情報を取ってmax
      */
     @ModifyExpressionValue(
-            method = "getNearbySlipperiness",
+            method = "getGroundFriction",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;getSlipperiness()F"
+                    target = "Lnet/minecraft/world/level/block/Block;getFriction()F"
             )
     )
     private float wrapSlipperiness(float original) {
-        return SlabeeUtils.getSlipperiness(this.getWorld(), this.getPos(), this.getPosWithYOffset(0.5F), original);
+        return SlabeeUtils.getSlipperiness(this.level(), this.position(), this.getOnPos(0.5F), original);
     }
 }

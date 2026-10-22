@@ -4,20 +4,19 @@ import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    List<Pair<ItemConvertible, ItemConvertible>> slabs = Arrays.asList(
+    List<Pair<ItemLike, ItemLike>> slabs = Arrays.asList(
             /*new Pair<>(ModBlocks.OAK_LOG_SLAB, Blocks.OAK_LOG),
             new Pair<>(ModBlocks.SPRUCE_LOG_SLAB, Blocks.SPRUCE_LOG),
             new Pair<>(ModBlocks.BIRCH_LOG_SLAB, Blocks.BIRCH_LOG),
@@ -224,7 +223,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.SCULK_SLAB, Blocks.SCULK)*/
     );
 
-    List<Pair<ItemConvertible, ItemConvertible>> vertical_slabs = Arrays.asList(
+    List<Pair<ItemLike, ItemLike>> vertical_slabs = Arrays.asList(
             /*new Pair<>(ModBlocks.OAK_VERTICAL_SLAB, Blocks.OAK_PLANKS),
             new Pair<>(ModBlocks.SPRUCE_VERTICAL_SLAB, Blocks.SPRUCE_PLANKS),
             new Pair<>(ModBlocks.BIRCH_VERTICAL_SLAB, Blocks.BIRCH_PLANKS),
@@ -491,7 +490,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             new Pair<>(ModBlocks.SCULK_VERTICAL_SLAB, Blocks.SCULK)*/
     );
 
-    List<Pair<ItemConvertible, ItemConvertible>> vanilla_slabs = Arrays.asList(
+    List<Pair<ItemLike, ItemLike>> vanilla_slabs = Arrays.asList(
             new Pair<>(Blocks.OAK_SLAB, Blocks.OAK_PLANKS),
             new Pair<>(Blocks.SPRUCE_SLAB, Blocks.SPRUCE_PLANKS),
             new Pair<>(Blocks.BIRCH_SLAB, Blocks.BIRCH_PLANKS),
@@ -554,12 +553,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             //new Pair<>(Blocks.PETRIFIED_OAK_SLAB, Blocks.PETRIFIED_OAK)
     );
 
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void buildRecipes(RecipeOutput exporter) {
         /*slabs(exporter);
         verticalSlabs(exporter);
         combineSlabs(exporter, slabs);
@@ -567,58 +566,58 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         combineSlabs(exporter, vanilla_slabs);
     }
 
-    private void slabs(RecipeExporter exporter) {
-        for (Pair<ItemConvertible, ItemConvertible> recipe : slabs) {
-            ItemConvertible slab = recipe.getFirst();
-            ItemConvertible block = recipe.getSecond();
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, slab, 6)
+    private void slabs(RecipeOutput exporter) {
+        for (Pair<ItemLike, ItemLike> recipe : slabs) {
+            ItemLike slab = recipe.getFirst();
+            ItemLike block = recipe.getSecond();
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
                     .pattern("###")
-                    .input('#', block)
-                    .criterion(FabricRecipeProvider.hasItem(block), FabricRecipeProvider.conditionsFromItem(block))
-                    .offerTo(exporter);
+                    .define('#', block)
+                    .unlockedBy(FabricRecipeProvider.getHasName(block), FabricRecipeProvider.has(block))
+                    .save(exporter);
         }
     }
 
-    private void verticalSlabs(RecipeExporter exporter) {
-        for (Pair<ItemConvertible, ItemConvertible> recipe : vertical_slabs) {
-            ItemConvertible slab = recipe.getFirst();
-            ItemConvertible block = recipe.getSecond();
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, slab, 6)
+    private void verticalSlabs(RecipeOutput exporter) {
+        for (Pair<ItemLike, ItemLike> recipe : vertical_slabs) {
+            ItemLike slab = recipe.getFirst();
+            ItemLike block = recipe.getSecond();
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
                     .pattern("#")
                     .pattern("#")
                     .pattern("#")
-                    .input('#', block)
-                    .criterion(FabricRecipeProvider.hasItem(block), FabricRecipeProvider.conditionsFromItem(block))
-                    .offerTo(exporter);
+                    .define('#', block)
+                    .unlockedBy(FabricRecipeProvider.getHasName(block), FabricRecipeProvider.has(block))
+                    .save(exporter);
         }
     }
 
-    private void combineSlabs(RecipeExporter exporter, List<Pair<ItemConvertible, ItemConvertible>> entries) {
-        for (Pair<ItemConvertible, ItemConvertible> recipe : entries) {
-            ItemConvertible slab = recipe.getFirst();
-            ItemConvertible block = recipe.getSecond();
+    private void combineSlabs(RecipeOutput exporter, List<Pair<ItemLike, ItemLike>> entries) {
+        for (Pair<ItemLike, ItemLike> recipe : entries) {
+            ItemLike slab = recipe.getFirst();
+            ItemLike block = recipe.getSecond();
             String filePath = block.toString();
             filePath = filePath.substring((filePath.indexOf(":") + 1), filePath.indexOf("}")) + "_from_slab";
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, block, 1)
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, block, 1)
                     .pattern("#")
                     .pattern("#")
-                    .input('#', slab)
-                    .criterion(FabricRecipeProvider.hasItem(slab), FabricRecipeProvider.conditionsFromItem(slab))
-                    .offerTo(exporter, Identifier.of("slabee", filePath));
+                    .define('#', slab)
+                    .unlockedBy(FabricRecipeProvider.getHasName(slab), FabricRecipeProvider.has(slab))
+                    .save(exporter, ResourceLocation.fromNamespaceAndPath("slabee", filePath));
         }
     }
 
-    private void combineVerticalSlabs(RecipeExporter exporter) {
-        for (Pair<ItemConvertible, ItemConvertible> recipe : vertical_slabs) {
-            ItemConvertible slab = recipe.getFirst();
-            ItemConvertible block = recipe.getSecond();
+    private void combineVerticalSlabs(RecipeOutput exporter) {
+        for (Pair<ItemLike, ItemLike> recipe : vertical_slabs) {
+            ItemLike slab = recipe.getFirst();
+            ItemLike block = recipe.getSecond();
             String filePath = block.toString();
             filePath = filePath.substring((filePath.indexOf(":") + 1), filePath.indexOf("}")) + "_from_vertical_slab";
-            ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, block, 1)
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, block, 1)
                     .pattern("##")
-                    .input('#', slab)
-                    .criterion(FabricRecipeProvider.hasItem(slab), FabricRecipeProvider.conditionsFromItem(slab))
-                    .offerTo(exporter, Identifier.of("slabee", filePath));
+                    .define('#', slab)
+                    .unlockedBy(FabricRecipeProvider.getHasName(slab), FabricRecipeProvider.has(slab))
+                    .save(exporter, ResourceLocation.fromNamespaceAndPath("slabee", filePath));
         }
     }
 }

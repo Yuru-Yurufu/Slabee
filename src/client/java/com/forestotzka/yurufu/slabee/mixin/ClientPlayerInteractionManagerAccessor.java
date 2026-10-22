@@ -1,35 +1,35 @@
 package com.forestotzka.yurufu.slabee.mixin;
 
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameMode;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(ClientPlayerInteractionManager.class)
+@Mixin(MultiPlayerGameMode.class)
 public interface ClientPlayerInteractionManagerAccessor {
 
-    @Accessor("blockBreakingSoundCooldown")
+    @Accessor("destroyTicks")
     float getBlockBreakingSoundCooldown();
 
-    @Accessor("blockBreakingSoundCooldown")
+    @Accessor("destroyTicks")
     void setBlockBreakingSoundCooldown(float cooldown);
 
-    @Accessor("blockBreakingCooldown")
+    @Accessor("destroyDelay")
     int getBlockBreakingCooldown();
 
-    @Accessor("blockBreakingCooldown")
+    @Accessor("destroyDelay")
     void setBlockBreakingCooldown(int cooldown);
 
-    @Accessor("currentBreakingProgress")
+    @Accessor("destroyProgress")
     float getCurrentBreakingProgress();
 
-    @Accessor("currentBreakingProgress")
+    @Accessor("destroyProgress")
     void setCurrentBreakingProgress(float progress);
 
-    @Accessor("currentBreakingPos")
+    @Accessor("destroyBlockPos")
     BlockPos getCurrentBreakingPos();
 
-    @Accessor("gameMode")
-    GameMode getGameMode();
+    @Accessor("localPlayerMode")
+    GameType getGameMode();
 }

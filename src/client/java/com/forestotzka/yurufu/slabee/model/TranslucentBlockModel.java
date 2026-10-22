@@ -5,21 +5,25 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.client.render.model.*;
-import net.minecraft.client.render.model.json.ModelOverrideList;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -29,7 +33,7 @@ import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBakedModel {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final Block block;
     private BakedModel bakedModel;
     protected BakedModel nullBakedModel;
@@ -37,12 +41,12 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     public TranslucentBlockModel(Block block) {
         this.block = block;
 
-        Identifier id = Registries.BLOCK.getId(this.block);
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(this.block);
 
-        this.id = Identifier.of(id.getNamespace(), "block/" + id.getPath());
+        this.id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath());
     }
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, RandomSource random) {
         return List.of();
     }
 
@@ -52,46 +56,46 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     }
 
     @Override
-    public boolean hasDepth() {
+    public boolean isGui3d() {
         return false;
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean usesBlockLight() {
         return false;
     }
 
     @Override
-    public boolean isBuiltin() {
+    public boolean isCustomRenderer() {
         return false;
     }
 
     @Override
-    public Sprite getParticleSprite() {
+    public TextureAtlasSprite getParticleIcon() {
         if (bakedModel != null) {
-            return bakedModel.getParticleSprite();
+            return bakedModel.getParticleIcon();
         } else {
-            return nullBakedModel.getParticleSprite();
+            return nullBakedModel.getParticleIcon();
         }
     }
 
     @Override
-    public ModelTransformation getTransformation() {
-        return bakedModel != null ? bakedModel.getTransformation() : ModelTransformation.NONE;
+    public ItemTransforms getTransforms() {
+        return bakedModel != null ? bakedModel.getTransforms() : ItemTransforms.NO_TRANSFORMS;
     }
 
     @Override
-    public ModelOverrideList getOverrides() {
-        return bakedModel != null ? bakedModel.getOverrides() : ModelOverrideList.EMPTY;
+    public ItemOverrides getOverrides() {
+        return bakedModel != null ? bakedModel.getOverrides() : ItemOverrides.EMPTY;
     }
 
     @Override
-    public Collection<Identifier> getModelDependencies() {
+    public Collection<ResourceLocation> getDependencies() {
         return List.of();
     }
 
     @Override
-    public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
+    public void resolveParents(Function<ResourceLocation, UnbakedModel> modelLoader) {
 
     }
 
@@ -101,15 +105,15 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
     }
 
     @Override
-    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        UnbakedModel unbakedModel = baker.getOrLoadModel(this.id);
+    public @Nullable BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> textureGetter, ModelState rotationContainer) {
+        UnbakedModel unbakedModel = baker.getModel(this.id);
         this.bakedModel = unbakedModel.bake(baker, textureGetter, rotationContainer);
 
         return this;
     }
 
     @Override
-    public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
+    public void emitBlockQuads(BlockAndTintGetter blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<RandomSource> supplier, RenderContext renderContext) {
         renderContext.pushTransform(quad -> {
             Direction face = quad.cullFace();
 
@@ -119,32 +123,32 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
         renderContext.popTransform();
     }
 
-    private boolean shouldCull(Direction face, BlockRenderView world, BlockPos pos) {
+    private boolean shouldCull(Direction face, BlockAndTintGetter world, BlockPos pos) {
         BlockPos otherPos;
         BlockState otherState;
         Block otherBlock;
 
         if (face == Direction.UP) {
-            otherPos = pos.up();
+            otherPos = pos.above();
             otherState = world.getBlockState(otherPos);
             otherBlock = otherState.getBlock();
             if (otherBlock instanceof SlabBlock) {
-                return block == ModBlockMap.slabToOriginal(otherBlock) && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                return block == ModBlockMap.slabToOriginal(otherBlock) && otherState.getValue(SlabBlock.TYPE) == SlabType.BOTTOM;
+            } else if (otherState.is(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
                 return block == ModBlockMap.slabToOriginal(entity.getNegativeSlabState().getBlock());
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 Block b = ModBlockMap.slabToVerticalSlab(block);
                 return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.DOWN) {
-            otherPos = pos.down();
+            otherPos = pos.below();
             otherState = world.getBlockState(otherPos);
             otherBlock = otherState.getBlock();
             if (otherBlock instanceof SlabBlock) {
-                return block == ModBlockMap.slabToOriginal(otherBlock) && otherState.get(SlabBlock.TYPE) == SlabType.TOP;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                return block == ModBlockMap.slabToOriginal(otherBlock) && otherState.getValue(SlabBlock.TYPE) == SlabType.TOP;
+            } else if (otherState.is(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
                 return block == ModBlockMap.slabToOriginal(entity.getPositiveSlabState().getBlock());
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 Block b = ModBlockMap.slabToVerticalSlab(block);
                 return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
             }
@@ -161,12 +165,12 @@ public class TranslucentBlockModel implements UnbakedModel, BakedModel, FabricBa
             otherState = world.getBlockState(otherPos);
             otherBlock = otherState.getBlock();
 
-            if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            if (otherState.is(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
                 Block b = ModBlockMap.originalToSlab(block);
                 return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
             } else if (otherBlock instanceof VerticalSlabBlock) {
-                return block == ModBlockMap.verticalSlabToOriginal(otherBlock) && otherState.get(VerticalSlabBlock.FACING) == face.getOpposite();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                return block == ModBlockMap.verticalSlabToOriginal(otherBlock) && otherState.getValue(VerticalSlabBlock.FACING) == face.getOpposite();
+            } else if (otherState.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
                 if (entity.isX()) {
                     if (face == Direction.EAST) {
                         return block == ModBlockMap.verticalSlabToOriginal(entity.getNegativeSlabState().getBlock());

@@ -5,25 +5,25 @@ import com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabBlockEntity;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,22 +32,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(SlabBlock.class)
 public abstract class SlabBlockMixin extends BlockMixin {
     @Unique
-    private static final EnumProperty<SlabType> TYPE = Properties.SLAB_TYPE;
+    private static final EnumProperty<SlabType> TYPE = BlockStateProperties.SLAB_TYPE;
 
-    @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
-    private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
-        BlockPos pos = ctx.getBlockPos();
-        World world = ctx.getWorld();
+    @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
+    private void getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
+        BlockPos pos = ctx.getClickedPos();
+        Level world = ctx.getLevel();
         BlockState oldState = world.getBlockState(pos);
         BlockState newState;
 
-        if (oldState.isIn(BlockTags.SLABS)) {
+        if (oldState.is(BlockTags.SLABS)) {
             Block positiveSlab;
             Block negativeSlab;
-            Item placementItem = ctx.getStack().getItem();
+            Item placementItem = ctx.getItemInHand().getItem();
 
             if (placementItem instanceof BlockItem blockItem) {
-                if (oldState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+                if (oldState.getValue(SlabBlock.TYPE) == SlabType.BOTTOM) {
                     positiveSlab = blockItem.getBlock();
                     negativeSlab = oldState.getBlock();
                 } else {
@@ -55,13 +55,13 @@ public abstract class SlabBlockMixin extends BlockMixin {
                     negativeSlab = blockItem.getBlock();
                 }
 
-                Identifier positiveId = Registries.BLOCK.getId(positiveSlab);
-                Identifier negativeId = Registries.BLOCK.getId(negativeSlab);
+                ResourceLocation positiveId = BuiltInRegistries.BLOCK.getKey(positiveSlab);
+                ResourceLocation negativeId = BuiltInRegistries.BLOCK.getKey(negativeSlab);
 
-                newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
+                newState = SlabeeUtils.getAbstractState(positiveSlab, negativeSlab, ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState());
 
-                if (DoubleSlabUtils.canPlace(ctx, getCollisionShape(ctx.getStack(), oldState))) {
-                    world.setBlockState(pos, newState, 3);
+                if (DoubleSlabUtils.canPlace(ctx, getCollisionShape(ctx.getItemInHand(), oldState))) {
+                    world.setBlock(pos, newState, 3);
 
                     DoubleSlabBlockEntity blockEntity = (DoubleSlabBlockEntity) world.getBlockEntity(pos);
                     if (blockEntity != null) {
@@ -82,31 +82,31 @@ public abstract class SlabBlockMixin extends BlockMixin {
 
     @Unique
     private static VoxelShape getCollisionShape(ItemStack itemStack, BlockState oldState) {
-        if (oldState.get(TYPE) == SlabType.BOTTOM) {
-            if (itemStack.isOf(ModBlocks.SOUL_SAND_SLAB.asItem())) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
-            else if (itemStack.isOf(ModBlocks.DIRT_PATH_SLAB.asItem())) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
+        if (oldState.getValue(TYPE) == SlabType.BOTTOM) {
+            if (itemStack.is(ModBlocks.SOUL_SAND_SLAB.asItem())) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+            else if (itemStack.is(ModBlocks.DIRT_PATH_SLAB.asItem())) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
         } else {
-            if (oldState.isOf(ModBlocks.SOUL_SAND_SLAB)) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
-            else if (oldState.isOf(ModBlocks.DIRT_PATH_SLAB)) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
+            if (oldState.is(ModBlocks.SOUL_SAND_SLAB)) return AbstractDoubleSlabBlock.getSoulSandCollisionShape();
+            else if (oldState.is(ModBlocks.DIRT_PATH_SLAB)) return AbstractDoubleSlabBlock.getDirtPathCollisionShape();
         }
 
-        return VoxelShapes.fullCube();
+        return Shapes.block();
     }
 
     @Inject(
-            method = "canReplace",
+            method = "canBeReplaced(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/item/context/BlockPlaceContext;)Z",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void injectCanReplace(BlockState state, ItemPlacementContext ctx, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack itemStack = ctx.getStack();
-        SlabType slabType = state.get(TYPE);
+    private void injectCanReplace(BlockState state, BlockPlaceContext ctx, CallbackInfoReturnable<Boolean> cir) {
+        ItemStack itemStack = ctx.getItemInHand();
+        SlabType slabType = state.getValue(TYPE);
 
-        if (slabType == SlabType.DOUBLE || !itemStack.isIn(ItemTags.SLABS)) {
+        if (slabType == SlabType.DOUBLE || !itemStack.is(ItemTags.SLABS)) {
             cir.setReturnValue(false);
-        } else if (ctx.canReplaceExisting()) {
-            boolean bl = ctx.getHitPos().y - (double)ctx.getBlockPos().getY() > 0.5;
-            Direction direction = ctx.getSide();
+        } else if (ctx.replacingClickedOnBlock()) {
+            boolean bl = ctx.getClickLocation().y - (double)ctx.getClickedPos().getY() > 0.5;
+            Direction direction = ctx.getClickedFace();
 
             if (slabType == SlabType.BOTTOM) {
                 cir.setReturnValue(direction == Direction.UP || bl && direction.getAxis().isHorizontal());

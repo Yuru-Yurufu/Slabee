@@ -1,8 +1,8 @@
 package com.forestotzka.yurufu.slabee.block.enums;
 
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 
-public enum VerticalSlabAxis implements StringIdentifiable {
+public enum VerticalSlabAxis implements StringRepresentable {
     X("x"),
     Z("z");
 
@@ -13,13 +13,13 @@ public enum VerticalSlabAxis implements StringIdentifiable {
     }
 
     @Override
-    public String asString() {
+    public String getSerializedName() {
         return this.name;
     }
 
     public static VerticalSlabAxis fromString(String name) {
         for (VerticalSlabAxis value : VerticalSlabAxis.values()) {
-            if (value.asString().equals(name)) {
+            if (value.getSerializedName().equals(name)) {
                 return value;
             }
         }

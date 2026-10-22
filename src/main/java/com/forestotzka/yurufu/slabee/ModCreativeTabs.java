@@ -3,26 +3,25 @@ package com.forestotzka.yurufu.slabee;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.registry.tag.ModItemTags;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.Text;
-
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModCreativeTabs {
-    public static final ItemGroup SLABS = Registry.register(Registries.ITEM_GROUP, Slabee.MOD_ID + "_slabs", FabricItemGroup.builder()
-            .displayName(Text.translatable("itemGroup.slabee.slabs"))
-            .icon(Blocks.OAK_SLAB.asItem()::getDefaultStack)
-            .entries((displayContext, entries) -> {
-                List<Item> slabs = new ArrayList<>(Registries.ITEM.streamEntries()
-                        .filter(entry -> entry.isIn(ModItemTags.SLABS))
-                        .map(RegistryEntry::value)
+    public static final CreativeModeTab SLABS = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Slabee.MOD_ID + "_slabs", FabricItemGroup.builder()
+            .title(Component.translatable("itemGroup.slabee.slabs"))
+            .icon(Blocks.OAK_SLAB.asItem()::getDefaultInstance)
+            .displayItems((displayContext, entries) -> {
+                List<Item> slabs = new ArrayList<>(BuiltInRegistries.ITEM.holders()
+                        .filter(entry -> entry.is(ModItemTags.SLABS))
+                        .map(Holder::value)
                         .toList());
 
                 slabs.add(0, Items.OAK_SLAB);
@@ -60,7 +59,7 @@ public class ModCreativeTabs {
                 slabs.add(79, Items.MUD_BRICK_SLAB);
                 slabs.add(80, Items.SANDSTONE_SLAB);
                 slabs.add(81, Items.SMOOTH_SANDSTONE_SLAB);
-                slabs.add(82, Items.CUT_SANDSTONE_SLAB);
+                slabs.add(82, Items.CUT_STANDSTONE_SLAB);
                 slabs.add(83, Items.RED_SANDSTONE_SLAB);
                 slabs.add(84, Items.SMOOTH_RED_SANDSTONE_SLAB);
                 slabs.add(85, Items.CUT_RED_SANDSTONE_SLAB);
@@ -87,18 +86,18 @@ public class ModCreativeTabs {
                 slabs.add(118, Items.PETRIFIED_OAK_SLAB);
 
                 for (Item slab : slabs) {
-                    entries.add(slab);
+                    entries.accept(slab);
                 }
             })
             .build()
     );
 
-    public static final ItemGroup VERTICAL_SLABS = Registry.register(Registries.ITEM_GROUP, Slabee.MOD_ID + "_vertical_slabs", FabricItemGroup.builder()
-            .displayName(Text.translatable("itemGroup.slabee.verticalSlabs"))
-            .icon(ModBlocks.OAK_VERTICAL_SLAB.asItem()::getDefaultStack)
-            .entries((displayContext, entries) -> Registries.ITEM.streamEntries()
-                    .filter(entry -> entry.isIn(ModItemTags.VERTICAL_SLABS))
-                    .forEach(entry -> entries.add(entry.value())))
+    public static final CreativeModeTab VERTICAL_SLABS = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Slabee.MOD_ID + "_vertical_slabs", FabricItemGroup.builder()
+            .title(Component.translatable("itemGroup.slabee.verticalSlabs"))
+            .icon(ModBlocks.OAK_VERTICAL_SLAB.asItem()::getDefaultInstance)
+            .displayItems((displayContext, entries) -> BuiltInRegistries.ITEM.holders()
+                    .filter(entry -> entry.is(ModItemTags.VERTICAL_SLABS))
+                    .forEach(entry -> entries.accept(entry.value())))
             .build()
     );
 

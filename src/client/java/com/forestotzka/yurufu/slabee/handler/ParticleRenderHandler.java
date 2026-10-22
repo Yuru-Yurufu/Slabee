@@ -4,8 +4,7 @@ import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleRenderEvents;
-import net.minecraft.block.Block;
-
+import net.minecraft.world.level.block.Block;
 import java.util.Set;
 
 @Environment(EnvType.CLIENT)

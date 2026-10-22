@@ -16,18 +16,17 @@ import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
-
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Supplier;
 
 /**
@@ -57,7 +56,7 @@ public class BakedHalvesModel extends ForwardingBakedModel {
     }
 
     @Override
-    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
         super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
 
         if (!(blockView.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData data)) {
@@ -66,7 +65,7 @@ public class BakedHalvesModel extends ForwardingBakedModel {
 
         BlockState positive = data.positive();
         BlockState negative = data.negative();
-        boolean snowAbove = blockView.getBlockState(pos.up()).isIn(BlockTags.SNOW);
+        boolean snowAbove = blockView.getBlockState(pos.above()).is(BlockTags.SNOW);
 
         if (isBakedHalf(positive)) {
             emitHalf(blockView, state, pos, withSnowy(positive, snowAbove, true), randomSupplier, context);
@@ -87,36 +86,36 @@ public class BakedHalvesModel extends ForwardingBakedModel {
     private static BlockState withSnowy(BlockState half, boolean snowAbove, boolean apply) {
         if (!apply) return half;
         if (half.getBlock() instanceof SnowySlabBlock) {
-            return half.with(SnowySlabBlock.SNOWY, snowAbove);
+            return half.setValue(SnowySlabBlock.SNOWY, snowAbove);
         }
         if (half.getBlock() instanceof SnowyVerticalSlabBlock) {
-            return half.with(SnowyVerticalSlabBlock.SNOWY, snowAbove);
+            return half.setValue(SnowyVerticalSlabBlock.SNOWY, snowAbove);
         }
         return half;
     }
 
-    private static void emitHalf(BlockRenderView blockView, BlockState doubleState, BlockPos pos, BlockState half, Supplier<Random> randomSupplier, RenderContext context) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        BakedModel model = client.getBlockRenderManager().getModel(half);
+    private static void emitHalf(BlockAndTintGetter blockView, BlockState doubleState, BlockPos pos, BlockState half, Supplier<RandomSource> randomSupplier, RenderContext context) {
+        Minecraft client = Minecraft.getInstance();
+        BakedModel model = client.getBlockRenderer().getBlockModel(half);
         BlockColors colors = client.getBlockColors();
         Renderer renderer = RendererAccess.INSTANCE.getRenderer();
-        BlendMode blendMode = BlendMode.fromRenderLayer(RenderLayers.getBlockLayer(half));
+        BlendMode blendMode = BlendMode.fromRenderLayer(ItemBlockRenderTypes.getChunkRenderType(half));
         MaterialFinder finder = renderer.materialFinder();
         // 陰影（AO）は、ダブルハーフ全体ではなくハーフ単体が光るかどうかで決める（バニラの BlockModelRenderer と同じ）
-        TriState ao = (half.getLuminance() == 0 && model.useAmbientOcclusion()) ? TriState.TRUE : TriState.FALSE;
+        TriState ao = (half.getLightEmission() == 0 && model.useAmbientOcclusion()) ? TriState.TRUE : TriState.FALSE;
         // 光るハーフは、面の明るさの最低値をハーフ自身の明るさにする（バニラの WorldRenderer#getLightmapCoordinates と同じ）
-        int minBlockLight = half.getLuminance();
+        int minBlockLight = half.getLightEmission();
 
         context.pushTransform(quad -> {
             Direction cullFace = quad.cullFace();
             if (cullFace != null) {
-                BlockPos otherPos = pos.offset(cullFace);
-                if (!Block.shouldDrawSide(half, blockView, pos, cullFace, otherPos)) {
+                BlockPos otherPos = pos.relative(cullFace);
+                if (!Block.shouldRenderFace(half, blockView, pos, cullFace, otherPos)) {
                     return false;
                 }
                 // 面の明るさは隣のマスから取るため、cullFace はなるべく残す。
                 // ただしダブルハーフ全体の状態だと省略されてしまう面だけは、省略されないよう外す。
-                if (!Block.shouldDrawSide(doubleState, blockView, pos, cullFace, otherPos)) {
+                if (!Block.shouldRenderFace(doubleState, blockView, pos, cullFace, otherPos)) {
                     quad.cullFace(null);
                 }
             }

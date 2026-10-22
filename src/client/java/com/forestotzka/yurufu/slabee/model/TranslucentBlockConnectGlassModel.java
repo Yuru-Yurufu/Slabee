@@ -1,6 +1,10 @@
 package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.block.ModBlockMap;
+import com.forestotzka.yurufu.slabee.model.GlassSprites.ConnectionFlags;
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.DoubleSlabType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
@@ -8,19 +12,21 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.render.model.*;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -32,10 +38,10 @@ import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 
 @Environment(EnvType.CLIENT)
 public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final Block block;
 
-    private static final SpriteIdentifier nullSpriteIdentifier = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone"));
+    private static final Material nullSpriteIdentifier = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.withDefaultNamespace("block/stone"));
 
     protected final boolean isGlass;
 
@@ -44,8 +50,8 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
     public TranslucentBlockConnectGlassModel(Block block) {
         this.block = block;
 
-        Identifier id = Registries.BLOCK.getId(block);
-        this.id = Identifier.of(id.getNamespace(), "block/" + id.getPath());
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
+        this.id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath());
 
         this.isGlass = block == Blocks.GLASS;
 
@@ -53,7 +59,7 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
     }
 
     @Override
-    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
+    public @Nullable BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> textureGetter, ModelState rotationContainer) {
         for (int patternIndex = 0; patternIndex < (isGlass ? GLASS_PATTERN_COUNT : STAINED_GLASS_PATTERN_COUNT); patternIndex++) {
             for (Direction dir : Direction.values()) {
                 MeshBuilder meshBuilder = getBuilder();
@@ -80,10 +86,10 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
         }
 
         if (this.id != null) {
-            BakedModel bakedModel = baker.getOrLoadModel(this.id).bake(baker, textureGetter, rotationContainer);
+            BakedModel bakedModel = baker.getModel(this.id).bake(baker, textureGetter, rotationContainer);
 
             if (bakedModel != null) {
-                this.particleSprite = bakedModel.getParticleSprite();
+                this.particleSprite = bakedModel.getParticleIcon();
             } else {
                 this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
             }
@@ -95,7 +101,7 @@ public class TranslucentBlockConnectGlassModel extends AbstractConnectGlassModel
     }
 
     @Override
-    public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
+    public void emitBlockQuads(BlockAndTintGetter blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<RandomSource> supplier, RenderContext renderContext) {
         Block slab = ModBlockMap.originalToSlab(block);
         NeighborState ns = new NeighborState(blockRenderView, blockPos, slab, slab, DoubleSlabType.DOUBLE_SLAB);
 

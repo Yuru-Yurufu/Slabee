@@ -5,9 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.test.GameTest;
-import net.minecraft.test.GameTestException;
-import net.minecraft.test.TestContext;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestAssertException;
+import net.minecraft.gametest.framework.GameTestHelper;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -37,8 +37,8 @@ public class MixinGameTests implements FabricGameTest {
     private static final String CONFIG = "slabee.mixins.json";
     private static final String MIXIN_ANNOTATION = "Lorg/spongepowered/asm/mixin/Mixin;";
 
-    @GameTest(templateName = EMPTY_STRUCTURE)
-    public void allServerMixinTargetsApply(TestContext context) {
+    @GameTest(template = EMPTY_STRUCTURE)
+    public void allServerMixinTargetsApply(GameTestHelper context) {
         ClassLoader loader = MixinGameTests.class.getClassLoader();
         JsonObject config = readJson(loader, CONFIG);
         String mixinPackage = config.get("package").getAsString();
@@ -70,15 +70,15 @@ public class MixinGameTests implements FabricGameTest {
 
         context.assertTrue(failures.isEmpty(),
                 "Mixinの適用に失敗した差し込み先 " + failures.size() + " 件:\n" + String.join("\n", failures));
-        context.complete();
+        context.succeed();
     }
 
     private static JsonObject readJson(ClassLoader loader, String path) {
         try (InputStream in = loader.getResourceAsStream(path)) {
-            if (in == null) throw new GameTestException(path + " が見つからない");
+            if (in == null) throw new GameTestAssertException(path + " が見つからない");
             return JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
         } catch (IOException e) {
-            throw new GameTestException(path + " を読めない: " + e);
+            throw new GameTestAssertException(path + " を読めない: " + e);
         }
     }
 
@@ -87,10 +87,10 @@ public class MixinGameTests implements FabricGameTest {
         String resource = mixinClass.replace('.', '/') + ".class";
         ClassNode node = new ClassNode();
         try (InputStream in = loader.getResourceAsStream(resource)) {
-            if (in == null) throw new GameTestException(resource + " が見つからない");
+            if (in == null) throw new GameTestAssertException(resource + " が見つからない");
             new ClassReader(in).accept(node, ClassReader.SKIP_CODE);
         } catch (IOException e) {
-            throw new GameTestException(resource + " を読めない: " + e);
+            throw new GameTestAssertException(resource + " を読めない: " + e);
         }
 
         List<String> targets = new ArrayList<>();
@@ -115,7 +115,7 @@ public class MixinGameTests implements FabricGameTest {
         }
 
         if (targets.isEmpty()) {
-            throw new GameTestException(mixinClass + " から差し込み先を読み取れない");
+            throw new GameTestAssertException(mixinClass + " から差し込み先を読み取れない");
         }
         return targets;
     }

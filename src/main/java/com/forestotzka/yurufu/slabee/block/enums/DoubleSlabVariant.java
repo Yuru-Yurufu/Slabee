@@ -3,15 +3,14 @@ package com.forestotzka.yurufu.slabee.block.enums;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.VerticalSlabBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.util.StringIdentifiable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
 
-public enum DoubleSlabVariant implements StringIdentifiable {
+public enum DoubleSlabVariant implements StringRepresentable {
     NORMAL("normal"),
     NON_OPAQUE("non_opaque"),
     GLASS("glass"),
@@ -83,7 +82,7 @@ public enum DoubleSlabVariant implements StringIdentifiable {
     }
 
     @Override
-    public String asString() {
+    public String getSerializedName() {
         return this.name;
     }
 

@@ -1,20 +1,20 @@
 package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.block.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 
 public class NeighborState {
-    private final BlockRenderView world;
+    private final BlockAndTintGetter world;
 
     public enum NeighborDirection {
         UP   ( 0,  1,  0),
@@ -99,7 +99,7 @@ public class NeighborState {
 
     private final boolean isSameSlab;
 
-    public NeighborState(BlockRenderView world, BlockPos pos, @Nullable Block positiveSlab, @Nullable Block negativeSlab, DoubleSlabType type) {
+    public NeighborState(BlockAndTintGetter world, BlockPos pos, @Nullable Block positiveSlab, @Nullable Block negativeSlab, DoubleSlabType type) {
         this.world = world;
         isSameSlab = positiveSlab == negativeSlab;
 
@@ -111,7 +111,7 @@ public class NeighborState {
         contactTypeMap = new EnumMap<>(NeighborDirection.class);
         for (NeighborDirection dir : NeighborDirection.values()) {
             EnumMap<Half, ContactType> halfMap = new EnumMap<>(Half.class);
-            BlockPos nPos = pos.add(dir.offset);
+            BlockPos nPos = pos.offset(dir.offset);
             if (isSameSlab) {
                 ContactType contactType = mapToContactType(dir, getBlockInfo(nPos, positiveSlab));
                 halfMap.put(Half.POSITIVE, contactType);
@@ -199,7 +199,7 @@ public class NeighborState {
         Block otherBlock = otherState.getBlock();
         if (otherBlock instanceof SlabBlock) {
             if (otherBlock == block) {
-                SlabType type = otherState.get(SlabBlock.TYPE);
+                SlabType type = otherState.getValue(SlabBlock.TYPE);
 
                 if (type == SlabType.TOP) {
                     return new NeighborBlockInfo(NeighborBlockType.SLAB, Direction.UP);
@@ -209,11 +209,11 @@ public class NeighborState {
             }
         } else if (otherBlock instanceof VerticalSlabBlock) {
             if (ModBlockMap.verticalSlabToSlab(otherBlock) == block) {
-                Direction facing = otherState.get(VerticalSlabBlock.FACING);
+                Direction facing = otherState.getValue(VerticalSlabBlock.FACING);
 
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, facing);
             }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+        } else if (otherState.is(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
             boolean bl1 = block == entity.getPositiveSlabState().getBlock();
             boolean bl2 = block == entity.getNegativeSlabState().getBlock();
 
@@ -224,7 +224,7 @@ public class NeighborState {
             } else if (bl2) {
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, Direction.DOWN);
             }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+        } else if (otherState.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
             block = ModBlockMap.slabToVerticalSlab(block);
             boolean bl1 = block == entity.getPositiveSlabState().getBlock();
             boolean bl2 = block == entity.getNegativeSlabState().getBlock();

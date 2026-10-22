@@ -1,35 +1,35 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.forestotzka.yurufu.slabee.Slabee;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity {
     private boolean isX = true;
 
     public DoubleVerticalSlabBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.DOUBLE_VERTICAL_SLAB_BLOCK_ENTITY, pos, state, Identifier.of("slabee:purple_concrete_vertical_slab"), Identifier.of("slabee:black_concrete_vertical_slab"));
+        super(ModBlockEntities.DOUBLE_VERTICAL_SLAB_BLOCK_ENTITY, pos, state, ResourceLocation.parse("slabee:purple_concrete_vertical_slab"), ResourceLocation.parse("slabee:black_concrete_vertical_slab"));
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(nbt, registryLookup);
 
         if (this.positiveSlabId != null) {
-            NbtCompound positiveSlab = new NbtCompound();
+            CompoundTag positiveSlab = new CompoundTag();
             positiveSlab.putString("id", this.positiveSlabId.toString());
             nbt.put("positive_slab", positiveSlab);
         }
 
         if (this.negativeSlabId != null) {
-            NbtCompound negativeSlab = new NbtCompound();
+            CompoundTag negativeSlab = new CompoundTag();
             negativeSlab.putString("id", this.negativeSlabId.toString());
             nbt.put("negative_slab", negativeSlab);
         }
@@ -42,20 +42,20 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(nbt, registryLookup);
 
         if (nbt.contains("positive_slab")) {
-            NbtCompound positiveSlabData = nbt.getCompound("positive_slab");
-            Identifier i = Identifier.of(positiveSlabData.getString("id"));
+            CompoundTag positiveSlabData = nbt.getCompound("positive_slab");
+            ResourceLocation i = ResourceLocation.parse(positiveSlabData.getString("id"));
             this.positiveSlabId = isTrueSlabId(i) ? i : defaultPositiveSlabId;
         } else {
             this.positiveSlabId = defaultPositiveSlabId;
         }
 
         if (nbt.contains("negative_slab")) {
-            NbtCompound negativeSlabData = nbt.getCompound("negative_slab");
-            Identifier i = Identifier.of(negativeSlabData.getString("id"));
+            CompoundTag negativeSlabData = nbt.getCompound("negative_slab");
+            ResourceLocation i = ResourceLocation.parse(negativeSlabData.getString("id"));
             this.negativeSlabId = isTrueSlabId(i) ? i : defaultNegativeSlabId;
         } else {
             this.negativeSlabId = defaultNegativeSlabId;
@@ -84,28 +84,28 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
 
     public void setAxis(String axis) {
         this.isX = axis.equals("x");
-        markDirty();
+        setChanged();
     }
 
     protected void updatePositiveSlabState() {
         if (this.isX) {
-            this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.EAST);
+            this.positiveSlabState = BuiltInRegistries.BLOCK.get(positiveSlabId).defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST);
         } else {
-            this.positiveSlabState = Registries.BLOCK.get(positiveSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
+            this.positiveSlabState = BuiltInRegistries.BLOCK.get(positiveSlabId).defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH);
         }
     }
 
     protected void updateNegativeSlabState() {
         if (this.isX) {
-            this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.WEST);
+            this.negativeSlabState = BuiltInRegistries.BLOCK.get(negativeSlabId).defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST);
         } else {
-            this.negativeSlabState = Registries.BLOCK.get(negativeSlabId).getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH);
+            this.negativeSlabState = BuiltInRegistries.BLOCK.get(negativeSlabId).defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
         }
     }
 
     @Override
     public VoxelShape getPositiveOutlineShape() {
-        if (this.positiveSlabState.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+        if (this.positiveSlabState.is(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
             if (this.isX) {
                 return DirtPathVerticalSlabBlock.EAST;
             } else {
@@ -122,7 +122,7 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
 
     @Override
     public VoxelShape getNegativeOutlineShape() {
-        if (this.negativeSlabState.isOf(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
+        if (this.negativeSlabState.is(ModBlocks.DIRT_PATH_VERTICAL_SLAB)) {
             if (this.isX) {
                 return DirtPathVerticalSlabBlock.WEST;
             } else {
@@ -140,9 +140,9 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
     @Override
     protected void convertToDirt(boolean isPositive) {
         if (isPositive) {
-            setPositiveSlabId(Identifier.of(Slabee.MOD_ID, "dirt_vertical_slab"));
+            setPositiveSlabId(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "dirt_vertical_slab"));
         } else {
-            setNegativeSlabId(Identifier.of(Slabee.MOD_ID, "dirt_vertical_slab"));
+            setNegativeSlabId(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "dirt_vertical_slab"));
         }
     }
 }

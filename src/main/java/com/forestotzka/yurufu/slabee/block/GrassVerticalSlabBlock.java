@@ -1,43 +1,43 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Fertilizable;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class GrassVerticalSlabBlock extends SpreadableVerticalSlabBlock implements Fertilizable {
-    public static final MapCodec<GrassVerticalSlabBlock> CODEC = createCodec(GrassVerticalSlabBlock::new);
+public class GrassVerticalSlabBlock extends SpreadableVerticalSlabBlock implements BonemealableBlock {
+    public static final MapCodec<GrassVerticalSlabBlock> CODEC = simpleCodec(GrassVerticalSlabBlock::new);
 
-    public GrassVerticalSlabBlock(Settings settings) {
+    public GrassVerticalSlabBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    public MapCodec<? extends SpreadableVerticalSlabBlock> getCodec() {
+    public MapCodec<? extends SpreadableVerticalSlabBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
-        return world.getBlockState(pos.up()).isAir();
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {
+        return world.getBlockState(pos.above()).isAir();
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
 
     }
 
     @Override
-    public Fertilizable.FertilizableType getFertilizableType() {
-        return Fertilizable.FertilizableType.NEIGHBOR_SPREADER;
+    public BonemealableBlock.Type getType() {
+        return BonemealableBlock.Type.NEIGHBOR_SPREADER;
     }
 }

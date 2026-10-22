@@ -2,16 +2,16 @@ package com.forestotzka.yurufu.slabee.mixin;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ExperienceOrbEntity.class)
+@Mixin(ExperienceOrb.class)
 public abstract class ExperienceOrbEntityMixin extends Entity {
-    public ExperienceOrbEntityMixin(EntityType<? extends ExperienceOrbEntity> type, World world) {
+    public ExperienceOrbEntityMixin(EntityType<? extends ExperienceOrb> type, Level world) {
         super(type, world);
     }
 
@@ -23,10 +23,10 @@ public abstract class ExperienceOrbEntityMixin extends Entity {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;getSlipperiness()F"
+                    target = "Lnet/minecraft/world/level/block/Block;getFriction()F"
             )
     )
     private float wrapSlipperiness(float original) {
-        return SlabeeUtils.getSlipperiness(this.getWorld(), this.getPos(), this.getPosWithYOffset(0.5F), original);
+        return SlabeeUtils.getSlipperiness(this.level(), this.position(), this.getOnPos(0.5F), original);
     }
 }

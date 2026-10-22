@@ -1,19 +1,24 @@
 package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.block.*;
+import com.forestotzka.yurufu.slabee.model.GlassSprites.ConnectionFlags;
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.DoubleSlabType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.Half;
+import com.forestotzka.yurufu.slabee.model.NeighborState.NeighborDirection;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.minecraft.block.Block;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.Baker;
-import net.minecraft.client.render.model.ModelBakeSettings;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -29,13 +34,13 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected Identifier setPositiveId(Identifier id) {
-        return Identifier.of(id.getNamespace(), "block/" + id.getPath() + "_top");
+    protected ResourceLocation setPositiveId(ResourceLocation id) {
+        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath() + "_top");
     }
 
     @Override
-    protected Identifier setNegativeId(Identifier id) {
-        return Identifier.of(id.getNamespace(), "block/" + id.getPath());
+    protected ResourceLocation setNegativeId(ResourceLocation id) {
+        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath());
     }
 
     @Override
@@ -58,8 +63,8 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
+    protected void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
         emitter.square(dir, 0, 0.5f, 1, 1, 0);
 
         int x = patternIndex % SLAB_COLS;
@@ -69,8 +74,8 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(negativeSlab));
+    protected void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getSlabSpriteIdentifier(negativeSlab));
         emitter.square(dir, 0, 0, 1, 0.5f, 0);
 
         int x = patternIndex % SLAB_COLS;
@@ -80,7 +85,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected Material emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.UP) {
             squareEndQuadPositive(emitter, dir, patternIndex, 0f);
         } else {
@@ -91,7 +96,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    protected SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
+    protected Material emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex) {
         if (dir == Direction.UP) {
             squareEndQuadNegative(emitter, dir, patternIndex, 0.5f);
         } else {
@@ -101,14 +106,14 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
         return getFullBlockSpriteIdentifier(patternIndex, negativeSlab);
     }
 
-    private void emitSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
+    private void emitSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getSlabSpriteIdentifier(positiveSlab));
 
         emitQuarterQuad(emitter, dir, patternIndex, quarterIndex, sprite);
     }
 
-    private void emitVerticalSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<SpriteIdentifier, Sprite> textureGetter) {
-        Sprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(ModBlockMap.slabToVerticalSlab(positiveSlab)));
+    private void emitVerticalSlabQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Function<Material, TextureAtlasSprite> textureGetter) {
+        TextureAtlasSprite sprite = textureGetter.apply(getVerticalSlabSpriteIdentifier(ModBlockMap.slabToVerticalSlab(positiveSlab)));
 
         emitQuarterQuad(emitter, dir, patternIndex, quarterIndex, sprite);
     }
@@ -119,7 +124,7 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
     }
 
     @Override
-    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
+    public @Nullable BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> textureGetter, ModelState rotationContainer) {
         if (this.positiveId != null && !QUARTER_BUILT[positiveVariantIndex]) {
             QUARTER_BUILT[positiveVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {

@@ -1,33 +1,33 @@
 package com.forestotzka.yurufu.slabee.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TransparentSlabBlock extends TranslucentSlabBlock {
-    public static final MapCodec<TransparentSlabBlock> CODEC = createCodec(TransparentSlabBlock::new);
+    public static final MapCodec<TransparentSlabBlock> CODEC = simpleCodec(TransparentSlabBlock::new);
 
-    public TransparentSlabBlock(Settings settings) {
+    public TransparentSlabBlock(Properties settings) {
         super(settings);
     }
 
-    public MapCodec<? extends TransparentSlabBlock> getCodec() {
+    public MapCodec<? extends TransparentSlabBlock> codec() {
         return CODEC;
     }
 
-    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
     }
 
-    protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+    protected float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
         return 1.0F;
     }
 
-    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
         return true;
     }
 }

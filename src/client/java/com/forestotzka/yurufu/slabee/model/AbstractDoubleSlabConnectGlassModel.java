@@ -7,17 +7,19 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.*;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -26,10 +28,14 @@ import java.util.function.Supplier;
 
 import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.DoubleSlabType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.Half;
+
 @Environment(EnvType.CLIENT)
 public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnectGlassModel {
-    protected final Identifier positiveId;
-    protected final Identifier negativeId;
+    protected final ResourceLocation positiveId;
+    protected final ResourceLocation negativeId;
     protected final Block positiveSlab;
     protected final Block negativeSlab;
 
@@ -51,7 +57,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
             this.positiveId = null;
             this.isGlassPositive = true;
         } else {
-            Identifier positiveId = Registries.BLOCK.getId(this.positiveSlab);
+            ResourceLocation positiveId = BuiltInRegistries.BLOCK.getKey(this.positiveSlab);
             this.positiveId = setPositiveId(positiveId);
             this.isGlassPositive = setIsGlass(positiveSlab);
         }
@@ -62,7 +68,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
             this.negativeId = null;
             this.isGlassNegative = true;
         } else {
-            Identifier negativeId = Registries.BLOCK.getId(this.negativeSlab);
+            ResourceLocation negativeId = BuiltInRegistries.BLOCK.getKey(this.negativeSlab);
             this.negativeId = setNegativeId(negativeId);
             this.isGlassNegative = setIsGlass(negativeSlab);
         }
@@ -70,18 +76,18 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
         this.negativeVariantIndex = getVariantIndex(this.negativeSlab);
     }
 
-    protected abstract Identifier setPositiveId(Identifier id);
-    protected abstract Identifier setNegativeId(Identifier id);
+    protected abstract ResourceLocation setPositiveId(ResourceLocation id);
+    protected abstract ResourceLocation setNegativeId(ResourceLocation id);
     protected abstract boolean setIsGlass(Block block);
 
     protected abstract boolean isEndFace(Direction face);
     protected abstract boolean isEndPositiveFace(Direction face);
     protected abstract boolean isEndNegativeFace(Direction face);
 
-    protected abstract void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
-    protected abstract void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<SpriteIdentifier, Sprite> textureGetter);
-    protected abstract SpriteIdentifier emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
-    protected abstract SpriteIdentifier emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
+    protected abstract void emitSidePositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter);
+    protected abstract void emitSideNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex, Function<Material, TextureAtlasSprite> textureGetter);
+    protected abstract Material emitEndPositiveQuad(QuadEmitter emitter, Direction dir, int patternIndex);
+    protected abstract Material emitEndNegativeQuad(QuadEmitter emitter, Direction dir, int patternIndex);
 
     protected void squareEndQuadPositive(QuadEmitter emitter, Direction dir, int patternIndex, float depth) {
         if (this.isGlassPositive) {
@@ -99,7 +105,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
         }
     }
 
-    protected void emitQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, Sprite sprite) {
+    protected void emitQuarterQuad(QuadEmitter emitter, Direction dir, int patternIndex, int quarterIndex, TextureAtlasSprite sprite) {
         int x = patternIndex % SLAB_COLS;
         int y = patternIndex / SLAB_COLS;
 
@@ -123,7 +129,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
         }
     }
 
-    protected void setUV(QuadEmitter emitter, float u0, float u1, float v0, float v1, Sprite sprite) {
+    protected void setUV(QuadEmitter emitter, float u0, float u1, float v0, float v1, TextureAtlasSprite sprite) {
         emitter.uv(0, u0, v0);
         emitter.uv(1, u0, v1);
         emitter.uv(2, u1, v1);
@@ -137,7 +143,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
     protected abstract DoubleSlabType getDoubleSlabType();
 
     @Override
-    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
+    public @Nullable BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> textureGetter, ModelState rotationContainer) {
         if (this.positiveId != null && !SIDE_POSITIVE_BUILT[axis][positiveVariantIndex]) {
             SIDE_POSITIVE_BUILT[axis][positiveVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
@@ -185,7 +191,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    SpriteIdentifier spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
+                    Material spriteIdentifier = emitEndPositiveQuad(emitter, dir, patternIndex);
                     emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
                     emitter.color(-1, -1, -1, -1);
                     emitter.emit();
@@ -206,7 +212,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
                     MeshBuilder meshBuilder = getBuilder();
                     QuadEmitter emitter = meshBuilder.getEmitter();
 
-                    SpriteIdentifier spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
+                    Material spriteIdentifier = emitEndNegativeQuad(emitter, dir, patternIndex);
                     emitter.spriteBake(textureGetter.apply(spriteIdentifier), MutableQuadView.BAKE_LOCK_UV);
                     emitter.color(-1, -1, -1, -1);
                     emitter.emit();
@@ -219,10 +225,10 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
         if ((this.positiveId == null) == (this.negativeId == null)) {
             this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
         } else {
-            BakedModel bakedModel = baker.getOrLoadModel(Objects.requireNonNullElse(this.positiveId, this.negativeId)).bake(baker, textureGetter, rotationContainer);
+            BakedModel bakedModel = baker.getModel(Objects.requireNonNullElse(this.positiveId, this.negativeId)).bake(baker, textureGetter, rotationContainer);
 
             if (bakedModel != null) {
-                this.particleSprite = bakedModel.getParticleSprite();
+                this.particleSprite = bakedModel.getParticleIcon();
             } else {
                 this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
             }
@@ -232,7 +238,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
     }
 
     @Override
-    public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
+    public void emitBlockQuads(BlockAndTintGetter blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<RandomSource> supplier, RenderContext renderContext) {
         // 描くガラスのハーフがない（両側とも普通のハーフ）なら、周りのガラスを調べる必要はない
         if (this.positiveId == null && this.negativeId == null) {
             return;

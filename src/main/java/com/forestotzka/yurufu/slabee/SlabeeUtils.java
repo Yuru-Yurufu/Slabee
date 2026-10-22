@@ -3,16 +3,15 @@ package com.forestotzka.yurufu.slabee;
 import com.forestotzka.yurufu.slabee.block.*;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
 import java.util.HashSet;
 import java.util.Set;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import static com.forestotzka.yurufu.slabee.block.AbstractDoubleSlabBlock.*;
 
@@ -231,18 +230,18 @@ public class SlabeeUtils {
     }
 
     public static int getLuminance(Block p, Block n) {
-        return Math.max(DoubleSlabUtils.getLuminance(p.getDefaultState()), DoubleSlabUtils.getLuminance(n.getDefaultState()));
+        return Math.max(DoubleSlabUtils.getLuminance(p.defaultBlockState()), DoubleSlabUtils.getLuminance(n.defaultBlockState()));
     }
 
     public static BlockState getAbstractState(Block p, Block n) {
         BlockState state;
 
         if (p instanceof SlabBlock) {
-            state = ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+            state = ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState();
         } else if (p instanceof VerticalSlabBlock) {
-            state = ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState();
+            state = ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.defaultBlockState();
         } else {
-            return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+            return ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState();
         }
 
         return getAbstractState(p, n, state);
@@ -250,12 +249,12 @@ public class SlabeeUtils {
 
     public static BlockState getAbstractState(Block p, Block n, BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
-            return ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState();
+            return ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState();
         }
 
-        return state.with(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
-                .with(POSITIVE_SLAB, DoubleSlabVariant.fromBlock(p))
-                .with(NEGATIVE_SLAB, DoubleSlabVariant.fromBlock(n));
+        return state.setValue(LIGHT_LEVEL, SlabeeUtils.getLuminance(p, n))
+                .setValue(POSITIVE_SLAB, DoubleSlabVariant.fromBlock(p))
+                .setValue(NEGATIVE_SLAB, DoubleSlabVariant.fromBlock(n));
     }
 
     public static boolean isDoubleSlab(BlockState state) {
@@ -278,30 +277,30 @@ public class SlabeeUtils {
         }
     }
 
-    public static float getSlipperiness(World world, Vec3d pos, BlockPos blockPos, float original) {
+    public static float getSlipperiness(Level world, Vec3 pos, BlockPos blockPos, float original) {
         BlockState blockState = world.getBlockState(blockPos);
         float f;
-        if (blockState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleSlabBlockEntity e) {
-            f = Math.max(e.getPositiveSlabState().getBlock().getSlipperiness(), e.getNegativeSlabState().getBlock().getSlipperiness());
-        } else if (blockState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleVerticalSlabBlockEntity e) {
-            f = getBlockState(pos, blockPos, e).getBlock().getSlipperiness();
+        if (blockState.is(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleSlabBlockEntity e) {
+            f = Math.max(e.getPositiveSlabState().getBlock().getFriction(), e.getNegativeSlabState().getBlock().getFriction());
+        } else if (blockState.is(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(blockPos) instanceof DoubleVerticalSlabBlockEntity e) {
+            f = getBlockState(pos, blockPos, e).getBlock().getFriction();
         } else {
-            f = world.getBlockState(blockPos).getBlock().getSlipperiness();
+            f = world.getBlockState(blockPos).getBlock().getFriction();
         }
 
         return Math.max(original, f);
     }
 
-    private static BlockState getBlockState(Vec3d pos, BlockPos blockPos, DoubleVerticalSlabBlockEntity entity) {
+    private static BlockState getBlockState(Vec3 pos, BlockPos blockPos, DoubleVerticalSlabBlockEntity entity) {
         BlockState state;
         if (entity.isX()) {
-            if ((pos.getX() - 0.5) > blockPos.getX()) {
+            if ((pos.x() - 0.5) > blockPos.getX()) {
                 state = entity.getPositiveSlabState();
             } else {
                 state = entity.getNegativeSlabState();
             }
         } else {
-            if ((pos.getZ() - 0.5) > blockPos.getZ()) {
+            if ((pos.z() - 0.5) > blockPos.getZ()) {
                 state = entity.getPositiveSlabState();
             } else {
                 state = entity.getNegativeSlabState();

@@ -3,16 +3,20 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.Slabee;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.*;
-import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
 
@@ -22,993 +26,993 @@ public class ModBlocks {
 
     // Log Slabs
     public static final Block OAK_LOG_SLAB = registerBlock("oak_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block SPRUCE_LOG_SLAB = registerBlock("spruce_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block BIRCH_LOG_SLAB = registerBlock("birch_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block JUNGLE_LOG_SLAB = registerBlock("jungle_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block ACACIA_LOG_SLAB = registerBlock("acacia_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block DARK_OAK_LOG_SLAB = registerBlock("dark_oak_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block MANGROVE_LOG_SLAB = registerBlock("mangrove_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block CHERRY_LOG_SLAB = registerBlock("cherry_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new SlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_WHITE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block BAMBOO_BLOCK_SLAB = registerBlock("bamboo_block_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)
-                    .burnable()));
+                    .sound(SoundType.BAMBOO_WOOD)
+                    .ignitedByLava()));
 
     public static final Block CRIMSON_STEM_SLAB = registerBlock("crimson_stem_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DULL_PINK)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block WARPED_STEM_SLAB = registerBlock("warped_stem_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_AQUA)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Wood Slabs
     public static final Block OAK_WOOD_SLAB = registerBlock("oak_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block SPRUCE_WOOD_SLAB = registerBlock("spruce_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block BIRCH_WOOD_SLAB = registerBlock("birch_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block JUNGLE_WOOD_SLAB = registerBlock("jungle_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block ACACIA_WOOD_SLAB = registerBlock("acacia_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GRAY)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block DARK_OAK_WOOD_SLAB = registerBlock("dark_oak_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block MANGROVE_WOOD_SLAB = registerBlock("mangrove_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block CHERRY_WOOD_SLAB = registerBlock("cherry_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new SlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_GRAY)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block CRIMSON_HYPHAE_SLAB = registerBlock("crimson_hyphae_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_CRIMSON)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block WARPED_HYPHAE_SLAB = registerBlock("warped_hyphae_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_DULL_PINK)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stripped Log Slabs
     public static final Block STRIPPED_OAK_LOG_SLAB = registerBlock("stripped_oak_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_SPRUCE_LOG_SLAB = registerBlock("stripped_spruce_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BIRCH_LOG_SLAB = registerBlock("stripped_birch_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_JUNGLE_LOG_SLAB = registerBlock("stripped_jungle_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_ACACIA_LOG_SLAB = registerBlock("stripped_acacia_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_DARK_OAK_LOG_SLAB = registerBlock("stripped_dark_oak_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_MANGROVE_LOG_SLAB = registerBlock("stripped_mangrove_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CHERRY_LOG_SLAB = registerBlock("stripped_cherry_log_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new SlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_WHITE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BAMBOO_SLAB = registerBlock("stripped_bamboo_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)
-                    .burnable()));
+                    .sound(SoundType.BAMBOO_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CRIMSON_STEM_SLAB = registerBlock("stripped_crimson_stem_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DULL_PINK)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block STRIPPED_WARPED_STEM_SLAB = registerBlock("stripped_warped_stem_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_AQUA)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stripped Wood Slabs
     public static final Block STRIPPED_OAK_WOOD_SLAB = registerBlock("stripped_oak_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_SPRUCE_WOOD_SLAB = registerBlock("stripped_spruce_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BIRCH_WOOD_SLAB = registerBlock("stripped_birch_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_JUNGLE_WOOD_SLAB = registerBlock("stripped_jungle_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_ACACIA_WOOD_SLAB = registerBlock("stripped_acacia_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_DARK_OAK_WOOD_SLAB = registerBlock("stripped_dark_oak_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_MANGROVE_WOOD_SLAB = registerBlock("stripped_mangrove_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CHERRY_WOOD_SLAB = registerBlock("stripped_cherry_wood_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
+            new SlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_PINK)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CRIMSON_HYPHAE_SLAB = registerBlock("stripped_crimson_hyphae_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_CRIMSON)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block STRIPPED_WARPED_HYPHAE_SLAB = registerBlock("stripped_warped_hyphae_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_DULL_PINK)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stone-related Slabs
     public static final Block CRACKED_STONE_BRICK_SLAB = registerBlock("cracked_stone_brick_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_STONE_BRICKS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_STONE_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block DEEPSLATE_SLAB = registerBlock("deepslate_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEEPSLATE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEEPSLATE.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block CRACKED_DEEPSLATE_BRICK_SLAB = registerBlock("cracked_deepslate_brick_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_DEEPSLATE_BRICKS.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final Block REINFORCED_DEEPSLATE_SLAB = registerBlock("reinforced_deepslate_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.REINFORCED_DEEPSLATE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.REINFORCED_DEEPSLATE.defaultMapColor())
                     .strength(55.0F, 1200.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block PACKED_MUD_SLAB = registerBlock("packed_mud_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PACKED_MUD.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PACKED_MUD.defaultMapColor())
                     .strength(1.5F)
-                    .sounds(BlockSoundGroup.PACKED_MUD)));
+                    .sound(SoundType.PACKED_MUD)));
 
     public static final Block NETHERRACK_SLAB = registerBlock("netherrack_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.NETHERRACK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.NETHERRACK.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NETHERRACK)));
+                    .sound(SoundType.NETHERRACK)));
 
     public static final Block CRACKED_NETHER_BRICK_SLAB = registerBlock("cracked_nether_brick_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_NETHER_BRICKS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_NETHER_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.NETHER_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.NETHER_BRICKS)));
 
     public static final Block BASALT_SLAB = registerBlock("basalt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BASALT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block SMOOTH_BASALT_SLAB = registerBlock("smooth_basalt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_BASALT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block POLISHED_BASALT_SLAB = registerBlock("polished_basalt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_BASALT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block GILDED_BLACKSTONE_SLAB = registerBlock("gilded_blackstone_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GILDED_BLACKSTONE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GILDED_BLACKSTONE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.GILDED_BLACKSTONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.GILDED_BLACKSTONE)));
 
     public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = registerBlock("cracked_polished_blackstone_brick_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block END_STONE_SLAB = registerBlock("end_stone_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.END_STONE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.END_STONE.defaultMapColor())
                     .strength(3.0F, 9.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPUR_PILLAR_SLAB = registerBlock("purpur_pillar_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPUR_PILLAR.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPUR_PILLAR.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block QUARTZ_BRICK_SLAB = registerBlock("quartz_brick_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.QUARTZ_BRICKS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.QUARTZ_BRICKS.defaultMapColor())
                     .strength(0.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block QUARTZ_PILLAR_SLAB = registerBlock("quartz_pillar_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.QUARTZ_PILLAR.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.QUARTZ_PILLAR.defaultMapColor())
                     .strength(0.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block AMETHYST_SLAB = registerBlock("amethyst_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.AMETHYST_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.AMETHYST_BLOCK.defaultMapColor())
                     .strength(1.5F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.AMETHYST_BLOCK)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.AMETHYST)));
 
 
     // Wool Slabs
     public static final Block WHITE_WOOL_SLAB = registerBlock("white_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block LIGHT_GRAY_WOOL_SLAB = registerBlock("light_gray_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block GRAY_WOOL_SLAB = registerBlock("gray_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block BLACK_WOOL_SLAB = registerBlock("black_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block BROWN_WOOL_SLAB = registerBlock("brown_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block RED_WOOL_SLAB = registerBlock("red_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block ORANGE_WOOL_SLAB = registerBlock("orange_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block YELLOW_WOOL_SLAB = registerBlock("yellow_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block LIME_WOOL_SLAB = registerBlock("lime_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block GREEN_WOOL_SLAB = registerBlock("green_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block CYAN_WOOL_SLAB = registerBlock("cyan_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block LIGHT_BLUE_WOOL_SLAB = registerBlock("light_blue_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block BLUE_WOOL_SLAB = registerBlock("blue_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block PURPLE_WOOL_SLAB = registerBlock("purple_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block MAGENTA_WOOL_SLAB = registerBlock("magenta_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
     public static final Block PINK_WOOL_SLAB = registerBlock("pink_wool_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_WOOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_WOOL.defaultMapColor())
                     .instrument(NoteBlockInstrument.GUITAR)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
-                    .burnable()));
+                    .sound(SoundType.WOOL)
+                    .ignitedByLava()));
 
 
     // Terracotta Slabs
     public static final Block TERRACOTTA_SLAB = registerBlock("terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block WHITE_TERRACOTTA_SLAB = registerBlock("white_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_GRAY_TERRACOTTA_SLAB = registerBlock("light_gray_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GRAY_TERRACOTTA_SLAB = registerBlock("gray_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLACK_TERRACOTTA_SLAB = registerBlock("black_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BROWN_TERRACOTTA_SLAB = registerBlock("brown_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block RED_TERRACOTTA_SLAB = registerBlock("red_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block ORANGE_TERRACOTTA_SLAB = registerBlock("orange_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block YELLOW_TERRACOTTA_SLAB = registerBlock("yellow_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIME_TERRACOTTA_SLAB = registerBlock("lime_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GREEN_TERRACOTTA_SLAB = registerBlock("green_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CYAN_TERRACOTTA_SLAB = registerBlock("cyan_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_BLUE_TERRACOTTA_SLAB = registerBlock("light_blue_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLUE_TERRACOTTA_SLAB = registerBlock("blue_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPLE_TERRACOTTA_SLAB = registerBlock("purple_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block MAGENTA_TERRACOTTA_SLAB = registerBlock("magenta_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PINK_TERRACOTTA_SLAB = registerBlock("pink_terracotta_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_TERRACOTTA.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_TERRACOTTA.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
 
     // Concrete Slabs
     public static final Block WHITE_CONCRETE_SLAB = registerBlock("white_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_GRAY_CONCRETE_SLAB = registerBlock("light_gray_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GRAY_CONCRETE_SLAB = registerBlock("gray_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLACK_CONCRETE_SLAB = registerBlock("black_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BROWN_CONCRETE_SLAB = registerBlock("brown_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block RED_CONCRETE_SLAB = registerBlock("red_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block ORANGE_CONCRETE_SLAB = registerBlock("orange_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block YELLOW_CONCRETE_SLAB = registerBlock("yellow_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIME_CONCRETE_SLAB = registerBlock("lime_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GREEN_CONCRETE_SLAB = registerBlock("green_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CYAN_CONCRETE_SLAB = registerBlock("cyan_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_BLUE_CONCRETE_SLAB = registerBlock("light_blue_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLUE_CONCRETE_SLAB = registerBlock("blue_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPLE_CONCRETE_SLAB = registerBlock("purple_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block MAGENTA_CONCRETE_SLAB = registerBlock("magenta_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PINK_CONCRETE_SLAB = registerBlock("pink_concrete_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_CONCRETE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_CONCRETE.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
 
     // Concrete Powder Slabs
     public static final Block WHITE_CONCRETE_POWDER_SLAB = registerBlock("white_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIGHT_GRAY_CONCRETE_POWDER_SLAB = registerBlock("light_gray_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block GRAY_CONCRETE_POWDER_SLAB = registerBlock("gray_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BLACK_CONCRETE_POWDER_SLAB = registerBlock("black_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BROWN_CONCRETE_POWDER_SLAB = registerBlock("brown_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block RED_CONCRETE_POWDER_SLAB = registerBlock("red_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block ORANGE_CONCRETE_POWDER_SLAB = registerBlock("orange_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block YELLOW_CONCRETE_POWDER_SLAB = registerBlock("yellow_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIME_CONCRETE_POWDER_SLAB = registerBlock("lime_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block GREEN_CONCRETE_POWDER_SLAB = registerBlock("green_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block CYAN_CONCRETE_POWDER_SLAB = registerBlock("cyan_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIGHT_BLUE_CONCRETE_POWDER_SLAB = registerBlock("light_blue_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BLUE_CONCRETE_POWDER_SLAB = registerBlock("blue_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block PURPLE_CONCRETE_POWDER_SLAB = registerBlock("purple_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block MAGENTA_CONCRETE_POWDER_SLAB = registerBlock("magenta_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block PINK_CONCRETE_POWDER_SLAB = registerBlock("pink_concrete_powder_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_CONCRETE_POWDER.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_CONCRETE_POWDER.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
 
     // Glass Slabs
     public static final Block GLASS_SLAB = registerBlock("glass_slab",
-            new TransparentSlabBlock(AbstractBlock.Settings.create()
+            new TransparentSlabBlock(BlockBehaviour.Properties.of()
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .nonOpaque()
-                    .allowsSpawning(Blocks::never)
-                    .solidBlock(Blocks::never)
-                    .suffocates(Blocks::never)
-                    .blockVision(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never)
+                    .isRedstoneConductor(Blocks::never)
+                    .isSuffocating(Blocks::never)
+                    .isViewBlocking(Blocks::never)));
 
     public static final Block TINTED_GLASS_SLAB = registerBlock("tinted_glass_slab",
-            new TintedGlassSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GRAY)
+            new TintedGlassSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .nonOpaque()
-                    .allowsSpawning(Blocks::never)
-                    .solidBlock(Blocks::never)
-                    .suffocates(Blocks::never)
-                    .blockVision(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never)
+                    .isRedstoneConductor(Blocks::never)
+                    .isSuffocating(Blocks::never)
+                    .isViewBlocking(Blocks::never)));
 
     public static final Block WHITE_STAINED_GLASS_SLAB = registerBlock("white_stained_glass_slab", createStainedGlassSlab(DyeColor.WHITE));
     public static final Block ORANGE_STAINED_GLASS_SLAB = registerBlock("orange_stained_glass_slab", createStainedGlassSlab(DyeColor.ORANGE));
@@ -1030,401 +1034,401 @@ public class ModBlocks {
 
     // Natural Slabs
     public static final Block GRASS_SLAB = registerBlock("grass_slab",
-            new GrassSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRASS_BLOCK.getDefaultMapColor())
+            new GrassSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRASS_BLOCK.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .sound(SoundType.GRASS)));
 
     public static final Block PODZOL_SLAB = registerBlock("podzol_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PODZOL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PODZOL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block MYCELIUM_SLAB = registerBlock("mycelium_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MYCELIUM.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MYCELIUM.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .sound(SoundType.GRASS)));
 
     public static final Block DIRT_SLAB = registerBlock("dirt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DIRT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DIRT.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block DIRT_PATH_SLAB = registerBlock("dirt_path_slab",
-            new DirtPathSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
+            new DirtPathSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DIRT_PATH.defaultMapColor())
                     .strength(0.65F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block COARSE_DIRT_SLAB = registerBlock("coarse_dirt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.COARSE_DIRT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.COARSE_DIRT.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block ROOTED_DIRT_SLAB = registerBlock("rooted_dirt_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ROOTED_DIRT.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ROOTED_DIRT.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.ROOTED_DIRT)));
+                    .sound(SoundType.ROOTED_DIRT)));
 
     public static final Block MUD_SLAB = registerBlock("mud_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUD.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUD.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.MUD)));
+                    .sound(SoundType.MUD)));
 
     public static final Block CLAY_SLAB = registerBlock("clay_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CLAY.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CLAY.defaultMapColor())
                     .instrument(NoteBlockInstrument.FLUTE)
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block GRAVEL_SLAB = registerBlock("gravel_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAVEL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAVEL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block SAND_SLAB = registerBlock("sand_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SAND.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SAND.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block RED_SAND_SLAB = registerBlock("red_sand_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_SAND.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_SAND.defaultMapColor())
                     .instrument(NoteBlockInstrument.SNARE)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block ICE_SLAB = registerBlock("ice_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ICE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ICE.defaultMapColor())
                     .strength(0.5F)
-                    .slipperiness(0.98F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.98F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block PACKED_ICE_SLAB = registerBlock("packed_ice_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PACKED_ICE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PACKED_ICE.defaultMapColor())
                     .strength(0.5F)
-                    .slipperiness(0.98F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.98F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block BLUE_ICE_SLAB = registerBlock("blue_ice_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_ICE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_ICE.defaultMapColor())
                     .strength(2.8F)
-                    .slipperiness(0.989F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.989F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block MOSS_SLAB = registerBlock("moss_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MOSS_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MOSS_BLOCK.defaultMapColor())
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.MOSS_BLOCK)));
+                    .sound(SoundType.MOSS)));
 
     public static final Block CALCITE_SLAB = registerBlock("calcite_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CALCITE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CALCITE.defaultMapColor())
                     .strength(0.75F)
-                    .sounds(BlockSoundGroup.CALCITE)));
+                    .sound(SoundType.CALCITE)));
 
     public static final Block DRIPSTONE_SLAB = registerBlock("dripstone_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DRIPSTONE_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DRIPSTONE_BLOCK.defaultMapColor())
                     .strength(1.5F)
-                    .sounds(BlockSoundGroup.DRIPSTONE_BLOCK)));
+                    .sound(SoundType.DRIPSTONE_BLOCK)));
 
     public static final Block MAGMA_BLOCK_SLAB = registerBlock("magma_block_slab",
-            new MagmaSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_RED)
+            new MagmaSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.NETHER)
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .requiresTool()
-                    .luminance((state) -> 3)
+                    .requiresCorrectToolForDrops()
+                    .lightLevel((state) -> 3)
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.STONE)
-                    .postProcess(Blocks::always)
-                    .emissiveLighting(Blocks::always)));
+                    .sound(SoundType.STONE)
+                    .hasPostProcess(Blocks::always)
+                    .emissiveRendering(Blocks::always)));
 
     public static final Block OBSIDIAN_SLAB = registerBlock("obsidian_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.OBSIDIAN.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.OBSIDIAN.defaultMapColor())
                     .strength(50.0F, 1200.0F)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block CRYING_OBSIDIAN_SLAB = registerBlock("crying_obsidian_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRYING_OBSIDIAN.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRYING_OBSIDIAN.defaultMapColor())
                     .strength(50.0F, 1200.0F)
-                    .sounds(BlockSoundGroup.STONE)
-                    .luminance((state) -> 10)));
+                    .sound(SoundType.STONE)
+                    .lightLevel((state) -> 10)));
 
     public static final Block CRIMSON_NYLIUM_SLAB = registerBlock("crimson_nylium_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRIMSON_NYLIUM.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRIMSON_NYLIUM.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NYLIUM)));
+                    .sound(SoundType.NYLIUM)));
 
     public static final Block WARPED_NYLIUM_SLAB = registerBlock("warped_nylium_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WARPED_NYLIUM.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WARPED_NYLIUM.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NYLIUM)));
+                    .sound(SoundType.NYLIUM)));
 
     public static final Block SOUL_SAND_SLAB = registerBlock("soul_sand_slab",
-            new SoulSandSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SOUL_SAND.getDefaultMapColor())
+            new SoulSandSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SOUL_SAND.defaultMapColor())
                     .instrument(NoteBlockInstrument.COW_BELL)
                     .strength(0.5F)
-                    .velocityMultiplier(0.4F)
-                    .sounds(BlockSoundGroup.SOUL_SAND)));
+                    .speedFactor(0.4F)
+                    .sound(SoundType.SOUL_SAND)));
 
     public static final Block SOUL_SOIL_SLAB = registerBlock("soul_soil_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SOUL_SOIL.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SOUL_SOIL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SOUL_SOIL)));
+                    .sound(SoundType.SOUL_SOIL)));
 
     public static final Block BONE_SLAB = registerBlock("bone_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BONE_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BONE_BLOCK.defaultMapColor())
                     .instrument(NoteBlockInstrument.XYLOPHONE)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BONE)));
+                    .sound(SoundType.BONE_BLOCK)));
 
     public static final Block GLOWSTONE_SLAB = registerBlock("glowstone_slab",
-            new GlowingSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new GlowingSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.PLING)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .luminance((state) -> 15)
-                    .solidBlock(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .lightLevel((state) -> 15)
+                    .isRedstoneConductor(Blocks::never)));
 
     public static final Block MANGROVE_ROOT_SLAB = registerBlock("mangrove_root_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MANGROVE_ROOTS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MANGROVE_ROOTS.defaultMapColor())
                     .strength(0.7F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.ROOTS)));
+                    .noOcclusion()
+                    .sound(SoundType.ROOTS)));
 
     public static final Block MUDDY_MANGROVE_ROOT_SLAB = registerBlock("muddy_mangrove_root_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUDDY_MANGROVE_ROOTS.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUDDY_MANGROVE_ROOTS.defaultMapColor())
                     .strength(0.7F)
-                    .sounds(BlockSoundGroup.ROOTS)));
+                    .sound(SoundType.ROOTS)));
 
     public static final Block MUSHROOM_STEM_SLAB = registerBlock("mushroom_stem_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUSHROOM_STEM.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUSHROOM_STEM.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block OAK_LEAF_SLAB = registerBlock("oak_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block SPRUCE_LEAF_SLAB = registerBlock("spruce_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block BIRCH_LEAF_SLAB = registerBlock("birch_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block JUNGLE_LEAF_SLAB = registerBlock("jungle_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block ACACIA_LEAF_SLAB = registerBlock("acacia_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block DARK_OAK_LEAF_SLAB = registerBlock("dark_oak_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block MANGROVE_LEAF_SLAB = registerBlock("mangrove_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block CHERRY_LEAF_SLAB = registerBlock("cherry_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PINK)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.CHERRY_LEAVES)
+                    .noOcclusion()
+                    .sound(SoundType.CHERRY_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
     public static final Block AZALEA_LEAF_SLAB = registerBlock("azalea_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.AZALEA_LEAVES)
+                    .noOcclusion()
+                    .sound(SoundType.AZALEA_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
     public static final Block FLOWERING_AZALEA_LEAF_SLAB = registerBlock("flowering_azalea_leaf_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_GREEN)
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.AZALEA_LEAVES)
+                    .noOcclusion()
+                    .sound(SoundType.AZALEA_LEAVES)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
     public static final Block BROWN_MUSHROOM_SLAB = registerBlock("brown_mushroom_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_MUSHROOM_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_MUSHROOM_BLOCK.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block RED_MUSHROOM_SLAB = registerBlock("red_mushroom_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_MUSHROOM_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_MUSHROOM_BLOCK.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block NETHER_WART_SLAB = registerBlock("nether_wart_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.NETHER_WART_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.NETHER_WART_BLOCK.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WART_BLOCK)
+                    .sound(SoundType.WART_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block WARPED_WART_SLAB = registerBlock("warped_wart_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WARPED_WART_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WARPED_WART_BLOCK.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WART_BLOCK)
+                    .sound(SoundType.WART_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block DRIED_KELP_SLAB = registerBlock("dried_kelp_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DRIED_KELP_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DRIED_KELP_BLOCK.defaultMapColor())
                     .strength(0.5F, 2.5F)
-                    .sounds(BlockSoundGroup.GRASS)
+                    .sound(SoundType.GRASS)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block TUBE_CORAL_SLAB = registerBlock("tube_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TUBE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TUBE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BRAIN_CORAL_SLAB = registerBlock("brain_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BRAIN_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BRAIN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BUBBLE_CORAL_SLAB = registerBlock("bubble_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BUBBLE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BUBBLE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block FIRE_CORAL_SLAB = registerBlock("fire_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.FIRE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.FIRE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block HORN_CORAL_SLAB = registerBlock("horn_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HORN_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HORN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block DEAD_TUBE_CORAL_SLAB = registerBlock("dead_tube_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_TUBE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_TUBE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_BRAIN_CORAL_SLAB = registerBlock("dead_brain_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_BRAIN_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_BRAIN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_BUBBLE_CORAL_SLAB = registerBlock("dead_bubble_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_BUBBLE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_BUBBLE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_FIRE_CORAL_SLAB = registerBlock("dead_fire_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_FIRE_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_FIRE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_HORN_CORAL_SLAB = registerBlock("dead_horn_coral_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_HORN_CORAL_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_HORN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block SPONGE_SLAB = registerBlock("sponge_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SPONGE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SPONGE.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.SPONGE)));
+                    .sound(SoundType.SPONGE)));
 
     public static final Block WET_SPONGE_SLAB = registerBlock("wet_sponge_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WET_SPONGE.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WET_SPONGE.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.WET_SPONGE)));
+                    .sound(SoundType.WET_SPONGE)));
 
     public static final Block MELON_SLAB = registerBlock("melon_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MELON.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MELON.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WOOD)
+                    .sound(SoundType.WOOD)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block PUMPKIN_SLAB = registerBlock("pumpkin_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PUMPKIN.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PUMPKIN.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WOOD)
+                    .sound(SoundType.WOOD)
                     .instrument(NoteBlockInstrument.BASS)));
 
     /*public static final Block CARVED_PUMPKIN_SLAB = registerBlock("carved_pumpkin_slab",
@@ -1435,32 +1439,32 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASS)));*/
 
     public static final Block HAY_SLAB = registerBlock("hay_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HAY_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HAY_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRASS)
+                    .sound(SoundType.GRASS)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block HONEYCOMB_SLAB = registerBlock("honeycomb_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HONEYCOMB_BLOCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HONEYCOMB_BLOCK.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block SCULK_SLAB = registerBlock("sculk_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SCULK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SCULK.defaultMapColor())
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.SCULK)
+                    .sound(SoundType.SCULK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BEDROCK_SLAB = registerBlock("bedrock_slab",
-            new SlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BEDROCK.getDefaultMapColor())
+            new SlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BEDROCK.defaultMapColor())
                     .strength(-1.0F, 3600000.0F)
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .dropsNothing()
-                    .allowsSpawning(Blocks::never)));
+                    .noLootTable()
+                    .isValidSpawn(Blocks::never)));
 
 
     ///////////////////////
@@ -1469,1384 +1473,1384 @@ public class ModBlocks {
 
     // Planks Vertical Slabs
     public static final Block OAK_VERTICAL_SLAB = registerBlock("oak_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.OAK_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.OAK_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block SPRUCE_VERTICAL_SLAB = registerBlock("spruce_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SPRUCE_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SPRUCE_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block BIRCH_VERTICAL_SLAB = registerBlock("birch_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BIRCH_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BIRCH_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block JUNGLE_VERTICAL_SLAB = registerBlock("jungle_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.JUNGLE_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.JUNGLE_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block ACACIA_VERTICAL_SLAB = registerBlock("acacia_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ACACIA_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ACACIA_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block DARK_OAK_VERTICAL_SLAB = registerBlock("dark_oak_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DARK_OAK_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DARK_OAK_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block MANGROVE_VERTICAL_SLAB = registerBlock("mangrove_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MANGROVE_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MANGROVE_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block CHERRY_VERTICAL_SLAB = registerBlock("cherry_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CHERRY_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CHERRY_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)));
+                    .sound(SoundType.CHERRY_WOOD)));
 
     public static final Block BAMBOO_VERTICAL_SLAB = registerBlock("bamboo_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BAMBOO_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BAMBOO_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)));
+                    .sound(SoundType.BAMBOO_WOOD)));
 
     public static final Block BAMBOO_MOSAIC_VERTICAL_SLAB = registerBlock("bamboo_mosaic_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BAMBOO_MOSAIC.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BAMBOO_MOSAIC.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)));
+                    .sound(SoundType.BAMBOO_WOOD)));
 
     public static final Block CRIMSON_VERTICAL_SLAB = registerBlock("crimson_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRIMSON_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRIMSON_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.NETHER_WOOD)));
+                    .sound(SoundType.NETHER_WOOD)));
 
     public static final Block WARPED_VERTICAL_SLAB = registerBlock("warped_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WARPED_PLANKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WARPED_PLANKS.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .sounds(BlockSoundGroup.NETHER_WOOD)));
+                    .sound(SoundType.NETHER_WOOD)));
 
 
     // Log Slabs
     public static final Block OAK_LOG_VERTICAL_SLAB = registerBlock("oak_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block SPRUCE_LOG_VERTICAL_SLAB = registerBlock("spruce_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block BIRCH_LOG_VERTICAL_SLAB = registerBlock("birch_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block JUNGLE_LOG_VERTICAL_SLAB = registerBlock("jungle_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block ACACIA_LOG_VERTICAL_SLAB = registerBlock("acacia_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block DARK_OAK_LOG_VERTICAL_SLAB = registerBlock("dark_oak_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block MANGROVE_LOG_VERTICAL_SLAB = registerBlock("mangrove_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block CHERRY_LOG_VERTICAL_SLAB = registerBlock("cherry_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_WHITE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block BAMBOO_BLOCK_VERTICAL_SLAB = registerBlock("bamboo_block_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)
-                    .burnable()));
+                    .sound(SoundType.BAMBOO_WOOD)
+                    .ignitedByLava()));
 
     public static final Block CRIMSON_STEM_VERTICAL_SLAB = registerBlock("crimson_stem_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DULL_PINK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block WARPED_STEM_VERTICAL_SLAB = registerBlock("warped_stem_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_AQUA)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Wood Slabs
     public static final Block OAK_WOOD_VERTICAL_SLAB = registerBlock("oak_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block SPRUCE_WOOD_VERTICAL_SLAB = registerBlock("spruce_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block BIRCH_WOOD_VERTICAL_SLAB = registerBlock("birch_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block JUNGLE_WOOD_VERTICAL_SLAB = registerBlock("jungle_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block ACACIA_WOOD_VERTICAL_SLAB = registerBlock("acacia_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GRAY)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block DARK_OAK_WOOD_VERTICAL_SLAB = registerBlock("dark_oak_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block MANGROVE_WOOD_VERTICAL_SLAB = registerBlock("mangrove_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block CHERRY_WOOD_VERTICAL_SLAB = registerBlock("cherry_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_GRAY)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block CRIMSON_HYPHAE_VERTICAL_SLAB = registerBlock("crimson_hyphae_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_CRIMSON)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block WARPED_HYPHAE_VERTICAL_SLAB = registerBlock("warped_hyphae_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_DULL_PINK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stripped Log Slabs
     public static final Block STRIPPED_OAK_LOG_VERTICAL_SLAB = registerBlock("stripped_oak_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_SPRUCE_LOG_VERTICAL_SLAB = registerBlock("stripped_spruce_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BIRCH_LOG_VERTICAL_SLAB = registerBlock("stripped_birch_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_JUNGLE_LOG_VERTICAL_SLAB = registerBlock("stripped_jungle_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_ACACIA_LOG_VERTICAL_SLAB = registerBlock("stripped_acacia_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_DARK_OAK_LOG_VERTICAL_SLAB = registerBlock("stripped_dark_oak_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_MANGROVE_LOG_VERTICAL_SLAB = registerBlock("stripped_mangrove_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CHERRY_LOG_VERTICAL_SLAB = registerBlock("stripped_cherry_log_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_WHITE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BAMBOO_VERTICAL_SLAB = registerBlock("stripped_bamboo_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BAMBOO_WOOD)
-                    .burnable()));
+                    .sound(SoundType.BAMBOO_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CRIMSON_STEM_VERTICAL_SLAB = registerBlock("stripped_crimson_stem_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DULL_PINK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block STRIPPED_WARPED_STEM_VERTICAL_SLAB = registerBlock("stripped_warped_stem_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_AQUA)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_STEM)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stripped Wood Slabs
     public static final Block STRIPPED_OAK_WOOD_VERTICAL_SLAB = registerBlock("stripped_oak_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.OAK_TAN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_SPRUCE_WOOD_VERTICAL_SLAB = registerBlock("stripped_spruce_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.SPRUCE_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_BIRCH_WOOD_VERTICAL_SLAB = registerBlock("stripped_birch_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_JUNGLE_WOOD_VERTICAL_SLAB = registerBlock("stripped_jungle_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DIRT_BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_ACACIA_WOOD_VERTICAL_SLAB = registerBlock("stripped_acacia_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_DARK_OAK_WOOD_VERTICAL_SLAB = registerBlock("stripped_dark_oak_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_MANGROVE_WOOD_VERTICAL_SLAB = registerBlock("stripped_mangrove_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()));
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CHERRY_WOOD_VERTICAL_SLAB = registerBlock("stripped_cherry_wood_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.TERRACOTTA_PINK)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.CHERRY_WOOD)
-                    .burnable()));
+                    .sound(SoundType.CHERRY_WOOD)
+                    .ignitedByLava()));
 
     public static final Block STRIPPED_CRIMSON_HYPHAE_VERTICAL_SLAB = registerBlock("stripped_crimson_hyphae_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_CRIMSON)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.CRIMSON_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
     public static final Block STRIPPED_WARPED_HYPHAE_VERTICAL_SLAB = registerBlock("stripped_warped_hyphae_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_DULL_PINK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WARPED_HYPHAE)
                     .instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.NETHER_STEM)));
+                    .sound(SoundType.STEM)));
 
 
     // Stone-related Vertical Slabs
     public static final Block STONE_VERTICAL_SLAB = registerBlock("stone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.STONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.STONE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block COBBLESTONE_VERTICAL_SLAB = registerBlock("cobblestone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.COBBLESTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.COBBLESTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block MOSSY_COBBLESTONE_VERTICAL_SLAB = registerBlock("mossy_cobblestone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MOSSY_COBBLESTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MOSSY_COBBLESTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block SMOOTH_STONE_VERTICAL_SLAB = registerBlock("smooth_stone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_STONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_STONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block STONE_BRICK_VERTICAL_SLAB = registerBlock("stone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.STONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.STONE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block CRACKED_STONE_BRICK_VERTICAL_SLAB = registerBlock("cracked_stone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_STONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_STONE_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block MOSSY_STONE_BRICK_VERTICAL_SLAB = registerBlock("mossy_stone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MOSSY_STONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MOSSY_STONE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GRANITE_VERTICAL_SLAB = registerBlock("granite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRANITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRANITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block POLISHED_GRANITE_VERTICAL_SLAB = registerBlock("polished_granite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_GRANITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_GRANITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block DIORITE_VERTICAL_SLAB = registerBlock("diorite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DIORITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DIORITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block POLISHED_DIORITE_VERTICAL_SLAB = registerBlock("polished_diorite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_DIORITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_DIORITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block ANDESITE_VERTICAL_SLAB = registerBlock("andesite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ANDESITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ANDESITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block POLISHED_ANDESITE_VERTICAL_SLAB = registerBlock("polished_andesite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_ANDESITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_ANDESITE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block DEEPSLATE_VERTICAL_SLAB = registerBlock("deepslate_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEEPSLATE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEEPSLATE.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block COBBLED_DEEPSLATE_VERTICAL_SLAB = registerBlock("cobbled_deepslate_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.COBBLED_DEEPSLATE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.COBBLED_DEEPSLATE.defaultMapColor())
                     .strength(3.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block POLISHED_DEEPSLATE_VERTICAL_SLAB = registerBlock("polished_deepslate_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_DEEPSLATE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_DEEPSLATE.defaultMapColor())
                     .strength(3.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block DEEPSLATE_BRICK_VERTICAL_SLAB = registerBlock("deepslate_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEEPSLATE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEEPSLATE_BRICKS.defaultMapColor())
                     .strength(3.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block CRACKED_DEEPSLATE_BRICK_VERTICAL_SLAB = registerBlock("cracked_deepslate_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_DEEPSLATE_BRICKS.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final Block DEEPSLATE_TILE_VERTICAL_SLAB = registerBlock("deepslate_tile_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEEPSLATE_TILES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEEPSLATE_TILES.defaultMapColor())
                     .strength(3.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block REINFORCED_DEEPSLATE_VERTICAL_SLAB = registerBlock("reinforced_deepslate_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.REINFORCED_DEEPSLATE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.REINFORCED_DEEPSLATE.defaultMapColor())
                     .strength(55.0F, 1200.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.DEEPSLATE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.DEEPSLATE)));
 
     public static final Block TUFF_VERTICAL_SLAB = registerBlock("tuff_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TUFF.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TUFF.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.TUFF)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.TUFF)
                     .instrument(NoteBlockInstrument.BASEDRUM)));
 
     public static final Block POLISHED_TUFF_VERTICAL_SLAB = registerBlock("polished_tuff_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_TUFF.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_TUFF.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.POLISHED_TUFF)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.POLISHED_TUFF)
                     .instrument(NoteBlockInstrument.BASEDRUM)));
 
     public static final Block TUFF_BRICK_VERTICAL_SLAB = registerBlock("tuff_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TUFF_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TUFF_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.TUFF_BRICKS)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.TUFF_BRICKS)
                     .instrument(NoteBlockInstrument.BASEDRUM)));
 
     public static final Block BRICK_VERTICAL_SLAB = registerBlock("brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block PACKED_MUD_VERTICAL_SLAB = registerBlock("packed_mud_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PACKED_MUD.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PACKED_MUD.defaultMapColor())
                     .strength(1.5F)
-                    .sounds(BlockSoundGroup.PACKED_MUD)));
+                    .sound(SoundType.PACKED_MUD)));
 
     public static final Block MUD_BRICK_VERTICAL_SLAB = registerBlock("mud_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUD_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUD_BRICKS.defaultMapColor())
                     .strength(1.5F, 3.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.MUD_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.MUD_BRICKS)));
 
     public static final Block SANDSTONE_VERTICAL_SLAB = registerBlock("sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SANDSTONE.defaultMapColor())
                     .strength(0.8F, 0.8F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block SMOOTH_SANDSTONE_VERTICAL_SLAB = registerBlock("smooth_sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_SANDSTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CUT_SANDSTONE_VERTICAL_SLAB = registerBlock("cut_sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CUT_SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CUT_SANDSTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block RED_SANDSTONE_VERTICAL_SLAB = registerBlock("red_sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_SANDSTONE.defaultMapColor())
                     .strength(0.8F, 0.8F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block SMOOTH_RED_SANDSTONE_VERTICAL_SLAB = registerBlock("smooth_red_sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_RED_SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_RED_SANDSTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CUT_RED_SANDSTONE_VERTICAL_SLAB = registerBlock("cut_red_sandstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CUT_RED_SANDSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CUT_RED_SANDSTONE.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PRISMARINE_VERTICAL_SLAB = registerBlock("prismarine_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PRISMARINE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PRISMARINE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PRISMARINE_BRICK_VERTICAL_SLAB = registerBlock("prismarine_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PRISMARINE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PRISMARINE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block DARK_PRISMARINE_VERTICAL_SLAB = registerBlock("dark_prismarine_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DARK_PRISMARINE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DARK_PRISMARINE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block NETHERRACK_VERTICAL_SLAB = registerBlock("netherrack_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.NETHERRACK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.NETHERRACK.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NETHERRACK)));
+                    .sound(SoundType.NETHERRACK)));
 
     public static final Block NETHER_BRICK_VERTICAL_SLAB = registerBlock("nether_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.NETHER_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.NETHER_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.NETHER_BRICKS)));
+                    .sound(SoundType.NETHER_BRICKS)));
 
     public static final Block CRACKED_NETHER_BRICK_VERTICAL_SLAB = registerBlock("cracked_nether_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_NETHER_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_NETHER_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.NETHER_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.NETHER_BRICKS)));
 
     public static final Block RED_NETHER_BRICK_VERTICAL_SLAB = registerBlock("red_nether_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_NETHER_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_NETHER_BRICKS.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.NETHER_BRICKS)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.NETHER_BRICKS)));
 
     public static final Block BASALT_VERTICAL_SLAB = registerBlock("basalt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BASALT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block SMOOTH_BASALT_VERTICAL_SLAB = registerBlock("smooth_basalt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_BASALT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block POLISHED_BASALT_VERTICAL_SLAB = registerBlock("polished_basalt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_BASALT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_BASALT.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.BASALT)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.BASALT)));
 
     public static final Block BLACKSTONE_VERTICAL_SLAB = registerBlock("blackstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACKSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACKSTONE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GILDED_BLACKSTONE_VERTICAL_SLAB = registerBlock("gilded_blackstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GILDED_BLACKSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GILDED_BLACKSTONE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.GILDED_BLACKSTONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.GILDED_BLACKSTONE)));
 
     public static final Block POLISHED_BLACKSTONE_VERTICAL_SLAB = registerBlock("polished_blackstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_BLACKSTONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_BLACKSTONE.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block POLISHED_BLACKSTONE_BRICK_VERTICAL_SLAB = registerBlock("polished_blackstone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.POLISHED_BLACKSTONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.POLISHED_BLACKSTONE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_VERTICAL_SLAB = registerBlock("cracked_polished_blackstone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block END_STONE_VERTICAL_SLAB = registerBlock("end_stone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.END_STONE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.END_STONE.defaultMapColor())
                     .strength(3.0F, 9.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block END_STONE_BRICK_VERTICAL_SLAB = registerBlock("end_stone_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.END_STONE_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.END_STONE_BRICKS.defaultMapColor())
                     .strength(3.0F, 9.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPUR_VERTICAL_SLAB = registerBlock("purpur_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPUR_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPUR_BLOCK.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPUR_PILLAR_VERTICAL_SLAB = registerBlock("purpur_pillar_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPUR_PILLAR.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPUR_PILLAR.defaultMapColor())
                     .strength(1.5F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block QUARTZ_VERTICAL_SLAB = registerBlock("quartz_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.QUARTZ_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.QUARTZ_BLOCK.defaultMapColor())
                     .strength(0.8F, 0.8F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block QUARTZ_BRICK_VERTICAL_SLAB = registerBlock("quartz_brick_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.QUARTZ_BRICKS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.QUARTZ_BRICKS.defaultMapColor())
                     .strength(0.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block QUARTZ_PILLAR_VERTICAL_SLAB = registerBlock("quartz_pillar_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.QUARTZ_PILLAR.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.QUARTZ_PILLAR.defaultMapColor())
                     .strength(0.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block SMOOTH_QUARTZ_VERTICAL_SLAB = registerBlock("smooth_quartz_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SMOOTH_QUARTZ.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SMOOTH_QUARTZ.defaultMapColor())
                     .strength(2.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block AMETHYST_VERTICAL_SLAB = registerBlock("amethyst_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.AMETHYST_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.AMETHYST_BLOCK.defaultMapColor())
                     .strength(1.5F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.AMETHYST_BLOCK)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.AMETHYST)));
 
     public static final Block CUT_COPPER_VERTICAL_SLAB = registerBlock("cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block EXPOSED_CUT_COPPER_VERTICAL_SLAB = registerBlock("exposed_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.EXPOSED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.EXPOSED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block WEATHERED_CUT_COPPER_VERTICAL_SLAB = registerBlock("weathered_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WEATHERED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WEATHERED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block OXIDIZED_CUT_COPPER_VERTICAL_SLAB = registerBlock("oxidized_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.OXIDIZED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.OXIDIZED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block WAXED_CUT_COPPER_VERTICAL_SLAB = registerBlock("waxed_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WAXED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WAXED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block WAXED_EXPOSED_CUT_COPPER_VERTICAL_SLAB = registerBlock("waxed_exposed_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WAXED_EXPOSED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WAXED_EXPOSED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block WAXED_WEATHERED_CUT_COPPER_VERTICAL_SLAB = registerBlock("waxed_weathered_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WAXED_WEATHERED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WAXED_WEATHERED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block WAXED_OXIDIZED_CUT_COPPER_VERTICAL_SLAB = registerBlock("waxed_oxidized_cut_copper_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WAXED_OXIDIZED_CUT_COPPER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WAXED_OXIDIZED_CUT_COPPER.defaultMapColor())
                     .strength(3.0F, 6.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.COPPER)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.COPPER)));
 
     public static final Block PETRIFIED_OAK_VERTICAL_SLAB = registerBlock("petrified_oak_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PETRIFIED_OAK_SLAB.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PETRIFIED_OAK_SLAB.defaultMapColor())
                     .strength(2.0F, 3.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.WOOD)));
 
 
     // Wool Vertical Slabs
     public static final Block WHITE_WOOL_VERTICAL_SLAB = registerBlock("white_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.WHITE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block LIGHT_GRAY_WOOL_VERTICAL_SLAB = registerBlock("light_gray_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.LIGHT_GRAY)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block GRAY_WOOL_VERTICAL_SLAB = registerBlock("gray_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GRAY)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block BLACK_WOOL_VERTICAL_SLAB = registerBlock("black_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLACK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block BROWN_WOOL_VERTICAL_SLAB = registerBlock("brown_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block RED_WOOL_VERTICAL_SLAB = registerBlock("red_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.RED)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block ORANGE_WOOL_VERTICAL_SLAB = registerBlock("orange_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.ORANGE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block YELLOW_WOOL_VERTICAL_SLAB = registerBlock("yellow_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.YELLOW)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block LIME_WOOL_VERTICAL_SLAB = registerBlock("lime_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.LIME)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block GREEN_WOOL_VERTICAL_SLAB = registerBlock("green_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GREEN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block CYAN_WOOL_VERTICAL_SLAB = registerBlock("cyan_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.CYAN)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block LIGHT_BLUE_WOOL_VERTICAL_SLAB = registerBlock("light_blue_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.LIGHT_BLUE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_BLUE)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block BLUE_WOOL_VERTICAL_SLAB = registerBlock("blue_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLUE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block PURPLE_WOOL_VERTICAL_SLAB = registerBlock("purple_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PURPLE)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block MAGENTA_WOOL_VERTICAL_SLAB = registerBlock("magenta_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.MAGENTA)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_MAGENTA)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
     public static final Block PINK_WOOL_VERTICAL_SLAB = registerBlock("pink_wool_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PINK)
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.WOOL)
+                    .sound(SoundType.WOOL)
                     .instrument(NoteBlockInstrument.GUITAR)
-                    .burnable()));
+                    .ignitedByLava()));
 
 
     // Terracotta Vertical Slabs
     public static final Block TERRACOTTA_VERTICAL_SLAB = registerBlock("terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block WHITE_TERRACOTTA_VERTICAL_SLAB = registerBlock("white_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_GRAY_TERRACOTTA_VERTICAL_SLAB = registerBlock("light_gray_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block GRAY_TERRACOTTA_VERTICAL_SLAB = registerBlock("gray_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block BLACK_TERRACOTTA_VERTICAL_SLAB = registerBlock("black_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block BROWN_TERRACOTTA_VERTICAL_SLAB = registerBlock("brown_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block RED_TERRACOTTA_VERTICAL_SLAB = registerBlock("red_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block ORANGE_TERRACOTTA_VERTICAL_SLAB = registerBlock("orange_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block YELLOW_TERRACOTTA_VERTICAL_SLAB = registerBlock("yellow_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block LIME_TERRACOTTA_VERTICAL_SLAB = registerBlock("lime_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block GREEN_TERRACOTTA_VERTICAL_SLAB = registerBlock("green_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block CYAN_TERRACOTTA_VERTICAL_SLAB = registerBlock("cyan_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_BLUE_TERRACOTTA_VERTICAL_SLAB = registerBlock("light_blue_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block BLUE_TERRACOTTA_VERTICAL_SLAB = registerBlock("blue_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPLE_TERRACOTTA_VERTICAL_SLAB = registerBlock("purple_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block MAGENTA_TERRACOTTA_VERTICAL_SLAB = registerBlock("magenta_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
     public static final Block PINK_TERRACOTTA_VERTICAL_SLAB = registerBlock("pink_terracotta_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_TERRACOTTA.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_TERRACOTTA.defaultMapColor())
                     .strength(1.25F, 4.2F)
-                    .requiresTool()
+                    .requiresCorrectToolForDrops()
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .sounds(BlockSoundGroup.STONE)));
+                    .sound(SoundType.STONE)));
 
 
     // Concrete Vertical Slabs
     public static final Block WHITE_CONCRETE_VERTICAL_SLAB = registerBlock("white_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_GRAY_CONCRETE_VERTICAL_SLAB = registerBlock("light_gray_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GRAY_CONCRETE_VERTICAL_SLAB = registerBlock("gray_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLACK_CONCRETE_VERTICAL_SLAB = registerBlock("black_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BROWN_CONCRETE_VERTICAL_SLAB = registerBlock("brown_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block RED_CONCRETE_VERTICAL_SLAB = registerBlock("red_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block ORANGE_CONCRETE_VERTICAL_SLAB = registerBlock("orange_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block YELLOW_CONCRETE_VERTICAL_SLAB = registerBlock("yellow_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIME_CONCRETE_VERTICAL_SLAB = registerBlock("lime_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block GREEN_CONCRETE_VERTICAL_SLAB = registerBlock("green_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CYAN_CONCRETE_VERTICAL_SLAB = registerBlock("cyan_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block LIGHT_BLUE_CONCRETE_VERTICAL_SLAB = registerBlock("light_blue_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block BLUE_CONCRETE_VERTICAL_SLAB = registerBlock("blue_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PURPLE_CONCRETE_VERTICAL_SLAB = registerBlock("purple_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block MAGENTA_CONCRETE_VERTICAL_SLAB = registerBlock("magenta_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block PINK_CONCRETE_VERTICAL_SLAB = registerBlock("pink_concrete_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_CONCRETE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_CONCRETE.defaultMapColor())
                     .strength(1.8F, 1.8F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
 
     // Concrete Powder Vertical Slabs
     public static final Block WHITE_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("white_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WHITE_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WHITE_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIGHT_GRAY_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("light_gray_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_GRAY_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block GRAY_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("gray_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAY_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAY_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BLACK_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("black_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLACK_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLACK_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BROWN_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("brown_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block RED_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("red_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block ORANGE_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("orange_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ORANGE_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ORANGE_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block YELLOW_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("yellow_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.YELLOW_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.YELLOW_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIME_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("lime_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIME_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIME_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block GREEN_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("green_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GREEN_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GREEN_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block CYAN_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("cyan_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CYAN_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CYAN_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block LIGHT_BLUE_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("light_blue_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.LIGHT_BLUE_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block BLUE_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("blue_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block PURPLE_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("purple_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PURPLE_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PURPLE_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block MAGENTA_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("magenta_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MAGENTA_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MAGENTA_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
     public static final Block PINK_CONCRETE_POWDER_VERTICAL_SLAB = registerBlock("pink_concrete_powder_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PINK_CONCRETE_POWDER.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PINK_CONCRETE_POWDER.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)));
+                    .sound(SoundType.SAND)));
 
 
     // Glass Vertical Slabs
     public static final Block GLASS_VERTICAL_SLAB = registerBlock("glass_vertical_slab",
-            new TransparentVerticalSlabBlock(AbstractBlock.Settings.create()
+            new TransparentVerticalSlabBlock(BlockBehaviour.Properties.of()
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .nonOpaque()
-                    .allowsSpawning(Blocks::never)
-                    .solidBlock(Blocks::never)
-                    .suffocates(Blocks::never)
-                    .blockVision(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never)
+                    .isRedstoneConductor(Blocks::never)
+                    .isSuffocating(Blocks::never)
+                    .isViewBlocking(Blocks::never)));
 
     public static final Block TINTED_GLASS_VERTICAL_SLAB = registerBlock("tinted_glass_vertical_slab",
-            new TintedGlassVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GRAY)
+            new TintedGlassVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
                     .instrument(NoteBlockInstrument.HAT)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .nonOpaque()
-                    .allowsSpawning(Blocks::never)
-                    .solidBlock(Blocks::never)
-                    .suffocates(Blocks::never)
-                    .blockVision(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never)
+                    .isRedstoneConductor(Blocks::never)
+                    .isSuffocating(Blocks::never)
+                    .isViewBlocking(Blocks::never)));
 
     public static final Block WHITE_STAINED_GLASS_VERTICAL_SLAB = registerBlock("white_stained_glass_vertical_slab", createStainedGlassVerticalSlab(DyeColor.WHITE));
     public static final Block ORANGE_STAINED_GLASS_VERTICAL_SLAB = registerBlock("orange_stained_glass_vertical_slab", createStainedGlassVerticalSlab(DyeColor.ORANGE));
@@ -2868,401 +2872,401 @@ public class ModBlocks {
 
     // Natural Vertical Slabs
     public static final Block GRASS_VERTICAL_SLAB = registerBlock("grass_vertical_slab",
-            new GrassVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRASS_BLOCK.getDefaultMapColor())
+            new GrassVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRASS_BLOCK.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .sound(SoundType.GRASS)));
 
     public static final Block PODZOL_VERTICAL_SLAB = registerBlock("podzol_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PODZOL.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PODZOL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block MYCELIUM_VERTICAL_SLAB = registerBlock("mycelium_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MYCELIUM.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MYCELIUM.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .sound(SoundType.GRASS)));
 
     public static final Block DIRT_VERTICAL_SLAB = registerBlock("dirt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DIRT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DIRT.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block DIRT_PATH_VERTICAL_SLAB = registerBlock("dirt_path_vertical_slab",
-            new DirtPathVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DIRT_PATH.getDefaultMapColor())
+            new DirtPathVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DIRT_PATH.defaultMapColor())
                     .strength(0.65F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block COARSE_DIRT_VERTICAL_SLAB = registerBlock("coarse_dirt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.COARSE_DIRT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.COARSE_DIRT.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block ROOTED_DIRT_VERTICAL_SLAB = registerBlock("rooted_dirt_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ROOTED_DIRT.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ROOTED_DIRT.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.ROOTED_DIRT)));
+                    .sound(SoundType.ROOTED_DIRT)));
 
     public static final Block MUD_VERTICAL_SLAB = registerBlock("mud_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUD.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUD.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.MUD)));
+                    .sound(SoundType.MUD)));
 
     public static final Block CLAY_VERTICAL_SLAB = registerBlock("clay_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CLAY.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CLAY.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.GRAVEL)
+                    .sound(SoundType.GRAVEL)
                     .instrument(NoteBlockInstrument.FLUTE)));
 
     public static final Block GRAVEL_VERTICAL_SLAB = registerBlock("gravel_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.GRAVEL.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.GRAVEL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRAVEL)));
+                    .sound(SoundType.GRAVEL)));
 
     public static final Block SAND_VERTICAL_SLAB = registerBlock("sand_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SAND.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SAND.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)
+                    .sound(SoundType.SAND)
                     .instrument(NoteBlockInstrument.SNARE)));
 
     public static final Block RED_SAND_VERTICAL_SLAB = registerBlock("red_sand_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_SAND.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_SAND.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SAND)
+                    .sound(SoundType.SAND)
                     .instrument(NoteBlockInstrument.SNARE)));
 
     public static final Block ICE_VERTICAL_SLAB = registerBlock("ice_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ICE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ICE.defaultMapColor())
                     .strength(0.5F)
-                    .slipperiness(0.98F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.98F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block PACKED_ICE_VERTICAL_SLAB = registerBlock("packed_ice_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PACKED_ICE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PACKED_ICE.defaultMapColor())
                     .strength(0.5F)
-                    .slipperiness(0.98F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.98F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block BLUE_ICE_VERTICAL_SLAB = registerBlock("blue_ice_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BLUE_ICE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BLUE_ICE.defaultMapColor())
                     .strength(2.8F)
-                    .slipperiness(0.989F)
-                    .sounds(BlockSoundGroup.GLASS)));
+                    .friction(0.989F)
+                    .sound(SoundType.GLASS)));
 
     public static final Block MOSS_VERTICAL_SLAB = registerBlock("moss_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MOSS_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MOSS_BLOCK.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.MOSS_BLOCK)
+                    .sound(SoundType.MOSS)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block CALCITE_VERTICAL_SLAB = registerBlock("calcite_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CALCITE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CALCITE.defaultMapColor())
                     .strength(0.75F)
-                    .sounds(BlockSoundGroup.CALCITE)));
+                    .sound(SoundType.CALCITE)));
 
     public static final Block DRIPSTONE_VERTICAL_SLAB = registerBlock("dripstone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DRIPSTONE_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DRIPSTONE_BLOCK.defaultMapColor())
                     .strength(1.5F)
-                    .sounds(BlockSoundGroup.DRIPSTONE_BLOCK)));
+                    .sound(SoundType.DRIPSTONE_BLOCK)));
 
     public static final Block MAGMA_BLOCK_VERTICAL_SLAB = registerBlock("magma_block_vertical_slab",
-            new MagmaVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.DARK_RED)
+            new MagmaVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.NETHER)
                     .strength(0.5F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)
-                    .luminance((state) -> 3)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)
+                    .lightLevel((state) -> 3)
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .allowsSpawning((state, world, pos, entityType) -> entityType.isFireImmune())
-                    .postProcess(Blocks::always)
-                    .emissiveLighting(Blocks::always)));
+                    .isValidSpawn((state, world, pos, entityType) -> entityType.fireImmune())
+                    .hasPostProcess(Blocks::always)
+                    .emissiveRendering(Blocks::always)));
 
     public static final Block OBSIDIAN_VERTICAL_SLAB = registerBlock("obsidian_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.OBSIDIAN.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.OBSIDIAN.defaultMapColor())
                     .strength(50.0F, 1200.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final Block CRYING_OBSIDIAN_VERTICAL_SLAB = registerBlock("crying_obsidian_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRYING_OBSIDIAN.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRYING_OBSIDIAN.defaultMapColor())
                     .strength(50.0F, 1200.0F)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)
-                    .luminance((state) -> 10)));
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)
+                    .lightLevel((state) -> 10)));
 
     public static final Block CRIMSON_NYLIUM_VERTICAL_SLAB = registerBlock("crimson_nylium_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CRIMSON_NYLIUM.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CRIMSON_NYLIUM.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NYLIUM)));
+                    .sound(SoundType.NYLIUM)));
 
     public static final Block WARPED_NYLIUM_VERTICAL_SLAB = registerBlock("warped_nylium_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WARPED_NYLIUM.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WARPED_NYLIUM.defaultMapColor())
                     .strength(0.4F)
-                    .sounds(BlockSoundGroup.NYLIUM)));
+                    .sound(SoundType.NYLIUM)));
 
     public static final Block SOUL_SAND_VERTICAL_SLAB = registerBlock("soul_sand_vertical_slab",
-            new SoulSandVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SOUL_SAND.getDefaultMapColor())
+            new SoulSandVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SOUL_SAND.defaultMapColor())
                     .strength(0.5F)
-                    .velocityMultiplier(0.4F)
-                    .sounds(BlockSoundGroup.SOUL_SAND)
+                    .speedFactor(0.4F)
+                    .sound(SoundType.SOUL_SAND)
                     .instrument(NoteBlockInstrument.COW_BELL)));
 
     public static final Block SOUL_SOIL_VERTICAL_SLAB = registerBlock("soul_soil_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SOUL_SOIL.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SOUL_SOIL.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.SOUL_SOIL)));
+                    .sound(SoundType.SOUL_SOIL)));
 
     public static final Block BONE_VERTICAL_SLAB = registerBlock("bone_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BONE_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BONE_BLOCK.defaultMapColor())
                     .strength(2.0F)
-                    .sounds(BlockSoundGroup.BONE)
+                    .sound(SoundType.BONE_BLOCK)
                     .instrument(NoteBlockInstrument.XYLOPHONE)));
 
     public static final Block GLOWSTONE_VERTICAL_SLAB = registerBlock("glowstone_vertical_slab",
-            new GlowingVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(MapColor.PALE_YELLOW)
+            new GlowingVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SAND)
                     .instrument(NoteBlockInstrument.PLING)
                     .strength(0.3F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .luminance((state) -> 15)
-                    .solidBlock(Blocks::never)));
+                    .sound(SoundType.GLASS)
+                    .lightLevel((state) -> 15)
+                    .isRedstoneConductor(Blocks::never)));
 
     public static final Block MANGROVE_ROOT_VERTICAL_SLAB = registerBlock("mangrove_root_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MANGROVE_ROOTS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MANGROVE_ROOTS.defaultMapColor())
                     .strength(0.7F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.ROOTS)));
+                    .noOcclusion()
+                    .sound(SoundType.ROOTS)));
 
     public static final Block MUDDY_MANGROVE_ROOT_VERTICAL_SLAB = registerBlock("muddy_mangrove_root_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUDDY_MANGROVE_ROOTS.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUDDY_MANGROVE_ROOTS.defaultMapColor())
                     .strength(0.7F)
-                    .sounds(BlockSoundGroup.ROOTS)));
+                    .sound(SoundType.ROOTS)));
 
     public static final Block MUSHROOM_STEM_VERTICAL_SLAB = registerBlock("mushroom_stem_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MUSHROOM_STEM.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MUSHROOM_STEM.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block OAK_LEAF_VERTICAL_SLAB = registerBlock("oak_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.OAK_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.OAK_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block SPRUCE_LEAF_VERTICAL_SLAB = registerBlock("spruce_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SPRUCE_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SPRUCE_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block BIRCH_LEAF_VERTICAL_SLAB = registerBlock("birch_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BIRCH_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BIRCH_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block JUNGLE_LEAF_VERTICAL_SLAB = registerBlock("jungle_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.JUNGLE_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.JUNGLE_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block ACACIA_LEAF_VERTICAL_SLAB = registerBlock("acacia_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.ACACIA_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.ACACIA_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block DARK_OAK_LEAF_VERTICAL_SLAB = registerBlock("dark_oak_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DARK_OAK_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DARK_OAK_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block MANGROVE_LEAF_VERTICAL_SLAB = registerBlock("mangrove_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MANGROVE_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MANGROVE_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block CHERRY_LEAF_VERTICAL_SLAB = registerBlock("cherry_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.CHERRY_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.CHERRY_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block AZALEA_LEAF_VERTICAL_SLAB = registerBlock("azalea_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.AZALEA_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.AZALEA_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block FLOWERING_AZALEA_LEAF_VERTICAL_SLAB = registerBlock("flowering_azalea_leaf_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.FLOWERING_AZALEA_LEAVES.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.FLOWERING_AZALEA_LEAVES.defaultMapColor())
                     .strength(0.2F)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)));
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     public static final Block BROWN_MUSHROOM_VERTICAL_SLAB = registerBlock("brown_mushroom_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BROWN_MUSHROOM_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BROWN_MUSHROOM_BLOCK.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block RED_MUSHROOM_VERTICAL_SLAB = registerBlock("red_mushroom_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.RED_MUSHROOM_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.RED_MUSHROOM_BLOCK.defaultMapColor())
                     .strength(0.2F)
-                    .sounds(BlockSoundGroup.WOOD)));
+                    .sound(SoundType.WOOD)));
 
     public static final Block NETHER_WART_VERTICAL_SLAB = registerBlock("nether_wart_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.NETHER_WART_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.NETHER_WART_BLOCK.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WART_BLOCK)
+                    .sound(SoundType.WART_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block WARPED_WART_VERTICAL_SLAB = registerBlock("warped_wart_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WARPED_WART_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WARPED_WART_BLOCK.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WART_BLOCK)
+                    .sound(SoundType.WART_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block DRIED_KELP_VERTICAL_SLAB = registerBlock("dried_kelp_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DRIED_KELP_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DRIED_KELP_BLOCK.defaultMapColor())
                     .strength(0.5F, 2.5F)
-                    .sounds(BlockSoundGroup.GRASS)
+                    .sound(SoundType.GRASS)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block TUBE_CORAL_VERTICAL_SLAB = registerBlock("tube_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.TUBE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.TUBE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BRAIN_CORAL_VERTICAL_SLAB = registerBlock("brain_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BRAIN_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BRAIN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BUBBLE_CORAL_VERTICAL_SLAB = registerBlock("bubble_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BUBBLE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BUBBLE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block FIRE_CORAL_VERTICAL_SLAB = registerBlock("fire_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.FIRE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.FIRE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block HORN_CORAL_VERTICAL_SLAB = registerBlock("horn_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HORN_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HORN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)
+                    .sound(SoundType.CORAL_BLOCK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block DEAD_TUBE_CORAL_VERTICAL_SLAB = registerBlock("dead_tube_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_TUBE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_TUBE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_BRAIN_CORAL_VERTICAL_SLAB = registerBlock("dead_brain_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_BRAIN_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_BRAIN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_BUBBLE_CORAL_VERTICAL_SLAB = registerBlock("dead_bubble_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_BUBBLE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_BUBBLE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_FIRE_CORAL_VERTICAL_SLAB = registerBlock("dead_fire_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_FIRE_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_FIRE_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block DEAD_HORN_CORAL_VERTICAL_SLAB = registerBlock("dead_horn_coral_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.DEAD_HORN_CORAL_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.DEAD_HORN_CORAL_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block SPONGE_VERTICAL_SLAB = registerBlock("sponge_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SPONGE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SPONGE.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.SPONGE)));
+                    .sound(SoundType.SPONGE)));
 
     public static final Block WET_SPONGE_VERTICAL_SLAB = registerBlock("wet_sponge_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.WET_SPONGE.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.WET_SPONGE.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.WET_SPONGE)));
+                    .sound(SoundType.WET_SPONGE)));
 
     public static final Block MELON_VERTICAL_SLAB = registerBlock("melon_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.MELON.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.MELON.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WOOD)
+                    .sound(SoundType.WOOD)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block PUMPKIN_VERTICAL_SLAB = registerBlock("pumpkin_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.PUMPKIN.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.PUMPKIN.defaultMapColor())
                     .strength(1.0F)
-                    .sounds(BlockSoundGroup.WOOD)
+                    .sound(SoundType.WOOD)
                     .instrument(NoteBlockInstrument.BASS)));
 
     /*public static final Block CARVED_PUMPKIN_VERTICAL_SLAB = registerBlock("carved_pumpkin_vertical_slab",
@@ -3273,32 +3277,32 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASS)));*/
 
     public static final Block HAY_VERTICAL_SLAB = registerBlock("hay_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HAY_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HAY_BLOCK.defaultMapColor())
                     .strength(0.5F)
-                    .sounds(BlockSoundGroup.GRASS)
+                    .sound(SoundType.GRASS)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block HONEYCOMB_VERTICAL_SLAB = registerBlock("honeycomb_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.HONEYCOMB_BLOCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.HONEYCOMB_BLOCK.defaultMapColor())
                     .strength(0.6F)
-                    .sounds(BlockSoundGroup.CORAL)));
+                    .sound(SoundType.CORAL_BLOCK)));
 
     public static final Block SCULK_VERTICAL_SLAB = registerBlock("sculk_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.SCULK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.SCULK.defaultMapColor())
                     .strength(0.8F)
-                    .sounds(BlockSoundGroup.SCULK)
+                    .sound(SoundType.SCULK)
                     .instrument(NoteBlockInstrument.BASS)));
 
     public static final Block BEDROCK_VERTICAL_SLAB = registerBlock("bedrock_vertical_slab",
-            new VerticalSlabBlock(AbstractBlock.Settings.create()
-                    .mapColor(Blocks.BEDROCK.getDefaultMapColor())
+            new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(Blocks.BEDROCK.defaultMapColor())
                     .strength(-1.0F, 3600000.0F)
                     .instrument(NoteBlockInstrument.BASEDRUM)
-                    .dropsNothing()
-                    .allowsSpawning(Blocks::never)));
+                    .noLootTable()
+                    .isValidSpawn(Blocks::never)));
 
 
 
@@ -3307,9 +3311,9 @@ public class ModBlocks {
     ///////////////////////
 
     public static final Block DOUBLE_SLAB_BLOCK = registerBlock("double_slab_block",
-            new DoubleSlabBlock(AbstractBlock.Settings.create()
-                    .luminance(DoubleSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> {
+            new DoubleSlabBlock(BlockBehaviour.Properties.of()
+                    .lightLevel(DoubleSlabBlockEntity.LUMINANCE)
+                    .emissiveRendering((state, world, pos) -> {
                         if (world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
                             return SlabeeUtils.isEmissiveLightingSlabs(entity.getPositiveSlabState().getBlock(), entity.getNegativeSlabState().getBlock());
                         }
@@ -3318,9 +3322,9 @@ public class ModBlocks {
                     })));
 
     public static final Block DOUBLE_VERTICAL_SLAB_BLOCK = registerBlock("double_vertical_slab_block",
-            new DoubleVerticalSlabBlock(AbstractBlock.Settings.create()
-                    .luminance(DoubleVerticalSlabBlockEntity.LUMINANCE)
-                    .emissiveLighting((state, world, pos) -> {
+            new DoubleVerticalSlabBlock(BlockBehaviour.Properties.of()
+                    .lightLevel(DoubleVerticalSlabBlockEntity.LUMINANCE)
+                    .emissiveRendering((state, world, pos) -> {
                         if (world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
                             return SlabeeUtils.isEmissiveLightingSlabs(entity.getPositiveSlabState().getBlock(), entity.getNegativeSlabState().getBlock());
                         }
@@ -3332,44 +3336,44 @@ public class ModBlocks {
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
-        return Registry.register(Registries.BLOCK, Identifier.of(Slabee.MOD_ID, name), block);
+        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, name), block);
     }
 
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(Registries.ITEM, Identifier.of(Slabee.MOD_ID, name),
-                new BlockItem(block, new Item.Settings()));
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, name),
+                new BlockItem(block, new Item.Properties()));
     }
 
     private static Block createStainedGlassSlab(DyeColor color) {
-        return new StainedGlassSlabBlock(AbstractBlock.Settings.create()
+        return new StainedGlassSlabBlock(BlockBehaviour.Properties.of()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
-                .sounds(BlockSoundGroup.GLASS)
-                .nonOpaque()
-                .allowsSpawning(Blocks::never)
-                .solidBlock(Blocks::never)
-                .suffocates(Blocks::never)
-                .blockVision(Blocks::never));
+                .sound(SoundType.GLASS)
+                .noOcclusion()
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+                .isSuffocating(Blocks::never)
+                .isViewBlocking(Blocks::never));
     }
 
     private static Block createStainedGlassVerticalSlab(DyeColor color) {
-        return new StainedGlassVerticalSlabBlock(AbstractBlock.Settings.create()
+        return new StainedGlassVerticalSlabBlock(BlockBehaviour.Properties.of()
                 .mapColor(color)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.3F)
-                .sounds(BlockSoundGroup.GLASS)
-                .nonOpaque()
-                .allowsSpawning(Blocks::never)
-                .solidBlock(Blocks::never)
-                .suffocates(Blocks::never)
-                .blockVision(Blocks::never));
+                .sound(SoundType.GLASS)
+                .noOcclusion()
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+                .isSuffocating(Blocks::never)
+                .isViewBlocking(Blocks::never));
     }
 
     public static void registerModBlocks() {
         Slabee.LOGGER.info("Registering Mod Blocks for " + Slabee.MOD_ID);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
             entries.addAfter(Blocks.OAK_LOG, ModBlocks.OAK_LOG_SLAB);
             entries.addAfter(Blocks.SPRUCE_LOG, ModBlocks.SPRUCE_LOG_SLAB);
             entries.addAfter(Blocks.BIRCH_LOG, ModBlocks.BIRCH_LOG_SLAB);
@@ -3551,7 +3555,7 @@ public class ModBlocks {
             entries.addAfter(ModBlocks.AMETHYST_SLAB, ModBlocks.AMETHYST_VERTICAL_SLAB);
 
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COLORED_BLOCKS).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COLORED_BLOCKS).register(entries -> {
 
             // Wool Slabs
             entries.addAfter(Blocks.PINK_WOOL, ModBlocks.WHITE_WOOL_SLAB);

@@ -1,10 +1,9 @@
 package com.forestotzka.yurufu.slabee.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
-
 import java.util.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
 
 public class ModBlockMap {
     private record BlockTriple(Block original, Block slab, Block verticalSlab) {

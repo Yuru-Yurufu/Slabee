@@ -3,26 +3,26 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.Direction;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DoubleSlabUtils {
     private DoubleSlabUtils() {}
 
-    public static boolean canPlace(ItemPlacementContext context, VoxelShape voxelShape) {
-        BlockPos pos = context.getBlockPos();
-        return voxelShape.isEmpty() || context.getWorld().doesNotIntersectEntities(null, voxelShape.offset(pos.getX(), pos.getY(), pos.getZ()));
+    public static boolean canPlace(BlockPlaceContext context, VoxelShape voxelShape) {
+        BlockPos pos = context.getClickedPos();
+        return voxelShape.isEmpty() || context.getLevel().isUnobstructed(null, voxelShape.move(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     /**
@@ -38,25 +38,25 @@ public class DoubleSlabUtils {
         if (thisFull == null || otherFull == null) {
             return true;
         }
-        BlockState other = otherFull.getDefaultState();
-        if (other.isOpaque()) {
+        BlockState other = otherFull.defaultBlockState();
+        if (other.canOcclude()) {
             return false;
         }
-        return !thisFull.getDefaultState().isSideInvisible(other, side);
+        return !thisFull.defaultBlockState().skipRendering(other, side);
     }
 
     public static boolean isPositiveSeeThrough(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return isSeeThrough(state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
+        return isSeeThrough(state.getValue(AbstractDoubleSlabBlock.POSITIVE_SLAB));
     }
 
     public static boolean isNegativeSeeThrough(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return isSeeThrough(state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
+        return isSeeThrough(state.getValue(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
     }
 
     private static boolean isSeeThrough(DoubleSlabVariant variant) {
@@ -67,22 +67,22 @@ public class DoubleSlabUtils {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return isOpaque(state.get(AbstractDoubleSlabBlock.POSITIVE_SLAB));
+        return isOpaque(state.getValue(AbstractDoubleSlabBlock.POSITIVE_SLAB));
     }
 
     public static boolean isNegativeOpaque(BlockState state) {
         if (!SlabeeUtils.isDoubleSlab(state)) {
             return false;
         }
-        return isOpaque(state.get(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
+        return isOpaque(state.getValue(AbstractDoubleSlabBlock.NEGATIVE_SLAB));
     }
 
     private static boolean isOpaque(DoubleSlabVariant variant) {
         return variant == DoubleSlabVariant.NORMAL || variant == DoubleSlabVariant.TINTED_GLASS;
     }
 
-    public static boolean isTrueSlabId(Identifier id) {
-        return id != null && Registries.BLOCK.containsId(id);
+    public static boolean isTrueSlabId(ResourceLocation id) {
+        return id != null && BuiltInRegistries.BLOCK.containsKey(id);
     }
 
     /**
@@ -90,28 +90,28 @@ public class DoubleSlabUtils {
      * 光らない側のハーフがある方向には光が抜けないことは、光をさえぎる形（getLightingShape）で表している。
      */
     public static int getLuminance(BlockState state) {
-        return state.getLuminance();
+        return state.getLightEmission();
     }
 
-    public static float getMiningSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player, BlockView world, BlockPos pos) {
+    public static float getMiningSpeed(BlockState positiveSlab, BlockState negativeSlab, Player player, BlockGetter world, BlockPos pos) {
         float hardness = getHardness(positiveSlab, negativeSlab, world, pos);
         return hardness == -1.0F ? 0.0F : getBlockBreakingSpeed(positiveSlab, negativeSlab, player) / hardness / getHarvest(positiveSlab, negativeSlab, player);
     }
 
-    private static float getHardness(BlockState positiveSlab, BlockState negativeSlab, BlockView world, BlockPos pos) {
-        float positiveHardness = positiveSlab.getHardness(world, pos);
-        float negativeHardness = negativeSlab.getHardness(world, pos);
+    private static float getHardness(BlockState positiveSlab, BlockState negativeSlab, BlockGetter world, BlockPos pos) {
+        float positiveHardness = positiveSlab.getDestroySpeed(world, pos);
+        float negativeHardness = negativeSlab.getDestroySpeed(world, pos);
         if (positiveHardness == -1.0F || negativeHardness == -1.0F) {
             return -1.0F;
         }
         return (positiveHardness + negativeHardness) / 2.0F;
     }
 
-    private static float getBlockBreakingSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
-        return (player.getBlockBreakingSpeed(positiveSlab) + player.getBlockBreakingSpeed(negativeSlab)) / 2.0F;
+    private static float getBlockBreakingSpeed(BlockState positiveSlab, BlockState negativeSlab, Player player) {
+        return (player.getDestroySpeed(positiveSlab) + player.getDestroySpeed(negativeSlab)) / 2.0F;
     }
 
-    private static float getHarvest(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player) {
+    private static float getHarvest(BlockState positiveSlab, BlockState negativeSlab, Player player) {
         float harvest = 30;
         boolean positiveCanHarvest = canHarvest(positiveSlab, player);
         boolean negativeCanHarvest = canHarvest(negativeSlab, player);
@@ -123,11 +123,11 @@ public class DoubleSlabUtils {
         return harvest;
     }
 
-    private static boolean canHarvest(BlockState state, PlayerEntity player) {
-        ItemStack mainhandItem = player.getInventory().getMainHandStack();
-        if (state.isIn(BlockTags.NEEDS_DIAMOND_TOOL)) {
-            return (mainhandItem.isOf(Items.DIAMOND_PICKAXE) || mainhandItem.isOf(Items.NETHERITE_PICKAXE));
+    private static boolean canHarvest(BlockState state, Player player) {
+        ItemStack mainhandItem = player.getInventory().getSelected();
+        if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
+            return (mainhandItem.is(Items.DIAMOND_PICKAXE) || mainhandItem.is(Items.NETHERITE_PICKAXE));
         }
-        return (player.canHarvest(state)) || (mainhandItem.isOf(Items.SHEARS) && state.isIn(ModBlockTags.MINEABLE_SHEARS));
+        return (player.hasCorrectToolForDrops(state)) || (mainhandItem.is(Items.SHEARS) && state.is(ModBlockTags.MINEABLE_SHEARS));
     }
 }

@@ -7,19 +7,18 @@ import com.forestotzka.yurufu.slabee.block.ModBlockMap;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock;
 import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 
 /**
  * 撮影・測定用の配置をサーバー側で組み立てる。配置の方法は実際の重ね置き（SlabBlockMixin /
@@ -50,25 +49,25 @@ final class SceneBuilder {
 
     static List<Block> allSlabs() {
         List<Block> slabs = new ArrayList<>();
-        for (Block block : Registries.BLOCK) {
+        for (Block block : BuiltInRegistries.BLOCK) {
             if (block instanceof SlabBlock && ModBlockMap.slabToVerticalSlab(block) != null) {
                 slabs.add(block);
             }
         }
-        slabs.sort(Comparator.comparing(b -> Registries.BLOCK.getId(b).toString()));
+        slabs.sort(Comparator.comparing(b -> BuiltInRegistries.BLOCK.getKey(b).toString()));
         return slabs;
     }
 
     static List<Block> glassSlabs(List<Block> slabs) {
         List<Block> result = new ArrayList<>();
         for (Block slab : slabs) {
-            if (Registries.BLOCK.getId(slab).getPath().contains("glass")) result.add(slab);
+            if (BuiltInRegistries.BLOCK.getKey(slab).getPath().contains("glass")) result.add(slab);
         }
         return result;
     }
 
     /** 全種類を並べた比較用の配置 */
-    static void buildCatalog(ServerWorld world, int y, List<Block> slabs) {
+    static void buildCatalog(ServerLevel world, int y, List<Block> slabs) {
         Block stone = Blocks.STONE_SLAB;
         Block glass = ModBlocks.GLASS_SLAB;
         Block stoneV = ModBlockMap.slabToVerticalSlab(stone);
@@ -79,7 +78,7 @@ final class SceneBuilder {
             Block sV = ModBlockMap.slabToVerticalSlab(s);
             int x = i * COLUMN_STEP;
 
-            world.setBlockState(new BlockPos(x, y, 0), s.getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM), 3);
+            world.setBlock(new BlockPos(x, y, 0), s.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.BOTTOM), 3);
             placeDouble(world, new BlockPos(x, y, 2), s, stone);
             placeDouble(world, new BlockPos(x, y, 4), stone, s);
             placeDouble(world, new BlockPos(x, y, 6), s, s);
@@ -90,7 +89,7 @@ final class SceneBuilder {
     }
 
     /** ガラス系を隣り合わせた配置（継ぎ目・面の省略の確認用） */
-    static void buildAdjacent(ServerWorld world, int y, List<Block> glassSlabs) {
+    static void buildAdjacent(ServerLevel world, int y, List<Block> glassSlabs) {
         Block stone = Blocks.STONE_SLAB;
         for (int k = 0; k < glassSlabs.size(); k++) {
             Block g = glassSlabs.get(k);
@@ -113,9 +112,9 @@ final class SceneBuilder {
                 placeDoubleVertical(world, new BlockPos(x0 + dx, y, ADJACENT_Z + 6), "z", gV, gV);
             }
             // 普通のガラスのフルブロックとの境目
-            world.setBlockState(new BlockPos(x0, y, ADJACENT_Z + 8), ModBlockMap.slabToOriginal(g).getDefaultState(), 3);
+            world.setBlock(new BlockPos(x0, y, ADJACENT_Z + 8), ModBlockMap.slabToOriginal(g).defaultBlockState(), 3);
             placeDouble(world, new BlockPos(x0 + 1, y, ADJACENT_Z + 8), g, g);
-            world.setBlockState(new BlockPos(x0 + 2, y, ADJACENT_Z + 8), ModBlockMap.slabToOriginal(g).getDefaultState(), 3);
+            world.setBlock(new BlockPos(x0 + 2, y, ADJACENT_Z + 8), ModBlockMap.slabToOriginal(g).defaultBlockState(), 3);
         }
     }
 
@@ -126,7 +125,7 @@ final class SceneBuilder {
      * ガラス系それぞれについて、左に通常ブロックの壁（下から 石・ガラス・石・ガラス、3x4）、
      * 右に同じ並びのダブルハーフの壁（上=ガラス・下=石、3x2）を並べる。
      */
-    static void buildReference(ServerWorld world, int y, List<Block> glassSlabs) {
+    static void buildReference(ServerLevel world, int y, List<Block> glassSlabs) {
         Block stone = Blocks.STONE_SLAB;
         for (int k = 0; k < glassSlabs.size(); k++) {
             Block g = glassSlabs.get(k);
@@ -135,7 +134,7 @@ final class SceneBuilder {
             for (int dx = 0; dx < 3; dx++) {
                 for (int dy = 0; dy < 4; dy++) {
                     Block b = (dy % 2 == 0) ? Blocks.STONE : full;
-                    world.setBlockState(new BlockPos(x0 + dx, y + dy, REFERENCE_Z), b.getDefaultState(), 3);
+                    world.setBlock(new BlockPos(x0 + dx, y + dy, REFERENCE_Z), b.defaultBlockState(), 3);
                 }
                 for (int dy = 0; dy < 2; dy++) {
                     placeDouble(world, new BlockPos(x0 + 5 + dx, y + dy, REFERENCE_Z), g, stone);
@@ -161,10 +160,10 @@ final class SceneBuilder {
      * 組み合わせごとに、左に通常ブロック（下・上の2段）、右に同じ組み合わせのダブルハーフを、
      * それぞれ 2x2 の広さで並べる。上から見下ろすと、境目の面が見えるかを比べられる。
      */
-    static void buildPairs(ServerWorld world, int y) {
+    static void buildPairs(ServerLevel world, int y) {
         for (int k = 0; k < PAIRS.length; k++) {
-            Block top = Registries.BLOCK.get(net.minecraft.util.Identifier.of(PAIRS[k][0]));
-            Block bottom = Registries.BLOCK.get(net.minecraft.util.Identifier.of(PAIRS[k][1]));
+            Block top = BuiltInRegistries.BLOCK.get(net.minecraft.resources.ResourceLocation.parse(PAIRS[k][0]));
+            Block bottom = BuiltInRegistries.BLOCK.get(net.minecraft.resources.ResourceLocation.parse(PAIRS[k][1]));
             Block topFull = ModBlockMap.slabToOriginal(top);
             Block bottomFull = ModBlockMap.slabToOriginal(bottom);
             if (topFull == null) topFull = Blocks.STONE;
@@ -172,8 +171,8 @@ final class SceneBuilder {
             int x0 = k * 8;
             for (int dx = 0; dx < 2; dx++) {
                 for (int dz = 0; dz < 2; dz++) {
-                    world.setBlockState(new BlockPos(x0 + dx, y, PAIR_Z + dz), bottomFull.getDefaultState(), 3);
-                    world.setBlockState(new BlockPos(x0 + dx, y + 1, PAIR_Z + dz), topFull.getDefaultState(), 3);
+                    world.setBlock(new BlockPos(x0 + dx, y, PAIR_Z + dz), bottomFull.defaultBlockState(), 3);
+                    world.setBlock(new BlockPos(x0 + dx, y + 1, PAIR_Z + dz), topFull.defaultBlockState(), 3);
                     placeDouble(world, new BlockPos(x0 + 4 + dx, y, PAIR_Z + dz), top, bottom);
                 }
             }
@@ -181,7 +180,7 @@ final class SceneBuilder {
     }
 
     /** 重さの測定用：Slabee のダブルハーフを敷き詰めた 100x100 */
-    static void buildSlabeeField(ServerWorld world, int y) {
+    static void buildSlabeeField(ServerLevel world, int y) {
         for (int x = 0; x < FIELD_SIZE; x++) {
             for (int z = 0; z < FIELD_SIZE; z++) {
                 boolean alt = ((x + z) & 1) == 0;
@@ -193,36 +192,36 @@ final class SceneBuilder {
     }
 
     /** 重さの測定用：同じ形のバニラのダブルハーフ（比較の基準） */
-    static void buildVanillaField(ServerWorld world, int y) {
+    static void buildVanillaField(ServerLevel world, int y) {
         for (int x = 0; x < FIELD_SIZE; x++) {
             for (int z = 0; z < FIELD_SIZE; z++) {
                 boolean alt = ((x + z) & 1) == 0;
                 Block slab = alt ? Blocks.OAK_SLAB : Blocks.STONE_SLAB;
-                world.setBlockState(new BlockPos(x, y, VANILLA_FIELD_Z + z),
-                        slab.getDefaultState().with(SlabBlock.TYPE, SlabType.DOUBLE), 3);
+                world.setBlock(new BlockPos(x, y, VANILLA_FIELD_Z + z),
+                        slab.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.DOUBLE), 3);
             }
         }
     }
 
-    static void placeDouble(ServerWorld world, BlockPos pos, Block top, Block bottom) {
-        BlockState state = SlabeeUtils.getAbstractState(top, bottom, ModBlocks.DOUBLE_SLAB_BLOCK.getDefaultState());
-        world.setBlockState(pos, state, 3);
+    static void placeDouble(ServerLevel world, BlockPos pos, Block top, Block bottom) {
+        BlockState state = SlabeeUtils.getAbstractState(top, bottom, ModBlocks.DOUBLE_SLAB_BLOCK.defaultBlockState());
+        world.setBlock(pos, state, 3);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof AbstractDoubleSlabBlockEntity entity) {
-            entity.setPositiveSlabId(Registries.BLOCK.getId(top));
-            entity.setNegativeSlabId(Registries.BLOCK.getId(bottom));
+            entity.setPositiveSlabId(BuiltInRegistries.BLOCK.getKey(top));
+            entity.setNegativeSlabId(BuiltInRegistries.BLOCK.getKey(bottom));
         }
     }
 
-    static void placeDoubleVertical(ServerWorld world, BlockPos pos, String axis, Block positive, Block negative) {
+    static void placeDoubleVertical(ServerLevel world, BlockPos pos, String axis, Block positive, Block negative) {
         BlockState state = SlabeeUtils.getAbstractState(positive, negative,
-                ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.getDefaultState().with(DoubleVerticalSlabBlock.AXIS, VerticalSlabAxis.fromString(axis)));
-        world.setBlockState(pos, state, 3);
+                ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK.defaultBlockState().setValue(DoubleVerticalSlabBlock.AXIS, VerticalSlabAxis.fromString(axis)));
+        world.setBlock(pos, state, 3);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof DoubleVerticalSlabBlockEntity entity) {
             entity.setAxis(axis);
-            entity.setPositiveSlabId(Registries.BLOCK.getId(positive));
-            entity.setNegativeSlabId(Registries.BLOCK.getId(negative));
+            entity.setPositiveSlabId(BuiltInRegistries.BLOCK.getKey(positive));
+            entity.setNegativeSlabId(BuiltInRegistries.BLOCK.getKey(negative));
         }
     }
 }

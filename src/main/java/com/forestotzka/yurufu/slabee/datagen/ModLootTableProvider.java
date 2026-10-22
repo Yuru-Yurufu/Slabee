@@ -3,12 +3,11 @@ package com.forestotzka.yurufu.slabee.datagen;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.registry.RegistryWrapper;
-
+import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class ModLootTableProvider extends FabricBlockLootTableProvider {
-    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
@@ -138,24 +137,24 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.PURPLE_CONCRETE_POWDER_SLAB);
         addDrop(ModBlocks.MAGENTA_CONCRETE_POWDER_SLAB);
         addDrop(ModBlocks.PINK_CONCRETE_POWDER_SLAB);*/
-        addDrop(ModBlocks.GLASS_SLAB);
-        addDrop(ModBlocks.TINTED_GLASS_SLAB);
-        addDrop(ModBlocks.WHITE_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.GRAY_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.BLACK_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.BROWN_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.RED_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.ORANGE_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.YELLOW_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.LIME_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.GREEN_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.CYAN_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.BLUE_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.PURPLE_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.MAGENTA_STAINED_GLASS_SLAB);
-        addDrop(ModBlocks.PINK_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.GLASS_SLAB);
+        dropSelf(ModBlocks.TINTED_GLASS_SLAB);
+        dropSelf(ModBlocks.WHITE_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.LIGHT_GRAY_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.GRAY_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.BLACK_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.BROWN_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.RED_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.ORANGE_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.YELLOW_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.LIME_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.GREEN_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.CYAN_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.LIGHT_BLUE_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.BLUE_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.PURPLE_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.MAGENTA_STAINED_GLASS_SLAB);
+        dropSelf(ModBlocks.PINK_STAINED_GLASS_SLAB);
         /*addDrop(ModBlocks.GRASS_SLAB);
         addDrop(ModBlocks.PODZOL_SLAB);
         addDrop(ModBlocks.MYCELIUM_SLAB);
@@ -182,7 +181,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.SOUL_SAND_SLAB);
         addDrop(ModBlocks.SOUL_SOIL_SLAB);
         addDrop(ModBlocks.BONE_SLAB);*/
-        addDrop(ModBlocks.GLOWSTONE_SLAB);
+        dropSelf(ModBlocks.GLOWSTONE_SLAB);
         /*addDrop(ModBlocks.MANGROVE_ROOT_SLAB);
         addDrop(ModBlocks.MUDDY_MANGROVE_ROOT_SLAB);
         addDrop(ModBlocks.MUSHROOM_STEM_SLAB);
@@ -403,24 +402,24 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.PURPLE_CONCRETE_POWDER_VERTICAL_SLAB);
         addDrop(ModBlocks.MAGENTA_CONCRETE_POWDER_VERTICAL_SLAB);
         addDrop(ModBlocks.PINK_CONCRETE_POWDER_VERTICAL_SLAB);*/
-        addDrop(ModBlocks.GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.TINTED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB);
-        addDrop(ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.TINTED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.WHITE_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.LIGHT_GRAY_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.GRAY_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.BLACK_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.BROWN_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.RED_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.ORANGE_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.YELLOW_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.LIME_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.GREEN_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.CYAN_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.LIGHT_BLUE_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.BLUE_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.PURPLE_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.MAGENTA_STAINED_GLASS_VERTICAL_SLAB);
+        dropSelf(ModBlocks.PINK_STAINED_GLASS_VERTICAL_SLAB);
         /*addDrop(ModBlocks.GRASS_VERTICAL_SLAB);
         addDrop(ModBlocks.PODZOL_VERTICAL_SLAB);
         addDrop(ModBlocks.MYCELIUM_VERTICAL_SLAB);
@@ -447,7 +446,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.SOUL_SAND_VERTICAL_SLAB);
         addDrop(ModBlocks.SOUL_SOIL_VERTICAL_SLAB);
         addDrop(ModBlocks.BONE_VERTICAL_SLAB);*/
-        addDrop(ModBlocks.GLOWSTONE_VERTICAL_SLAB);
+        dropSelf(ModBlocks.GLOWSTONE_VERTICAL_SLAB);
         /*addDrop(ModBlocks.MANGROVE_ROOT_VERTICAL_SLAB);
         addDrop(ModBlocks.MUDDY_MANGROVE_ROOT_VERTICAL_SLAB);
         addDrop(ModBlocks.MUSHROOM_STEM_VERTICAL_SLAB);

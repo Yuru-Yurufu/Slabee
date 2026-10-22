@@ -1,13 +1,13 @@
 package com.forestotzka.yurufu.slabee.registry.tag;
 
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class ModItemTags {
-    public static final TagKey<Item> VERTICAL_SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("slabee", "vertical_slabs"));
-    public static final TagKey<Item> SLABS = TagKey.of(RegistryKeys.ITEM, Identifier.of("slabee", "slabs"));
+    public static final TagKey<Item> VERTICAL_SLABS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("slabee", "vertical_slabs"));
+    public static final TagKey<Item> SLABS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("slabee", "slabs"));
 
     private ModItemTags() {
     }

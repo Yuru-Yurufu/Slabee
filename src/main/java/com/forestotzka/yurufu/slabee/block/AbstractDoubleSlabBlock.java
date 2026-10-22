@@ -3,34 +3,41 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.state.property.ModProperties;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.mob.PiglinBrain;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BubbleColumnBlock;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements BlockEntityProvider {
-    public static final IntProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
-    public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.of("positive_slab", DoubleSlabVariant.class);
-    public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.of("negative_slab", DoubleSlabVariant.class);
-    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
-    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 16.0);
+public abstract class AbstractDoubleSlabBlock extends BaseEntityBlock implements EntityBlock {
+    public static final IntegerProperty LIGHT_LEVEL = ModProperties.LIGHT_LEVEL;
+    public static final EnumProperty<DoubleSlabVariant> POSITIVE_SLAB = EnumProperty.create("positive_slab", DoubleSlabVariant.class);
+    public static final EnumProperty<DoubleSlabVariant> NEGATIVE_SLAB = EnumProperty.create("negative_slab", DoubleSlabVariant.class);
+    protected static final VoxelShape SOUL_SAND_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
+    protected static final VoxelShape DIRT_PATH_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 15.0, 16.0);
 
     protected enum ShapeType {
         FULL,
@@ -39,28 +46,28 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         NONE
     }
 
-    protected AbstractDoubleSlabBlock(Settings settings) {
-        super(settings.dynamicBounds());
-        this.setDefaultState(this.getDefaultState()
-                .with(LIGHT_LEVEL, 0)
-                .with(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)
-                .with(NEGATIVE_SLAB, DoubleSlabVariant.NORMAL));
+    protected AbstractDoubleSlabBlock(Properties settings) {
+        super(settings.dynamicShape());
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(LIGHT_LEVEL, 0)
+                .setValue(POSITIVE_SLAB, DoubleSlabVariant.NORMAL)
+                .setValue(NEGATIVE_SLAB, DoubleSlabVariant.NORMAL));
     }
 
     @Override
-    protected abstract MapCodec<? extends AbstractDoubleSlabBlock> getCodec();
+    protected abstract MapCodec<? extends AbstractDoubleSlabBlock> codec();
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIGHT_LEVEL).add(POSITIVE_SLAB).add(NEGATIVE_SLAB);
     }
 
     @Override
-    public abstract @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state);
+    public abstract @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state);
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : (world1, pos, blockState, blockEntity) -> {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return world.isClientSide ? null : (world1, pos, blockState, blockEntity) -> {
             if (blockEntity instanceof AbstractDoubleSlabBlockEntity entity) {
                 entity.serverTick(world1, pos, blockState);
             }
@@ -68,7 +75,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     @Override
-    public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView view, BlockPos pos) {
+    public float getDestroyProgress(BlockState state, Player player, BlockGetter view, BlockPos pos) {
         BlockEntity blockEntity = view.getBlockEntity(pos);
         if (!(blockEntity instanceof AbstractDoubleSlabBlockEntity entity)) {
             return 0.0F;
@@ -77,7 +84,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
         BlockState positiveState = entity.getPositiveSlabState();
         BlockState negativeState = entity.getNegativeSlabState();
 
-        if (player.isSneaking()) {
+        if (player.isShiftKeyDown()) {
             if (isLookingPositiveHalf(state)) {
                 return DoubleSlabUtils.getMiningSpeed(positiveState, positiveState, player, view, pos);
             } else {
@@ -89,29 +96,29 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
     }
 
     @Override
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (state.isIn(BlockTags.GUARDED_BY_PIGLINS)) {
-            PiglinBrain.onGuardedBlockInteracted(player, false);
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+        if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {
+            PiglinAi.angerNearbyPiglins(player, false);
         }
 
-        world.emitGameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Emitter.of(player, state));
+        world.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(player, state));
         return state;
     }
 
     protected abstract boolean isLookingPositiveHalf(BlockState state);
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    protected boolean hasSidedTransparency(BlockState state) {
+    protected boolean useShapeForLightOcclusion(BlockState state) {
         return true;
     }
 
     @Override
-    protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+    protected float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
         boolean positiveSeeThrough = DoubleSlabUtils.isPositiveSeeThrough(state);
         boolean negativeSeeThrough = DoubleSlabUtils.isNegativeSeeThrough(state);
         if (positiveSeeThrough || negativeSeeThrough) {
@@ -156,28 +163,28 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
 
     private static final int SCHEDULED_TICK_DELAY = 20;
 
-    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BubbleColumnBlock.update(world, pos.up(), state);
+    protected void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+        BubbleColumnBlock.updateColumn(world, pos.above(), state);
     }
 
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (direction == Direction.UP && neighborState.isOf(Blocks.WATER)) {
-            world.scheduleBlockTick(pos, this, SCHEDULED_TICK_DELAY);
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.UP && neighborState.is(Blocks.WATER)) {
+            world.scheduleTick(pos, this, SCHEDULED_TICK_DELAY);
         }
 
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
-    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        world.scheduleBlockTick(pos, this, SCHEDULED_TICK_DELAY);
+    protected void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+        world.scheduleTick(pos, this, SCHEDULED_TICK_DELAY);
     }
 
-    protected VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
-        return VoxelShapes.fullCube();
+    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter world, BlockPos pos) {
+        return Shapes.block();
     }
 
-    protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.fullCube();
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return Shapes.block();
     }
 
     public static VoxelShape getSoulSandCollisionShape() {

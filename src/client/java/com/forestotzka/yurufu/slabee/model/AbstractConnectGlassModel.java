@@ -1,23 +1,29 @@
 package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
+import com.forestotzka.yurufu.slabee.model.NeighborState.ContactType;
+import com.forestotzka.yurufu.slabee.model.NeighborState.Half;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.*;
-import net.minecraft.client.render.model.json.ModelOverrideList;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -28,7 +34,7 @@ import static com.forestotzka.yurufu.slabee.model.GlassSprites.*;
 import static com.forestotzka.yurufu.slabee.model.NeighborState.*;
 
 public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, FabricBakedModel {
-    protected Sprite particleSprite;
+    protected TextureAtlasSprite particleSprite;
 
     protected static final int VARIANT_COUNT = 18;
     protected static final int GLASS_PATTERN_COUNT = 21;
@@ -71,10 +77,10 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
         java.util.Arrays.fill(QUARTER_BUILT, false);
     }
 
-    protected static final SpriteIdentifier nullSpriteIdentifier = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.ofVanilla("block/stone"));
+    protected static final Material nullSpriteIdentifier = new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.withDefaultNamespace("block/stone"));
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, RandomSource random) {
         return List.of();
     }
 
@@ -84,42 +90,42 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     }
 
     @Override
-    public boolean hasDepth() {
+    public boolean isGui3d() {
         return false;
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean usesBlockLight() {
         return false;
     }
 
     @Override
-    public boolean isBuiltin() {
+    public boolean isCustomRenderer() {
         return false;
     }
 
     @Override
-    public Sprite getParticleSprite() {
+    public TextureAtlasSprite getParticleIcon() {
         return this.particleSprite;
     }
 
     @Override
-    public ModelTransformation getTransformation() {
+    public ItemTransforms getTransforms() {
         return null;
     }
 
     @Override
-    public ModelOverrideList getOverrides() {
+    public ItemOverrides getOverrides() {
         return null;
     }
 
     @Override
-    public Collection<Identifier> getModelDependencies() {
+    public Collection<ResourceLocation> getDependencies() {
         return List.of();
     }
 
     @Override
-    public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
+    public void resolveParents(Function<ResourceLocation, UnbakedModel> modelLoader) {
 
     }
 
@@ -160,7 +166,7 @@ public class AbstractConnectGlassModel implements UnbakedModel, BakedModel, Fabr
     }
 
     @Override
-    public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
+    public @Nullable BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> textureGetter, ModelState rotationContainer) {
         this.particleSprite = textureGetter.apply(nullSpriteIdentifier);
 
         return this;

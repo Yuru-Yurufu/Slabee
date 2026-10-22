@@ -3,27 +3,6 @@ package com.forestotzka.yurufu.slabee.mixin;
 import com.forestotzka.yurufu.slabee.LookingPositionTracker;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.network.SequencedPacketCreator;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.sound.SoundManager;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,28 +12,49 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.client.multiplayer.prediction.PredictiveAction;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 
-@Mixin(ClientPlayerInteractionManager.class)
+@Mixin(MultiPlayerGameMode.class)
 public abstract class ClientPlayerInteractionManagerMixin implements ClientPlayerInteractionManagerAccessor {
-    @Shadow public abstract boolean breakBlock(BlockPos pos);
+    @Shadow public abstract boolean destroyBlock(BlockPos pos);
 
-    @Shadow protected abstract void sendSequencedPacket(ClientWorld world, SequencedPacketCreator packetCreator);
+    @Shadow protected abstract void startPrediction(ClientLevel world, PredictiveAction packetCreator);
 
-    @Shadow public abstract int getBlockBreakingProgress();
+    @Shadow public abstract int getDestroyStage();
 
-    @Shadow protected abstract boolean isCurrentlyBreaking(BlockPos pos);
+    @Shadow protected abstract boolean sameDestroyTarget(BlockPos pos);
 
-    @Shadow private boolean breakingBlock;
+    @Shadow private boolean isDestroying;
 
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final private Minecraft minecraft;
 
-    @Inject(method = "updateBlockBreakingProgress", at = @At(
+    @Inject(method = "continueDestroyBlock", at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;syncSelectedSlot()V",
+            target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;ensureHasSentCarriedItem()V",
             shift = At.Shift.AFTER
     ), cancellable = true)
     private void updateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        World world = client.world;
+        Level world = minecraft.level;
         if (world == null) return;
 
         BlockState blockState = world.getBlockState(pos);
@@ -72,25 +72,25 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
             int blockBreakingCooldown = this.getBlockBreakingCooldown();
             float currentBreakingProgress = this.getCurrentBreakingProgress();
 
-            if (blockBreakingCooldown <= 0 && !(getGameMode().isCreative() && client.world.getWorldBorder().contains(pos)) && this.isCurrentlyBreaking(pos)) {
-                currentBreakingProgress = currentBreakingProgress + blockState.calcBlockBreakingDelta(client.player, Objects.requireNonNull(client.player).getWorld(), pos);
+            if (blockBreakingCooldown <= 0 && !(getGameMode().isCreative() && minecraft.level.getWorldBorder().isWithinBounds(pos)) && this.sameDestroyTarget(pos)) {
+                currentBreakingProgress = currentBreakingProgress + blockState.getDestroyProgress(minecraft.player, Objects.requireNonNull(minecraft.player).level(), pos);
 
                 if (blockBreakingSoundCooldown % 4.0F == 0.0F) {
-                    SoundManager soundManager = client.getSoundManager();
+                    SoundManager soundManager = minecraft.getSoundManager();
 
-                    playSound(soundManager, topSlab.getSoundGroup(), world, pos);
+                    playSound(soundManager, topSlab.getSoundType(), world, pos);
                     if (topSlab.getBlock() != bottomSlab.getBlock()) {
-                        playSound(soundManager, bottomSlab.getSoundGroup(), world, pos);
+                        playSound(soundManager, bottomSlab.getSoundType(), world, pos);
                     }
                 }
 
                 blockBreakingSoundCooldown++;
-                client.getTutorialManager().onBlockBreaking(client.world, pos, blockState, MathHelper.clamp(currentBreakingProgress, 0.0F, 1.0F));
+                minecraft.getTutorial().onDestroyBlock(minecraft.level, pos, blockState, Mth.clamp(currentBreakingProgress, 0.0F, 1.0F));
                 if (currentBreakingProgress >= 1.0F) {
-                    this.breakingBlock = false;
-                    this.sendSequencedPacket(client.world, sequence -> {
-                        this.breakBlock(pos);
-                        return new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, pos, direction, sequence);
+                    this.isDestroying = false;
+                    this.startPrediction(minecraft.level, sequence -> {
+                        this.destroyBlock(pos);
+                        return new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, pos, direction, sequence);
                     });
                     currentBreakingProgress = 0.0F;
                     blockBreakingSoundCooldown = 0.0F;
@@ -101,7 +101,7 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 setBlockBreakingCooldown(blockBreakingCooldown);
                 setCurrentBreakingProgress(currentBreakingProgress);
 
-                client.world.setBlockBreakingInfo(client.player.getId(), getCurrentBreakingPos(), this.getBlockBreakingProgress());
+                minecraft.level.destroyBlockProgress(minecraft.player.getId(), getCurrentBreakingPos(), this.getDestroyStage());
 
                 cir.setReturnValue(true);
                 cir.cancel();
@@ -110,10 +110,10 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
     }
 
     @Unique
-    private void playSound(SoundManager soundManager, BlockSoundGroup soundGroup, World world, BlockPos pos) {
-        soundManager.play(new PositionedSoundInstance(
+    private void playSound(SoundManager soundManager, SoundType soundGroup, Level world, BlockPos pos) {
+        soundManager.play(new SimpleSoundInstance(
                 soundGroup.getHitSound(),
-                SoundCategory.BLOCKS,
+                SoundSource.BLOCKS,
                 (soundGroup.getVolume() + 1.0F) / 8.0F,
                 soundGroup.getPitch() * 0.5F,
                 world.random,
@@ -122,18 +122,18 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
     }
 
     @Inject(
-            method = "breakBlock",
+            method = "destroyBlock",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/block/BlockState;",
+                    target = "Lnet/minecraft/world/level/block/Block;playerWillDestroy(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/level/block/state/BlockState;",
                     shift = At.Shift.AFTER
             ),
             cancellable = true
     )
     private void onBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        World world = client.world;
-        ClientPlayerEntity player = client.player;
-        if (world != null && player != null && player.isSneaking()) {
+        Level world = minecraft.level;
+        LocalPlayer player = minecraft.player;
+        if (world != null && player != null && player.isShiftKeyDown()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();
@@ -141,35 +141,35 @@ public abstract class ClientPlayerInteractionManagerMixin implements ClientPlaye
                 BlockState stayState;
                 if (blockEntity instanceof DoubleSlabBlockEntity entity) {
                     if (LookingPositionTracker.lookingAtUpperHalf) {
-                        stayState = entity.getNegativeSlabState().with(SlabBlock.TYPE, SlabType.BOTTOM);
+                        stayState = entity.getNegativeSlabState().setValue(SlabBlock.TYPE, SlabType.BOTTOM);
                     } else {
-                        stayState = entity.getPositiveSlabState().with(SlabBlock.TYPE, SlabType.TOP);
+                        stayState = entity.getPositiveSlabState().setValue(SlabBlock.TYPE, SlabType.TOP);
                     }
                 } else if (blockEntity instanceof DoubleVerticalSlabBlockEntity entity) {
                     if (entity.isX()) {
                         if (LookingPositionTracker.lookingAtEasternHalf) {
-                            stayState = entity.getNegativeSlabState().with(VerticalSlabBlock.FACING, Direction.WEST);
+                            stayState = entity.getNegativeSlabState().setValue(VerticalSlabBlock.FACING, Direction.WEST);
                         } else {
-                            stayState = entity.getPositiveSlabState().with(VerticalSlabBlock.FACING, Direction.EAST);
+                            stayState = entity.getPositiveSlabState().setValue(VerticalSlabBlock.FACING, Direction.EAST);
                         }
                     } else {
                         if (LookingPositionTracker.lookingAtSouthernHalf) {
-                            stayState = entity.getNegativeSlabState().with(VerticalSlabBlock.FACING, Direction.NORTH);
+                            stayState = entity.getNegativeSlabState().setValue(VerticalSlabBlock.FACING, Direction.NORTH);
                         } else {
-                            stayState = entity.getPositiveSlabState().with(VerticalSlabBlock.FACING, Direction.SOUTH);
+                            stayState = entity.getPositiveSlabState().setValue(VerticalSlabBlock.FACING, Direction.SOUTH);
                         }
                     }
                 } else {
-                    stayState = Blocks.STONE_SLAB.getDefaultState();
+                    stayState = Blocks.STONE_SLAB.defaultBlockState();
                 }
 
                 if (stayState.getBlock() instanceof SnowySlabBlock) {
-                    stayState = stayState.with(SnowySlabBlock.SNOWY, world.getBlockState(pos.up()).isIn(BlockTags.SNOW));
+                    stayState = stayState.setValue(SnowySlabBlock.SNOWY, world.getBlockState(pos.above()).is(BlockTags.SNOW));
                 }
 
-                boolean bl = world.setBlockState(pos, stayState, 11);
+                boolean bl = world.setBlock(pos, stayState, 11);
                 if (bl) {
-                    block.onBroken(world, pos, blockState);
+                    block.destroy(world, pos, blockState);
                 }
                 cir.setReturnValue(bl);
                 cir.cancel();

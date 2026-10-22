@@ -6,11 +6,13 @@ import com.forestotzka.yurufu.slabee.block.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.minecraft.block.*;
-import net.minecraft.client.render.model.UnbakedModel;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StainedGlassBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -29,26 +31,26 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
         // 【描画の試作】焼き上がったダブルハーフのモデルを包み、普通のハーフもチャンクの描画に焼き込む
         context.modifyModelAfterBake().register((model, ctx) -> {
-            ModelIdentifier topId = ctx.topLevelId();
+            ModelResourceLocation topId = ctx.topLevelId();
             if (model == null || topId == null) return model;
-            Identifier blockId = topId.id();
-            if (blockId.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
+            ResourceLocation blockId = topId.id();
+            if (blockId.equals(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "double_slab_block"))) {
                 return new BakedHalvesModel(model, false);
-            } else if (blockId.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
+            } else if (blockId.equals(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 return new BakedHalvesModel(model, true);
             }
             return model;
         });
 
         context.modifyModelOnLoad().register((original, ctx) -> {
-            final ModelIdentifier id = ctx.topLevelId();
+            final ModelResourceLocation id = ctx.topLevelId();
             if (id == null) {
                 return original;
             }
 
-            Identifier i = id.id();
+            ResourceLocation i = id.id();
 
-            if (i.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
+            if (i.equals(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "double_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
                 Block parsedPositiveSlab = null;
                 Block parsedNegativeSlab = null;
@@ -73,7 +75,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
                         return new DoubleSlabBlockModel(positiveSlab, negativeSlab);
                     }
                 });
-            } else if (i.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
+            } else if (i.equals(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, "double_vertical_slab_block"))) {
                 String[] ss = id.getVariant().split(",");
                 Block parsedPositiveSlab = null;
                 Block parsedNegativeSlab = null;
@@ -110,18 +112,18 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
         });
 
         context.modifyModelBeforeBake().register((original, ctx) -> {
-            final ModelIdentifier id = ctx.topLevelId();
+            final ModelResourceLocation id = ctx.topLevelId();
             if (id == null) {
                 return original;
             }
 
-            Identifier i = id.id();
+            ResourceLocation i = id.id();
 
             if (id.getVariant().equals("inventory")) {
                 return original;
             }
 
-            Block b = Registries.BLOCK.get(i);
+            Block b = BuiltInRegistries.BLOCK.get(i);
             if (isGlassFamily(b)) {
                 return ModConfig.INSTANCE.connectGlassTextures
                         ? new TranslucentBlockConnectGlassModel(b)
@@ -205,7 +207,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
         if (block.equals("normal") || block.equals("non_opaque")) {
             return null;
         } else {
-            return Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, block + "_slab"));
+            return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, block + "_slab"));
         }
     }
 
@@ -213,7 +215,7 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
         if (block.equals("normal") || block.equals("non_opaque")) {
             return null;
         } else {
-            return Registries.BLOCK.get(Identifier.of(Slabee.MOD_ID, block + "_vertical_slab"));
+            return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(Slabee.MOD_ID, block + "_vertical_slab"));
         }
     }
 
