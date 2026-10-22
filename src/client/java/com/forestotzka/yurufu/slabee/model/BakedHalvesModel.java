@@ -2,8 +2,6 @@ package com.forestotzka.yurufu.slabee.model;
 
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.DoubleSlabRenderData;
-import com.forestotzka.yurufu.slabee.block.DoubleVerticalSlabBlock;
-import com.forestotzka.yurufu.slabee.block.enums.VerticalSlabAxis;
 import com.forestotzka.yurufu.slabee.block.ModBlockMap;
 import com.forestotzka.yurufu.slabee.block.ModBlocks;
 import com.forestotzka.yurufu.slabee.block.SnowySlabBlock;
@@ -70,21 +68,11 @@ public class BakedHalvesModel extends ForwardingBakedModel {
         BlockState negative = data.negative();
         boolean snowAbove = blockView.getBlockState(pos.up()).isIn(BlockTags.SNOW);
 
-        // もう片方のハーフに接している面（ブロックの真ん中の面）の向き
-        Direction positiveInner;
-        if (!vertical) {
-            positiveInner = Direction.DOWN;
-        } else if (state.contains(DoubleVerticalSlabBlock.AXIS) && state.get(DoubleVerticalSlabBlock.AXIS) == VerticalSlabAxis.X) {
-            positiveInner = Direction.WEST;
-        } else {
-            positiveInner = Direction.NORTH;
-        }
-
         if (isBakedHalf(positive)) {
-            emitHalf(blockView, state, pos, withSnowy(positive, snowAbove, true), positiveInner, randomSupplier, context);
+            emitHalf(blockView, state, pos, withSnowy(positive, snowAbove, true), randomSupplier, context);
         }
         if (isBakedHalf(negative)) {
-            emitHalf(blockView, state, pos, withSnowy(negative, snowAbove, vertical), positiveInner.getOpposite(), randomSupplier, context);
+            emitHalf(blockView, state, pos, withSnowy(negative, snowAbove, vertical), randomSupplier, context);
         }
     }
 
@@ -107,7 +95,7 @@ public class BakedHalvesModel extends ForwardingBakedModel {
         return half;
     }
 
-    private static void emitHalf(BlockRenderView blockView, BlockState doubleState, BlockPos pos, BlockState half, Direction innerFace, Supplier<Random> randomSupplier, RenderContext context) {
+    private static void emitHalf(BlockRenderView blockView, BlockState doubleState, BlockPos pos, BlockState half, Supplier<Random> randomSupplier, RenderContext context) {
         MinecraftClient client = MinecraftClient.getInstance();
         BakedModel model = client.getBlockRenderManager().getModel(half);
         BlockColors colors = client.getBlockColors();
@@ -133,10 +121,7 @@ public class BakedHalvesModel extends ForwardingBakedModel {
                 }
             }
 
-            // もう片方のハーフに接している面は、普通のブロックどうしが接しているときと同じく、
-            // このマス自体の明るさで描く（例：遮光ガラスの下の石の上面は、遮光ガラスのマスと同じく暗い）
-            TriState quadAo = (cullFace == null && quad.lightFace() == innerFace) ? TriState.FALSE : ao;
-            RenderMaterial material = finder.clear().copyFrom(quad.material()).blendMode(blendMode).ambientOcclusion(quadAo).find();
+            RenderMaterial material = finder.clear().copyFrom(quad.material()).blendMode(blendMode).ambientOcclusion(ao).find();
             quad.material(material);
 
             if (minBlockLight > 0) {
