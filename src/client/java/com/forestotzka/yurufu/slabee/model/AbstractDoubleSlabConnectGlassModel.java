@@ -229,6 +229,7 @@ public abstract class AbstractDoubleSlabConnectGlassModel extends AbstractConnec
 
     @Override
     public void emitBlockQuads(BlockRenderView blockRenderView, BlockState blockState, BlockPos blockPos, Supplier<Random> supplier, RenderContext renderContext) {
+        if (this.positiveId == null && this.negativeId == null) return;
         NeighborState ns = new NeighborState(blockRenderView, blockPos, positiveSlab, negativeSlab, getDoubleSlabType());
 
         if (this.positiveId != null) {
