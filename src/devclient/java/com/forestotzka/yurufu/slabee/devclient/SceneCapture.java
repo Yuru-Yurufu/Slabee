@@ -156,7 +156,9 @@ public class SceneCapture implements ClientModInitializer {
         options.pauseOnLostFocus = false;
         options.getViewDistance().setValue(8);
         options.getSimulationDistance().setValue(8);
-        options.getMaxFps().setValue(260);
+        // -Dslabee.scene.maxFps=60 のように指定すると、フレーム数の上限を固定して測れる
+        // （描画が速くなるとフレーム数が増えてCPUを多く使い、同じマシンのサーバー側の測定に影響するため）
+        options.getMaxFps().setValue(Integer.getInteger("slabee.scene.maxFps", 260));
         options.getEnableVsync().setValue(false);
         options.getCloudRenderMode().setValue(CloudRenderMode.OFF);
         options.getBobView().setValue(false);
@@ -189,6 +191,8 @@ public class SceneCapture implements ClientModInitializer {
         server.submitAndJoin(() -> {
             ServerWorld world = server.getOverworld();
             world.setTimeOfDay(6000);
+            // 撮影中は自動保存を止める（保存中の表示が写り込んだり、測定の数字が揺れたりするため）
+            world.savingDisabled = true;
             world.setWeather(1000000, 0, false, false);
             baseY = world.getTopY(Heightmap.Type.MOTION_BLOCKING, 0, 0);
 
@@ -373,6 +377,7 @@ public class SceneCapture implements ClientModInitializer {
         root.addProperty("glVersion", GlDebugInfo.getVersion());
         root.addProperty("window", client.getWindow().getFramebufferWidth() + "x" + client.getWindow().getFramebufferHeight());
         root.addProperty("baseY", baseY);
+        root.addProperty("maxFps", client.options.getMaxFps().getValue());
         root.add("shots", shotResults);
         root.add("perf", perfResults);
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
