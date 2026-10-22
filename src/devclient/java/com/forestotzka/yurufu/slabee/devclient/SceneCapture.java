@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.platform.GlDebugInfo;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.GraphicsMode;
@@ -58,7 +57,7 @@ public class SceneCapture implements ClientModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("SlabeeScene");
     private static final String WORLD_NAME = "slabee-scene";
     private static final int GROUP_SIZE = 10;
-    private static final int MAX_TOTAL_TICKS = 20 * 60 * 30;
+    private static final int MAX_TOTAL_TICKS = 20 * 60 * 45;
 
     private enum Phase { WAIT_TITLE, WAIT_WORLD, SHOTS, PERF, FINISH, DONE }
 
@@ -103,7 +102,10 @@ public class SceneCapture implements ClientModInitializer {
 
         switch (phase) {
             case WAIT_TITLE -> {
-                if (client.currentScreen instanceof TitleScreen) {
+                // 初回起動時はタイトル画面の前にアクセシビリティの案内画面が出るので、
+                // 画面の種類ではなく「読み込みが終わってワールドに入っていない」ことで判断する
+                if (client.world == null && client.getOverlay() == null && client.currentScreen != null && phaseTicks > 40) {
+                    client.options.onboardAccessibility = false;
                     configureOptions(client.options);
                     outDir = new File(client.runDirectory, WORLD_NAME);
                     deleteRecursively(outDir.toPath());
@@ -339,6 +341,7 @@ public class SceneCapture implements ClientModInitializer {
     }
 
     private void writeResults(MinecraftClient client) {
+        if (outDir == null) outDir = new File(client.runDirectory, WORLD_NAME);
         JsonObject root = new JsonObject();
         root.addProperty("capturedAt", OffsetDateTime.now().toString());
         root.addProperty("glRenderer", GlDebugInfo.getRenderer());
