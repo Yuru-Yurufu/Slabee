@@ -1,0 +1,14 @@
+plugins { id 'net.neoforged.moddev' }
+neoForge {
+    enable {
+        neoFormVersion = project.neoform_version
+        disableRecompilation = true
+    }
+    addModdingDependenciesTo sourceSets.test
+}
+dependencies {
+    compileOnly 'net.fabricmc:sponge-mixin:0.15.4+mixin.0.8.7'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+}
+test { useJUnitPlatform() }

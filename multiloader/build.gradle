@@ -1,0 +1,36 @@
+plugins {
+    id 'base'
+    id 'fabric-loom' version '1.8.13' apply false
+    id 'net.neoforged.moddev' version '2.0.148' apply false
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    group = 'com.forestotzka.yurufu.slabee'
+    version = '0.0.0-structure-spike'
+    base.archivesName = "slabee-structure-${project.name}-1.21.1"
+    java {
+        toolchain.languageVersion = JavaLanguageVersion.of(21)
+        withSourcesJar()
+    }
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.fabricmc.net/' }
+    }
+    tasks.withType(JavaCompile).configureEach {
+        options.release = 21
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Jar).configureEach {
+        from(rootProject.file('../LICENSE'))
+    }
+}
+
+// Source sharing, rather than a runtime common.jar dependency (MultiLoader Template).
+configure([project(':fabric'), project(':neoforge')]) {
+    sourceSets.main.java.srcDir project(':common').file('src/main/java')
+    sourceSets.main.resources.srcDir project(':common').file('src/main/resources')
+}
+tasks.named('build') {
+    dependsOn ':common:build', ':fabric:build', ':neoforge:build'
+}

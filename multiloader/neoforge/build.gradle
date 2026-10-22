@@ -1,0 +1,20 @@
+plugins { id 'net.neoforged.moddev' }
+neoForge {
+    enable {
+        version = project.neoforge_version
+        disableRecompilation = true
+    }
+    runs {
+        server {
+            server()
+            gameDirectory = file('build/run-server')
+        }
+    }
+    mods {
+        slabee { sourceSet sourceSets.main }
+    }
+}
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version }
+}

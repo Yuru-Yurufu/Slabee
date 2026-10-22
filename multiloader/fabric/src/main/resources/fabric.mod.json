@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "slabee",
+  "version": "${version}",
+  "name": "Slabee Structure Spike (partial port)",
+  "environment": "*",
+  "authors": ["Starlight"],
+  "license": "MIT",
+  "entrypoints": { "main": ["com.forestotzka.yurufu.slabee.structure.fabric.SlabeeFabric"] },
+  "mixins": ["slabee-structure.mixins.json"],
+  "depends": { "fabricloader": ">=0.16.5", "minecraft": "1.21.1", "java": ">=21", "fabric-api": "*" }
+}

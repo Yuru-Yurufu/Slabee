@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.forestotzka.yurufu.slabee.structure.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["BubbleColumnBlockInvoker"],
+  "injectors": { "defaultRequire": 1 }
+}
