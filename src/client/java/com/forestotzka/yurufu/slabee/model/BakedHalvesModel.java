@@ -40,6 +40,7 @@ import java.util.function.Supplier;
  * - 色付け（草・葉など）はハーフ単体の色
  * - 雪が上にあるときの見た目（SNOWY）
  * - 陰影（AO）の有無はハーフ単体が光るかどうか
+ * - 光るハーフの面の明るさの最低値はハーフ単体の明るさ
  */
 @Environment(EnvType.CLIENT)
 public class BakedHalvesModel extends ForwardingBakedModel {
@@ -103,6 +104,8 @@ public class BakedHalvesModel extends ForwardingBakedModel {
         MaterialFinder finder = renderer.materialFinder();
         // 陰影（AO）は、ダブルハーフ全体ではなくハーフ単体が光るかどうかで決める（バニラの BlockModelRenderer と同じ）
         TriState ao = (half.getLuminance() == 0 && model.useAmbientOcclusion()) ? TriState.TRUE : TriState.FALSE;
+        // 光るハーフは、面の明るさの最低値をハーフ自身の明るさにする（バニラの WorldRenderer#getLightmapCoordinates と同じ）
+        int minBlockLight = half.getLuminance();
 
         context.pushTransform(quad -> {
             Direction cullFace = quad.cullFace();
@@ -120,6 +123,14 @@ public class BakedHalvesModel extends ForwardingBakedModel {
 
             RenderMaterial material = finder.clear().copyFrom(quad.material()).blendMode(blendMode).ambientOcclusion(ao).find();
             quad.material(material);
+
+            if (minBlockLight > 0) {
+                for (int i = 0; i < 4; i++) {
+                    int light = quad.lightmap(i);
+                    int block = Math.max(light & 0xFFFF, minBlockLight << 4);
+                    quad.lightmap(i, (light & 0xFFFF0000) | block);
+                }
+            }
 
             int colorIndex = quad.colorIndex();
             if (colorIndex != -1) {
