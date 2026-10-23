@@ -202,8 +202,6 @@ public class SceneCapture implements ClientModInitializer {
         server.submitAndJoin(() -> {
             ServerWorld world = server.getOverworld();
             world.setTimeOfDay(6000);
-            // 撮影中は自動保存を止める（保存中の表示が写り込んだり、測定の数字が揺れたりするため）
-            world.savingDisabled = true;
             world.setWeather(1000000, 0, false, false);
             baseY = world.getTopY(Heightmap.Type.MOTION_BLOCKING, 0, 0);
 
