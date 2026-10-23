@@ -292,7 +292,10 @@ public class SceneCapture implements ClientModInitializer {
         // 描画範囲のチャンクが読み込み・組み立てを終えて、完成数が増えなくなるまで待つ
         // （実機では遠くの地形が読み込み途中のまま測ってしまうことがあったため）
         int completed = client.worldRenderer.getCompletedChunkCount();
-        if (arrived && client.worldRenderer.isTerrainRenderComplete() && completed == lastCompletedChunks) {
+        // 光の計算も終わるまで待つ（ブロックを置いたあと遅れて進むため、終わる前に撮ると地面の陰影が毎回ずれる）
+        boolean lightQuiet = client.world != null && !client.world.getLightingProvider().hasUpdates()
+                && (client.getServer() == null || !client.getServer().getOverworld().getLightingProvider().hasUpdates());
+        if (arrived && lightQuiet && client.worldRenderer.isTerrainRenderComplete() && completed == lastCompletedChunks) {
             stableTicks++;
         } else {
             stableTicks = 0;
