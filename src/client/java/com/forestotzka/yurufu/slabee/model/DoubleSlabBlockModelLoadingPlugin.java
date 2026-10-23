@@ -24,6 +24,9 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
     @Override
     public void onInitializeModelLoader(Context context) {
+        // モデルの読み込み（起動時・リソースの再読み込み時）のたびに、古いテクスチャ配置のメッシュを捨てる
+        AbstractConnectGlassModel.clearMeshCaches();
+
         // 【描画の試作】焼き上がったダブルハーフのモデルを包み、普通のハーフもチャンクの描画に焼き込む
         context.modifyModelAfterBake().register((model, ctx) -> {
             ModelIdentifier topId = ctx.topLevelId();

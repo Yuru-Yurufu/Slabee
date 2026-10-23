@@ -144,6 +144,42 @@ final class SceneBuilder {
         }
     }
 
+    static final int PAIR_Z = 75;
+
+    /** 素材の組み合わせごとの比較用（上, 下）。葉・光るブロック・ガラスなど、面の省略が分かれやすいもの */
+    static final String[][] PAIRS = {
+            {"slabee:oak_leaf_slab", "slabee:glowstone_slab"},
+            {"slabee:glowstone_slab", "slabee:oak_leaf_slab"},
+            {"slabee:oak_leaf_slab", "minecraft:stone_slab"},
+            {"slabee:oak_leaf_slab", "slabee:birch_leaf_slab"},
+            {"slabee:glass_slab", "slabee:glowstone_slab"},
+            {"slabee:glass_slab", "slabee:oak_leaf_slab"},
+            {"slabee:magma_block_slab", "slabee:oak_leaf_slab"},
+    };
+
+    /**
+     * 組み合わせごとに、左に通常ブロック（下・上の2段）、右に同じ組み合わせのダブルハーフを、
+     * それぞれ 2x2 の広さで並べる。上から見下ろすと、境目の面が見えるかを比べられる。
+     */
+    static void buildPairs(ServerWorld world, int y) {
+        for (int k = 0; k < PAIRS.length; k++) {
+            Block top = Registries.BLOCK.get(net.minecraft.util.Identifier.of(PAIRS[k][0]));
+            Block bottom = Registries.BLOCK.get(net.minecraft.util.Identifier.of(PAIRS[k][1]));
+            Block topFull = ModBlockMap.slabToOriginal(top);
+            Block bottomFull = ModBlockMap.slabToOriginal(bottom);
+            if (topFull == null) topFull = Blocks.STONE;
+            if (bottomFull == null) bottomFull = Blocks.STONE;
+            int x0 = k * 8;
+            for (int dx = 0; dx < 2; dx++) {
+                for (int dz = 0; dz < 2; dz++) {
+                    world.setBlockState(new BlockPos(x0 + dx, y, PAIR_Z + dz), bottomFull.getDefaultState(), 3);
+                    world.setBlockState(new BlockPos(x0 + dx, y + 1, PAIR_Z + dz), topFull.getDefaultState(), 3);
+                    placeDouble(world, new BlockPos(x0 + 4 + dx, y, PAIR_Z + dz), top, bottom);
+                }
+            }
+        }
+    }
+
     /** 重さの測定用：Slabee のダブルハーフを敷き詰めた 100x100 */
     static void buildSlabeeField(ServerWorld world, int y) {
         for (int x = 0; x < FIELD_SIZE; x++) {

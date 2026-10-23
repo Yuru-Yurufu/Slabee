@@ -74,6 +74,7 @@ public class SceneCapture implements ClientModInitializer {
     private int stepTicks = 0;
     private int stableTicks = 0;
     private boolean teleported = false;
+    private int lastCompletedChunks = -1;
 
     private boolean recording = false;
     private long lastFrameNanos = 0;
@@ -155,7 +156,9 @@ public class SceneCapture implements ClientModInitializer {
         options.pauseOnLostFocus = false;
         options.getViewDistance().setValue(8);
         options.getSimulationDistance().setValue(8);
-        options.getMaxFps().setValue(260);
+        // 環境変数 SLABEE_SCENE_MAX_FPS=60（または -Dslabee.scene.maxFps=60）で、フレーム数の上限を固定して測れる
+        // （描画が速くなるとフレーム数が増えてCPUを多く使い、同じマシンのサーバー側の測定に影響するため）
+        options.getMaxFps().setValue(maxFps());
         options.getEnableVsync().setValue(false);
         options.getCloudRenderMode().setValue(CloudRenderMode.OFF);
         options.getBobView().setValue(false);
@@ -163,6 +166,17 @@ public class SceneCapture implements ClientModInitializer {
         options.getFov().setValue(70);
         options.getGraphicsMode().setValue(GraphicsMode.FANCY);
         options.getAo().setValue(true);
+    }
+
+    private static int maxFps() {
+        String env = System.getenv("SLABEE_SCENE_MAX_FPS");
+        if (env != null) {
+            try {
+                return Integer.parseInt(env.trim());
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return Integer.getInteger("slabee.scene.maxFps", 260);
     }
 
     private static void createWorld(MinecraftClient client) {
@@ -197,6 +211,7 @@ public class SceneCapture implements ClientModInitializer {
             SceneBuilder.buildCatalog(world, baseY, slabs);
             SceneBuilder.buildAdjacent(world, baseY, glass);
             SceneBuilder.buildReference(world, baseY, glass);
+            SceneBuilder.buildPairs(world, baseY);
             SceneBuilder.buildSlabeeField(world, baseY);
             SceneBuilder.buildVanillaField(world, baseY);
             LOGGER.info("Built scene with {} slab types ({} glass) at y={} in {} ms",
@@ -234,6 +249,12 @@ public class SceneCapture implements ClientModInitializer {
             shots.add(new View(String.format("reference_%02d", k), centerX, baseY + 3.5, SceneBuilder.REFERENCE_Z - 6, 0f, 18f, note));
         }
 
+        for (int k = 0; k < SceneBuilder.PAIRS.length; k++) {
+            double centerX = k * 8 + 3.0;
+            String note = "上=" + SceneBuilder.PAIRS[k][0] + "、下=" + SceneBuilder.PAIRS[k][1] + "：左=通常ブロック（2段）、右=ダブルハーフ";
+            shots.add(new View(String.format("pair_%02d", k), centerX, baseY + 4.5, SceneBuilder.PAIR_Z - 3, 0f, 40f, note));
+        }
+
         double fieldCenterX = SceneBuilder.FIELD_SIZE / 2.0;
         perfStages.add(new View("empty", fieldCenterX, baseY + 25, SceneBuilder.EMPTY_Z - 15, 0f, 40f, "何も置いていない場所"));
         perfStages.add(new View("slabee_field", fieldCenterX, baseY + 25, SceneBuilder.SLABEE_FIELD_Z - 15, 0f, 40f,
@@ -266,16 +287,23 @@ public class SceneCapture implements ClientModInitializer {
         }
         boolean arrived = client.player != null
                 && client.player.squaredDistanceTo(view.x(), view.y(), view.z()) < 0.25;
-        if (arrived && client.worldRenderer.isTerrainRenderComplete()) {
+        // 描画範囲のチャンクが読み込み・組み立てを終えて、完成数が増えなくなるまで待つ
+        // （実機では遠くの地形が読み込み途中のまま測ってしまうことがあったため）
+        int completed = client.worldRenderer.getCompletedChunkCount();
+        // 光の計算も終わるまで待つ（ブロックを置いたあと遅れて進むため、終わる前に撮ると地面の陰影が毎回ずれる）
+        boolean lightQuiet = client.world != null && !client.world.getLightingProvider().hasUpdates()
+                && (client.getServer() == null || !client.getServer().getOverworld().getLightingProvider().hasUpdates());
+        if (arrived && lightQuiet && client.worldRenderer.isTerrainRenderComplete() && completed == lastCompletedChunks) {
             stableTicks++;
         } else {
             stableTicks = 0;
         }
+        lastCompletedChunks = completed;
         if (stepTicks > 20 * 60) {
             LOGGER.warn("View {} did not settle in time; continuing anyway", view.name());
             return true;
         }
-        return stepTicks >= minTicks && stableTicks >= 20;
+        return stepTicks >= minTicks && stableTicks >= 40;
     }
 
     private void nextStep() {
@@ -326,6 +354,7 @@ public class SceneCapture implements ClientModInitializer {
         long[] sorted = frameNanos.stream().mapToLong(Long::longValue).sorted().toArray();
         double avg = Arrays.stream(sorted).average().orElse(0) / 1e6;
         result.addProperty("frames", sorted.length);
+        result.addProperty("completedChunks", client.worldRenderer.getCompletedChunkCount());
         result.addProperty("frameMsAvg", round(avg));
         result.addProperty("frameMsP50", round(percentile(sorted, 0.50) / 1e6));
         result.addProperty("frameMsP95", round(percentile(sorted, 0.95) / 1e6));
@@ -360,6 +389,7 @@ public class SceneCapture implements ClientModInitializer {
         root.addProperty("glVersion", GlDebugInfo.getVersion());
         root.addProperty("window", client.getWindow().getFramebufferWidth() + "x" + client.getWindow().getFramebufferHeight());
         root.addProperty("baseY", baseY);
+        root.addProperty("maxFps", client.options.getMaxFps().getValue());
         root.add("shots", shotResults);
         root.add("perf", perfResults);
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();

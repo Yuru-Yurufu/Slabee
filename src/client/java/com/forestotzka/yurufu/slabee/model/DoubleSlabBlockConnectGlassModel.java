@@ -120,7 +120,8 @@ public class DoubleSlabBlockConnectGlassModel extends AbstractDoubleSlabConnectG
 
     @Override
     public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        if (this.positiveId != null && QUARTER_MESHES[positiveVariantIndex][0][0][0][0] == null) {
+        if (this.positiveId != null && !QUARTER_BUILT[positiveVariantIndex]) {
+            QUARTER_BUILT[positiveVariantIndex] = true;
             for (int patternIndex = 0; patternIndex < SLAB_PATTERN_COUNT; patternIndex++) {
                 for (Direction dir : Direction.values()) {
                     for (int quarterIndex = 0; quarterIndex < QUARTER_COUNT; quarterIndex++) {
