@@ -27,3 +27,16 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+
+      - name: Run GameTests
+        run: ./gradlew runGametest
+
+      - name: Upload GameTest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gametest-report
+          path: |
+            build/gametest/report.xml
+            build/gametest/logs/latest.log
+          if-no-files-found: ignore
