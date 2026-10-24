@@ -24,6 +24,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
@@ -43,7 +44,9 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -75,6 +78,8 @@ public class SceneCapture implements ClientModInitializer {
 
     private final List<View> shots = new ArrayList<>();
     private final List<View> perfStages = new ArrayList<>();
+    /** 撮影名ごとの、ヒビ（破壊中の表示）を出しておくブロックの位置 */
+    private final Map<String, List<BlockPos>> cracks = new HashMap<>();
     private int index = 0;
     private int stepTicks = 0;
     private int stableTicks = 0;
@@ -289,6 +294,16 @@ public class SceneCapture implements ClientModInitializer {
             shots.add(new View(String.format("pair_%02d", k), centerX, baseY + 4.5, SceneBuilder.PAIR_Z - 3, 0f, 40f, note));
         }
 
+        // 破壊中のヒビ：通常ブロックの上段1つと、ダブルハーフ1つにヒビを出して撮る
+        for (int k = 0; full && k < SceneBuilder.PAIRS.length; k++) {
+            String name = String.format("crack_%02d", k);
+            String note = "上=" + SceneBuilder.PAIRS[k][0] + "、下=" + SceneBuilder.PAIRS[k][1] + "：左の通常ブロック（上段）と右のダブルハーフに、破壊中のヒビ";
+            shots.add(new View(name + "_none", k * 8 + 3.0, baseY + 3.5, SceneBuilder.PAIR_Z - 2.5, 0f, 35f, "ヒビなし（比較用）"));
+            shots.add(new View(name, k * 8 + 3.0, baseY + 3.5, SceneBuilder.PAIR_Z - 2.5, 0f, 35f, note));
+            cracks.put(name, List.of(new BlockPos(k * 8 + 1, baseY + 1, SceneBuilder.PAIR_Z),
+                    new BlockPos(k * 8 + 4, baseY, SceneBuilder.PAIR_Z)));
+        }
+
         for (int k = 0; k < compat.size(); k++) {
             double centerX = k * SceneBuilder.COMPAT_STEP + 1.5;
             String note = Registries.BLOCK.getId(compat.get(k)).toString()
@@ -362,9 +377,20 @@ public class SceneCapture implements ClientModInitializer {
             return;
         }
         View view = shots.get(index);
+        List<BlockPos> crackPositions = cracks.getOrDefault(view.name(), List.of());
+        if (client.world != null) {
+            for (int i = 0; i < crackPositions.size(); i++) {
+                client.world.setBlockBreakingInfo(-1000 - i, crackPositions.get(i), 9);
+            }
+        }
         if (!moveAndSettle(client, view, 40)) return;
 
         ScreenshotRecorder.saveScreenshot(outDir, view.name() + ".png", client.getFramebuffer(), message -> {});
+        if (client.world != null) {
+            for (int i = 0; i < crackPositions.size(); i++) {
+                client.world.setBlockBreakingInfo(-1000 - i, crackPositions.get(i), -1);
+            }
+        }
         JsonObject result = viewJson(view);
         result.addProperty("file", "screenshots/" + view.name() + ".png");
         shotResults.add(result);
