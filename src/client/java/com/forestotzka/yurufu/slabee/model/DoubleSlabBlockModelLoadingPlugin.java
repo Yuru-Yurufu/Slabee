@@ -217,7 +217,14 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
         }
     }
 
+    /**
+     * モデルを置き換えるのはバニラのガラスだけ。他の MOD が {@link StainedGlassBlock} を継承して作ったガラスは、
+     * 形や面が違うことがあるため置き換えない（#41：他の MOD の窓・ガラスの見た目が崩れる）。
+     */
     private boolean isGlassFamily(Block block) {
+        if (!Registries.BLOCK.getId(block).getNamespace().equals("minecraft")) {
+            return false;
+        }
         return block == Blocks.GLASS || block instanceof StainedGlassBlock || block == Blocks.TINTED_GLASS;
     }
 

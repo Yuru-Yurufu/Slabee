@@ -140,7 +140,10 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return this.positiveSlab == null || face != null && !shouldCullPositive(face, blockRenderView, blockPos);
+                if (this.positiveSlab == null) return true;
+                // cullFace がない面は、もう片方のハーフに接する内側の面。元のブロックどうしを並べたときと同じに決める
+                if (face == null) return shouldDrawInnerFace(this.positiveSlab, quad.nominalFace(), blockRenderView, blockPos, true);
+                return !shouldCullPositive(face, blockRenderView, blockPos);
             });
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
@@ -150,11 +153,23 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return this.negativeSlab == null || face != null && !shouldCullNegative(face, blockRenderView, blockPos);
+                if (this.negativeSlab == null) return true;
+                // cullFace がない面は、もう片方のハーフに接する内側の面。元のブロックどうしを並べたときと同じに決める
+                if (face == null) return shouldDrawInnerFace(this.negativeSlab, quad.nominalFace(), blockRenderView, blockPos, false);
+                return !shouldCullNegative(face, blockRenderView, blockPos);
             });
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
         }
+    }
+
+    /** 内側の面を描くか。もう片方のハーフは描画データから読む（データがなければ描く） */
+    private static boolean shouldDrawInnerFace(Block half, Direction side, BlockRenderView world, BlockPos pos, boolean isPositive) {
+        if (!(world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData data)) {
+            return true;
+        }
+        BlockState other = isPositive ? data.negative() : data.positive();
+        return DoubleSlabUtils.shouldDrawInnerFace(half.getDefaultState(), other, side);
     }
 
     private boolean shouldCullPositive(Direction face, BlockRenderView world, BlockPos pos) {
@@ -167,9 +182,9 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             otherBlock = otherState.getBlock();
             if (otherBlock instanceof SlabBlock) {
                 return positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return positiveSlab == entity.getNegativeSlabState().getBlock();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block b = ModBlockMap.slabToVerticalSlab(positiveSlab);
                 return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
             }
@@ -190,11 +205,11 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
             if (otherBlock instanceof SlabBlock) {
                 return positiveSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
             } else if (otherBlock instanceof VerticalSlabBlock) {
                 return positiveSlab == ModBlockMap.verticalSlabToSlab(otherBlock) && otherState.get(VerticalSlabBlock.FACING) == face.getOpposite();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return shouldCullDVSNeighbor(positiveSlab, entity, face);
             }
         }
@@ -214,9 +229,9 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
             otherBlock = otherState.getBlock();
             if (otherBlock instanceof SlabBlock) {
                 return negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return negativeSlab == entity.getPositiveSlabState().getBlock();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block b = ModBlockMap.slabToVerticalSlab(negativeSlab);
                 return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
             }
@@ -235,11 +250,11 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
 
             if (otherBlock instanceof SlabBlock) {
                 return negativeSlab == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
             } else if (otherBlock instanceof VerticalSlabBlock) {
                 return negativeSlab == ModBlockMap.verticalSlabToSlab(otherBlock) && otherState.get(VerticalSlabBlock.FACING) == face.getOpposite();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return shouldCullDVSNeighbor(negativeSlab, entity, face);
             }
         }
@@ -247,7 +262,7 @@ public class DoubleSlabBlockModel implements UnbakedModel, BakedModel, FabricBak
         return ModBlockMap.slabToOriginal(negativeSlab) == otherBlock;
     }
 
-    private boolean shouldCullDVSNeighbor(Block block, DoubleVerticalSlabBlockEntity entity, Direction face) {
+    private boolean shouldCullDVSNeighbor(Block block, DoubleSlabRenderData entity, Direction face) {
         if (entity.isX()) {
             if (face == Direction.EAST) {
                 return block == ModBlockMap.verticalSlabToSlab(entity.getNegativeSlabState().getBlock());

@@ -78,6 +78,11 @@ public class DoubleVerticalSlabBlockEntity extends AbstractDoubleSlabBlockEntity
         return this.isX ? "x" : "z";
     }
 
+    @Override
+    protected boolean isRenderDataX() {
+        return this.isX;
+    }
+
     public boolean isX() {
         return this.isX;
     }

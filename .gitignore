@@ -113,6 +113,8 @@ gradle-app.setting
 
 # Common working directory
 run/
+# 他の MOD と一緒に試すとき用（./gradlew runCompat）
+run-compat/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar

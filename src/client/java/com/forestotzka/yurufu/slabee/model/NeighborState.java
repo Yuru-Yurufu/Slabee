@@ -213,7 +213,7 @@ public class NeighborState {
 
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, facing);
             }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleSlabBlockEntity entity) {
+        } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData entity) {
             boolean bl1 = block == entity.getPositiveSlabState().getBlock();
             boolean bl2 = block == entity.getNegativeSlabState().getBlock();
 
@@ -224,7 +224,7 @@ public class NeighborState {
             } else if (bl2) {
                 return new NeighborBlockInfo(NeighborBlockType.SLAB, Direction.DOWN);
             }
-        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(pos) instanceof DoubleVerticalSlabBlockEntity entity) {
+        } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData entity) {
             block = ModBlockMap.slabToVerticalSlab(block);
             boolean bl1 = block == entity.getPositiveSlabState().getBlock();
             boolean bl2 = block == entity.getNegativeSlabState().getBlock();

@@ -158,7 +158,10 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return this.positiveSlab == null || face != null && !shouldCullPositive(face, blockRenderView, blockPos);
+                if (this.positiveSlab == null) return true;
+                // cullFace がない面は、もう片方のハーフに接する内側の面。元のブロックどうしを並べたときと同じに決める
+                if (face == null) return shouldDrawInnerFace(this.positiveSlab, quad.nominalFace(), blockRenderView, blockPos, true);
+                return !shouldCullPositive(face, blockRenderView, blockPos);
             });
 
             positiveBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
@@ -169,12 +172,24 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             renderContext.pushTransform(quad -> {
                 Direction face = quad.cullFace();
 
-                return this.negativeSlab == null || face != null && !shouldCullNegative(face, blockRenderView, blockPos);
+                if (this.negativeSlab == null) return true;
+                // cullFace がない面は、もう片方のハーフに接する内側の面。元のブロックどうしを並べたときと同じに決める
+                if (face == null) return shouldDrawInnerFace(this.negativeSlab, quad.nominalFace(), blockRenderView, blockPos, false);
+                return !shouldCullNegative(face, blockRenderView, blockPos);
             });
 
             negativeBakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
             renderContext.popTransform();
         }
+    }
+
+    /** 内側の面を描くか。もう片方のハーフは描画データから読む（データがなければ描く） */
+    private static boolean shouldDrawInnerFace(Block half, Direction side, BlockRenderView world, BlockPos pos, boolean isPositive) {
+        if (!(world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData data)) {
+            return true;
+        }
+        BlockState other = isPositive ? data.negative() : data.positive();
+        return DoubleSlabUtils.shouldDrawInnerFace(half.getDefaultState(), other, side);
     }
 
     private boolean shouldCullPositive(Direction face, BlockRenderView world, BlockPos pos) {
@@ -192,7 +207,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && positiveSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.WEST || (!isX && d == Direction.SOUTH);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block bp = entity.getPositiveSlabState().getBlock();
                 Block bn = entity.getNegativeSlabState().getBlock();
 
@@ -214,7 +229,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && positiveSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.NORTH || (isX && d == Direction.EAST);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block bp = entity.getPositiveSlabState().getBlock();
                 Block bn = entity.getNegativeSlabState().getBlock();
 
@@ -236,7 +251,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && positiveSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.EAST || d == Direction.SOUTH;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
             }
         } else if (face == Direction.NORTH) {
@@ -247,7 +262,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && positiveSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.EAST || d == Direction.SOUTH;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
             }
         } else {
@@ -262,7 +277,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && positiveSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return (isX && d == Direction.EAST) || (!isX && d == Direction.SOUTH);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return positiveSlab == entity.getPositiveSlabState().getBlock();
             } else if (otherBlock instanceof SlabBlock && positiveSlab == ModBlockMap.slabToVerticalSlab(otherBlock)) {
                 if (face == Direction.UP) {
@@ -273,7 +288,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             }
         }
 
-        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
             Block b = ModBlockMap.verticalSlabToSlab(positiveSlab);
             return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
         }
@@ -296,7 +311,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.WEST || d == Direction.NORTH;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.SOUTH) {
@@ -307,7 +322,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.NORTH || d == Direction.WEST;
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
             }
         } else if (face == Direction.WEST) {
@@ -318,7 +333,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.EAST || (!isX && d == Direction.NORTH);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block bp = entity.getPositiveSlabState().getBlock();
                 Block bn = entity.getNegativeSlabState().getBlock();
 
@@ -340,7 +355,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return d == Direction.SOUTH || (isX && d == Direction.WEST);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 Block bp = entity.getPositiveSlabState().getBlock();
                 Block bn = entity.getNegativeSlabState().getBlock();
 
@@ -366,7 +381,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             if (otherBlock instanceof VerticalSlabBlock && negativeSlab == otherBlock) {
                 Direction d = otherState.get(VerticalSlabBlock.FACING);
                 return (isX && d == Direction.WEST) || (!isX && d == Direction.NORTH);
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return negativeSlab == entity.getNegativeSlabState().getBlock();
             } else if (otherBlock instanceof SlabBlock && negativeSlab == ModBlockMap.slabToVerticalSlab(otherBlock)) {
                 if (face == Direction.UP) {
@@ -377,7 +392,7 @@ public class DoubleVerticalSlabBlockModel implements UnbakedModel, BakedModel, F
             }
         }
 
-        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+        if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
             Block b = ModBlockMap.verticalSlabToSlab(negativeSlab);
             return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
         }

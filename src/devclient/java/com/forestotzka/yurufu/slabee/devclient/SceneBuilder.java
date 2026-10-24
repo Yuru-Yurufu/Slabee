@@ -180,6 +180,33 @@ final class SceneBuilder {
         }
     }
 
+    static final int COMPAT_Z = 90;
+    static final int COMPAT_STEP = 8;
+
+    /**
+     * 他の MOD のブロックとの相性の確認用（#41 など）。ブロックごとに x をずらして、手前から
+     * 単体（z+0）、3x2 の壁（z+3）、Slabee のガラスのダブルハーフの間（z+6、下段は横並び・上段は縦に挟む）を並べる。
+     */
+    static void buildCompat(ServerWorld world, int y, List<Block> blocks) {
+        Block glass = ModBlocks.GLASS_SLAB;
+        Block glassV = ModBlockMap.slabToVerticalSlab(glass);
+        for (int k = 0; k < blocks.size(); k++) {
+            BlockState state = blocks.get(k).getDefaultState();
+            int x0 = k * COMPAT_STEP;
+            world.setBlockState(new BlockPos(x0 + 1, y, COMPAT_Z), state, 3);
+            for (int dx = 0; dx < 3; dx++) {
+                for (int dy = 0; dy < 2; dy++) {
+                    world.setBlockState(new BlockPos(x0 + dx, y + dy, COMPAT_Z + 3), state, 3);
+                }
+            }
+            placeDouble(world, new BlockPos(x0, y, COMPAT_Z + 6), glass, glass);
+            world.setBlockState(new BlockPos(x0 + 1, y, COMPAT_Z + 6), state, 3);
+            placeDoubleVertical(world, new BlockPos(x0 + 2, y, COMPAT_Z + 6), "x", glassV, glassV);
+            placeDouble(world, new BlockPos(x0 + 1, y + 1, COMPAT_Z + 6), glass, glass);
+            world.setBlockState(new BlockPos(x0 + 1, y + 2, COMPAT_Z + 6), state, 3);
+        }
+    }
+
     /** 重さの測定用：Slabee のダブルハーフを敷き詰めた 100x100 */
     static void buildSlabeeField(ServerWorld world, int y) {
         for (int x = 0; x < FIELD_SIZE; x++) {
