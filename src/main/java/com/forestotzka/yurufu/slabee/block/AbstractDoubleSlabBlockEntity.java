@@ -81,7 +81,12 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
 
     /** チャンクの描画を組み立てるときに、両側のハーフをモデルへ渡す（Fabric の RenderDataBlockEntity） */
     public Object getRenderData() {
-        return new DoubleSlabRenderData(this.positiveSlabState, this.negativeSlabState);
+        return new DoubleSlabRenderData(this.positiveSlabState, this.negativeSlabState, this.isRenderDataX());
+    }
+
+    /** 描画データ用。縦のダブルハーフだけが上書きする */
+    protected boolean isRenderDataX() {
+        return false;
     }
 
     public BlockState getPositiveSlabState() {

@@ -118,7 +118,7 @@ public abstract class AbstractDoubleSlabBlock extends BlockWithEntity implements
             return 1.0f;
         } else {
             float f = 0.0f;
-            if (world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity) {
+            if (world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData entity) {
                 if (ModBlockMap.toSlab(entity.getPositiveSlabState().getBlock()) == ModBlocks.SOUL_SAND_SLAB) f += 0.1f;
                 if (ModBlockMap.toSlab(entity.getNegativeSlabState().getBlock()) == ModBlocks.SOUL_SAND_SLAB) f += 0.1f;
             }

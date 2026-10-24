@@ -23,6 +23,8 @@ import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
@@ -42,7 +44,9 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -52,6 +56,10 @@ import java.util.stream.Stream;
  * 出力（実行フォルダ build/scene の下）：
  * - slabee-scene/screenshots/*.png … 決まった視点からのスクリーンショット
  * - slabee-scene/results.json … 撮影した内容と、重さの測定結果
+ *
+ * 他の MOD のブロックも撮るとき（./gradlew runSceneCompat）：
+ * - 環境変数 SLABEE_SCENE_COMPAT_BLOCKS（または -Dslabee.scene.compatBlocks）に、ブロック ID をカンマ区切りで渡す
+ * - 環境変数 SLABEE_SCENE_ONLY=compat（または -Dslabee.scene.only=compat）で、その撮影だけにする（全種類の撮影と重さの測定を省く）
  */
 public class SceneCapture implements ClientModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger("SlabeeScene");
@@ -70,6 +78,8 @@ public class SceneCapture implements ClientModInitializer {
 
     private final List<View> shots = new ArrayList<>();
     private final List<View> perfStages = new ArrayList<>();
+    /** 撮影名ごとの、ヒビ（破壊中の表示）を出しておくブロックの位置 */
+    private final Map<String, List<BlockPos>> cracks = new HashMap<>();
     private int index = 0;
     private int stepTicks = 0;
     private int stableTicks = 0;
@@ -205,23 +215,52 @@ public class SceneCapture implements ClientModInitializer {
             world.setWeather(1000000, 0, false, false);
             baseY = world.getTopY(Heightmap.Type.MOTION_BLOCKING, 0, 0);
 
-            List<Block> slabs = SceneBuilder.allSlabs();
+            boolean compatOnly = "compat".equals(setting("SLABEE_SCENE_ONLY", "slabee.scene.only"));
+            List<Block> slabs = compatOnly ? List.of() : SceneBuilder.allSlabs();
             List<Block> glass = SceneBuilder.glassSlabs(slabs);
+            List<Block> compat = compatBlocks();
             long start = System.nanoTime();
-            SceneBuilder.buildCatalog(world, baseY, slabs);
-            SceneBuilder.buildAdjacent(world, baseY, glass);
-            SceneBuilder.buildReference(world, baseY, glass);
-            SceneBuilder.buildPairs(world, baseY);
-            SceneBuilder.buildSlabeeField(world, baseY);
-            SceneBuilder.buildVanillaField(world, baseY);
-            LOGGER.info("Built scene with {} slab types ({} glass) at y={} in {} ms",
-                    slabs.size(), glass.size(), baseY, (System.nanoTime() - start) / 1_000_000);
+            if (!compatOnly) {
+                SceneBuilder.buildCatalog(world, baseY, slabs);
+                SceneBuilder.buildAdjacent(world, baseY, glass);
+                SceneBuilder.buildReference(world, baseY, glass);
+                SceneBuilder.buildPairs(world, baseY);
+                SceneBuilder.buildSlabeeField(world, baseY);
+                SceneBuilder.buildVanillaField(world, baseY);
+            }
+            SceneBuilder.buildCompat(world, baseY, compat);
+            LOGGER.info("Built scene with {} slab types ({} glass) and {} compat blocks at y={} in {} ms",
+                    slabs.size(), glass.size(), compat.size(), baseY, (System.nanoTime() - start) / 1_000_000);
 
-            planViews(slabs, glass);
+            planViews(slabs, glass, compat, !compatOnly);
         });
     }
 
-    private void planViews(List<Block> slabs, List<Block> glass) {
+    private static String setting(String env, String property) {
+        String value = System.getenv(env);
+        if (value == null || value.isBlank()) value = System.getProperty(property);
+        return value == null ? null : value.trim();
+    }
+
+    /** 他の MOD のブロック（ID のカンマ区切り）。登録されていない ID は飛ばす */
+    private static List<Block> compatBlocks() {
+        List<Block> blocks = new ArrayList<>();
+        String ids = setting("SLABEE_SCENE_COMPAT_BLOCKS", "slabee.scene.compatBlocks");
+        if (ids == null) return blocks;
+        for (String raw : ids.split(",")) {
+            String id = raw.trim();
+            if (id.isEmpty()) continue;
+            Identifier identifier = Identifier.tryParse(id);
+            if (identifier == null || !Registries.BLOCK.containsId(identifier)) {
+                LOGGER.warn("Compat block {} is not registered; skipping", id);
+                continue;
+            }
+            blocks.add(Registries.BLOCK.get(identifier));
+        }
+        return blocks;
+    }
+
+    private void planViews(List<Block> slabs, List<Block> glass, List<Block> compat, boolean full) {
         int rowsDepth = (SceneBuilder.ROWS.length - 1) * SceneBuilder.ROW_STEP;
         int groups = (slabs.size() + GROUP_SIZE - 1) / GROUP_SIZE;
         for (int g = 0; g < groups; g++) {
@@ -249,12 +288,31 @@ public class SceneCapture implements ClientModInitializer {
             shots.add(new View(String.format("reference_%02d", k), centerX, baseY + 3.5, SceneBuilder.REFERENCE_Z - 6, 0f, 18f, note));
         }
 
-        for (int k = 0; k < SceneBuilder.PAIRS.length; k++) {
+        for (int k = 0; full && k < SceneBuilder.PAIRS.length; k++) {
             double centerX = k * 8 + 3.0;
             String note = "上=" + SceneBuilder.PAIRS[k][0] + "、下=" + SceneBuilder.PAIRS[k][1] + "：左=通常ブロック（2段）、右=ダブルハーフ";
             shots.add(new View(String.format("pair_%02d", k), centerX, baseY + 4.5, SceneBuilder.PAIR_Z - 3, 0f, 40f, note));
         }
 
+        // 破壊中のヒビ：通常ブロックの上段1つと、ダブルハーフ1つにヒビを出して撮る
+        for (int k = 0; full && k < SceneBuilder.PAIRS.length; k++) {
+            String name = String.format("crack_%02d", k);
+            String note = "上=" + SceneBuilder.PAIRS[k][0] + "、下=" + SceneBuilder.PAIRS[k][1] + "：左の通常ブロック（上段）と右のダブルハーフに、破壊中のヒビ";
+            shots.add(new View(name + "_none", k * 8 + 3.0, baseY + 3.5, SceneBuilder.PAIR_Z - 2.5, 0f, 35f, "ヒビなし（比較用）"));
+            shots.add(new View(name, k * 8 + 3.0, baseY + 3.5, SceneBuilder.PAIR_Z - 2.5, 0f, 35f, note));
+            cracks.put(name, List.of(new BlockPos(k * 8 + 1, baseY + 1, SceneBuilder.PAIR_Z),
+                    new BlockPos(k * 8 + 4, baseY, SceneBuilder.PAIR_Z)));
+        }
+
+        for (int k = 0; k < compat.size(); k++) {
+            double centerX = k * SceneBuilder.COMPAT_STEP + 1.5;
+            String note = Registries.BLOCK.getId(compat.get(k)).toString()
+                    + "：手前から 単体、3x2 の壁、Slabee のガラスのダブルハーフとの間（左=横、右=縦、上=上下に挟む）";
+            shots.add(new View(String.format("compat_%02d_south", k), centerX, baseY + 4, SceneBuilder.COMPAT_Z - 4, 0f, 30f, note));
+            shots.add(new View(String.format("compat_%02d_north", k), centerX, baseY + 4, SceneBuilder.COMPAT_Z + 10, 180f, 30f, note));
+        }
+
+        if (!full) return;
         double fieldCenterX = SceneBuilder.FIELD_SIZE / 2.0;
         perfStages.add(new View("empty", fieldCenterX, baseY + 25, SceneBuilder.EMPTY_Z - 15, 0f, 40f, "何も置いていない場所"));
         perfStages.add(new View("slabee_field", fieldCenterX, baseY + 25, SceneBuilder.SLABEE_FIELD_Z - 15, 0f, 40f,
@@ -319,9 +377,20 @@ public class SceneCapture implements ClientModInitializer {
             return;
         }
         View view = shots.get(index);
+        List<BlockPos> crackPositions = cracks.getOrDefault(view.name(), List.of());
+        if (client.world != null) {
+            for (int i = 0; i < crackPositions.size(); i++) {
+                client.world.setBlockBreakingInfo(-1000 - i, crackPositions.get(i), 9);
+            }
+        }
         if (!moveAndSettle(client, view, 40)) return;
 
         ScreenshotRecorder.saveScreenshot(outDir, view.name() + ".png", client.getFramebuffer(), message -> {});
+        if (client.world != null) {
+            for (int i = 0; i < crackPositions.size(); i++) {
+                client.world.setBlockBreakingInfo(-1000 - i, crackPositions.get(i), -1);
+            }
+        }
         JsonObject result = viewJson(view);
         result.addProperty("file", "screenshots/" + view.name() + ".png");
         shotResults.add(result);

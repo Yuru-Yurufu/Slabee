@@ -70,7 +70,8 @@ public abstract class BlockMixin {
         if (!(here.getBlock() instanceof AbstractDoubleSlabBlock)) {
             return;
         }
-        if (!(world.getBlockEntity(pos) instanceof AbstractDoubleSlabBlockEntity entity)) {
+        // チャンクの組み立て中にも呼ばれるので、Block Entity ではなく描画データを読む
+        if (!(world.getBlockEntityRenderData(pos) instanceof DoubleSlabRenderData entity)) {
             return;
         }
 
