@@ -114,7 +114,8 @@ public class TranslucentSlabBlockModel implements UnbakedModel, BakedModel, Fabr
         renderContext.pushTransform(quad -> {
             Direction face = quad.cullFace();
 
-            return face != null && !shouldCull(face, blockRenderView, blockPos);
+            // cullFace がない面は、隣で隠れることのない普通の面なので必ず描く（ハーフの上面・他の MOD やリソースパックの面）
+            return face == null || !shouldCull(face, blockRenderView, blockPos);
         });
         bakedModel.emitBlockQuads(blockRenderView, blockState, blockPos, supplier, renderContext);
         renderContext.popTransform();
@@ -132,9 +133,9 @@ public class TranslucentSlabBlockModel implements UnbakedModel, BakedModel, Fabr
                 otherBlock = otherState.getBlock();
                 if (otherBlock instanceof SlabBlock) {
                     return block == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
-                } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                     return block == entity.getNegativeSlabState().getBlock();
-                } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                     Block b = ModBlockMap.slabToVerticalSlab(block);
                     return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
                 }
@@ -148,9 +149,9 @@ public class TranslucentSlabBlockModel implements UnbakedModel, BakedModel, Fabr
                 otherBlock = otherState.getBlock();
                 if (otherBlock instanceof SlabBlock) {
                     return block == otherBlock && otherState.get(SlabBlock.TYPE) == SlabType.TOP;
-                } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+                } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                     return block == entity.getPositiveSlabState().getBlock();
-                } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+                } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                     Block b = ModBlockMap.slabToVerticalSlab(block);
                     return b == entity.getPositiveSlabState().getBlock() && b == entity.getNegativeSlabState().getBlock();
                 }
@@ -176,11 +177,11 @@ public class TranslucentSlabBlockModel implements UnbakedModel, BakedModel, Fabr
                 } else {
                     return otherState.get(SlabBlock.TYPE) == SlabType.BOTTOM;
                 }
-            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 return block == entity.getPositiveSlabState().getBlock();
             } else if (otherBlock instanceof VerticalSlabBlock) {
                 return block == ModBlockMap.verticalSlabToSlab(otherBlock) && otherState.get(VerticalSlabBlock.FACING) == face.getOpposite();
-            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntity(otherPos) instanceof DoubleVerticalSlabBlockEntity entity) {
+            } else if (otherState.isOf(ModBlocks.DOUBLE_VERTICAL_SLAB_BLOCK) && world.getBlockEntityRenderData(otherPos) instanceof DoubleSlabRenderData entity) {
                 if (face == Direction.SOUTH || face == Direction.EAST) {
                     return block == ModBlockMap.verticalSlabToSlab(entity.getNegativeSlabState().getBlock());
                 } else {
