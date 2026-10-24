@@ -56,6 +56,13 @@ loom {
             programArgs "--width", "1280", "--height", "720"
             runDir "build/scene"
         }
+        // ./gradlew runCompat : 他の MOD と一緒に動かす確認用のクライアント。
+        // 普段の runClient（run/）とは別の場所 run-compat/ を使う。試す MOD は run-compat/mods/ に置く。
+        compat {
+            client()
+            name "Compat Client"
+            runDir "run-compat"
+        }
     }
 }
 
