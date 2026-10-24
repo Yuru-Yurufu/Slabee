@@ -56,6 +56,17 @@ loom {
             programArgs "--width", "1280", "--height", "720"
             runDir "build/scene"
         }
+        // ./gradlew runSceneCompat : runScene と同じ撮影を、run-compat/mods/ の MOD も入れて行う。
+        // 結果は build/scene-compat/slabee-scene/ に出る。撮るブロックは SLABEE_SCENE_COMPAT_BLOCKS で渡す（SceneCapture 参照）。
+        sceneCompat {
+            client()
+            name "Scene Capture (Compat)"
+            source sourceSets.devclient
+            vmArg "-Dslabee.scene=true"
+            vmArg "-Dfabric.addMods=${file('run-compat/mods')}"
+            programArgs "--width", "1280", "--height", "720"
+            runDir "build/scene-compat"
+        }
         // ./gradlew runCompat : 他の MOD と一緒に動かす確認用のクライアント。
         // 普段の runClient（run/）とは別の場所 run-compat/ を使う。試す MOD は run-compat/mods/ に置く。
         compat {
