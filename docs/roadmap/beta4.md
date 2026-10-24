@@ -424,6 +424,22 @@ persistence-dependent implementation in those stages may begin until this
 B2 spike review passes. This is an implementation-order dependency on an approved
 gate, not an unanswered design decision. The spike is not the Stage 6 implementation.
 
+## Progress log
+
+- 2026-10-25: Merged #58 (GameTest foundation and baseline regression tests),
+  #59 (scene capture and screenshot comparison, an informal precursor to the B4
+  procedure), and the rendering stack #60–#64. Doubles now bake solid/cutout halves
+  into chunk meshes instead of using a Block Entity Renderer. On Apple M3, 10,000
+  Slabee Doubles went from about 18.0 ms to 3.9 ms per frame (vanilla 3.8 ms).
+  Crack overlays and Sodium 0.8.13 were checked before adoption. The owner adopted
+  this as an explicit exception to the "large rendering-system redesign" out-of-scope
+  item; see the owner guide.
+- Stage 1 remaining: the B2 persistence spike PR and the formal B4 performance
+  procedure (fixed controls, repetitions, JFR, versioned thresholds). Stage 2 follows.
+- Dev-environment note: Sodium cannot load in the yarn dev runtime (`getColorIndex`
+  name clash in `BakedQuad`). Check it in a production-mapped client instead
+  (Loom 1.10+ `ClientProductionRunTask`).
+
 ## Pull request roadmap
 
 Each item below is an independently reviewable roadmap stage, not necessarily one
