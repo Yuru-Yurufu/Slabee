@@ -119,6 +119,31 @@ final class SceneBuilder {
         }
     }
 
+    static final int REFERENCE_Z = 60;
+
+    /**
+     * 「通常ブロックで同じ並びにしたらどう見えるか」の比較用。
+     * ガラス系それぞれについて、左に通常ブロックの壁（下から 石・ガラス・石・ガラス、3x4）、
+     * 右に同じ並びのダブルハーフの壁（上=ガラス・下=石、3x2）を並べる。
+     */
+    static void buildReference(ServerWorld world, int y, List<Block> glassSlabs) {
+        Block stone = Blocks.STONE_SLAB;
+        for (int k = 0; k < glassSlabs.size(); k++) {
+            Block g = glassSlabs.get(k);
+            Block full = ModBlockMap.slabToOriginal(g);
+            int x0 = k * 10;
+            for (int dx = 0; dx < 3; dx++) {
+                for (int dy = 0; dy < 4; dy++) {
+                    Block b = (dy % 2 == 0) ? Blocks.STONE : full;
+                    world.setBlockState(new BlockPos(x0 + dx, y + dy, REFERENCE_Z), b.getDefaultState(), 3);
+                }
+                for (int dy = 0; dy < 2; dy++) {
+                    placeDouble(world, new BlockPos(x0 + 5 + dx, y + dy, REFERENCE_Z), g, stone);
+                }
+            }
+        }
+    }
+
     /** 重さの測定用：Slabee のダブルハーフを敷き詰めた 100x100 */
     static void buildSlabeeField(ServerWorld world, int y) {
         for (int x = 0; x < FIELD_SIZE; x++) {

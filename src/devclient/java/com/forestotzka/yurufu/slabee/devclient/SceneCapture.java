@@ -196,6 +196,7 @@ public class SceneCapture implements ClientModInitializer {
             long start = System.nanoTime();
             SceneBuilder.buildCatalog(world, baseY, slabs);
             SceneBuilder.buildAdjacent(world, baseY, glass);
+            SceneBuilder.buildReference(world, baseY, glass);
             SceneBuilder.buildSlabeeField(world, baseY);
             SceneBuilder.buildVanillaField(world, baseY);
             LOGGER.info("Built scene with {} slab types ({} glass) at y={} in {} ms",
@@ -225,6 +226,12 @@ public class SceneCapture implements ClientModInitializer {
             String note = idsOf(glass.subList(first, last + 1));
             shots.add(new View(String.format("adjacent_%02d_south", g), centerX, baseY + 5, SceneBuilder.ADJACENT_Z - 8, 0f, 22f, note));
             shots.add(new View(String.format("adjacent_%02d_top", g), centerX, baseY + 14, SceneBuilder.ADJACENT_Z + 4, 0f, 89f, note));
+        }
+
+        for (int k = 0; k < glass.size(); k++) {
+            double centerX = k * 10 + 4.5;
+            String note = Registries.BLOCK.getId(glass.get(k)).toString() + "：左=通常ブロック（下から石・ガラス・石・ガラス）、右=ダブルハーフ（上=ガラス・下=石）×2段";
+            shots.add(new View(String.format("reference_%02d", k), centerX, baseY + 3.5, SceneBuilder.REFERENCE_Z - 6, 0f, 18f, note));
         }
 
         double fieldCenterX = SceneBuilder.FIELD_SIZE / 2.0;

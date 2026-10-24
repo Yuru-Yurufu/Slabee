@@ -24,6 +24,19 @@ public class DoubleSlabBlockModelLoadingPlugin implements ModelLoadingPlugin {
 
     @Override
     public void onInitializeModelLoader(Context context) {
+        // 【描画の試作】焼き上がったダブルハーフのモデルを包み、普通のハーフもチャンクの描画に焼き込む
+        context.modifyModelAfterBake().register((model, ctx) -> {
+            ModelIdentifier topId = ctx.topLevelId();
+            if (model == null || topId == null) return model;
+            Identifier blockId = topId.id();
+            if (blockId.equals(Identifier.of(Slabee.MOD_ID, "double_slab_block"))) {
+                return new BakedHalvesModel(model, false);
+            } else if (blockId.equals(Identifier.of(Slabee.MOD_ID, "double_vertical_slab_block"))) {
+                return new BakedHalvesModel(model, true);
+            }
+            return model;
+        });
+
         context.modifyModelOnLoad().register((original, ctx) -> {
             final ModelIdentifier id = ctx.topLevelId();
             if (id == null) {

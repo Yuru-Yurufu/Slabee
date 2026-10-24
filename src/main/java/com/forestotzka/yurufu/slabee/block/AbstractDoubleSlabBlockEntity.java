@@ -79,6 +79,11 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
         updateBlockProperties();
     }
 
+    /** チャンクの描画を組み立てるときに、両側のハーフをモデルへ渡す（Fabric の RenderDataBlockEntity） */
+    public Object getRenderData() {
+        return new DoubleSlabRenderData(this.positiveSlabState, this.negativeSlabState);
+    }
+
     public BlockState getPositiveSlabState() {
         return this.positiveSlabState;
     }
@@ -128,6 +133,9 @@ public abstract class AbstractDoubleSlabBlockEntity extends BlockEntity {
                 world.setBlockState(pos, this.blockState, 3);
                 this.markDirty();
                 world.updateListeners(this.pos, this.getCachedState(), this.blockState, 3);
+            } else {
+                // クライアント：両側のハーフが変わったら、チャンクの描画を組み立て直す
+                world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 3);
             }
         } else {
             this.blockState = this.defaultBlockState;
