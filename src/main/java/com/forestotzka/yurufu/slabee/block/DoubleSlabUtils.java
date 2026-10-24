@@ -63,16 +63,12 @@ public class DoubleSlabUtils {
         return id != null && Registries.BLOCK.containsId(id);
     }
 
+    /**
+     * ダブルハーフの中のハーフの明るさ。単体のハーフと同じ明るさにする（あやの決定 2026-10-23）。
+     * 光らない側のハーフがある方向には光が抜けないことは、光をさえぎる形（getLightingShape）で表している。
+     */
     public static int getLuminance(BlockState state) {
-        if (state.isOf(ModBlocks.GLOWSTONE_SLAB) || state.isOf(ModBlocks.GLOWSTONE_VERTICAL_SLAB)) {
-            return 15;
-        } else if (state.isOf(ModBlocks.MAGMA_BLOCK_SLAB) || state.isOf(ModBlocks.MAGMA_BLOCK_VERTICAL_SLAB)) {
-            return 3;
-        } else if (state.isOf(ModBlocks.CRYING_OBSIDIAN_SLAB) || state.isOf(ModBlocks.CRYING_OBSIDIAN_VERTICAL_SLAB)) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return state.getLuminance();
     }
 
     public static float getMiningSpeed(BlockState positiveSlab, BlockState negativeSlab, PlayerEntity player, BlockView world, BlockPos pos) {
