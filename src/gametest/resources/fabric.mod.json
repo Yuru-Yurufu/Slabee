@@ -10,7 +10,8 @@
             "com.forestotzka.yurufu.slabee.gametest.StackingGameTests",
             "com.forestotzka.yurufu.slabee.gametest.HalfBreakGameTests",
             "com.forestotzka.yurufu.slabee.gametest.MixinGameTests",
-            "com.forestotzka.yurufu.slabee.gametest.LightingGameTests"
+            "com.forestotzka.yurufu.slabee.gametest.LightingGameTests",
+            "com.forestotzka.yurufu.slabee.gametest.InnerFaceGameTests"
         ]
     },
     "depends": {

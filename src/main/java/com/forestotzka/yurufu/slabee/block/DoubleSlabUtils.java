@@ -3,7 +3,9 @@ package com.forestotzka.yurufu.slabee.block;
 import com.forestotzka.yurufu.slabee.SlabeeUtils;
 import com.forestotzka.yurufu.slabee.block.enums.DoubleSlabVariant;
 import com.forestotzka.yurufu.slabee.registry.tag.ModBlockTags;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.Direction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -21,6 +23,26 @@ public class DoubleSlabUtils {
     public static boolean canPlace(ItemPlacementContext context, VoxelShape voxelShape) {
         BlockPos pos = context.getBlockPos();
         return voxelShape.isEmpty() || context.getWorld().doesNotIntersectEntities(null, voxelShape.offset(pos.getX(), pos.getY(), pos.getZ()));
+    }
+
+    /**
+     * ダブルハーフの内側の面（もう片方のハーフに接している面）を描くかどうか。
+     * 「同じ並びを通常ブロックで作ったら、この面は見えるか」に合わせる（MODの基本方針）。
+     * - 相手の元のブロックが不透明なら見えない（例：上が石）
+     * - 同じガラスどうしのように、元のブロックどうしで面を省く組み合わせなら見えない
+     * - それ以外は見える（例：葉の下のグロウストーン、色の違う色付きガラスどうし、葉どうし）
+     */
+    public static boolean shouldDrawInnerFace(BlockState half, BlockState otherHalf, Direction side) {
+        Block thisFull = ModBlockMap.toOriginal(half.getBlock());
+        Block otherFull = ModBlockMap.toOriginal(otherHalf.getBlock());
+        if (thisFull == null || otherFull == null) {
+            return true;
+        }
+        BlockState other = otherFull.getDefaultState();
+        if (other.isOpaque()) {
+            return false;
+        }
+        return !thisFull.getDefaultState().isSideInvisible(other, side);
     }
 
     public static boolean isPositiveSeeThrough(BlockState state) {
