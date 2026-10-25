@@ -11,7 +11,8 @@
             "com.forestotzka.yurufu.slabee.gametest.HalfBreakGameTests",
             "com.forestotzka.yurufu.slabee.gametest.MixinGameTests",
             "com.forestotzka.yurufu.slabee.gametest.LightingGameTests",
-            "com.forestotzka.yurufu.slabee.gametest.InnerFaceGameTests"
+            "com.forestotzka.yurufu.slabee.gametest.InnerFaceGameTests",
+            "com.forestotzka.yurufu.slabee.gametest.PersistenceSpikeGameTests"
         ]
     },
     "depends": {
