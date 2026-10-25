@@ -304,6 +304,16 @@ public class ModBlockMap {
         }
     }
 
+    /** 対応表にある横のハーフか（保存データの検証用。読み取りだけ） */
+    public static boolean isMappedSlab(Block block) {
+        return block instanceof SlabBlock && slabMap.containsKey(block);
+    }
+
+    /** 対応表にある縦のハーフか（保存データの検証用。読み取りだけ） */
+    public static boolean isMappedVerticalSlab(Block block) {
+        return block instanceof VerticalSlabBlock && verticalSlabMap.containsKey(block);
+    }
+
     public static Block toOriginal(Block block) {
         if (block == null) {
             return null;

@@ -436,6 +436,23 @@ gate, not an unanswered design decision. The spike is not the Stage 6 implementa
   item; see the owner guide.
 - Stage 1 remaining: the B2 persistence spike PR and the formal B4 performance
   procedure (fixed controls, repetitions, JFR, versioned thresholds). Stage 2 follows.
+- 2026-10-25: Opened the B2 persistence spike PR (`spike/b2-persistence`). The
+  codec lives in the gametest source set only (`gametest/persistence`), so the
+  shipped jar and Block Entities are unchanged apart from two read-only
+  `ModBlockMap` lookups. Findings to carry into Stage 6:
+  - `NbtHelper.toBlockState` silently returns air for unknown IDs and only logs bad
+    property values, so the codec validates the ID, `BlockTriple` family, and each
+    property before calling it; `Identifier.tryParse` avoids the exception on bad IDs.
+  - The schema is additive: legacy `positive_slab.id`/`negative_slab.id`/`axis` stay
+    and the current Block Entity reads the new format unchanged; a future
+    `version` falls back to those legacy fields.
+  - Besides `TYPE`/`FACING`/`SNOWY`/`DISTANCE`, the filter also drops
+    `WATERLOGGED` and `is_double` as container-owned. No current Slabee half owns a
+    property, so ownership was proven with vanilla leaves (`PERSISTENT`) through a
+    test-only catalog.
+  - Legacy reads now lose an invalid ID instead of substituting the default half;
+    the `dirt_path_slab` → `dirt_slab` rule stays outside the codec.
+  - Stage 1 then has only the B4 baseline PR left once the spike review passes.
 - Dev-environment note: Sodium cannot load in the yarn dev runtime (`getColorIndex`
   name clash in `BakedQuad`). Check it in a production-mapped client instead
   (Loom 1.10+ `ClientProductionRunTask`).
